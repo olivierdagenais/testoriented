@@ -1,0 +1,353 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SoftwareNinjas.NAnt</name>
+    </assembly>
+    <members>
+        <member name="T:SoftwareNinjas.NAnt.Tasks.AbstractProjectTask">
+            <summary>
+            Common code for operating on one or more Visual Studio projects.
+            </summary>
+        </member>
+        <member name="T:SoftwareNinjas.NAnt.Tasks.TestableTask">
+            <summary>
+            A subclass of <see cref="T:NAnt.Core.Task"/> with a few extra features that make it easier to unit test the functionality.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.TestableTask.#ctor(System.Boolean)">
+            <summary>
+            Creates a new instance with the specified <paramref name="logging"/>.
+            </summary>
+            
+            <param name="logging">
+            Whether logging is enabled or not.
+            </param>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.TestableTask.Log(NAnt.Core.Level,System.String)">
+            <summary>
+            Logs a message with the given priority.
+            </summary>
+            
+            <param name="messageLevel">
+            The message priority at which the specified message is to be logged.
+            </param>
+            
+            <param name="message">
+            The message to be logged.
+            </param>
+            
+            <remarks>
+            <para>
+            The actual logging will only take place if logging was enabled during construction.
+            </para>
+            </remarks>
+            
+            <seealso cref="M:NAnt.Core.Task.Log(NAnt.Core.Level,System.String)"/>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.TestableTask.Log(NAnt.Core.Level,System.String,System.Object[])">
+            <summary>
+            Logs a formatted message with the given priority.
+            </summary>
+            
+            <param name="messageLevel">
+            The message priority at which the specified message is to be logged.
+            </param>
+            
+            <param name="message">
+            The message to log, containing zero or more format items.
+            </param>
+            
+            <param name="args">
+            An <see cref="T:System.Object"/> array containing zero or more objects to format.
+            </param>
+            
+            <remarks>
+            <para>
+            The actual logging will only take place if logging was enabled during construction.
+            </para>
+            </remarks>
+            
+            <seealso cref="M:NAnt.Core.Task.Log(NAnt.Core.Level,System.String,System.Object[])"/>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.TestableTask.ExecuteForTest">
+            <summary>
+            Simply calls <see cref="M:NAnt.Core.Task.ExecuteTask"/> without any prelude or fanfare.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.AbstractProjectTask.#ctor(System.Boolean)">
+             <summary>
+             Parameterized constructor for unit testing.
+             </summary>
+            
+             <param name="logging">
+             Whether logging is enabled or not.
+             </param>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.AbstractProjectTask.EnumerateProjects">
+            <summary>
+            Allows sub-classes to process projects one by one.
+            </summary>
+            
+            <returns>
+            An <see cref="T:System.Collections.Generic.IEnumerable`1"/> of <see cref="T:System.String"/> representing individual projects.
+            </returns>
+        </member>
+        <member name="P:SoftwareNinjas.NAnt.Tasks.AbstractProjectTask.BaseDirectory">
+            <summary>
+            The directory in which the projects are found.  The default is the project base directory.
+            </summary>
+        </member>
+        <member name="P:SoftwareNinjas.NAnt.Tasks.AbstractProjectTask.Projects">
+            <summary>
+            A comma-separated list of strings representing sub-folder names where processing is to be performed.
+            </summary>
+        </member>
+        <member name="T:SoftwareNinjas.NAnt.Tasks.AssemblyToJarTask">
+            <summary>
+            Invokes the Mainsoft for Java EE 2.5 assembly to JAR converter.
+            </summary>
+            
+            <example>
+              <para>
+                Converts the NUnit Framework assembly to a JAR in the same folder as the input file.
+              </para>
+              <code>
+                <![CDATA[
+            <assemblyToJar assemblyPaths="Tools/nant/bin/lib/net/2.0/nunit.framework.dll" />
+                ]]>
+              </code>
+            </example>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.AssemblyToJarTask.#ctor">
+            <summary>
+            Default constructor for NAnt itself.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.AssemblyToJarTask.#ctor(System.Boolean,SoftwareNinjas.Core.Process.ICapturedProcessFactory)">
+            <summary>
+            Parameterized constructor for unit testing.
+            </summary>
+            
+            <param name="logging">
+            Whether logging is enabled or not.
+            </param>
+            
+            <param name="capturedProcessFactory">
+            An implementation of <see cref="T:SoftwareNinjas.Core.Process.ICapturedProcessFactory"/> to use for creating
+            <see cref="T:SoftwareNinjas.Core.Process.ICapturedProcess"/> instances.
+            </param>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.AssemblyToJarTask.ExecuteTask">
+            <summary>
+            Performs the conversion.
+            </summary>
+        </member>
+        <member name="P:SoftwareNinjas.NAnt.Tasks.AssemblyToJarTask.AssemblyPaths">
+            <summary>
+            A comma-separated list of strings representing paths to assemblies to be converted to JARs.
+            </summary>
+        </member>
+        <member name="T:SoftwareNinjas.NAnt.Tasks.CleanTask">
+            <summary>
+            Deletes output folders for a set of projects.  Each project is assumed to be in its own folder.
+            </summary>
+            
+            <example>
+              <para>
+                Deletes the <b>obj</b> and <b>bin</b> folders for each of the <b>Core</b> and <b>NAnt</b> projects.
+              </para>
+              <code>
+                <![CDATA[
+            <clean projects="Core,NAnt" />
+                ]]>
+              </code>
+            </example>
+            
+            <example>
+              <para>
+                Deletes the <b>Debug</b> sub-folder of the <b>obj</b> and <b>bin</b> folders for each of the <b>Core</b>
+                and <b>NAnt</b> projects, located under the <b>c:\DotNet</b> folder.
+              </para>
+              <code>
+                <![CDATA[
+            <clean projects="Core,NAnt" basedir="c:\DotNet" configuration="Debug" />
+                ]]>
+              </code>
+            </example>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.CleanTask.#ctor">
+            <summary>
+            Default constructor for NAnt itself.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.CleanTask.#ctor(System.Boolean)">
+            <summary>
+            Parameterized constructor for unit testing.
+            </summary>
+            
+            <param name="logging">
+            Whether logging is enabled or not.
+            </param>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.CleanTask.ExecuteTask">
+            <summary>
+            Performs the cleaning.
+            </summary>
+        </member>
+        <member name="P:SoftwareNinjas.NAnt.Tasks.CleanTask.Configuration">
+            <summary>
+            The name of a specific sub-folder under the <b>obj</b> and <b>bin</b> sub-folders to delete.  The default
+            is all sub-folders.
+            </summary>
+        </member>
+        <member name="T:SoftwareNinjas.NAnt.Tasks.CustomizeAssemblyTask">
+            <summary>
+            Updates a <c>Properties/CustomInfo.cs</c> file, if needed, for each project, based on environment variables
+            and an XML file.
+            </summary>
+            
+            <example>
+              <para>
+                Applies the customization to each of the <b>Core</b> and <b>NAnt</b> projects.
+              </para>
+              <code>
+                <![CDATA[
+            <customizeAssembly projects="Core,NAnt" />
+                ]]>
+              </code>
+            </example>
+            
+            <example>
+              <para>
+                Applies the customization to each of the <b>Core</b> and <b>NAnt</b> projects, using the specified
+                <b>Version.xml</b> file.
+              </para>
+              <code>
+                <![CDATA[
+            <customizeAssembly projects="Core,NAnt" versionFile="Version.xml" />
+                ]]>
+              </code>
+            </example>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.CustomizeAssemblyTask.#ctor">
+            <summary>
+            Default constructor for NAnt itself.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.CustomizeAssemblyTask.#ctor(System.Boolean,System.Int32,System.String,System.String)">
+            <summary>
+            Paramterized cosntructor for unit testing.
+            </summary>
+            
+            <param name="logging">
+            Whether logging is enabled or not.
+            </param>
+            
+            <param name="buildNumber">
+            The number to assign this particular build.
+            </param>
+            
+            <param name="registeredUserDisplayName">
+            The name of the user.
+            </param>
+            
+            <param name="registeredUserEmailAddress">
+            The e-mail address of the user.
+            </param>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.CustomizeAssemblyTask.ExecuteTask">
+            <summary>
+            Performs the customization.
+            </summary>
+        </member>
+        <member name="P:SoftwareNinjas.NAnt.Tasks.CustomizeAssemblyTask.Version">
+            <summary>
+            The version XML.
+            </summary>
+        </member>
+        <member name="P:SoftwareNinjas.NAnt.Tasks.CustomizeAssemblyTask.VersionFile">
+            <summary>
+            The location of the version XML file.  The default is <c>${basedir}/Version.xml</c>.
+            </summary>
+            
+            <example>
+              <para>
+                The version XML file must contain a <c>&lt;version&gt;</c> root element with both <b>major</b> and
+                <b>minor</b> attributes, such as the following:
+              </para>
+              <code>
+                <![CDATA[
+            <version major="1" minor="0" />
+                ]]>
+              </code>
+            </example>
+        </member>
+        <member name="T:SoftwareNinjas.NAnt.Tasks.Test.AssemblyToJarTask">
+            <summary>
+            A class to test <see cref="T:SoftwareNinjas.NAnt.Tasks.AssemblyToJarTask"/>.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.AssemblyToJarTask.Execute_Simulated">
+            <summary>
+            Configures the task to simulate all processing and then asserts on properties of the command-line arguments.
+            </summary>
+        </member>
+        <member name="T:SoftwareNinjas.NAnt.Tasks.Test.CleanTask">
+            <summary>
+            A class to test <see cref="T:SoftwareNinjas.NAnt.Tasks.CleanTask"/>.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.CleanTask.CreateStructure">
+            <summary>
+            Creates the folder structure used for the ExecuteTask tests.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.CleanTask.WipeStructure">
+            <summary>
+            The complement to <see cref="M:SoftwareNinjas.NAnt.Tasks.Test.CleanTask.CreateStructure"/>, deletes the base folder.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.CleanTask.ExecuteTask_Default">
+            <summary>
+            Tests <see cref="M:SoftwareNinjas.NAnt.Tasks.CleanTask.ExecuteTask"/> with the default of deleting all configurations.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.CleanTask.ExecuteTask_WithConfiguration">
+            <summary>
+            Tests <see cref="M:SoftwareNinjas.NAnt.Tasks.CleanTask.ExecuteTask"/> when specifying a configuration.
+            </summary>
+        </member>
+        <member name="T:SoftwareNinjas.NAnt.Tasks.Test.CustomizeAssemblyTask">
+            <summary>
+            A class to test <see cref="T:SoftwareNinjas.NAnt.Tasks.CustomizeAssemblyTask"/>.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.CustomizeAssemblyTask.CreateStructure">
+            <summary>
+            Creates the folder structure used for the ExecuteTask tests.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.CustomizeAssemblyTask.WipeStructure">
+            <summary>
+            The complement to <see cref="M:SoftwareNinjas.NAnt.Tasks.Test.CustomizeAssemblyTask.CreateStructure"/>, deletes the base folder.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.CustomizeAssemblyTask.ExecuteForTest_Typical">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.NAnt.Tasks.TestableTask.ExecuteForTest"/> method with typical numbers and an
+            unregistered user.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.CustomizeAssemblyTask.ExecuteForTest_DoNothing">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.NAnt.Tasks.TestableTask.ExecuteForTest"/> method with the special case of a build number
+            of -1, which should be the case when nothing has been configured, such as running on a developer's computer.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.CustomizeAssemblyTask.ExecuteForTest_EdgeCases">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.NAnt.Tasks.TestableTask.ExecuteForTest"/> method with some missing data.
+            </summary>
+        </member>
+    </members>
+</doc>

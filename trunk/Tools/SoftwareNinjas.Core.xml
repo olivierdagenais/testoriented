@@ -1,0 +1,845 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SoftwareNinjas.Core</name>
+    </assembly>
+    <members>
+        <member name="T:SoftwareNinjas.Core.AssemblyExtensions">
+            <summary>
+            Extension methods to augment the <see cref="T:System.Reflection.Assembly"/> class.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.AssemblyExtensions.GetCustomAttribute``1(System.Reflection.Assembly)">
+            <summary>
+            Convenience method to obtain the first (and usually only) assembly-level attribute of type
+            <typeparamref name="T"/> from the specified <paramref name="assembly"/>.
+            </summary>
+            
+            <typeparam name="T">
+            The type of an <see cref="T:System.Attribute"/> known (or thought) to be applied at the assembly level.
+            </typeparam>
+            
+            <param name="assembly">
+            The <see cref="T:System.Reflection.Assembly"/> to query for an attribute of type <typeparamref name="T"/>.
+            </param>
+            
+            <returns>
+            An instance of <typeparamref name="T"/> representing the applied attribute if such an attribute was found;
+            <see langword="null"/> otherwise.
+            </returns>
+        </member>
+        <member name="M:SoftwareNinjas.Core.AssemblyExtensions.OpenScopedResourceStream``1(System.String)">
+            <summary>
+            Loads the specified manifest resource, scoped by the namespace of the <typeparamref name="T"/> type, from
+            the <see cref="T:System.Reflection.Assembly"/> which defines the <typeparamref name="T"/> type.
+            </summary>
+            
+            <typeparam name="T">
+            The type whose namespace is used to scope the manifest resource name.
+            </typeparam>
+            
+            <param name="name">
+            The case-sensitive name of the manifest resource being requested.
+            </param>
+            
+            <returns>
+            A <see cref="T:System.IO.Stream"/> representing the manifest resource; <see langword="null"/> if no resources were
+            specified during compilation or if the resource is not visible to the caller.
+            </returns>
+            
+            <seealso cref="M:System.Reflection.Assembly.GetManifestResourceStream(System.Type,System.String)"/>
+        </member>
+        <member name="M:SoftwareNinjas.Core.AssemblyExtensions.GenerateHeader(System.Reflection.Assembly)">
+            <summary>
+            Combines a few attributes decorating the provided <paramref name="assembly"/> into a descriptive string to
+            inform end-users about the product, version, copyright and registered user.
+            </summary>
+            
+            <param name="assembly">
+            The <see cref="T:System.Reflection.Assembly"/> to query.
+            </param>
+            
+            <returns>
+            A user-friendly string representing two lines of text.
+            </returns>
+        </member>
+        <member name="T:SoftwareNinjas.Core.EnumerableExtensions">
+            <summary>
+            Extension methods to augment implementations of <see cref="T:System.Collections.Generic.IEnumerable`1"/>.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.EnumerableExtensions.Compose``1(``0,System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Simulates extending an <see cref="T:System.Collections.Generic.IEnumerable`1"/> with an extra item at the beginning.
+            </summary>
+            
+            <typeparam name="T">
+            The type of elements to enumerate.
+            </typeparam>
+            
+            <param name="firstItem">
+            The item to enumerate first.
+            </param>
+            
+            <param name="items">
+            The items to enumerate after <paramref name="firstItem"/>.
+            </param>
+            
+            <returns>
+            An enumeration of <paramref name="firstItem"/> and then all the items in <paramref name="items"/>.
+            </returns>
+        </member>
+        <member name="M:SoftwareNinjas.Core.EnumerableExtensions.Compose``1(System.Collections.Generic.IEnumerable{``0},``0)">
+            <summary>
+            Simulates extending an <see cref="T:System.Collections.Generic.IEnumerable`1"/> with an extra item at the end.
+            </summary>
+            
+            <typeparam name="T">
+            The type of elements to enumerate.
+            </typeparam>
+            
+            <param name="items">
+            The items to enumerate before <paramref name="lastItem"/>.
+            </param>
+            
+            <param name="lastItem">
+            The item to enumerate last.
+            </param>
+            
+            <returns>
+            An enumeration of all the items in <paramref name="items"/> and then <paramref name="lastItem"/>.
+            </returns>
+        </member>
+        <member name="M:SoftwareNinjas.Core.EnumerableExtensions.Compose``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Simulates extending an <see cref="T:System.Collections.Generic.IEnumerable`1"/> with another so that a single loop may be used over two
+            sources of <typeparamref name="T"/>.
+            </summary>
+            
+            <typeparam name="T">
+            The type of elements to enumerate.
+            </typeparam>
+            
+            <param name="firstItems">
+            The items to enumerate first.
+            </param>
+            
+            <param name="lastItems">
+            The items to enumerate last.
+            </param>
+            
+            <returns>
+            An enumeration of all the items in <paramref name="firstItems"/> and then all those in
+            <paramref name="lastItems"/>.
+            </returns>
+        </member>
+        <member name="M:SoftwareNinjas.Core.EnumerableExtensions.Join``1(System.Collections.Generic.IEnumerable{``0},System.String)">
+            <summary>
+            Concatenates a specified separator <see cref="T:System.String"/> between each element of a specified
+            <see cref="T:System.Collections.Generic.IEnumerable`1"/> of <typeparamref name="T"/>, yielding a single concatenated string. 
+            </summary>
+            
+            <param name="values">
+            Zero or more <typeparamref name="T"/> items, such as an array of <see cref="T:System.String"/>.
+            </param>
+            
+            <param name="separator">
+            A <see cref="T:System.String"/> to insert in between all the <see cref="T:System.String"/> representations of the instances in
+            <paramref name="values"/>.
+            </param>
+            
+            <typeparam name="T">
+            The type of items in <paramref name="values"/>.
+            </typeparam>
+            
+            <returns>
+            A <see cref="T:System.String"/> consisting of the elements of <paramref name="values"/> interspersed with the
+            <paramref name="separator"/> string.
+            </returns>
+            
+            <seealso cref="M:System.String.Join(System.String,System.String[])"/>
+        </member>
+        <member name="M:SoftwareNinjas.Core.EnumerableExtensions.Join``1(System.Collections.Generic.IEnumerable{``0},System.String,System.Func{``0,System.String})">
+            <summary>
+            Concatenates a specified separator <see cref="T:System.String"/> between each element of a specified
+            <see cref="T:System.Collections.Generic.IEnumerable`1"/> of <typeparamref name="T"/> - which are transformed to <see cref="T:System.String"/>
+            instances by the specified <paramref name="stringifier"/>, yielding a single concatenated string. 
+            </summary>
+            
+            <param name="values">
+            Zero or more <typeparamref name="T"/> items, such as an array of <see cref="T:System.String"/>.
+            </param>
+            
+            <param name="separator">
+            A <see cref="T:System.String"/> to insert in between all the <see cref="T:System.String"/> representations of the instances in
+            <paramref name="values"/>.
+            </param>
+            
+            <param name="stringifier">
+            The functor to use to convert <typeparamref name="T"/> instances to <see cref="T:System.String"/> instances.  Useful
+            for using an <see cref="T:System.IFormatProvider"/> or for applying extra processing to the strings before they are
+            joined.
+            </param>
+            
+            <typeparam name="T">
+            The type of items in <paramref name="values"/>.
+            </typeparam>
+            
+            <returns>
+            A <see cref="T:System.String"/> consisting of the elements of <paramref name="values"/> converted to strings by
+            <paramref name="stringifier"/> and interspersed with the <paramref name="separator"/> string.
+            </returns>
+            
+            <seealso cref="M:System.String.Join(System.String,System.String[])"/>
+        </member>
+        <member name="M:SoftwareNinjas.Core.EnumerableExtensions.QuoteForShell``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Prepares a single <see cref="T:System.String"/> representing all the <paramref name="values"/> quoted as necessary
+            for use when invoking a sub-process.
+            </summary>
+            
+            <param name="values">
+            Zero or more values to assemble into a single string.
+            </param>
+            
+            <typeparam name="T">
+            The type of items in <paramref name="values"/>.
+            </typeparam>
+            
+            <returns>
+            All the <paramref name="values"/> converted to <see cref="T:System.String"/>, quoted if they contained a space and
+            separated by spaces.
+            </returns>
+        </member>
+        <member name="T:SoftwareNinjas.Core.Pair`2">
+            <summary>
+            Provides a basic utility class that is used to store two related items.
+            </summary>
+            
+            <typeparam name="F">
+            The type of the first item.
+            </typeparam>
+            
+            <typeparam name="S">
+            The type of the second item.
+            </typeparam>
+            
+            <seealso href="http://msdn.microsoft.com/en-us/library/system.web.ui.pair.aspx">System.Web.UI.Pair</seealso>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Pair`2.#ctor(`0,`1)">
+            <summary>
+            Initializes an instance of the <see cref="T:SoftwareNinjas.Core.Pair`2"/> class, using the specified item pair.
+            </summary>
+            
+            <param name="first">
+            The first item to set.
+            </param>
+            
+            <param name="second">
+            The second item to set.
+            </param>
+        </member>
+        <member name="P:SoftwareNinjas.Core.Pair`2.First">
+            <summary>
+            The first item.
+            </summary>
+        </member>
+        <member name="P:SoftwareNinjas.Core.Pair`2.Second">
+            <summary>
+            The second item.
+            </summary>
+        </member>
+        <member name="T:SoftwareNinjas.Core.Process.CapturedProcess">
+            <summary>
+            A façade to the <see cref="T:System.Diagnostics.Process"/> class for the special case of automatically (and safely) capturing
+            and optionally relaying the contents of standard out and standard error.
+            </summary>
+        </member>
+        <member name="T:SoftwareNinjas.Core.Process.ICapturedProcess">
+            <summary>
+            A façade to sub-process launching, for the special case of automatically (and safely) capturing
+            and optionally relaying the contents of standard out and standard error.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Process.ICapturedProcess.Run">
+            <summary>
+            Starts the process and waits for it to exit while capturing and, as necessary, relaying the contents of
+            standard out and standard error.  Returns the value that the associated process specified when it
+            terminated.
+            </summary>
+            
+            <returns>
+            The code that the associated process specified when it terminated.  The convention is to use <c>0</c>
+            to indicate success and positive integers to indicate failure.
+            </returns>
+        </member>
+        <member name="P:SoftwareNinjas.Core.Process.ICapturedProcess.Arguments">
+            <summary>
+            The command-line parameters that will be processed into a single string to be provided to the program, if
+            applicable.
+            </summary>
+        </member>
+        <member name="P:SoftwareNinjas.Core.Process.ICapturedProcess.ArgumentString">
+            <summary>
+            The string of command-line parameters that will be provided to the program, if applicable.
+            </summary>
+        </member>
+        <member name="P:SoftwareNinjas.Core.Process.ICapturedProcess.PathToExecutable">
+            <summary>
+            The name and optional location of the program to use when creating the sub-process.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Process.CapturedProcess.#ctor(System.String,System.Collections.Generic.IEnumerable{System.Object},System.Action{System.String},System.Action{System.String})">
+            <summary>
+            Creates an instance of the <see cref="T:SoftwareNinjas.Core.Process.CapturedProcess"/> class with the specified
+            <paramref name="pathToExecutable"/> as well as optional <paramref name="arguments"/>,
+            <paramref name="standardOutHandler"/> and <paramref name="standardErrorHandler"/>.
+            </summary>
+            
+            <param name="pathToExecutable">
+            The path to the executable program from which a process will be created.
+            </param>
+            
+            <param name="arguments">
+            The command-line arguments to supply to the program.  The arguments will be quoted automatically.
+            </param>
+            
+            <param name="standardOutHandler">
+            An <see cref="T:System.Action`1"/> to execute for each line of text sent to the standard output stream by the
+            sub-process.
+            </param>
+            
+            <param name="standardErrorHandler">
+            An <see cref="T:System.Action`1"/> to execute for each line of text sent to the standard error stream by the
+            sub-process.
+            </param>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Process.CapturedProcess.Run">
+            <summary>
+            Starts the process and waits for it to exit while capturing and, as necessary, relaying the contents of
+            standard out and standard error.  Returns the value that the associated process specified when it
+            terminated.
+            </summary>
+            
+            <returns>
+            The code that the associated process specified when it terminated.  The convention is to use <c>0</c>
+            to indicate success and positive integers to indicate failure.
+            </returns>
+        </member>
+        <member name="P:SoftwareNinjas.Core.Process.CapturedProcess.Arguments">
+            <summary>
+            The command-line parameters that will be processed into a single string to be provided to the program, if
+            applicable.
+            </summary>
+        </member>
+        <member name="P:SoftwareNinjas.Core.Process.CapturedProcess.ArgumentString">
+            <summary>
+            The string of command-line parameters that will be provided to the program, if applicable.
+            </summary>
+        </member>
+        <member name="P:SoftwareNinjas.Core.Process.CapturedProcess.PathToExecutable">
+            <summary>
+            The name and optional location of the program to use when creating the sub-process.
+            </summary>
+        </member>
+        <member name="T:SoftwareNinjas.Core.Process.CapturedProcessFactory">
+            <summary>
+            An implementation of <see cref="T:SoftwareNinjas.Core.Process.ICapturedProcessFactory"/> that creates instances of
+            <see cref="T:SoftwareNinjas.Core.Process.CapturedProcess"/>.
+            </summary>
+        </member>
+        <member name="T:SoftwareNinjas.Core.Process.ICapturedProcessFactory">
+            <summary>
+            A factory for <see cref="T:SoftwareNinjas.Core.Process.ICapturedProcess"/> implementations, thus allowing code that uses sub-processes to be
+            tested without launching too many sub-processes and thus simplifying and speeding up unit tests.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Process.ICapturedProcessFactory.Create(System.String,System.Collections.Generic.IEnumerable{System.Object},System.Action{System.String},System.Action{System.String})">
+            <summary>
+            Initializes an instance of an implementation of <see cref="T:SoftwareNinjas.Core.Process.ICapturedProcess"/> with the specified
+            <paramref name="pathToExecutable"/> as well as optional <paramref name="arguments"/>,
+            <paramref name="standardOutHandler"/> and <paramref name="standardErrorHandler"/>.
+            </summary>
+            
+            <param name="pathToExecutable">
+            The path to the executable program from which a process will be created.
+            </param>
+            
+            <param name="arguments">
+            The command-line arguments to supply to the program.  The arguments will be quoted automatically.
+            </param>
+            
+            <param name="standardOutHandler">
+            An <see cref="T:System.Action`1"/> to execute for each line of text sent to the standard output stream by the
+            sub-process.
+            </param>
+            
+            <param name="standardErrorHandler">
+            An <see cref="T:System.Action`1"/> to execute for each line of text sent to the standard error stream by the
+            sub-process.
+            </param>
+            
+            <returns>
+            An instance of the associated <see cref="T:SoftwareNinjas.Core.Process.ICapturedProcess"/> implementation.
+            </returns>
+        </member>
+        <member name="T:SoftwareNinjas.Core.Process.Test.CapturedProcess">
+            <summary>
+            A class to test <see cref="T:SoftwareNinjas.Core.Process.CapturedProcess"/>.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Process.Test.CapturedProcess.Run_BothStreams">
+            <summary>
+            Tests <see cref="M:SoftwareNinjas.Core.Process.CapturedProcess.Run"/> with a command that will output to both streams.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Process.Test.CapturedProcess.Run_OnlyStandardOut">
+            <summary>
+            Tests <see cref="M:SoftwareNinjas.Core.Process.CapturedProcess.Run"/> with a command that will output to only standard out.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Process.Test.CapturedProcess.Run_OnlyStandardError">
+            <summary>
+            Tests <see cref="M:SoftwareNinjas.Core.Process.CapturedProcess.Run"/> with a command that will output to only standard error.
+            </summary>
+        </member>
+        <member name="T:SoftwareNinjas.Core.Process.Test.SimulatedCapturedProcess">
+            <summary>
+            An implementation of <see cref="T:SoftwareNinjas.Core.Process.ICapturedProcess"/> that simulates the execution of a sub-process and
+            feeds to the standard out and standard error handlers pre-arranged strings.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Process.Test.SimulatedCapturedProcess.#ctor(System.Int32,System.String,System.String)">
+            <summary>
+            Initializes a new instance of a <see cref="T:SoftwareNinjas.Core.Process.Test.SimulatedCapturedProcess"/> with the specified
+            <paramref name="exitCode"/> and optional <paramref name="stdOut"/> and <paramref name="stdErr"/>.
+            </summary>
+            
+            <param name="exitCode">
+            The exit code that <see cref="M:SoftwareNinjas.Core.Process.ICapturedProcess.Run"/> will return.
+            </param>
+            
+            <param name="stdOut">
+            An optional multi-line string that will be fed to the standard out handler one line at a time.
+            </param>
+            
+            <param name="stdErr">
+            An optional multi-line string that will be fed to the standard error handler one line at a time.
+            </param>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Process.Test.SimulatedCapturedProcess.#ctor(System.Int32,System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Initializes a new instance of a <see cref="T:SoftwareNinjas.Core.Process.Test.SimulatedCapturedProcess"/> with the specified
+            <paramref name="exitCode"/> and optional <paramref name="stdOut"/> and <paramref name="stdErr"/>.
+            </summary>
+            
+            <param name="exitCode">
+            The exit code that <see cref="M:SoftwareNinjas.Core.Process.ICapturedProcess.Run"/> will return.
+            </param>
+            
+            <param name="stdOut">
+            An optional <see cref="T:System.Collections.Generic.IEnumerable`1"/> of <see cref="T:System.String"/> that will be fed to the standard out
+            handler one at a time.
+            </param>
+            
+            <param name="stdErr">
+            An optional <see cref="T:System.Collections.Generic.IEnumerable`1"/> of <see cref="T:System.String"/> that will be fed to the standard error
+            handler one at a time.
+            </param>
+        </member>
+        <member name="P:SoftwareNinjas.Core.Process.Test.SimulatedCapturedProcess.StandardOutHandler">
+            <summary>
+            The configured <see cref="T:System.Action`1"/> to invoke for each line of standard out.
+            </summary>
+        </member>
+        <member name="P:SoftwareNinjas.Core.Process.Test.SimulatedCapturedProcess.StandardErrorHandler">
+            <summary>
+            The configured <see cref="T:System.Action`1"/> to invoke for each line of standard error.
+            </summary>
+        </member>
+        <member name="P:SoftwareNinjas.Core.Process.Test.SimulatedCapturedProcess.Arguments">
+            <summary>
+            The command-line parameters that will be processed into a single string to be provided to the program, if
+            applicable.
+            </summary>
+        </member>
+        <member name="P:SoftwareNinjas.Core.Process.Test.SimulatedCapturedProcess.ArgumentString">
+            <summary>
+            The string of command-line parameters that will be provided to the program, if applicable.
+            </summary>
+        </member>
+        <member name="P:SoftwareNinjas.Core.Process.Test.SimulatedCapturedProcess.PathToExecutable">
+            <summary>
+            The name and optional location of the program to use when creating the sub-process.
+            </summary>
+        </member>
+        <member name="T:SoftwareNinjas.Core.Process.Test.SimulatedCapturedProcessFactory">
+            <summary>
+            An implementation of <see cref="T:SoftwareNinjas.Core.Process.ICapturedProcessFactory"/> that configures a single instance of
+            <see cref="T:SoftwareNinjas.Core.Process.Test.SimulatedCapturedProcess"/> for testing purposes.  This class is not thread-safe.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Process.Test.SimulatedCapturedProcessFactory.#ctor(SoftwareNinjas.Core.Process.Test.SimulatedCapturedProcess)">
+            <summary>
+            Initializes an instance of the <see cref="T:SoftwareNinjas.Core.Process.Test.SimulatedCapturedProcessFactory"/> with the specified
+            <paramref name="instance"/>.
+            </summary>
+            
+            <param name="instance">
+            A single instance of <see cref="T:SoftwareNinjas.Core.Process.Test.SimulatedCapturedProcess"/> that will be configured on each call to
+            <see cref="M:SoftwareNinjas.Core.Process.ICapturedProcessFactory.Create(System.String,System.Collections.Generic.IEnumerable{System.Object},System.Action{System.String},System.Action{System.String})"/>.
+            </param>
+        </member>
+        <member name="T:System.Action">
+            <summary>
+            Encapsulates a method that takes no parameters and does not return a value.
+            </summary>
+        </member>
+        <member name="T:System.Action`2">
+            <summary>
+            Encapsulates a method that has two parameters and does not return a value.
+            </summary>
+            
+            <typeparam name="T1">
+            The type of the first parameter of the method that this delegate encapsulates.
+            </typeparam>
+            
+            <typeparam name="T2">
+            The type of the second parameter of the method that this delegate encapsulates.
+            </typeparam>
+            
+            <param name="arg1">
+            The first parameter of the method that this delegate encapsulates.
+            </param>
+            
+            <param name="arg2">
+            The second parameter of the method that this delegate encapsulates.
+            </param>
+        </member>
+        <member name="T:System.Action`3">
+            <summary>
+            Encapsulates a method that takes three parameters and does not return a value.
+            </summary>
+            
+            <typeparam name="T1">
+            The type of the first parameter of the method that this delegate encapsulates.
+            </typeparam>
+            
+            <typeparam name="T2">
+            The type of the second parameter of the method that this delegate encapsulates.
+            </typeparam>
+            
+            <typeparam name="T3">
+            The type of the third parameter of the method that this delegate encapsulates.
+            </typeparam>
+            
+            <param name="arg1">
+            The first parameter of the method that this delegate encapsulates.
+            </param>
+            
+            <param name="arg2">
+            The second parameter of the method that this delegate encapsulates.
+            </param>
+            
+            <param name="arg3">
+            The third parameter of the method that this delegate encapsulates.
+            </param>
+        </member>
+        <member name="T:System.Action`4">
+            <summary>
+            Encapsulates a method that has four parameters and does not return a value.
+            </summary>
+            
+            <typeparam name="T1">
+            The type of the first parameter of the method that this delegate encapsulates.
+            </typeparam>
+            
+            <typeparam name="T2">
+            The type of the second parameter of the method that this delegate encapsulates.
+            </typeparam>
+            
+            <typeparam name="T3">
+            The type of the third parameter of the method that this delegate encapsulates.
+            </typeparam>
+            
+            <typeparam name="T4">
+            The type of the fourth parameter of the method that this delegate encapsulates.
+            </typeparam>
+            
+            <param name="arg1">
+            The first parameter of the method that this delegate encapsulates.
+            </param>
+            
+            <param name="arg2">
+            The second parameter of the method that this delegate encapsulates.
+            </param>
+            
+            <param name="arg3">
+            The third parameter of the method that this delegate encapsulates.
+            </param>
+            
+            <param name="arg4">
+            The fourth parameter of the method that this delegate encapsulates.
+            </param>
+        </member>
+        <member name="T:System.Func`1">
+            <summary>
+            Encapsulates a method that has no parameters and returns a value of the type specified by the
+            <typeparamref name="TResult"/> parameter.
+            </summary>
+            
+            <typeparam name="TResult">
+            The type of the return value of the method that this delegate encapsulates.
+            </typeparam>
+            
+            <returns>
+            The return value of the method that this delegate encapsulates.
+            </returns>
+        </member>
+        <member name="T:System.Func`2">
+            <summary>
+            Encapsulates a method that has one parameter and returns a value of the type specified by the
+            <typeparamref name="TResult"/> parameter.
+            </summary>
+            
+            <typeparam name="T1">
+            The type of the parameter of the method that this delegate encapsulates.
+            </typeparam>
+            
+            <typeparam name="TResult">
+            The type of the return value of the method that this delegate encapsulates.
+            </typeparam>
+            
+            <param name="arg">
+            The parameter of the method that this delegate encapsulates.
+            </param>
+            
+            <returns>
+            The return value of the method that this delegate encapsulates.
+            </returns>
+        </member>
+        <member name="T:System.Func`3">
+            <summary>
+            Encapsulates a method that has two parameters and returns a value of the type specified by the
+            <typeparamref name="TResult"/> parameter.
+            </summary>
+            
+            <typeparam name="T1">
+            The type of the first parameter of the method that this delegate encapsulates.
+            </typeparam>
+            
+            <typeparam name="T2">
+            The type of the second parameter of the method that this delegate encapsulates.
+            </typeparam>
+            
+            <typeparam name="TResult">
+            The type of the return value of the method that this delegate encapsulates.
+            </typeparam>
+            
+            <param name="arg1">
+            The first parameter of the method that this delegate encapsulates.
+            </param>
+            
+            <param name="arg2">
+            The second parameter of the method that this delegate encapsulates.
+            </param>
+            
+            <returns>
+            The return value of the method that this delegate encapsulates.
+            </returns>
+        </member>
+        <member name="T:System.Func`4">
+            <summary>
+            Encapsulates a method that has three parameters and returns a value of the type specified by the
+            <typeparamref name="TResult"/> parameter.
+            </summary>
+            
+            <typeparam name="T1">
+            The type of the first parameter of the method that this delegate encapsulates.
+            </typeparam>
+            
+            <typeparam name="T2">
+            The type of the second parameter of the method that this delegate encapsulates.
+            </typeparam>
+            
+            <typeparam name="T3">
+            The type of the third parameter of the method that this delegate encapsulates.
+            </typeparam>
+            
+            <typeparam name="TResult">
+            The type of the return value of the method that this delegate encapsulates.
+            </typeparam>
+            
+            <param name="arg1">
+            The first parameter of the method that this delegate encapsulates.
+            </param>
+            
+            <param name="arg2">
+            The second parameter of the method that this delegate encapsulates.
+            </param>
+            
+            <param name="arg3">
+            The third parameter of the method that this delegate encapsulates.
+            </param>
+            
+            <returns>
+            The return value of the method that this delegate encapsulates.
+            </returns>
+        </member>
+        <member name="T:System.Func`5">
+            <summary>
+            Encapsulates a method that has four parameters and returns a value of the type specified by the
+            <typeparamref name="TResult"/> parameter.
+            </summary>
+            
+            <typeparam name="T1">
+            The type of the first parameter of the method that this delegate encapsulates.
+            </typeparam>
+            
+            <typeparam name="T2">
+            The type of the second parameter of the method that this delegate encapsulates.
+            </typeparam>
+            
+            <typeparam name="T3">
+            The type of the third parameter of the method that this delegate encapsulates.
+            </typeparam>
+            
+            <typeparam name="T4">
+            The type of the fourth parameter of the method that this delegate encapsulates.
+            </typeparam>
+            
+            <typeparam name="TResult">
+            The type of the return value of the method that this delegate encapsulates.
+            </typeparam>
+            
+            <param name="arg1">
+            The first parameter of the method that this delegate encapsulates.
+            </param>
+            
+            <param name="arg2">
+            The second parameter of the method that this delegate encapsulates.
+            </param>
+            
+            <param name="arg3">
+            The third parameter of the method that this delegate encapsulates.
+            </param>
+            
+            <param name="arg4">
+            The fourth parameter of the method that this delegate encapsulates.
+            </param>
+            
+            <returns>
+            The return value of the method that this delegate encapsulates.
+            </returns>
+        </member>
+        <member name="T:System.Runtime.CompilerServices.ExtensionAttribute">
+            <summary>
+            Enable C# 3.0 extensions without referencing System.Core.dll
+            </summary>
+            
+            <seealso href="http://www.danielmoth.com/Blog/2007/05/using-extension-methods-in-fx-20.html"/>
+            <seealso href="http://social.msdn.microsoft.com/forums/en-US/vcsharp2008prerelease/thread/9d88f8b1-ff03-4ea6-bd41-8cca9f2cd485/"/>
+        </member>
+        <member name="T:SoftwareNinjas.Core.RegisteredUserAttribute">
+            <summary>
+            Represents data about the user for which an assembly was compiled.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.RegisteredUserAttribute.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SoftwareNinjas.Core.RegisteredUserAttribute"/> class with the specified
+            human-readable version of the user's name and their e-mail address.
+            </summary>
+            
+            <param name="displayName">
+            The full name of the user who registered the software.
+            </param>
+            
+            <param name="emailAddress">
+            The e-mail addressed used when registering the assembly.
+            </param>
+        </member>
+        <member name="M:SoftwareNinjas.Core.RegisteredUserAttribute.ExtractFrom(System.Reflection.Assembly)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SoftwareNinjas.Core.RegisteredUserAttribute"/> class based on its use in the
+            specified assembly.
+            </summary>
+            
+            <param name="assembly">
+            The <see cref="T:System.Reflection.Assembly"/> in which to search for the attribute.
+            </param>
+            
+            <returns>
+            A <see cref="T:SoftwareNinjas.Core.RegisteredUserAttribute"/> from the assembly.
+            </returns>
+        </member>
+        <member name="M:SoftwareNinjas.Core.RegisteredUserAttribute.ExtractFromCallingAssembly">
+            <summary>
+            Initializes a new instance of the <see cref="T:SoftwareNinjas.Core.RegisteredUserAttribute"/> class based on its use in the
+            calling assembly.
+            </summary>
+            
+            <returns>
+            A <see cref="T:SoftwareNinjas.Core.RegisteredUserAttribute"/> from the calling assembly.
+            </returns>
+        </member>
+        <member name="P:SoftwareNinjas.Core.RegisteredUserAttribute.DisplayName">
+            <summary>
+            The full name of the user, to be used in labels, etc.
+            </summary>
+        </member>
+        <member name="P:SoftwareNinjas.Core.RegisteredUserAttribute.EmailAddress">
+            <summary>
+            The e-mail address of the user, to be used in hyperlinks, etc.
+            </summary>
+        </member>
+        <member name="T:SoftwareNinjas.Core.Test.EnumerableExtensions">
+            <summary>
+            A class to test <see cref="T:SoftwareNinjas.Core.EnumerableExtensions"/>
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.EnumerableExtensions.Compose_Prefix">
+            <summary>
+            Tests both <see cref="M:SoftwareNinjas.Core.EnumerableExtensions.Compose``1(``0,System.Collections.Generic.IEnumerable{``0})"/>.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.EnumerableExtensions.Compose_Suffix">
+            <summary>
+            Tests <see cref="M:SoftwareNinjas.Core.EnumerableExtensions.Compose``1(System.Collections.Generic.IEnumerable{``0},``0)"/>.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.EnumerableExtensions.Compose_Append">
+            <summary>
+            Tests <see cref="M:SoftwareNinjas.Core.EnumerableExtensions.Compose``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``0})"/>.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.EnumerableExtensions.EnumerateSame``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Convenience method for making sure two <see cref="T:System.Collections.Generic.IEnumerable`1"/> instances will enumerate identical
+            items.
+            </summary>
+            
+            <typeparam name="T">
+            The type of elements to enumerate.
+            </typeparam>
+            
+            <param name="expected">
+            The expected elements.
+            </param>
+            
+            <param name="actual">
+            The actual elements.
+            </param>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.EnumerableExtensions.Join">
+            <summary>
+            Tests <see cref="M:SoftwareNinjas.Core.EnumerableExtensions.Join``1(System.Collections.Generic.IEnumerable{``0},System.String)"/>.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.EnumerableExtensions.QuoteForShell">
+            <summary>
+            Tests <see cref="M:SoftwareNinjas.Core.EnumerableExtensions.QuoteForShell``1(System.Collections.Generic.IEnumerable{``0})"/>
+            </summary>
+        </member>
+    </members>
+</doc>
