@@ -28,6 +28,17 @@
             <arg value="/property:Configuration=${configuration}" />
             <arg value="/verbosity:minimal" />
         </msbuild>
+
+        <readregistry key="Software\JavaSoft\Java Development Kit\1.6\JavaHome" property="javaHome" failonerror="true"/>
+        <exec program="cmd.exe" workingdir="Eclipse">
+            <environment>
+                <variable name="JAVA_HOME" dir="${javaHome}" />
+                <variable name="ANT_HOME" dir="Tools/ant" />
+            </environment>
+            <arg value="/c" />
+            <arg file="Tools/ant/bin/ant.bat" />
+            <arg value="-Dconfiguration=${configuration}" />
+        </exec>
     </target>
 
     <target name="test" depends="compile">
