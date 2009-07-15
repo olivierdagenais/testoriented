@@ -133,6 +133,29 @@
             <paramref name="lastItems"/>.
             </returns>
         </member>
+        <member name="M:SoftwareNinjas.Core.EnumerableExtensions.Filter``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Boolean})">
+            <summary>
+            Filters a set of <paramref name="items"/> of type <typeparamref name="T"/> based on the provided
+            <paramref name="predicate"/>.
+            </summary>
+            
+            <typeparam name="T">
+            The type of elements to enumerate.
+            </typeparam>
+            
+            <param name="items">
+            The items to filter.
+            </param>
+            
+            <param name="predicate">
+            A function that determines whether to keep each item (<see langword="true"/>)
+            or not (<see langword="false"/>).
+            </param>
+            
+            <returns>
+            The <paramref name="items"/> for which <paramref name="predicate"/> returned <see langword="true"/>.
+            </returns>
+        </member>
         <member name="M:SoftwareNinjas.Core.EnumerableExtensions.Join``1(System.Collections.Generic.IEnumerable{``0},System.String)">
             <summary>
             Concatenates a specified separator <see cref="T:System.String"/> between each element of a specified
@@ -192,6 +215,34 @@
             
             <seealso cref="M:System.String.Join(System.String,System.String[])"/>
         </member>
+        <member name="M:SoftwareNinjas.Core.EnumerableExtensions.Map``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1})">
+            <summary>
+            Applies a transformation on every item of type <typeparamref name="T"/> in <paramref name="items"/> to
+            yield as many items of type <typeparamref name="TResult"/>.
+            </summary>
+            
+            <typeparam name="T">
+            The type of items to convert from.
+            </typeparam>
+            
+            <typeparam name="TResult">
+            The type of items to convert to.
+            </typeparam>
+            
+            <param name="items">
+            One or more <typeparamref name="T"/> instances to convert.
+            </param>
+            
+            <param name="transformer">
+            A method that accepts an instance of <typeparamref name="T"/> and produces an instance of
+            <typeparamref name="TResult"/>.
+            </param>
+            
+            <returns>
+            A number of <typeparamref name="TResult"/> instances that were created from <typeparamref name="T"/>
+            instances.
+            </returns>
+        </member>
         <member name="M:SoftwareNinjas.Core.EnumerableExtensions.QuoteForShell``1(System.Collections.Generic.IEnumerable{``0})">
             <summary>
             Prepares a single <see cref="T:System.String"/> representing all the <paramref name="values"/> quoted as necessary
@@ -210,6 +261,50 @@
             All the <paramref name="values"/> converted to <see cref="T:System.String"/>, quoted if they contained a space and
             separated by spaces.
             </returns>
+        </member>
+        <member name="T:SoftwareNinjas.Core.Java">
+            <summary>
+            Convenience methods for Sun's programming language runtime and tools.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Java.GenerateFullPathToJavaDevelopmentKitHome">
+            <summary>
+            Determines the value of JAVA_HOME for the Java Development Kit (JDK), version 6 (also known as 1.6).
+            </summary>
+            
+            <returns>
+            The full path to the root of the JDK 1.6 installation.
+            </returns>
+            
+            <exception cref="T:System.IO.FileNotFoundException">
+            If the Java Development Kit (JDK) 1.6 cannot be found.
+            </exception>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Java.GenerateFullPathToCompiler">
+            <summary>
+            Determines the full path to the version 6 Java compiler.
+            </summary>
+            
+            <returns>
+            The full path to <c>javac.exe</c>.
+            </returns>
+            
+            <exception cref="T:System.IO.FileNotFoundException">
+            If the Java Development Kit (JDK) 1.6 cannot be found.
+            </exception>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Java.GenerateFullPathToRuntime">
+            <summary>
+            Determines the full path to the version 6 Java runtime.
+            </summary>
+            
+            <returns>
+            The full path to <c>java.exe</c>.
+            </returns>
+            
+            <exception cref="T:System.IO.FileNotFoundException">
+            If the Java Development Kit (JDK) 1.6 cannot be found.
+            </exception>
         </member>
         <member name="T:SoftwareNinjas.Core.Pair`2">
             <summary>
@@ -829,6 +924,29 @@
             
             <param name="actual">
             The actual elements.
+            </param>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.EnumerableExtensions.EnumerateSame``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object})">
+            <summary>
+            Convenience method for making sure two <see cref="T:System.Collections.Generic.IEnumerable`1"/> instances will enumerate identical
+            items.
+            </summary>
+            
+            <typeparam name="T">
+            The type of elements to enumerate.
+            </typeparam>
+            
+            <param name="expected">
+            The expected elements.
+            </param>
+            
+            <param name="actual">
+            The actual elements.
+            </param>
+            
+            <param name="comparisonBasis">
+            A method to use to manipulate the <typeparamref name="T"/> (perhaps extract a value) into what will be
+            used to check if each <typeparamref name="T"/> is equal.
             </param>
         </member>
         <member name="M:SoftwareNinjas.Core.Test.EnumerableExtensions.Join">

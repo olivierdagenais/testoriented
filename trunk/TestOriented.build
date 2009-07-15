@@ -16,10 +16,12 @@
     </target>
 
     <target name="clean">
-        <clean projects="${projects}"/>
+        <clean projects="${projects},Eclipse"/>
     </target>
 
     <target name="customize" depends="clean">
+		<!-- TODO: rename to customizeProject and add support for stamping META-INF/MANIFEST.MF with version number -->
+		<!-- TODO: could also work that functionality into an MSBuild pre-Compile target -->
         <customizeAssembly projects="${projects}"/>
     </target>
 
@@ -28,32 +30,10 @@
             <arg value="/property:Configuration=${configuration}" />
             <arg value="/verbosity:minimal" />
         </msbuild>
-
-        <readregistry key="Software\JavaSoft\Java Development Kit\1.6\JavaHome" property="javaHome" failonerror="true"/>
-        <exec program="cmd.exe" workingdir="Eclipse">
-            <environment>
-                <variable name="JAVA_HOME" dir="${javaHome}" />
-                <variable name="ANT_HOME" dir="Tools/ant" />
-            </environment>
-            <arg value="/c" />
-            <arg file="Tools/ant/bin/ant.bat" />
-            <arg value="-Dconfiguration=${configuration}" />
-        </exec>
     </target>
 
-    <target name="test" depends="compile">
-        <foreach item="String" in="${projects}" delim="," property="project">
-            <echo message="Testing ${project}..."/>
-            <nunit2>
-                <formatter type="Plain" />
-                <test>
-                    <assemblies>
-                        <include name="${project}/bin/${configuration}/SoftwareNinjas.TestOriented.${project}.dll" />
-                    </assemblies>
-                </test>
-            </nunit2>
-            <!-- TODO: verify assemblies with FxCop -->
-        </foreach>
+    <target name="test">
+		<test projects="${projects},Eclipse" configuration="${configuration}" />
     </target>
 
     <target name="deploy" depends="test">
@@ -71,6 +51,7 @@
         <mkdir dir="Deploy/${versionFolder}"/>
         <copy todir="Deploy/${versionFolder}" flatten="true">
             <fileset>
+				<include name="*/bin/${configuration}/*.jar"/>
                 <include name="*/bin/${configuration}/SoftwareNinjas.*.dll"/>
                 <include name="*/bin/${configuration}/SoftwareNinjas.*.exe"/>
                 <include name="*/bin/${configuration}/SoftwareNinjas.*.xml"/>
