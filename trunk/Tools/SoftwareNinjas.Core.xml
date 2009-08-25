@@ -585,6 +585,103 @@
             <see cref="M:SoftwareNinjas.Core.Process.ICapturedProcessFactory.Create(System.String,System.Collections.Generic.IEnumerable{System.Object},System.Action{System.String},System.Action{System.String})"/>.
             </param>
         </member>
+        <member name="T:SoftwareNinjas.Core.StringExtensions">
+            <summary>
+            Extension methods to augment implementations of <see cref="T:System.String"/>.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.StringExtensions.FormatInvariant(System.String,System.Object[])">
+            <summary>
+            Replaces the format item in a specified <see cref="T:System.String"/> with the text equivalent of the value of a
+            corresponding <see cref="T:System.Object"/> instance in a specified array, using the
+            <see cref="P:System.Globalization.CultureInfo.InvariantCulture"/> for formatting.
+            </summary>
+            
+            <param name="format">
+            A composite format string.
+            </param>
+            
+            <param name="args">
+            An <see cref="T:System.Object"/> array containing zero or more objects to format. 
+            </param>
+            
+            <returns>
+            A copy of <paramref name="format"/> in which the format items have been replaced by the <see cref="T:System.String"/>
+            equivalent of the corresponding instances of <see cref="T:System.Object"/> in <paramref name="args"/>.
+            </returns>
+            
+            <seealso cref="M:System.String.Format(System.IFormatProvider,System.String,System.Object[])"/>
+        </member>
+        <member name="M:SoftwareNinjas.Core.StringExtensions.FormatCurrentCulture(System.String,System.Object[])">
+            <summary>
+            Replaces the format item in a specified <see cref="T:System.String"/> with the text equivalent of the value of a
+            corresponding <see cref="T:System.Object"/> instance in a specified array, using the
+            <see cref="P:System.Globalization.CultureInfo.CurrentCulture"/> for formatting.
+            </summary>
+            
+            <param name="format">
+            A composite format string.
+            </param>
+            
+            <param name="args">
+            An <see cref="T:System.Object"/> array containing zero or more objects to format. 
+            </param>
+            
+            <returns>
+            A copy of <paramref name="format"/> in which the format items have been replaced by the <see cref="T:System.String"/>
+            equivalent of the corresponding instances of <see cref="T:System.Object"/> in <paramref name="args"/>.
+            </returns>
+            
+            <seealso cref="M:System.String.Format(System.IFormatProvider,System.String,System.Object[])"/>
+        </member>
+        <member name="M:SoftwareNinjas.Core.StringExtensions.FormatCurrentUICulture(System.String,System.Object[])">
+            <summary>
+            Replaces the format item in a specified <see cref="T:System.String"/> with the text equivalent of the value of a
+            corresponding <see cref="T:System.Object"/> instance in a specified array, using the
+            <see cref="P:System.Globalization.CultureInfo.CurrentUICulture"/> for formatting.
+            </summary>
+            
+            <param name="format">
+            A composite format string.
+            </param>
+            
+            <param name="args">
+            An <see cref="T:System.Object"/> array containing zero or more objects to format. 
+            </param>
+            
+            <returns>
+            A copy of <paramref name="format"/> in which the format items have been replaced by the <see cref="T:System.String"/>
+            equivalent of the corresponding instances of <see cref="T:System.Object"/> in <paramref name="args"/>.
+            </returns>
+            
+            <seealso cref="M:System.String.Format(System.IFormatProvider,System.String,System.Object[])"/>
+        </member>
+        <member name="M:SoftwareNinjas.Core.StringExtensions.FormatProvider(System.String,System.IFormatProvider,System.Object[])">
+            <summary>
+            Replaces the format item in a specified <see cref="T:System.String"/> with the text equivalent of the value of a
+            corresponding <see cref="T:System.Object"/> instance in a specified array.  A specified parameter supplies
+            culture-specific formatting information.
+            </summary>
+            
+            <param name="format">
+            A composite format string.
+            </param>
+            
+            <param name="provider">
+            An <see cref="T:System.IFormatProvider"/> that supplies culture-specific formatting information.
+            </param>
+            
+            <param name="args">
+            An <see cref="T:System.Object"/> array containing zero or more objects to format. 
+            </param>
+            
+            <returns>
+            A copy of <paramref name="format"/> in which the format items have been replaced by the <see cref="T:System.String"/>
+            equivalent of the corresponding instances of <see cref="T:System.Object"/> in <paramref name="args"/>.
+            </returns>
+            
+            <seealso cref="M:System.String.Format(System.IFormatProvider,System.String,System.Object[])"/>
+        </member>
         <member name="T:System.Action">
             <summary>
             Encapsulates a method that takes no parameters and does not return a value.
@@ -957,6 +1054,41 @@
         <member name="M:SoftwareNinjas.Core.Test.EnumerableExtensions.QuoteForShell">
             <summary>
             Tests <see cref="M:SoftwareNinjas.Core.EnumerableExtensions.QuoteForShell``1(System.Collections.Generic.IEnumerable{``0})"/>
+            </summary>
+        </member>
+        <member name="T:SoftwareNinjas.Core.Test.StringExtensions">
+            <summary>
+            A class to test <see cref="T:SoftwareNinjas.Core.StringExtensions"/>.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.StringExtensions.FormatInvariant_NoArgs">
+            <summary>
+            Tests <see cref="M:SoftwareNinjas.Core.StringExtensions.FormatInvariant(System.String,System.Object[])"/>
+            with no arguments.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.StringExtensions.FormatInvariant_OneArg">
+            <summary>
+            Tests <see cref="M:SoftwareNinjas.Core.StringExtensions.FormatInvariant(System.String,System.Object[])"/>
+            with one argument.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.StringExtensions.FormatInvariant_ManyArgs">
+            <summary>
+            Tests <see cref="M:SoftwareNinjas.Core.StringExtensions.FormatInvariant(System.String,System.Object[])"/>
+            with many arguments.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.StringExtensions.FormatProvider_NoArgs">
+            <summary>
+            Tests <see cref="M:SoftwareNinjas.Core.StringExtensions.FormatProvider(System.String,System.IFormatProvider,System.Object[])"/>
+            with no arguments.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.StringExtensions.FormatProvider_OneArg">
+            <summary>
+            Tests <see cref="M:SoftwareNinjas.Core.StringExtensions.FormatProvider(System.String,System.IFormatProvider,System.Object[])"/>
+            with one argument.
             </summary>
         </member>
     </members>
