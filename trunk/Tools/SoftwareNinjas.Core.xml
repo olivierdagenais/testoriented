@@ -4,6 +4,340 @@
         <name>SoftwareNinjas.Core</name>
     </assembly>
     <members>
+        <member name="T:Microsoft.VisualStudio.TextTemplating.TextTransformation">
+            <summary>
+            The abstract base class for all generated transformation classes. This class also provides utility methods and
+            properties for use in text template code.
+            </summary>
+            
+            <remarks>
+            <para>
+            The text template transformation process has two steps. In the first step, the text template transformation
+            engine creates a class that is referred to as the generated transformation class. In the second step, the engine
+            compiles and executes the generated transformation class, to produce the generated text output. The generated
+            transformation class inherits from <see cref="T:Microsoft.VisualStudio.TextTemplating.TextTransformation"/>.
+            </para>
+            <para>
+            Any class specified in an <c>inherits</c> directive in a text template must itself inherit from
+            <see cref="T:Microsoft.VisualStudio.TextTemplating.TextTransformation"/>. <see cref="M:Microsoft.VisualStudio.TextTemplating.TextTransformation.TransformText"/> is the only abstract member of this class.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TextTemplating.TextTransformation.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.VisualStudio.TextTemplating.TextTransformation"/> class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TextTemplating.TextTransformation.#ctor(System.IFormatProvider)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.VisualStudio.TextTemplating.TextTransformation"/> class with the specified
+            <paramref name="formatProvider"/>.
+            </summary>
+            
+            <param name="formatProvider">
+            The <see cref="T:System.IFormatProvider"/> to use when converting <see cref="T:System.Object"/> instances to
+            <see cref="T:System.String"/> instances.
+            </param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TextTemplating.TextTransformation.Initialize">
+            <summary>
+            Initializes the <see cref="T:Microsoft.VisualStudio.TextTemplating.TextTransformation"/> class.  
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TextTemplating.TextTransformation.TransformText">
+            <summary>
+            When overridden in a derived class, generates the text output of the transformation. 
+            </summary>
+            
+            <returns>
+            A string representing the generated text output of the text template transformation process.
+            </returns>
+            
+            <remarks>
+            The text template transformation process has two steps. In the first step, the text template transformation
+            engine creates a class that is named the generated transformation class. In the second step, the engine
+            compiles and executes the generated transformation class, to produce the generated text output. The engine
+            calls <see cref="M:Microsoft.VisualStudio.TextTemplating.TextTransformation.TransformText"/> on the compiled generated transformation class to execute the text
+            template and generate the text output.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TextTemplating.TextTransformation.Error(System.String)">
+            <summary>
+            Creates a new error to store information about errors that occur during the text template transformation
+            process.
+            </summary>
+            
+            <param name="message">
+            A message that describes the error.
+            </param>
+            
+            <remarks>
+            Adds the error to the collection of <see cref="P:Microsoft.VisualStudio.TextTemplating.TextTransformation.Errors"/> for the text template transformation process. Sets
+            the line number of the error to -1, and the column number of the error to -1 by default.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TextTemplating.TextTransformation.Warning(System.String)">
+            <summary>
+            Creates a new warning to store information about errors that occur during the text template transformation
+            process.
+            </summary>
+            
+            <param name="message">
+            A message that describes the warning.
+            </param>
+            
+            <remarks>
+            Adds the warning to the collection of <see cref="P:Microsoft.VisualStudio.TextTemplating.TextTransformation.Errors"/> for the text template transformation process.
+            Sets the line number of the error to -1, and the column number of the error to -1 by default.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TextTemplating.TextTransformation.PopIndent">
+            <summary>
+            Removes the most recently added text from <see cref="P:Microsoft.VisualStudio.TextTemplating.TextTransformation.CurrentIndent"/>.
+            </summary>
+            
+            <returns>
+            A <see cref="T:System.String"/> that contains the text most recently added to <see cref="P:Microsoft.VisualStudio.TextTemplating.TextTransformation.CurrentIndent"/>.
+            <see cref="P:Microsoft.VisualStudio.TextTemplating.TextTransformation.CurrentIndent"/> is commonly called without capturing the return value.
+            </returns>
+            
+            <remarks>
+            The <see cref="P:Microsoft.VisualStudio.TextTemplating.TextTransformation.CurrentIndent"/> represents text that is prefixed to each line of the generated text output.
+            The indent text can be spaces only, for example "    ", or it can include words.
+            <see cref="M:Microsoft.VisualStudio.TextTemplating.TextTransformation.PushIndent(System.String)"/> adds text to <see cref="P:Microsoft.VisualStudio.TextTemplating.TextTransformation.CurrentIndent"/>, and can be called more than once.
+            <see cref="M:Microsoft.VisualStudio.TextTemplating.TextTransformation.PopIndent"/> removes the most recently added text from <see cref="P:Microsoft.VisualStudio.TextTemplating.TextTransformation.CurrentIndent"/>, and can be
+            called more than once. <see cref="M:Microsoft.VisualStudio.TextTemplating.TextTransformation.ClearIndent"/> removes all text from the <see cref="P:Microsoft.VisualStudio.TextTemplating.TextTransformation.CurrentIndent"/>.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TextTemplating.TextTransformation.PushIndent(System.String)">
+            <summary>
+            Adds text to <see cref="P:Microsoft.VisualStudio.TextTemplating.TextTransformation.CurrentIndent"/>, which is prefixed to each line of the generated text output. 
+            </summary>
+            
+            <param name="indent">
+            The text to add to <see cref="P:Microsoft.VisualStudio.TextTemplating.TextTransformation.CurrentIndent"/>. If <see cref="P:Microsoft.VisualStudio.TextTemplating.TextTransformation.CurrentIndent"/> already contains text,
+            <paramref name="indent"/> is appended to the existing text.
+            </param>
+            
+            <remarks>
+            The <see cref="P:Microsoft.VisualStudio.TextTemplating.TextTransformation.CurrentIndent"/> represents text that is prefixed to each line of the generated text output.
+            The indent text can be spaces only, for example "    ", or it can include words.
+            <see cref="M:Microsoft.VisualStudio.TextTemplating.TextTransformation.PushIndent(System.String)"/> adds text to <see cref="P:Microsoft.VisualStudio.TextTemplating.TextTransformation.CurrentIndent"/>, and can be called more than once.
+            <see cref="M:Microsoft.VisualStudio.TextTemplating.TextTransformation.PopIndent"/> removes the most recently added text from <see cref="P:Microsoft.VisualStudio.TextTemplating.TextTransformation.CurrentIndent"/>, and can be
+            called more than once. <see cref="M:Microsoft.VisualStudio.TextTemplating.TextTransformation.ClearIndent"/> removes all text from the <see cref="P:Microsoft.VisualStudio.TextTemplating.TextTransformation.CurrentIndent"/>.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TextTemplating.TextTransformation.ClearIndent">
+            <summary>
+            Resets the <see cref="P:Microsoft.VisualStudio.TextTemplating.TextTransformation.CurrentIndent"/> to an empty string.
+            </summary>
+            
+            <remarks>
+            The <see cref="P:Microsoft.VisualStudio.TextTemplating.TextTransformation.CurrentIndent"/> represents text that is prefixed to each line of the generated text output.
+            The indent text can be spaces only, for example "    ", or it can include words.
+            <see cref="M:Microsoft.VisualStudio.TextTemplating.TextTransformation.PushIndent(System.String)"/> adds text to <see cref="P:Microsoft.VisualStudio.TextTemplating.TextTransformation.CurrentIndent"/>, and can be called more than once.
+            <see cref="M:Microsoft.VisualStudio.TextTemplating.TextTransformation.PopIndent"/> removes the most recently added text from <see cref="P:Microsoft.VisualStudio.TextTemplating.TextTransformation.CurrentIndent"/>, and can be
+            called more than once. <see cref="M:Microsoft.VisualStudio.TextTemplating.TextTransformation.ClearIndent"/> removes all text from the <see cref="P:Microsoft.VisualStudio.TextTemplating.TextTransformation.CurrentIndent"/>.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TextTemplating.TextTransformation.ToStringWithCulture(System.Object)">
+            <summary>
+            Returns a <b>String</b> that represents the specified <b>Object</b>.
+            </summary>
+            
+            <param name="objectToConvert">
+            The <see cref="T:System.Object"/> to represent as a <see cref="T:System.String"/>.
+            </param>
+            
+            <returns>
+            A <b>String</b> that represents the specified <b>Object</b>.
+            </returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TextTemplating.TextTransformation.Write(System.Object)">
+            <summary>
+            Appends a string representation of the specified object to the generated text output.
+            </summary>
+            
+            <param name="objectToAppend">
+            The <see cref="T:System.Object"/> to append.
+            </param>
+            
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <para>
+            Enlarging the value of the underlying <see cref="T:System.Text.StringBuilder"/> would exceed
+            <see cref="P:System.Text.StringBuilder.MaxCapacity"/>.
+            </para>
+            </exception>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TextTemplating.TextTransformation.Write(System.String)">
+            <summary>
+            Appends a copy of the specified string to the generated text output.
+            </summary>
+            
+            <param name="textToAppend">
+            The string to append.
+            </param>
+            
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <para>
+            Enlarging the value of the underlying <see cref="T:System.Text.StringBuilder"/> would exceed
+            <see cref="P:System.Text.StringBuilder.MaxCapacity"/>.
+            </para>
+            </exception>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TextTemplating.TextTransformation.Write(System.String,System.Object[])">
+            <summary>
+            Appends a formatted string, which contains zero or more format specifications, to the generated text output.
+            Each format specification is replaced by the string representation of a corresponding object argument.
+            </summary>
+            
+            <param name="format">
+            A string that contains zero or more format specifications.
+            </param>
+            
+            <param name="args">
+            An array of objects to format.
+            </param>
+            
+            <exception cref="T:System.ArgumentNullException">
+            <para>
+            <paramref name="format"/> is <see langword="null"/>.
+            </para>
+            <para>
+            -or-
+            </para>
+            <para>
+            <paramref name="args"/> is <see langword="null"/>.
+            </para>
+            </exception>
+            
+            <exception cref="T:System.FormatException">
+            <para>
+            <paramref name="format"/> is invalid.
+            </para>
+            </exception>
+            
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <para>
+            Enlarging the value of the underlying <see cref="T:System.Text.StringBuilder"/> would exceed
+            <see cref="P:System.Text.StringBuilder.MaxCapacity"/>.
+            </para>
+            </exception>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TextTemplating.TextTransformation.WriteLine(System.String)">
+            <summary>
+            Appends a copy of the specified string and the default line terminator to the generated text output.
+            </summary>
+            
+            <param name="textToAppend">
+            The string to write.
+            </param>
+            
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <para>
+            Enlarging the value of the underlying <see cref="T:System.Text.StringBuilder"/> would exceed
+            <see cref="P:System.Text.StringBuilder.MaxCapacity"/>.
+            </para>
+            </exception>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TextTemplating.TextTransformation.WriteLine(System.String,System.Object[])">
+            <summary>
+            Appends a formatted string, which contains zero or more format specifications, and the default line
+            terminator, to the generated text output. Each format specification is replaced by the string representation
+            of a corresponding object argument.
+            </summary>
+            
+            <param name="format">
+            A string that contains zero or more format specifications.
+            </param>
+            
+            <param name="args">
+            An array of objects to format.
+            </param>
+            
+            <exception cref="T:System.ArgumentNullException">
+            <para>
+            <paramref name="format"/> is <see langword="null"/>.
+            </para>
+            <para>
+            -or-
+            </para>
+            <para>
+            <paramref name="args"/> is <see langword="null"/>.
+            </para>
+            </exception>
+            
+            <exception cref="T:System.FormatException">
+            <para>
+            <paramref name="format"/> is invalid.
+            </para>
+            </exception>
+            
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <para>
+            Enlarging the value of the underlying <see cref="T:System.Text.StringBuilder"/> would exceed
+            <see cref="P:System.Text.StringBuilder.MaxCapacity"/>.
+            </para>
+            </exception>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TextTemplating.TextTransformation.Dispose">
+            <summary>
+            Releases all resources used by the <see cref="T:Microsoft.VisualStudio.TextTemplating.TextTransformation"/>.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TextTemplating.TextTransformation.Dispose(System.Boolean)">
+            <summary>
+            Releases the unmanaged resources used by the <see cref="T:Microsoft.VisualStudio.TextTemplating.TextTransformation"/> and optionally releases the
+            managed resources.
+            </summary>
+            
+            <param name="disposing">
+            <see langword="true"/> to release both managed and unmanaged resources; <see langword="false"/> to release
+            only unmanaged resources.
+            </param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TextTemplating.TextTransformation.Finalize">
+            <summary>
+            Destructor.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.TextTemplating.TextTransformation.Errors">
+            <summary>
+            Gets the error collection for the text template transformation process.
+            </summary>
+            
+            <value>
+            A <see cref="T:System.CodeDom.Compiler.CompilerErrorCollection"/> that contains the errors and warnings raised during the text
+            template transformation process. 
+            </value>
+        </member>
+        <member name="P:Microsoft.VisualStudio.TextTemplating.TextTransformation.CurrentIndent">
+            <summary>
+            Gets the current indent text, which is prefixed to each line of the generated text output.
+            </summary>
+            
+            <value>
+            A <see cref="T:System.String"/> that contains the text that is prefixed to each line of the generated text output.
+            </value>
+            
+            <remarks>
+            The <see cref="P:Microsoft.VisualStudio.TextTemplating.TextTransformation.CurrentIndent"/> represents text that is prefixed to each line of the generated text output.
+            The indent text can be spaces only, for example "    ", or it can include words.
+            <see cref="M:Microsoft.VisualStudio.TextTemplating.TextTransformation.PushIndent(System.String)"/> adds text to <see cref="P:Microsoft.VisualStudio.TextTemplating.TextTransformation.CurrentIndent"/>, and can be called more than once.
+            <see cref="M:Microsoft.VisualStudio.TextTemplating.TextTransformation.PopIndent"/> removes the most recently added text from <see cref="P:Microsoft.VisualStudio.TextTemplating.TextTransformation.CurrentIndent"/>, and can be
+            called more than once. <see cref="M:Microsoft.VisualStudio.TextTemplating.TextTransformation.ClearIndent"/> removes all text from the <see cref="P:Microsoft.VisualStudio.TextTemplating.TextTransformation.CurrentIndent"/>.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.VisualStudio.TextTemplating.TextTransformation.GenerationEnvironment">
+            <summary>
+            Gets or sets the string that the text template transformation process is using to assemble the generated
+            text output.
+            </summary>
+            
+            <value>
+            A <see cref="T:System.Text.StringBuilder"/> that contains the generated text transformation.
+            </value>
+        </member>
         <member name="T:SoftwareNinjas.Core.AssemblyExtensions">
             <summary>
             Extension methods to augment the <see cref="T:System.Reflection.Assembly"/> class.
