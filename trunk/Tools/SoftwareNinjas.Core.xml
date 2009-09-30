@@ -1016,6 +1016,19 @@
             
             <seealso cref="M:System.String.Format(System.IFormatProvider,System.String,System.Object[])"/>
         </member>
+        <member name="M:SoftwareNinjas.Core.StringExtensions.Lines(System.String)">
+            <summary>
+            Enumerates the lines of text inside the string.
+            </summary>
+            
+            <param name="input">
+            The string to process on a line-by-line basis.
+            </param>
+            
+            <returns>
+            An enumeration of the lines contained in <paramref name="input"/>.
+            </returns>
+        </member>
         <member name="T:System.Action">
             <summary>
             Encapsulates a method that takes no parameters and does not return a value.
@@ -1423,6 +1436,24 @@
             <summary>
             Tests <see cref="M:SoftwareNinjas.Core.StringExtensions.FormatProvider(System.String,System.IFormatProvider,System.Object[])"/>
             with one argument.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.StringExtensions.Lines_Empty">
+            <summary>
+            Tests <see cref="M:SoftwareNinjas.Core.StringExtensions.Lines(System.String)"/>
+            with an empty string.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.StringExtensions.Lines_OneLine">
+            <summary>
+            Tests <see cref="M:SoftwareNinjas.Core.StringExtensions.Lines(System.String)"/>
+            with a string that's only one line.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.StringExtensions.Lines_Typical">
+            <summary>
+            Tests <see cref="M:SoftwareNinjas.Core.StringExtensions.Lines(System.String)"/>
+            with a multi-line string.
             </summary>
         </member>
     </members>

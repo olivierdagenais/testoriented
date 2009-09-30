@@ -118,7 +118,6 @@
     <None Include="SoftwareNinjas.NAnt.dll" />
     <None Include="SoftwareNinjas.NAnt.xml" />
     <None Include="SoftwareNinjas.MSBuild.dll" />
-    <None Include="SoftwareNinjas.MSBuild.xml" />
     <None Include="ICSharpCode.SharpZipLib.dll" />
   </ItemGroup>
   <ItemGroup>

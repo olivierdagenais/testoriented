@@ -1,0 +1,9 @@
+﻿<#@ template language="C#v3.5" #>
+
+/**
+ * Tests the <i><#= MethodName #></i> method with
+ * TODO: write about scenario
+ */
+@Test public void <#= MethodName #>_TODO ( ) {
+<#= Body #>
+}

@@ -11,15 +11,6 @@ namespace SoftwareNinjas.TestOriented.Core
     /// </summary>
     public class UnitTest
     {
-        internal const string JavaMethodBody = @"
-/**
- * Tests the <i>{0}</i> method with
- * TODO: write about scenario
- */
-@Test public void {0}_TODO ( ) {{
-{1}
-}}
-";
         /// <summary>
         /// Generates a string representation of a Java unit test method.
         /// </summary>
@@ -38,7 +29,8 @@ namespace SoftwareNinjas.TestOriented.Core
         public static string GenerateJavaMethod(string methodName, string body)
         {
             // TODO: the previous version handled a custom newLine
-            return JavaMethodBody.FormatInvariant(methodName, body);
+			var jmb = new JavaMethod() { MethodName = methodName, Body = body };
+            return jmb.TransformText();
         }
     }
 }
