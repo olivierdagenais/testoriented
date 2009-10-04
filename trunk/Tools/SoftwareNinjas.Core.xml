@@ -1271,6 +1271,98 @@
             The return value of the method that this delegate encapsulates.
             </returns>
         </member>
+        <member name="T:System.Linq.Enumerable">
+            <summary>
+            Re-implements parts of System.Core.dll for use with .NET 2.0
+            </summary>
+        </member>
+        <member name="M:System.Linq.Enumerable.Last``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Returns the last element of a sequence.
+            </summary>
+            
+            <typeparam name="TSource">
+            The type of the elements of <paramref name="source"/>.
+            </typeparam>
+            
+            <param name="source">
+            An <see cref="T:System.Collections.Generic.IEnumerable`1"/> to return the last element of.
+            </param>
+            
+            <returns>
+            The value at the last position in the source sequence.
+            </returns>
+            
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="source"/> is <see langword="null"/>.
+            </exception>
+            
+            <exception cref="T:System.InvalidOperationException">
+            The source sequence is empty.
+            </exception>
+        </member>
+        <member name="M:System.Linq.Enumerable.Any``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Determines whether a sequence contains any elements.
+            </summary>
+            
+            <typeparam name="TSource">
+            The type of the elements of <paramref name="source"/>.
+            </typeparam>
+            
+            <param name="source">
+            An <see cref="T:System.Collections.Generic.IEnumerable`1"/> to check for emptiness.
+            </param>
+            
+            <returns>
+            <see langword="true"/> if the source sequence contains any elements; otherwise <see langword="false"/>.
+            </returns>
+            
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="source"/> is <see langword="null"/>.
+            </exception>
+        </member>
+        <member name="T:System.Linq.Test.Enumerable">
+            <summary>
+            A class to test <see cref="T:System.Linq.Enumerable"/>.
+            </summary>
+        </member>
+        <member name="M:System.Linq.Test.Enumerable.Last_FromMsdnExample">
+            <summary>
+            Tests <see cref="M:System.Linq.Enumerable.Last``1(System.Collections.Generic.IEnumerable{``0})"/>
+            with an adaptation of the example in the MSDN code documentation.
+            </summary>
+        </member>
+        <member name="M:System.Linq.Test.Enumerable.Last_EmptySequence">
+            <summary>
+            Tests <see cref="M:System.Linq.Enumerable.Last``1(System.Collections.Generic.IEnumerable{``0})"/>
+            with an empty sequence.
+            </summary>
+        </member>
+        <member name="M:System.Linq.Test.Enumerable.Last_NullSequence">
+            <summary>
+            Tests <see cref="M:System.Linq.Enumerable.Last``1(System.Collections.Generic.IEnumerable{``0})"/>
+            with a null sequence.
+            </summary>
+        </member>
+        <member name="M:System.Linq.Test.Enumerable.Any_FromMsdnExample">
+            <summary>
+            Tests <see cref="M:System.Linq.Enumerable.Any``1(System.Collections.Generic.IEnumerable{``0})"/>
+            with an adaptation of the example in the MSDN code documentation.
+            </summary>
+        </member>
+        <member name="M:System.Linq.Test.Enumerable.Any_EmptySequence">
+            <summary>
+            Tests <see cref="M:System.Linq.Enumerable.Any``1(System.Collections.Generic.IEnumerable{``0})"/>
+            with an empty sequence.
+            </summary>
+        </member>
+        <member name="M:System.Linq.Test.Enumerable.Any_NullSequence">
+            <summary>
+            Tests <see cref="M:System.Linq.Enumerable.Any``1(System.Collections.Generic.IEnumerable{``0})"/>
+            with a null sequence.
+            </summary>
+        </member>
         <member name="T:System.Runtime.CompilerServices.ExtensionAttribute">
             <summary>
             Enable C# 3.0 extensions without referencing System.Core.dll

@@ -33,11 +33,11 @@
     <DocumentationFile>bin\Release\SoftwareNinjas.TestOriented.Core.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=2.2.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+    <Reference Include="nunit.framework">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Tools\nant\bin\lib\net\2.0\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="SoftwareNinjas.Core, Version=1.0.8.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="SoftwareNinjas.Core">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Tools\SoftwareNinjas.Core.dll</HintPath>
     </Reference>
@@ -55,6 +55,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="JavaMethod.tt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NRefactory\NRefactory.csproj">
+      <Project>{78DF77DD-5BA5-4155-B58E-5C178FB79F7A}</Project>
+      <Name>NRefactory</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <UsingTask TaskName="SoftwareNinjas.MSBuild.TemplateCompiler" AssemblyFile="..\Tools\SoftwareNinjas.MSBuild.dll" />
