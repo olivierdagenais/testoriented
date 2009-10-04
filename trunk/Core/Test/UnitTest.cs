@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+
+using ICSharpCode.NRefactory.Ast;
 
 using NUnit.Framework;
 using Parent = SoftwareNinjas.TestOriented.Core;
@@ -13,35 +13,26 @@ namespace SoftwareNinjas.TestOriented.Core.Test
     [TestFixture]
     public class UnitTest
     {
-        /// <summary>
-        /// Tests the <see cref="Parent.UnitTest.GenerateJavaMethod(String, String)"/> method with a typical use-case.
-        /// </summary>
-        [Test]
-        public void GenerateJavaMethod_Typical()
-        {
-            var expectedMethod = @"
-/**
- * Tests the <i>unformat</i> method with
- * TODO: write about scenario
- */
-@Test public void unformat_TODO ( ) {
-    Unformatter unformatter = new Unformatter (  );
-	fail ( ""TODO: initialize variable(s) and expected value"" );
-	String format = ""TODO"";
-	String formatted = ""TODO"";
-	String[] actual = unformatter.unformat ( format, formatted );
-	String[] expected = new String[] { ""TODO"" };
-	assertEquals ( expected, actual );
+		/// <summary>
+		/// Tests the <see cref="Parent.UnitTest.GenerateTestMethod(MethodDeclaration)"/>
+		/// with a typical use-case.
+		/// </summary>
+		[Test]
+		public void GenerateTestMethod_Typical()
+		{
+			var t = new MethodDeclaration {Name = "Unformat"};
+			const string expected = @"
+/// <summary>
+/// Tests the <c>Unformat</c> method with
+/// TODO: write about scenario
+/// </summary>
+[Test]
+public void Unformat_TODO ( ) {
+	// TODO: invoke Unformat and assert properties of its effects/output
+	Assert.Fail ( ""Test not yet written"" );
 }
 ";
-            var body = @"    Unformatter unformatter = new Unformatter (  );
-	fail ( ""TODO: initialize variable(s) and expected value"" );
-	String format = ""TODO"";
-	String formatted = ""TODO"";
-	String[] actual = unformatter.unformat ( format, formatted );
-	String[] expected = new String[] { ""TODO"" };
-	assertEquals ( expected, actual );";
-            Assert.AreEqual(expectedMethod, Parent.UnitTest.GenerateJavaMethod("unformat", body));
-        }
+			Assert.AreEqual(expected, Parent.UnitTest.GenerateTestMethod(t));
+		}
     }
 }

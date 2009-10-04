@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using SoftwareNinjas.Core;
+using ICSharpCode.NRefactory.Ast;
 
 namespace SoftwareNinjas.TestOriented.Core
 {
@@ -11,26 +12,21 @@ namespace SoftwareNinjas.TestOriented.Core
     /// </summary>
     public class UnitTest
     {
-        /// <summary>
-        /// Generates a string representation of a Java unit test method.
-        /// </summary>
-        /// 
-        /// <param name="methodName">
-        /// The name of the method.
-        /// </param>
-        /// 
-        /// <param name="body">
-        /// The body of the method.
-        /// </param>
-        /// 
-        /// <returns>
-        /// A JUnit test method stub.
-        /// </returns>
-        public static string GenerateJavaMethod(string methodName, string body)
-        {
-            // TODO: the previous version handled a custom newLine
-			var jmb = new JavaMethod() { MethodName = methodName, Body = body };
-            return jmb.TransformText();
-        }
+		/// <summary>
+		/// Generates a string representation of a C# unit test method.
+		/// </summary>
+		/// 
+		/// <param name="method">
+		/// A <see cref="MethodDeclaration"/> representing the method for which a test is to be written.
+		/// </param>
+		/// 
+		/// <returns>
+		/// A C# NUnit test method stub.
+		/// </returns>
+		public static string GenerateTestMethod(MethodDeclaration method)
+		{
+			var template = new TestMethod { Method = method };
+			return template.TransformText();
+		}
     }
 }

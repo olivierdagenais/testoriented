@@ -11,20 +11,20 @@
 namespace SoftwareNinjas.TestOriented.Core {
     
     
-    public partial class JavaMethod : Microsoft.VisualStudio.TextTemplating.TextTransformation {
+    public partial class TestMethod : Microsoft.VisualStudio.TextTemplating.TextTransformation {
         
         /// <summary>
-        /// Initializes a new instance of the <see cref="JavaMethod"/> class.
+        /// Initializes a new instance of the <see cref="TestMethod"/> class.
         /// </summary>
-        public JavaMethod() : 
+        public TestMethod() : 
                 base() {
         }
         
         /// <summary>
-        /// Initializes a new instance of the <see cref="JavaMethod"/> class
+        /// Initializes a new instance of the <see cref="TestMethod"/> class
         /// using the specified <paramref name="formatProvider"/>
         /// </summary>
-        public JavaMethod(System.IFormatProvider formatProvider) : 
+        public TestMethod(System.IFormatProvider formatProvider) : 
                 base(formatProvider) {
         }
         
@@ -45,44 +45,46 @@ namespace SoftwareNinjas.TestOriented.Core {
         /// </remarks>
         public override string TransformText() {
             
-            #line 2 "JavaMethod.tt"
-            this.Write("\r\n/**\r\n * Tests the <i>");
+            #line 2 "TestMethod.tt"
+            this.Write("\r\n/// <summary>\r\n/// Tests the <c>");
             
             #line default
             #line hidden
             
-            #line 4 "JavaMethod.tt"
-            this.Write( MethodName );
+            #line 4 "TestMethod.tt"
+            this.Write( Method.Name );
             
             #line default
             #line hidden
             
-            #line 4 "JavaMethod.tt"
-            this.Write("</i> method with\r\n * TODO: write about scenario\r\n */\r\n@Test public void ");
+            #line 4 "TestMethod.tt"
+            this.Write("</c> method with\r\n/// TODO: write about scenario\r\n/// </summary>\r\n[Test]\r\npublic " +
+                    "void ");
             
             #line default
             #line hidden
             
-            #line 7 "JavaMethod.tt"
-            this.Write( MethodName );
+            #line 8 "TestMethod.tt"
+            this.Write( Method.Name );
             
             #line default
             #line hidden
             
-            #line 7 "JavaMethod.tt"
-            this.Write("_TODO ( ) {\r\n");
+            #line 8 "TestMethod.tt"
+            this.Write("_TODO ( ) {\r\n\t// TODO: invoke ");
             
             #line default
             #line hidden
             
-            #line 8 "JavaMethod.tt"
-            this.Write( Body );
+            #line 9 "TestMethod.tt"
+            this.Write( Method.Name );
             
             #line default
             #line hidden
             
-            #line 8 "JavaMethod.tt"
-            this.Write("\r\n}\r\n");
+            #line 9 "TestMethod.tt"
+            this.Write(" and assert properties of its effects/output\r\n\tAssert.Fail ( \"Test not yet writte" +
+                    "n\" );\r\n}\r\n");
             
             #line default
             #line hidden
