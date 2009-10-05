@@ -110,19 +110,19 @@ namespace SoftwareNinjas.TestOriented.Core {
             #line hidden
             
             #line 13 "TestMethod.tt"
-            this.Write(" = default(");
+            this.Write(" = ");
             
             #line default
             #line hidden
             
             #line 13 "TestMethod.tt"
-            this.Write( parameter.TypeReference );
+            this.Write( DefaultValue(parameter.TypeReference) );
             
             #line default
             #line hidden
             
             #line 13 "TestMethod.tt"
-            this.Write(");\r\n");
+            this.Write(";\r\n");
             
             #line default
             #line hidden
@@ -195,19 +195,19 @@ namespace SoftwareNinjas.TestOriented.Core {
             #line hidden
             
             #line 17 "TestMethod.tt"
-            this.Write(" expected = default(");
+            this.Write(" expected = ");
             
             #line default
             #line hidden
             
             #line 17 "TestMethod.tt"
-            this.Write( Method.TypeReference );
+            this.Write( DefaultValue(Method.TypeReference) );
             
             #line default
             #line hidden
             
             #line 17 "TestMethod.tt"
-            this.Write(");\r\n\tAssert.AreEqual ( expected, actual );\r\n}\r\n");
+            this.Write(";\r\n\tAssert.AreEqual ( expected, actual );\r\n}\r\n");
             
             #line default
             #line hidden

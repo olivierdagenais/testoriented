@@ -14,8 +14,8 @@ namespace SoftwareNinjas.TestOriented.Core.Test
     public class UnitTest
     {
 		/// <summary>
-		/// Tests the <see cref="Parent.UnitTest.GenerateTestMethod(MethodDeclaration, TypeDeclaration)"/>
-		/// with a typical use-case.
+		/// Tests the <see cref="Parent.UnitTest.GenerateTestMethod(MethodDeclaration, TypeDeclaration)"/> method with
+		/// a typical use-case.
 		/// </summary>
 		[Test]
 		public void GenerateTestMethod_Typical()
@@ -45,7 +45,6 @@ namespace SoftwareNinjas.TestOriented.Core.Test
 
 			classUnderTest.Children.Add(methodToTest);
 			#endregion
-			// TODO: implement a more explicit default value mechanism
 			const string expected = @"
 /// <summary>
 /// Tests the <c>Unformat</c> method with
@@ -54,8 +53,8 @@ namespace SoftwareNinjas.TestOriented.Core.Test
 [Test]
 public void Unformat_TODO ( ) {
 	Assert.Fail ( ""TODO: initialize variable(s) and expected value"" );
-	string format = default(string);
-	string formatted = default(string);
+	string format = ""TODO"";
+	string formatted = ""TODO"";
 	string[] actual = Unformatter.Unformat ( format, formatted );
 	string[] expected = default(string[]);
 	Assert.AreEqual ( expected, actual );
@@ -71,13 +70,13 @@ public void Unformat_TODO ( ) {
 		[Test]
 		public void Unformat_TODO() {
 			//Assert.Fail ( "TODO: initialize variable(s) and expected value" );
-			string format = default(string);
-			string formatted = default(string);
+			string format = "TODO";
+			string formatted = "TODO";
 			string[] actual = Unformatter.Unformat ( format, formatted );
 			string[] expected = default(string[]);
 			Assert.AreEqual ( expected, actual );
 		}
-    }
+	}
 
 	/// <summary>
 	/// A class to support the generated test used to verify unit test generation.

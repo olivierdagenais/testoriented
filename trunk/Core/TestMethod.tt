@@ -10,10 +10,10 @@
 public void <#= Method.Name #>_TODO ( ) {
 	Assert.Fail ( "TODO: initialize variable(s) and expected value" );
 <# foreach ( var parameter in Method.Parameters ) { #>
-	<#= parameter.TypeReference #> <#= parameter.ParameterName #> = default(<#= parameter.TypeReference #>);
+	<#= parameter.TypeReference #> <#= parameter.ParameterName #> = <#= DefaultValue(parameter.TypeReference) #>;
 <# } #>
 	<#= Method.TypeReference #> actual = <#= ClassUnderTest.Name #>.<#= Method.Name #> ( <#= 
 		Method.Parameters.Join(", ", p => p.ParameterName ) #> );
-	<#= Method.TypeReference #> expected = default(<#= Method.TypeReference #>);
+	<#= Method.TypeReference #> expected = <#= DefaultValue(Method.TypeReference) #>;
 	Assert.AreEqual ( expected, actual );
 }
