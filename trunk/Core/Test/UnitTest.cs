@@ -20,7 +20,7 @@ namespace SoftwareNinjas.TestOriented.Core.Test
 		[Test]
 		public void GenerateTestMethod_Typical()
 		{
-			#region public class Unformatter
+			#region public static class Unformatter
 			var classUnderTest = new TypeDeclaration(Modifiers.Public | Modifiers.Static, null){ Name = "Unformatter" };
 
 			#region public static string[] Unformat ( this string format, string formatted )
@@ -75,6 +75,87 @@ public void Unformat_TODO ( ) {
 			string[] actual = Unformatter.Unformat ( format, formatted );
 			string[] expected = default(string[]);
 			Assert.AreEqual ( expected, actual );
+		}
+
+		/// <summary>
+		/// A class to support generated tests.
+		/// </summary>
+		public class Cruncher
+		{
+			private static int _z;
+
+			/// <summary>
+			/// </summary>
+			/// <param name="x"></param>
+			/// <param name="y"></param>
+			public static void CrunchNumbers(int x, int y)
+			{
+				_z += x * y;
+			}
+		}
+
+		/// <summary>
+		/// Tests the <see cref="Parent.UnitTest.GenerateTestMethod(MethodDeclaration, TypeDeclaration)"/> method with
+		/// an instance method that returns no value.
+		/// </summary>
+		[Test]
+		public void GenerateTestMethod_MethodWithNotReturnValue()
+		{
+			#region public class Cruncher
+			var classUnderTest = new TypeDeclaration(Modifiers.Public | Modifiers.Static, null) { Name = "Cruncher" };
+
+			#region public static void CrunchNumbers ( int x, int y )
+			var methodToTest = new MethodDeclaration
+			{
+				Name = "CrunchNumbers", Modifier = Modifiers.Public | Modifiers.Static
+			};
+
+			#region returns void
+			var retval = new TypeReference("void", true);
+			methodToTest.TypeReference = retval;
+			#endregion
+
+			#region int x
+			var xParam = new ParameterDeclarationExpression(new TypeReference("int", true), "x");
+			methodToTest.Parameters.Add(xParam);
+			#endregion
+
+			#region int y
+			var yParam = new ParameterDeclarationExpression(new TypeReference("int", true), "y");
+			methodToTest.Parameters.Add(yParam);
+			#endregion
+
+			#endregion
+
+			classUnderTest.Children.Add(methodToTest);
+			#endregion
+
+			const string expected = @"
+/// <summary>
+/// Tests the <c>CrunchNumbers</c> method with
+/// TODO: write about scenario
+/// </summary>
+[Test]
+public void CrunchNumbers_TODO ( ) {
+	Assert.Fail ( ""TODO: initialize variable(s)"" );
+	int x = 0;
+	int y = 0;
+	Cruncher.CrunchNumbers ( x, y );
+}
+";
+			Assert.AreEqual(expected, Parent.UnitTest.GenerateTestMethod(methodToTest, classUnderTest));
+		}
+
+		/// <summary>
+		/// Tests the <c>CrunchNumbers</c> method with
+		/// TODO: write about scenario
+		/// </summary>
+		[Test]
+		public void CrunchNumbers_TODO() {
+			// Assert.Fail ( "TODO: initialize variable(s)" );
+			int x = 0;
+			int y = 0;
+			Cruncher.CrunchNumbers ( x, y );
 		}
 	}
 

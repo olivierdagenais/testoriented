@@ -8,12 +8,15 @@
 /// </summary>
 [Test]
 public void <#= Method.Name #>_TODO ( ) {
-	Assert.Fail ( "TODO: initialize variable(s) and expected value" );
+	Assert.Fail ( "TODO: initialize variable(s)<# if ( HasReturnValue ) { #> and expected value<# } #>" );
 <# foreach ( var parameter in Method.Parameters ) { #>
 	<#= parameter.TypeReference #> <#= parameter.ParameterName #> = <#= DefaultValue(parameter.TypeReference) #>;
 <# } #>
-	<#= Method.TypeReference #> actual = <#= ClassUnderTest.Name #>.<#= Method.Name #> ( <#= 
+	<# if ( HasReturnValue ) { #><#= Method.TypeReference #> actual = <#
+	} #><#= ClassUnderTest.Name #>.<#= Method.Name #> ( <#= 
 		Method.Parameters.Join(", ", p => p.ParameterName ) #> );
+<# if ( HasReturnValue ) { #>
 	<#= Method.TypeReference #> expected = <#= DefaultValue(Method.TypeReference) #>;
 	Assert.AreEqual ( expected, actual );
+<# } #>
 }

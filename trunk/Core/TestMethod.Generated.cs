@@ -73,66 +73,41 @@ namespace SoftwareNinjas.TestOriented.Core {
             #line hidden
             
             #line 10 "TestMethod.tt"
-            this.Write("_TODO ( ) {\r\n\tAssert.Fail ( \"TODO: initialize variable(s) and expected value\" );\r" +
-                    "\n");
+            this.Write("_TODO ( ) {\r\n\tAssert.Fail ( \"TODO: initialize variable(s)");
+            
+            #line default
+            #line hidden
+            
+            #line 11 "TestMethod.tt"
+ if ( HasReturnValue ) { 
             
             #line default
             #line hidden
             
             #line 12 "TestMethod.tt"
- foreach ( var parameter in Method.Parameters ) { 
+            this.Write(" and expected value");
             
             #line default
             #line hidden
             
-            #line 13 "TestMethod.tt"
-            this.Write("\t");
-            
-            #line default
-            #line hidden
-            
-            #line 13 "TestMethod.tt"
-            this.Write( parameter.TypeReference );
-            
-            #line default
-            #line hidden
-            
-            #line 13 "TestMethod.tt"
-            this.Write(" ");
-            
-            #line default
-            #line hidden
-            
-            #line 13 "TestMethod.tt"
-            this.Write( parameter.ParameterName );
-            
-            #line default
-            #line hidden
-            
-            #line 13 "TestMethod.tt"
-            this.Write(" = ");
-            
-            #line default
-            #line hidden
-            
-            #line 13 "TestMethod.tt"
-            this.Write( DefaultValue(parameter.TypeReference) );
-            
-            #line default
-            #line hidden
-            
-            #line 13 "TestMethod.tt"
-            this.Write(";\r\n");
-            
-            #line default
-            #line hidden
-            
-            #line 14 "TestMethod.tt"
+            #line 12 "TestMethod.tt"
  } 
             
             #line default
             #line hidden
             
+            #line 13 "TestMethod.tt"
+            this.Write("\" );\r\n");
+            
+            #line default
+            #line hidden
+            
+            #line 14 "TestMethod.tt"
+ foreach ( var parameter in Method.Parameters ) { 
+            
+            #line default
+            #line hidden
+            
             #line 15 "TestMethod.tt"
             this.Write("\t");
             
@@ -140,74 +115,159 @@ namespace SoftwareNinjas.TestOriented.Core {
             #line hidden
             
             #line 15 "TestMethod.tt"
+            this.Write( parameter.TypeReference );
+            
+            #line default
+            #line hidden
+            
+            #line 15 "TestMethod.tt"
+            this.Write(" ");
+            
+            #line default
+            #line hidden
+            
+            #line 15 "TestMethod.tt"
+            this.Write( parameter.ParameterName );
+            
+            #line default
+            #line hidden
+            
+            #line 15 "TestMethod.tt"
+            this.Write(" = ");
+            
+            #line default
+            #line hidden
+            
+            #line 15 "TestMethod.tt"
+            this.Write( DefaultValue(parameter.TypeReference) );
+            
+            #line default
+            #line hidden
+            
+            #line 15 "TestMethod.tt"
+            this.Write(";\r\n");
+            
+            #line default
+            #line hidden
+            
+            #line 16 "TestMethod.tt"
+ } 
+            
+            #line default
+            #line hidden
+            
+            #line 17 "TestMethod.tt"
+            this.Write("\t");
+            
+            #line default
+            #line hidden
+            
+            #line 17 "TestMethod.tt"
+ if ( HasReturnValue ) { 
+            
+            #line default
+            #line hidden
+            
+            #line 18 "TestMethod.tt"
             this.Write( Method.TypeReference );
             
             #line default
             #line hidden
             
-            #line 15 "TestMethod.tt"
+            #line 18 "TestMethod.tt"
             this.Write(" actual = ");
             
             #line default
             #line hidden
             
-            #line 15 "TestMethod.tt"
+            #line 18 "TestMethod.tt"
+
+	} 
+            
+            #line default
+            #line hidden
+            
+            #line 20 "TestMethod.tt"
             this.Write( ClassUnderTest.Name );
             
             #line default
             #line hidden
             
-            #line 15 "TestMethod.tt"
+            #line 20 "TestMethod.tt"
             this.Write(".");
             
             #line default
             #line hidden
             
-            #line 15 "TestMethod.tt"
+            #line 20 "TestMethod.tt"
             this.Write( Method.Name );
             
             #line default
             #line hidden
             
-            #line 15 "TestMethod.tt"
+            #line 20 "TestMethod.tt"
             this.Write(" ( ");
             
             #line default
             #line hidden
             
-            #line 15 "TestMethod.tt"
+            #line 20 "TestMethod.tt"
             this.Write( 
 		Method.Parameters.Join(", ", p => p.ParameterName ) );
             
             #line default
             #line hidden
             
-            #line 16 "TestMethod.tt"
-            this.Write(" );\r\n\t");
+            #line 21 "TestMethod.tt"
+            this.Write(" );\r\n");
             
             #line default
             #line hidden
             
-            #line 17 "TestMethod.tt"
+            #line 22 "TestMethod.tt"
+ if ( HasReturnValue ) { 
+            
+            #line default
+            #line hidden
+            
+            #line 23 "TestMethod.tt"
+            this.Write("\t");
+            
+            #line default
+            #line hidden
+            
+            #line 23 "TestMethod.tt"
             this.Write( Method.TypeReference );
             
             #line default
             #line hidden
             
-            #line 17 "TestMethod.tt"
+            #line 23 "TestMethod.tt"
             this.Write(" expected = ");
             
             #line default
             #line hidden
             
-            #line 17 "TestMethod.tt"
+            #line 23 "TestMethod.tt"
             this.Write( DefaultValue(Method.TypeReference) );
             
             #line default
             #line hidden
             
-            #line 17 "TestMethod.tt"
-            this.Write(";\r\n\tAssert.AreEqual ( expected, actual );\r\n}\r\n");
+            #line 23 "TestMethod.tt"
+            this.Write(";\r\n\tAssert.AreEqual ( expected, actual );\r\n");
+            
+            #line default
+            #line hidden
+            
+            #line 25 "TestMethod.tt"
+ } 
+            
+            #line default
+            #line hidden
+            
+            #line 26 "TestMethod.tt"
+            this.Write("}\r\n");
             
             #line default
             #line hidden

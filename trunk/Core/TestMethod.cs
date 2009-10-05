@@ -26,6 +26,25 @@ namespace SoftwareNinjas.TestOriented.Core
 		};
 
 		/// <summary>
+		/// Determines if the <see cref="Method"/> that will be tested is expected to return a value.
+		/// </summary>
+		/// 
+		/// <returns>
+		/// <see langword="true"/> if the <see cref="Method"/> returns a value; <see langword="false"/> otherwise.
+		/// </returns>
+		public bool HasReturnValue
+		{
+			get
+			{
+				return !(
+					Method.TypeReference.IsNull
+					|| "System.Void" == Method.TypeReference.Type
+					|| "void" == Method.TypeReference.Type
+				);
+			}
+		}
+
+		/// <summary>
 		/// The method being tested.
 		/// </summary>
 		public MethodDeclaration Method { get; set; }
