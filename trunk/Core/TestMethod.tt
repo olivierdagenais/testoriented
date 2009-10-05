@@ -1,4 +1,6 @@
 ﻿<#@ template language="C#v3.5" #>
+<#@ import namespace="SoftwareNinjas.Core" #>
+<#@ import namespace="ICSharpCode.NRefactory.Ast" #>
 
 /// <summary>
 /// Tests the <c><#= Method.Name #></c> method with
@@ -6,6 +8,12 @@
 /// </summary>
 [Test]
 public void <#= Method.Name #>_TODO ( ) {
-	// TODO: invoke <#= Method.Name #> and assert properties of its effects/output
-	Assert.Fail ( "Test not yet written" );
+	Assert.Fail ( "TODO: initialize variable(s) and expected value" );
+<# foreach ( var parameter in Method.Parameters ) { #>
+	<#= parameter.TypeReference #> <#= parameter.ParameterName #> = default(<#= parameter.TypeReference #>);
+<# } #>
+	<#= Method.TypeReference #> actual = <#= ClassUnderTest.Name #>.<#= Method.Name #> ( <#= 
+		Method.Parameters.Join(", ", p => p.ParameterName ) #> );
+	<#= Method.TypeReference #> expected = default(<#= Method.TypeReference #>);
+	Assert.AreEqual ( expected, actual );
 }

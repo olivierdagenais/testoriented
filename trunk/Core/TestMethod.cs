@@ -1,4 +1,5 @@
 ﻿using System;
+
 using ICSharpCode.NRefactory.Ast;
 
 namespace SoftwareNinjas.TestOriented.Core
@@ -9,8 +10,13 @@ namespace SoftwareNinjas.TestOriented.Core
 	public partial class TestMethod
 	{
 		/// <summary>
-		/// The name of the method being tested.
+		/// The method being tested.
 		/// </summary>
 		public MethodDeclaration Method { get; set; }
+
+		/// <summary>
+		/// The class in which <see cref="Method"/> can be found.
+		/// </summary>
+		public TypeDeclaration ClassUnderTest { get; set; }
 	}
 }
