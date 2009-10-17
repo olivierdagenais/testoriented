@@ -490,6 +490,51 @@
             The <paramref name="items"/> for which <paramref name="predicate"/> returned <see langword="true"/>.
             </returns>
         </member>
+        <member name="M:SoftwareNinjas.Core.EnumerableExtensions.ForElse``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Boolean},System.Action)">
+            <summary>
+            Applies <paramref name="each"/> to items of a sequence or calls <paramref name="else"/> if the sequence
+            was empty.
+            </summary>
+            
+            <typeparam name="T">
+            The type of the elements of <paramref name="source"/>.
+            </typeparam>
+            
+            <param name="source">
+            An <see cref="T:System.Collections.Generic.IEnumerable`1"/> that contains the elements to enumerate.
+            </param>
+            
+            <param name="each">
+            A function that will be called for each of the items in the sequence.  Return <see langword="false"/> to
+            stop the enumeration.
+            </param>
+            
+            <param name="else">
+            An action that will be called if the sequence did not yield any items.
+            </param>
+        </member>
+        <member name="M:SoftwareNinjas.Core.EnumerableExtensions.ForElse``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0},System.Action)">
+            <summary>
+            Applies <paramref name="each"/> to items of a sequence or calls <paramref name="else"/> if the sequence
+            was empty.
+            </summary>
+            
+            <typeparam name="T">
+            The type of the elements of <paramref name="source"/>.
+            </typeparam>
+            
+            <param name="source">
+            An <see cref="T:System.Collections.Generic.IEnumerable`1"/> that contains the elements to enumerate.
+            </param>
+            
+            <param name="each">
+            An action that will be called for each of the items in the sequence.
+            </param>
+            
+            <param name="else">
+            An action that will be called if the sequence did not yield any items.
+            </param>
+        </member>
         <member name="M:SoftwareNinjas.Core.EnumerableExtensions.Join``1(System.Collections.Generic.IEnumerable{``0},System.String)">
             <summary>
             Concatenates a specified separator <see cref="T:System.String"/> between each element of a specified
@@ -595,6 +640,73 @@
             All the <paramref name="values"/> converted to <see cref="T:System.String"/>, quoted if they contained a space and
             separated by spaces.
             </returns>
+        </member>
+        <member name="T:SoftwareNinjas.Core.EnumExtensions">
+            <summary>
+            Extension methods to augment implementations of <see cref="T:System.Enum"/>.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.EnumExtensions.HasFlag``1(``0,``0)">
+            <summary>
+            Determines if an <see cref="T:System.Enum"/> value contains the specified <paramref name="flag"/>.
+            </summary>
+            
+            <typeparam name="T">
+            The type of the <paramref name="enumValue"/> and the <paramref name="flag"/>.
+            </typeparam>
+            
+            <param name="enumValue">
+            An enum value to be tested.
+            </param>
+            
+            <param name="flag">
+            An enum value to test for.
+            </param>
+            
+            <returns>
+            <see langword="true"/> if <paramref name="flag"/> is found to make up [part of]
+            <paramref name="enumValue"/>; <see langword="false"/> otherwise.
+            </returns>
+            
+            <example>
+            <para>
+            The following code example prints the first letter of the words representing the colours making up a
+            user-provided colour.
+            </para>
+            
+            <code lang="C#">
+            <![CDATA[
+            using System;
+            using SoftwareNinjas.Core;
+            
+            [Flags]
+            enum PrimaryColours
+            {
+                Red = 1,
+                Green = 2,
+                Blue = 4,
+            }
+            
+            class HasFlagDemo
+            {
+                static void DescribePrimaryColours(PrimaryColours targetColour)
+                {
+                    Console.Write ( targetColour.HasFlag(PrimaryColours.Red)   ? "R" : " " );
+                    Console.Write ( targetColour.HasFlag(PrimaryColours.Green) ? "G" : " " );
+                    Console.Write ( targetColour.HasFlag(PrimaryColours.Blue)  ? "B" : " " );
+                }
+            }
+            ]]>
+            </code>
+            </example>
+            
+            <remarks>
+            This method is simply a shortcut to performing a bitwise AND operation between the integer representation of
+            <paramref name="enumValue"/> and the integer representation of <paramref name="flag"/> and testing the
+            result for equality to <paramref name="flag"/>.
+            </remarks>
+            
+            <seealso cref="T:System.Enum"/>
         </member>
         <member name="T:SoftwareNinjas.Core.Java">
             <summary>
@@ -1485,6 +1597,30 @@
             used to check if each <typeparamref name="T"/> is equal.
             </param>
         </member>
+        <member name="M:SoftwareNinjas.Core.Test.EnumerableExtensions.ForElse_HasOneItem">
+            <summary>
+            Tests <see cref="M:SoftwareNinjas.Core.EnumerableExtensions.ForElse``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0},System.Action)"/> with
+            the case there the <see cref="T:System.Collections.Generic.IEnumerable`1"/> yields only one item.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.EnumerableExtensions.ForElse_HasItems">
+            <summary>
+            Tests <see cref="M:SoftwareNinjas.Core.EnumerableExtensions.ForElse``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0},System.Action)"/> with
+            the typical case.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.EnumerableExtensions.ForElse_StopAfterOne">
+            <summary>
+            Tests <see cref="M:SoftwareNinjas.Core.EnumerableExtensions.ForElse``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Boolean},System.Action)"/> with
+            the delegate returning <see langword="false"/>, which should end the enumeration right then and there.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.EnumerableExtensions.ForElse_HasNoItems">
+            <summary>
+            Tests <see cref="M:SoftwareNinjas.Core.EnumerableExtensions.ForElse``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0},System.Action)"/> with
+            the exceptional case where the <see cref="T:System.Collections.Generic.IEnumerable`1"/> did not yield any items.
+            </summary>
+        </member>
         <member name="M:SoftwareNinjas.Core.Test.EnumerableExtensions.Join">
             <summary>
             Tests <see cref="M:SoftwareNinjas.Core.EnumerableExtensions.Join``1(System.Collections.Generic.IEnumerable{``0},System.String)"/>.
@@ -1493,6 +1629,41 @@
         <member name="M:SoftwareNinjas.Core.Test.EnumerableExtensions.QuoteForShell">
             <summary>
             Tests <see cref="M:SoftwareNinjas.Core.EnumerableExtensions.QuoteForShell``1(System.Collections.Generic.IEnumerable{``0})"/>
+            </summary>
+        </member>
+        <member name="T:SoftwareNinjas.Core.Test.EnumExtensions">
+            <summary>
+            A class to test <see cref="T:SoftwareNinjas.Core.EnumExtensions"/>
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.EnumExtensions.HasFlag_Typical">
+            <summary>
+            Tests <see cref="M:SoftwareNinjas.Core.EnumExtensions.HasFlag``1(``0,``0)"/> with
+            the typical case:  an enum decorated with the <see cref="T:System.FlagsAttribute"/>.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.EnumExtensions.HasFlag_Identity">
+            <summary>
+            Tests <see cref="M:SoftwareNinjas.Core.EnumExtensions.HasFlag``1(``0,``0)"/> with
+            the base case that a single flag should be identified as "set".
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.EnumExtensions.HasFlag_NotSet">
+            <summary>
+            Tests <see cref="M:SoftwareNinjas.Core.EnumExtensions.HasFlag``1(``0,``0)"/> with
+            the base case that if a flag isn't set, it should not register.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.EnumExtensions.HasFlag_Integers">
+            <summary>
+            Tests <see cref="M:SoftwareNinjas.Core.EnumExtensions.HasFlag``1(``0,``0)"/> with
+            the less likely (but still possible) case of integers.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.EnumExtensions.HasFlag_Strings">
+            <summary>
+            Tests <see cref="M:SoftwareNinjas.Core.EnumExtensions.HasFlag``1(``0,``0)"/> with
+            the even less likely (but still possible!) case of strings representing integers.
             </summary>
         </member>
         <member name="T:SoftwareNinjas.Core.Test.StringExtensions">
