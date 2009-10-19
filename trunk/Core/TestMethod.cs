@@ -179,5 +179,13 @@ namespace SoftwareNinjas.TestOriented.Core
             // TODO: if source represents a class with at least one constructor, set-up a call to the simplest one
             return "default({0})".FormatInvariant(typeName);
         }
+
+        internal static string DetermineDeclarationForType(TypeReference type)
+        {
+            // TODO: It might be worth improving this to use TypeReference.PrimitiveTypesCSharpReverse
+            // so the code looks more "natural"
+            var result = type.ToString();
+            return result;
+        }
     }
 }

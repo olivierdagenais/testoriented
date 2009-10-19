@@ -58,6 +58,65 @@ namespace SoftwareNinjas.TestOriented.Core.Test
             Assert.IsFalse(victim.HasReturnValue);
         }
 
+        /// <summary>
+        /// Tests the <see cref="Parent.TestMethod.DetermineDeclarationForType(TypeReference)" /> method with
+        /// an array of arrays of explicit 32-bit integers.
+        /// </summary>
+        [Test]
+        public void DetermineDeclarationForType_ArrayOfArrayOfInt32()
+        {
+            var intArrayArray = new TypeReference("System.Int32", new[] { 0, 0 }) { IsKeyword = true };
+            var actual = Parent.TestMethod.DetermineDeclarationForType(intArrayArray);
+            Assert.AreEqual("System.Int32[][]", actual);
+        }
+
+        /// <summary>
+        /// Tests the <see cref="Parent.TestMethod.DetermineDeclarationForType(TypeReference)" /> method with
+        /// an array of arrays of implicit 32-bit integers.
+        /// </summary>
+        [Test]
+        public void DetermineDeclarationForType_ArrayOfArrayOfInt()
+        {
+            var intArrayArray = new TypeReference("int", new[] { 0, 0 }) { IsKeyword = true };
+            var actual = Parent.TestMethod.DetermineDeclarationForType(intArrayArray);
+            Assert.AreEqual("int[][]", actual);
+        }
+
+        /// <summary>
+        /// Tests the <see cref="Parent.TestMethod.DetermineDeclarationForType(TypeReference)" /> method with
+        /// a <see cref="string"/> defined as the simple type.
+        /// </summary>
+        [Test]
+        public void DetermineDeclarationForType_SimpleString()
+        {
+            var actual = Parent.TestMethod.DetermineDeclarationForType(StringTypeReference);
+            Assert.AreEqual("string", actual);
+        }
+
+        /// <summary>
+        /// Tests the <see cref="Parent.TestMethod.DetermineDeclarationForType(TypeReference)" /> method with
+        /// a <see cref="String"/> defined as the official type.
+        /// </summary>
+        [Test]
+        public void DetermineDeclarationForType_ExplicitString()
+        {
+            var systemString = new TypeReference("String", false);
+            var actual = Parent.TestMethod.DetermineDeclarationForType(systemString);
+            Assert.AreEqual("String", actual);
+        }
+
+        /// <summary>
+        /// Tests the <see cref="Parent.TestMethod.DetermineDeclarationForType(TypeReference)" /> method with
+        /// a <see cref="String"/> defined as the official scoped type.
+        /// </summary>
+        [Test]
+        public void DetermineDeclarationForType_ExplicitAndScopedString()
+        {
+            var systemString = new TypeReference("System.String", false);
+            var actual = Parent.TestMethod.DetermineDeclarationForType(systemString);
+            Assert.AreEqual("System.String", actual);
+        }        
+
         private static TypeDeclaration CreateClassUnderTest()
         {
             var cut = new TypeDeclaration(Modifiers.Public, Parent.TestMethod.EmptyAttributeList)
