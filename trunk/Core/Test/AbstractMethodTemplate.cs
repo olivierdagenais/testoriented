@@ -8,15 +8,28 @@ using NUnit.Framework;
 namespace SoftwareNinjas.TestOriented.Core.Test
 {
     /// <summary>
-    /// A class to test <see cref="Parent.TestMethod"/>.
+    /// A class to test <see cref="Parent.AbstractMethodTemplate"/>.
     /// </summary>
     [TestFixture]
-    public class TestMethod
+    public class AbstractMethodTemplate
     {
         private static readonly TypeReference StringTypeReference = new TypeReference("string", true);
 
+        private class TestableMethodTemplate : Parent.AbstractMethodTemplate
+        {
+            public TestableMethodTemplate(MethodDeclaration methodToTest, TypeDeclaration classUnderTest)
+                : base(methodToTest, classUnderTest)
+            {
+            }
+
+            public override string TransformText()
+            {
+                throw new NotImplementedException("Not needed for unit tests");
+            }
+        }
+
         /// <summary>
-        /// Tests <see cref="Parent.TestMethod.HasReturnValue"/> with
+        /// Tests <see cref="Parent.AbstractMethodTemplate.HasReturnValue"/> with
         /// the case where there was a return value.
         /// </summary>
         [Test]
@@ -25,26 +38,26 @@ namespace SoftwareNinjas.TestOriented.Core.Test
             var methodToTest = new MethodDeclaration();
             var retval = new TypeReference("string", new[] { 0 });
             methodToTest.TypeReference = retval;
-            var victim = new Parent.TestMethod (methodToTest, null);
+            var victim = new TestableMethodTemplate(methodToTest, null);
 
             Assert.IsTrue(victim.HasReturnValue);
         }
 
         /// <summary>
-        /// Tests <see cref="Parent.TestMethod.HasReturnValue"/> with
+        /// Tests <see cref="Parent.AbstractMethodTemplate.HasReturnValue"/> with
         /// the case where there was no return value.
         /// </summary>
         [Test]
         public void HasReturnValue_HasNone()
         {
             var methodToTest = new MethodDeclaration();
-            var victim = new Parent.TestMethod (methodToTest, null);
+            var victim = new TestableMethodTemplate(methodToTest, null);
 
             Assert.IsFalse(victim.HasReturnValue);
         }
 
         /// <summary>
-        /// Tests <see cref="Parent.TestMethod.HasReturnValue"/> with
+        /// Tests <see cref="Parent.AbstractMethodTemplate.HasReturnValue"/> with
         /// the case where there was no return value.
         /// </summary>
         [Test]
@@ -53,73 +66,73 @@ namespace SoftwareNinjas.TestOriented.Core.Test
             var methodToTest = new MethodDeclaration();
             var retval = new TypeReference("void");
             methodToTest.TypeReference = retval;
-            var victim = new Parent.TestMethod (methodToTest, null);
+            var victim = new TestableMethodTemplate(methodToTest, null);
 
             Assert.IsFalse(victim.HasReturnValue);
         }
 
         /// <summary>
-        /// Tests the <see cref="Parent.TestMethod.DetermineDeclarationForType(TypeReference)" /> method with
+        /// Tests the <see cref="Parent.AbstractMethodTemplate.DetermineDeclarationForType(TypeReference)" /> method with
         /// an array of arrays of explicit 32-bit integers.
         /// </summary>
         [Test]
         public void DetermineDeclarationForType_ArrayOfArrayOfInt32()
         {
             var intArrayArray = new TypeReference("System.Int32", new[] { 0, 0 }) { IsKeyword = true };
-            var actual = Parent.TestMethod.DetermineDeclarationForType(intArrayArray);
+            var actual = Parent.AbstractMethodTemplate.DetermineDeclarationForType(intArrayArray);
             Assert.AreEqual("System.Int32[][]", actual);
         }
 
         /// <summary>
-        /// Tests the <see cref="Parent.TestMethod.DetermineDeclarationForType(TypeReference)" /> method with
+        /// Tests the <see cref="Parent.AbstractMethodTemplate.DetermineDeclarationForType(TypeReference)" /> method with
         /// an array of arrays of implicit 32-bit integers.
         /// </summary>
         [Test]
         public void DetermineDeclarationForType_ArrayOfArrayOfInt()
         {
             var intArrayArray = new TypeReference("int", new[] { 0, 0 }) { IsKeyword = true };
-            var actual = Parent.TestMethod.DetermineDeclarationForType(intArrayArray);
+            var actual = Parent.AbstractMethodTemplate.DetermineDeclarationForType(intArrayArray);
             Assert.AreEqual("int[][]", actual);
         }
 
         /// <summary>
-        /// Tests the <see cref="Parent.TestMethod.DetermineDeclarationForType(TypeReference)" /> method with
+        /// Tests the <see cref="Parent.AbstractMethodTemplate.DetermineDeclarationForType(TypeReference)" /> method with
         /// a <see cref="string"/> defined as the simple type.
         /// </summary>
         [Test]
         public void DetermineDeclarationForType_SimpleString()
         {
-            var actual = Parent.TestMethod.DetermineDeclarationForType(StringTypeReference);
+            var actual = Parent.AbstractMethodTemplate.DetermineDeclarationForType(StringTypeReference);
             Assert.AreEqual("string", actual);
         }
 
         /// <summary>
-        /// Tests the <see cref="Parent.TestMethod.DetermineDeclarationForType(TypeReference)" /> method with
+        /// Tests the <see cref="Parent.AbstractMethodTemplate.DetermineDeclarationForType(TypeReference)" /> method with
         /// a <see cref="String"/> defined as the official type.
         /// </summary>
         [Test]
         public void DetermineDeclarationForType_ExplicitString()
         {
             var systemString = new TypeReference("String", false);
-            var actual = Parent.TestMethod.DetermineDeclarationForType(systemString);
+            var actual = Parent.AbstractMethodTemplate.DetermineDeclarationForType(systemString);
             Assert.AreEqual("String", actual);
         }
 
         /// <summary>
-        /// Tests the <see cref="Parent.TestMethod.DetermineDeclarationForType(TypeReference)" /> method with
+        /// Tests the <see cref="Parent.AbstractMethodTemplate.DetermineDeclarationForType(TypeReference)" /> method with
         /// a <see cref="String"/> defined as the official scoped type.
         /// </summary>
         [Test]
         public void DetermineDeclarationForType_ExplicitAndScopedString()
         {
             var systemString = new TypeReference("System.String", false);
-            var actual = Parent.TestMethod.DetermineDeclarationForType(systemString);
+            var actual = Parent.AbstractMethodTemplate.DetermineDeclarationForType(systemString);
             Assert.AreEqual("System.String", actual);
         }        
 
         private static TypeDeclaration CreateClassUnderTest()
         {
-            var cut = new TypeDeclaration(Modifiers.Public, Parent.TestMethod.EmptyAttributeList)
+            var cut = new TypeDeclaration(Modifiers.Public, Parent.AbstractMethodTemplate.EmptyAttributeList)
             {
                 Name = "MainClass"
             };
@@ -129,7 +142,7 @@ namespace SoftwareNinjas.TestOriented.Core.Test
         private static ConstructorDeclaration CreateDefaultConstructor(TypeDeclaration cut)
         {
             var result = new ConstructorDeclaration(cut.Name, Modifiers.Public,
-                Parent.TestMethod.EmptyParameterList, Parent.TestMethod.EmptyAttributeList);
+                Parent.AbstractMethodTemplate.EmptyParameterList, Parent.AbstractMethodTemplate.EmptyAttributeList);
             cut.AddChild(result);
             return result;
         }
@@ -137,14 +150,14 @@ namespace SoftwareNinjas.TestOriented.Core.Test
         private static ConstructorDeclaration CreateParameterizedConstructor(TypeDeclaration cut)
         {
             var result = new ConstructorDeclaration(cut.Name, Modifiers.Public,
-                null, Parent.TestMethod.EmptyAttributeList);
+                null, Parent.AbstractMethodTemplate.EmptyAttributeList);
             result.AddParameter(StringTypeReference, "name");
             cut.AddChild(result);
             return result;
         }
 
         /// <summary>
-        /// Tests the <see cref="Parent.TestMethod.DetermineConstructor(TypeDeclaration)" /> method with
+        /// Tests the <see cref="Parent.AbstractMethodTemplate.DetermineConstructor(TypeDeclaration)" /> method with
         /// a typical scenario of a default constructor and a parameterized constructor.
         /// </summary>
         [Test]
@@ -155,12 +168,12 @@ namespace SoftwareNinjas.TestOriented.Core.Test
 
             CreateParameterizedConstructor(cut);
 
-            var actual = Core.TestMethod.DetermineConstructor(cut);
+            var actual = Parent.AbstractMethodTemplate.DetermineConstructor(cut);
             Assert.AreEqual(defaultConstructor, actual);
         }
 
         /// <summary>
-        /// Tests the <see cref="Parent.TestMethod.DetermineConstructor(TypeDeclaration)" /> method with
+        /// Tests the <see cref="Parent.AbstractMethodTemplate.DetermineConstructor(TypeDeclaration)" /> method with
         /// the non-default constructor listed first.
         /// </summary>
         [Test]
@@ -171,12 +184,12 @@ namespace SoftwareNinjas.TestOriented.Core.Test
 
             CreateParameterizedConstructor(cut);
 
-            var actual = Core.TestMethod.DetermineConstructor(cut);
+            var actual = Parent.AbstractMethodTemplate.DetermineConstructor(cut);
             Assert.AreEqual(defaultConstructor, actual);
         }
 
         /// <summary>
-        /// Tests the <see cref="Parent.TestMethod.DetermineConstructor(TypeDeclaration)" /> method with
+        /// Tests the <see cref="Parent.AbstractMethodTemplate.DetermineConstructor(TypeDeclaration)" /> method with
         /// the parameterless constructor hidden.
         /// </summary>
         [Test]
@@ -188,12 +201,12 @@ namespace SoftwareNinjas.TestOriented.Core.Test
 
             var parameterizedConstructor = CreateParameterizedConstructor(cut);
 
-            var actual = Core.TestMethod.DetermineConstructor(cut);
+            var actual = Parent.AbstractMethodTemplate.DetermineConstructor(cut);
             Assert.AreEqual(parameterizedConstructor, actual);
         }
 
         /// <summary>
-        /// Tests the <see cref="Parent.TestMethod.DetermineConstructor(TypeDeclaration)" /> method with
+        /// Tests the <see cref="Parent.AbstractMethodTemplate.DetermineConstructor(TypeDeclaration)" /> method with
         /// the default constructor implemented by the author.
         /// </summary>
         [Test]
@@ -202,12 +215,12 @@ namespace SoftwareNinjas.TestOriented.Core.Test
             var cut = CreateClassUnderTest();
             var defaultConstructor = CreateDefaultConstructor(cut);
 
-            var actual = Core.TestMethod.DetermineConstructor(cut);
+            var actual = Parent.AbstractMethodTemplate.DetermineConstructor(cut);
             Assert.AreEqual(defaultConstructor, actual);
         }
 
         /// <summary>
-        /// Tests the <see cref="Parent.TestMethod.DetermineConstructor(TypeDeclaration)" /> method with
+        /// Tests the <see cref="Parent.AbstractMethodTemplate.DetermineConstructor(TypeDeclaration)" /> method with
         /// the default constructor provided by the compiler.
         /// </summary>
         [Test]
@@ -215,7 +228,7 @@ namespace SoftwareNinjas.TestOriented.Core.Test
         {
             var cut = CreateClassUnderTest();
 
-            var actual = Core.TestMethod.DetermineConstructor(cut);
+            var actual = Parent.AbstractMethodTemplate.DetermineConstructor(cut);
             Assert.AreEqual(typeof(ConstructorDeclaration), actual.GetType());
             Assert.IsTrue(actual.Modifier.HasFlag(Modifiers.Public));
             Assert.AreEqual(0, actual.Parameters.Count);

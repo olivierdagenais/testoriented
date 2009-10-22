@@ -13,22 +13,7 @@ namespace SoftwareNinjas.TestOriented.Core {
     using ICSharpCode.NRefactory.Ast;
     
     
-    public partial class TestMethod : Microsoft.VisualStudio.TextTemplating.TextTransformation {
-        
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TestMethod"/> class.
-        /// </summary>
-        public TestMethod() : 
-                base() {
-        }
-        
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TestMethod"/> class
-        /// using the specified <paramref name="formatProvider"/>
-        /// </summary>
-        public TestMethod(System.IFormatProvider formatProvider) : 
-                base(formatProvider) {
-        }
+    public partial class TestMethod : AbstractMethodTemplate {
         
         /// <summary>
         /// Generates the text output of the transformation.
@@ -115,7 +100,7 @@ namespace SoftwareNinjas.TestOriented.Core {
             #line hidden
             
             #line 15 "TestMethod.tt"
-            this.Write( parameter.TypeReference );
+            this.Write( DetermineDeclarationForType(parameter.TypeReference) );
             
             #line default
             #line hidden
@@ -188,7 +173,7 @@ namespace SoftwareNinjas.TestOriented.Core {
             #line hidden
             
             #line 20 "TestMethod.tt"
-            this.Write( ClassUnderTest.Name );
+            this.Write( ParentType.Name );
             
             #line default
             #line hidden
@@ -237,7 +222,7 @@ namespace SoftwareNinjas.TestOriented.Core {
             #line hidden
             
             #line 23 "TestMethod.tt"
-            this.Write( Method.TypeReference );
+            this.Write( DetermineDeclarationForType(Method.TypeReference) );
             
             #line default
             #line hidden

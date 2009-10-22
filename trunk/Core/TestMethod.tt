@@ -1,4 +1,4 @@
-﻿<#@ template language="C#v3.5" #>
+﻿<#@ template language="C#v3.5" inherits="AbstractMethodTemplate" #>
 <#@ import namespace="SoftwareNinjas.Core" #>
 <#@ import namespace="ICSharpCode.NRefactory.Ast" #>
 
@@ -10,13 +10,13 @@
 public void <#= Method.Name #>_TODO ( ) {
 	Assert.Fail ( "TODO: initialize variable(s)<# if ( HasReturnValue ) { #> and expected value<# } #>" );
 <# foreach ( var parameter in Method.Parameters ) { #>
-	<#= parameter.TypeReference #> <#= parameter.ParameterName #> = <#= DefaultValue(parameter.TypeReference) #>;
+	<#= DetermineDeclarationForType(parameter.TypeReference) #> <#= parameter.ParameterName #> = <#= DefaultValue(parameter.TypeReference) #>;
 <# } #>
 	<# if ( HasReturnValue ) { #><#= Method.TypeReference #> actual = <#
-	} #><#= ClassUnderTest.Name #>.<#= Method.Name #> ( <#= 
+	} #><#= ParentType.Name #>.<#= Method.Name #> ( <#= 
 		Method.Parameters.Join(", ", p => p.ParameterName ) #> );
 <# if ( HasReturnValue ) { #>
-	<#= Method.TypeReference #> expected = <#= DefaultValue(Method.TypeReference) #>;
+	<#= DetermineDeclarationForType(Method.TypeReference) #> expected = <#= DefaultValue(Method.TypeReference) #>;
 	Assert.AreEqual ( expected, actual );
 <# } #>
 }
