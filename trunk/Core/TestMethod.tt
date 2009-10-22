@@ -9,12 +9,7 @@
 [Test]
 public void <#= Method.Name #>_TODO ( ) {
 	Assert.Fail ( "TODO: initialize variable(s)<# if ( HasReturnValue ) { #> and expected value<# } #>" );
-<# foreach ( var parameter in Method.Parameters ) { #>
-	<#= DetermineDeclarationForType(parameter.TypeReference) #> <#= parameter.ParameterName #> = <#= DefaultValue(parameter.TypeReference) #>;
-<# } #>
-	<# if ( HasReturnValue ) { #><#= Method.TypeReference #> actual = <#
-	} #><#= ParentType.Name #>.<#= Method.Name #> ( <#= 
-		Method.Parameters.Join(", ", p => p.ParameterName ) #> );
+<#= MethodCallStub.Generate(Method, ParentType, "actual") #>
 <# if ( HasReturnValue ) { #>
 	<#= DetermineDeclarationForType(Method.TypeReference) #> expected = <#= DefaultValue(Method.TypeReference) #>;
 	Assert.AreEqual ( expected, actual );

@@ -13,7 +13,7 @@ namespace SoftwareNinjas.TestOriented.Core {
     using ICSharpCode.NRefactory.Ast;
     
     
-    public partial class TestMethod : AbstractMethodTemplate {
+    public partial class MethodCallStub : AbstractMethodTemplate {
         
         /// <summary>
         /// Generates the text output of the transformation.
@@ -32,117 +32,136 @@ namespace SoftwareNinjas.TestOriented.Core {
         /// </remarks>
         public override string TransformText() {
             
-            #line 4 "TestMethod.tt"
-            this.Write("\r\n/// <summary>\r\n/// Tests the <c>");
+            #line 4 "MethodCallStub.tt"
+ foreach ( var parameter in Method.Parameters ) { 
             
             #line default
             #line hidden
             
-            #line 6 "TestMethod.tt"
-            this.Write( Method.Name );
-            
-            #line default
-            #line hidden
-            
-            #line 6 "TestMethod.tt"
-            this.Write("</c> method with\r\n/// TODO: write about scenario\r\n/// </summary>\r\n[Test]\r\npublic " +
-                    "void ");
-            
-            #line default
-            #line hidden
-            
-            #line 10 "TestMethod.tt"
-            this.Write( Method.Name );
-            
-            #line default
-            #line hidden
-            
-            #line 10 "TestMethod.tt"
-            this.Write("_TODO ( ) {\r\n\tAssert.Fail ( \"TODO: initialize variable(s)");
-            
-            #line default
-            #line hidden
-            
-            #line 11 "TestMethod.tt"
- if ( HasReturnValue ) { 
-            
-            #line default
-            #line hidden
-            
-            #line 12 "TestMethod.tt"
-            this.Write(" and expected value");
-            
-            #line default
-            #line hidden
-            
-            #line 12 "TestMethod.tt"
- } 
-            
-            #line default
-            #line hidden
-            
-            #line 13 "TestMethod.tt"
-            this.Write("\" );\r\n");
-            
-            #line default
-            #line hidden
-            
-            #line 14 "TestMethod.tt"
-            this.Write( MethodCallStub.Generate(Method, ParentType, "actual") );
-            
-            #line default
-            #line hidden
-            
-            #line 14 "TestMethod.tt"
-            this.Write("\r\n");
-            
-            #line default
-            #line hidden
-            
-            #line 15 "TestMethod.tt"
- if ( HasReturnValue ) { 
-            
-            #line default
-            #line hidden
-            
-            #line 16 "TestMethod.tt"
+            #line 5 "MethodCallStub.tt"
             this.Write("\t");
             
             #line default
             #line hidden
             
-            #line 16 "TestMethod.tt"
-            this.Write( DetermineDeclarationForType(Method.TypeReference) );
+            #line 5 "MethodCallStub.tt"
+            this.Write( DetermineDeclarationForType(parameter.TypeReference) );
             
             #line default
             #line hidden
             
-            #line 16 "TestMethod.tt"
-            this.Write(" expected = ");
+            #line 5 "MethodCallStub.tt"
+            this.Write(" ");
             
             #line default
             #line hidden
             
-            #line 16 "TestMethod.tt"
-            this.Write( DefaultValue(Method.TypeReference) );
+            #line 5 "MethodCallStub.tt"
+            this.Write( parameter.ParameterName );
             
             #line default
             #line hidden
             
-            #line 16 "TestMethod.tt"
-            this.Write(";\r\n\tAssert.AreEqual ( expected, actual );\r\n");
+            #line 5 "MethodCallStub.tt"
+            this.Write(" = ");
             
             #line default
             #line hidden
             
-            #line 18 "TestMethod.tt"
+            #line 5 "MethodCallStub.tt"
+            this.Write( DefaultValue(parameter.TypeReference) );
+            
+            #line default
+            #line hidden
+            
+            #line 5 "MethodCallStub.tt"
+            this.Write(";\r\n");
+            
+            #line default
+            #line hidden
+            
+            #line 6 "MethodCallStub.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 19 "TestMethod.tt"
-            this.Write("}\r\n");
+            #line 7 "MethodCallStub.tt"
+            this.Write("\t");
+            
+            #line default
+            #line hidden
+            
+            #line 7 "MethodCallStub.tt"
+ if ( HasReturnValue ) { 
+            
+            #line default
+            #line hidden
+            
+            #line 8 "MethodCallStub.tt"
+            this.Write( DetermineDeclarationForType(Method.TypeReference) );
+            
+            #line default
+            #line hidden
+            
+            #line 8 "MethodCallStub.tt"
+            this.Write(" ");
+            
+            #line default
+            #line hidden
+            
+            #line 8 "MethodCallStub.tt"
+            this.Write( ReturnVariableName );
+            
+            #line default
+            #line hidden
+            
+            #line 8 "MethodCallStub.tt"
+            this.Write(" = ");
+            
+            #line default
+            #line hidden
+            
+            #line 8 "MethodCallStub.tt"
+
+	} 
+            
+            #line default
+            #line hidden
+            
+            #line 10 "MethodCallStub.tt"
+            this.Write( ParentType.Name );
+            
+            #line default
+            #line hidden
+            
+            #line 10 "MethodCallStub.tt"
+            this.Write(".");
+            
+            #line default
+            #line hidden
+            
+            #line 10 "MethodCallStub.tt"
+            this.Write( Method.Name );
+            
+            #line default
+            #line hidden
+            
+            #line 10 "MethodCallStub.tt"
+            this.Write(" ( ");
+            
+            #line default
+            #line hidden
+            
+            #line 10 "MethodCallStub.tt"
+            this.Write( 
+		Method.Parameters.Join(", ", p => p.ParameterName ) );
+            
+            #line default
+            #line hidden
+            
+            #line 11 "MethodCallStub.tt"
+            this.Write(" );");
             
             #line default
             #line hidden

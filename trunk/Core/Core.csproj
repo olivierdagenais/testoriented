@@ -45,6 +45,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractMethodTemplate.cs" />
+    <Compile Include="MethodCallStub.cs" />
+    <Compile Include="MethodCallStub.Generated.cs">
+      <DependentUpon>MethodCallStub.tt</DependentUpon>
+    </Compile>
     <Compile Include="RefactoryExtensions.cs" />
     <Compile Include="TestMethod.cs" />
     <Compile Include="TestMethod.Generated.cs">
@@ -58,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="TestMethod.tt" />
+    <None Include="MethodCallStub.tt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NRefactory\NRefactory.csproj">
