@@ -233,5 +233,30 @@ namespace SoftwareNinjas.TestOriented.Core.Test
             Assert.IsTrue(actual.Modifier.HasFlag(Modifiers.Public));
             Assert.AreEqual(0, actual.Parameters.Count);
         }
+
+        /// <summary>
+        /// Tests the <see cref="Parent.AbstractMethodTemplate.DetermineInstanceVariableName(TypeDeclaration)" /> method with
+        /// a typical scenario.
+        /// </summary>
+        [Test]
+        public void DetermineInstanceVariableName_Typical()
+        {
+            var cut = CreateClassUnderTest();
+            var actual = Parent.AbstractMethodTemplate.DetermineInstanceVariableName(cut);
+            Assert.AreEqual("mainClass", actual);
+        }
+
+        /// <summary>
+        /// Tests the <see cref="Parent.AbstractMethodTemplate.DetermineInstanceVariableName(TypeDeclaration)" /> method with
+        /// a class name that starts with a lowercase letter.
+        /// </summary>
+        [Test]
+        public void DetermineInstanceVariableName_LowerCaseFirstLetter()
+        {
+            var cut = new TypeDeclaration(Modifiers.Public, null) { Name = "screwDriver" };
+            var actual = Parent.AbstractMethodTemplate.DetermineInstanceVariableName(cut);
+            Assert.AreEqual("instance", actual);
+        }
+        
     }
 }

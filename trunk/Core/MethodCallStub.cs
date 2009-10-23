@@ -18,6 +18,11 @@ namespace SoftwareNinjas.TestOriented.Core
         public readonly string ReturnVariableName;
 
         /// <summary>
+        /// The origin of the call to <see cref="MethodDeclaration"/>.
+        /// </summary>
+        public readonly string InstanceOrClass;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="MethodCallStub"/> parameterized template with the specified
         /// <paramref name="methodToCall"/> and <paramref name="parentType"/>.
         /// </summary>
@@ -37,6 +42,7 @@ namespace SoftwareNinjas.TestOriented.Core
             : base (methodToCall, parentType)
         {
             ReturnVariableName = returnVariableName ?? "result";
+            InstanceOrClass = NeedsInstance ? DetermineInstanceVariableName(parentType) : parentType.Name;
         }
 
         internal static string Generate(MethodDeclaration methodToCall, TypeDeclaration parentType, 

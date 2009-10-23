@@ -24,7 +24,10 @@ namespace SoftwareNinjas.TestOriented.Core.Test
             var classUnderTest = new TypeDeclaration(Modifiers.Public | Modifiers.Static, null){ Name = "Unformatter" };
 
             #region public static string[] Unformat ( this string format, string formatted )
-            var methodToTest = new MethodDeclaration {Name = "Unformat", IsExtensionMethod = true};
+            var methodToTest = new MethodDeclaration
+            {
+                Name = "Unformat", IsExtensionMethod = true, Modifier = Modifiers.Static
+            };
 
             #region returns string[]
             var retval = new TypeReference("string", new[]{0});

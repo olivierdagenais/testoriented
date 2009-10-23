@@ -60,7 +60,7 @@ namespace SoftwareNinjas.TestOriented.Core
         {
             _method = method;
             _parentType = parentType;
-            NeedsInstance = _method.Modifier.HasFlag(Modifiers.Static);
+            NeedsInstance = !_method.Modifier.HasFlag(Modifiers.Static);
         }
 
         /// <summary>
@@ -186,6 +186,25 @@ namespace SoftwareNinjas.TestOriented.Core
             // TODO: It might be worth improving this to use TypeReference.PrimitiveTypesCSharpReverse
             // so the code looks more "natural"
             var result = type.ToString();
+            return result;
+        }
+
+        internal static string DetermineInstanceVariableName(TypeDeclaration type)
+        {
+            // TODO: Look for an existing (and better!) variable name suggestion method
+
+            // TODO: Handle nested classes (such as Map<K,V>.Entry<K,V>) and
+            // qualified names (such as java.lang.String)
+            var result = "instance";
+            var typeName = type.Name;
+            if (Char.IsUpper(typeName[0]))
+            {
+                result = Char.ToLower(typeName[0]) + typeName.Substring(1);
+                // TODO: if that name is already taken and there's another
+                // uppercase letter in the typeName, try to form a variable name
+                // using such successive "words" until all remaining splits have
+                // been exhausted.
+            }
             return result;
         }
     }
