@@ -5,5 +5,5 @@
 	<#= DetermineDeclarationForType(parameter.TypeReference) #> <#= parameter.ParameterName #> = <#= DefaultValue(parameter.TypeReference) #>;
 <# } #>
 	<# if ( HasReturnValue ) { #><#= DetermineDeclarationForType(ReturnValue) #> <#= VariableName #> = <#
-	} #><#= InstanceOrClass #>.<#= Method.Name #> ( <#= 
+	} #><#= Invocation #> ( <#= 
 		Method.Parameters.Join(", ", p => p.ParameterName ) #> );

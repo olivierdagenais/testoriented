@@ -95,17 +95,94 @@ public void Unformat_TODO ( ) {
             {
                 _z += x * y;
             }
+
+            internal int SafeCrunch(int x, int y)
+            {
+                return x * y;
+            }
+        }
+
+        /// <summary>
+        /// Tests the <see cref="Parent.UnitTest.GenerateTestMethod(MethodDeclaration,TypeDeclaration)" /> method with
+        /// an instance method.
+        /// </summary>
+        [Test]
+        public void GenerateTestMethod_InstanceMethod()
+        {
+            #region public class Cruncher
+            var classUnderTest = new TypeDeclaration(Modifiers.Public, null) { Name = "Cruncher" };
+
+            #region internal int SafeCrunch ( int x, int y )
+            var methodToTest = new MethodDeclaration
+            {
+                Name = "SafeCrunch",
+                Modifier = Modifiers.Internal
+            };
+
+            #region returns int
+            var retval = new TypeReference("int", true);
+            methodToTest.TypeReference = retval;
+            #endregion
+
+            #region int x
+            var xParam = new ParameterDeclarationExpression(new TypeReference("int", true), "x");
+            methodToTest.Parameters.Add(xParam);
+            #endregion
+
+            #region int y
+            var yParam = new ParameterDeclarationExpression(new TypeReference("int", true), "y");
+            methodToTest.Parameters.Add(yParam);
+            #endregion
+
+            #endregion
+
+            classUnderTest.Children.Add(methodToTest);
+            #endregion
+
+            const string expected = @"
+/// <summary>
+/// Tests the <c>SafeCrunch</c> method with
+/// TODO: write about scenario
+/// </summary>
+[Test]
+public void SafeCrunch_TODO ( ) {
+	Cruncher cruncher = new Cruncher (  );
+	Assert.Fail ( ""TODO: initialize variable(s) and expected value"" );
+	int x = 0;
+	int y = 0;
+	int actual = cruncher.SafeCrunch ( x, y );
+	int expected = 0;
+	Assert.AreEqual ( expected, actual );
+}
+";
+            Assert.AreEqual(expected, Parent.UnitTest.GenerateTestMethod(methodToTest, classUnderTest));
+        }
+
+
+        /// <summary>
+        /// Tests the <c>SafeCrunch</c> method with
+        /// TODO: write about scenario
+        /// </summary>
+        [Test]
+        public void SafeCrunch_TODO ( ) {
+            Cruncher cruncher = new Cruncher (  );
+            // Assert.Fail ( "TODO: initialize variable(s) and expected value" );
+            int x = 0;
+            int y = 0;
+            int actual = cruncher.SafeCrunch ( x, y );
+            int expected = 0;
+            Assert.AreEqual ( expected, actual );
         }
 
         /// <summary>
         /// Tests the <see cref="Parent.UnitTest.GenerateTestMethod(MethodDeclaration, TypeDeclaration)"/> method with
-        /// an instance method that returns no value.
+        /// a static method that returns no value.
         /// </summary>
         [Test]
         public void GenerateTestMethod_MethodWithNotReturnValue()
         {
             #region public class Cruncher
-            var classUnderTest = new TypeDeclaration(Modifiers.Public | Modifiers.Static, null) { Name = "Cruncher" };
+            var classUnderTest = new TypeDeclaration(Modifiers.Public, null) { Name = "Cruncher" };
 
             #region public static void CrunchNumbers ( int x, int y )
             var methodToTest = new MethodDeclaration

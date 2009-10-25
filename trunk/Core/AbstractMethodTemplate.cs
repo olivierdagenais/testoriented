@@ -187,6 +187,14 @@ namespace SoftwareNinjas.TestOriented.Core
             return result;
         }
 
+        internal static string GenerateConstructorCall(TypeDeclaration parentType)
+        {
+            var instanceVariableName = DetermineInstanceVariableName(parentType);
+            var constructor = DetermineConstructor(parentType);
+            var result = MethodCallStub.Generate(constructor, parentType, instanceVariableName);
+            return result;
+        }
+
         internal static string DetermineInstanceVariableName(TypeDeclaration type)
         {
             // TODO: Look for an existing (and better!) variable name suggestion method

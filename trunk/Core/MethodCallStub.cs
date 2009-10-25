@@ -18,9 +18,14 @@ namespace SoftwareNinjas.TestOriented.Core
         public readonly string VariableName;
 
         /// <summary>
-        /// The origin of the call to <see cref="MethodDeclaration"/>.
+        /// The origin of the call to <see cref="MethodDeclaration"/>, when initialized against a method.
         /// </summary>
         public readonly string InstanceOrClass;
+
+        /// <summary>
+        /// How the method or constructor is ultimately called.
+        /// </summary>
+        public readonly string Invocation;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MethodCallStub"/> parameterized template with the specified
@@ -44,6 +49,9 @@ namespace SoftwareNinjas.TestOriented.Core
         {
             VariableName = variableName ?? "result";
             InstanceOrClass = NeedsInstance ? DetermineInstanceVariableName(parentType) : parentType.Name;
+            Invocation = methodToCall is MethodDeclaration 
+                ? InstanceOrClass + "." + methodToCall.Name
+                : "new " + parentType.Name;
         }
 
         internal static string Generate(ParametrizedNode methodToCall, TypeDeclaration parentType, 

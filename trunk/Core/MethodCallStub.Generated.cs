@@ -130,19 +130,7 @@ namespace SoftwareNinjas.TestOriented.Core {
             #line hidden
             
             #line 10 "MethodCallStub.tt"
-            this.Write( InstanceOrClass );
-            
-            #line default
-            #line hidden
-            
-            #line 10 "MethodCallStub.tt"
-            this.Write(".");
-            
-            #line default
-            #line hidden
-            
-            #line 10 "MethodCallStub.tt"
-            this.Write( Method.Name );
+            this.Write( Invocation );
             
             #line default
             #line hidden

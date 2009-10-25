@@ -58,90 +58,120 @@ namespace SoftwareNinjas.TestOriented.Core {
             #line hidden
             
             #line 10 "TestMethod.tt"
-            this.Write("_TODO ( ) {\r\n\tAssert.Fail ( \"TODO: initialize variable(s)");
+            this.Write("_TODO ( ) {\r\n");
             
             #line default
             #line hidden
             
             #line 11 "TestMethod.tt"
- if ( HasReturnValue ) { 
+ if ( NeedsInstance ) { 
             
             #line default
             #line hidden
             
             #line 12 "TestMethod.tt"
-            this.Write(" and expected value");
+            this.Write( GenerateConstructorCall(ParentType) );
             
             #line default
             #line hidden
             
             #line 12 "TestMethod.tt"
- } 
-            
-            #line default
-            #line hidden
-            
-            #line 13 "TestMethod.tt"
-            this.Write("\" );\r\n");
-            
-            #line default
-            #line hidden
-            
-            #line 14 "TestMethod.tt"
-            this.Write( MethodCallStub.Generate(Method, ParentType, "actual") );
-            
-            #line default
-            #line hidden
-            
-            #line 14 "TestMethod.tt"
             this.Write("\r\n");
             
             #line default
             #line hidden
             
-            #line 15 "TestMethod.tt"
- if ( HasReturnValue ) { 
-            
-            #line default
-            #line hidden
-            
-            #line 16 "TestMethod.tt"
-            this.Write("\t");
-            
-            #line default
-            #line hidden
-            
-            #line 16 "TestMethod.tt"
-            this.Write( DetermineDeclarationForType(ReturnValue) );
-            
-            #line default
-            #line hidden
-            
-            #line 16 "TestMethod.tt"
-            this.Write(" expected = ");
-            
-            #line default
-            #line hidden
-            
-            #line 16 "TestMethod.tt"
-            this.Write( DefaultValue(ReturnValue) );
-            
-            #line default
-            #line hidden
-            
-            #line 16 "TestMethod.tt"
-            this.Write(";\r\n\tAssert.AreEqual ( expected, actual );\r\n");
-            
-            #line default
-            #line hidden
-            
-            #line 18 "TestMethod.tt"
+            #line 13 "TestMethod.tt"
  } 
             
             #line default
             #line hidden
             
+            #line 14 "TestMethod.tt"
+            this.Write("\tAssert.Fail ( \"TODO: initialize variable(s)");
+            
+            #line default
+            #line hidden
+            
+            #line 14 "TestMethod.tt"
+ if ( HasReturnValue ) { 
+            
+            #line default
+            #line hidden
+            
+            #line 15 "TestMethod.tt"
+            this.Write(" and expected value");
+            
+            #line default
+            #line hidden
+            
+            #line 15 "TestMethod.tt"
+ } 
+            
+            #line default
+            #line hidden
+            
+            #line 16 "TestMethod.tt"
+            this.Write("\" );\r\n");
+            
+            #line default
+            #line hidden
+            
+            #line 17 "TestMethod.tt"
+            this.Write( MethodCallStub.Generate(Method, ParentType, "actual") );
+            
+            #line default
+            #line hidden
+            
+            #line 17 "TestMethod.tt"
+            this.Write("\r\n");
+            
+            #line default
+            #line hidden
+            
+            #line 18 "TestMethod.tt"
+ if ( HasReturnValue ) { 
+            
+            #line default
+            #line hidden
+            
             #line 19 "TestMethod.tt"
+            this.Write("\t");
+            
+            #line default
+            #line hidden
+            
+            #line 19 "TestMethod.tt"
+            this.Write( DetermineDeclarationForType(ReturnValue) );
+            
+            #line default
+            #line hidden
+            
+            #line 19 "TestMethod.tt"
+            this.Write(" expected = ");
+            
+            #line default
+            #line hidden
+            
+            #line 19 "TestMethod.tt"
+            this.Write( DefaultValue(ReturnValue) );
+            
+            #line default
+            #line hidden
+            
+            #line 19 "TestMethod.tt"
+            this.Write(";\r\n\tAssert.AreEqual ( expected, actual );\r\n");
+            
+            #line default
+            #line hidden
+            
+            #line 21 "TestMethod.tt"
+ } 
+            
+            #line default
+            #line hidden
+            
+            #line 22 "TestMethod.tt"
             this.Write("}\r\n");
             
             #line default

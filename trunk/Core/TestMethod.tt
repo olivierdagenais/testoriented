@@ -8,6 +8,9 @@
 /// </summary>
 [Test]
 public void <#= Method.Name #>_TODO ( ) {
+<# if ( NeedsInstance ) { #>
+<#= GenerateConstructorCall(ParentType) #>
+<# } #>
 	Assert.Fail ( "TODO: initialize variable(s)<# if ( HasReturnValue ) { #> and expected value<# } #>" );
 <#= MethodCallStub.Generate(Method, ParentType, "actual") #>
 <# if ( HasReturnValue ) { #>
