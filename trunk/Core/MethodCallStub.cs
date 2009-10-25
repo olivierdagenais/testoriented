@@ -28,7 +28,8 @@ namespace SoftwareNinjas.TestOriented.Core
         /// </summary>
         /// 
         /// <param name="methodToCall">
-        /// The <see cref="MethodDeclaration"/> representing the method for a call stub is to be written.
+        /// The <see cref="ParametrizedNode"/> representing the method or constructor for which a call stub is to be
+        /// written.
         /// </param>
         /// 
         /// <param name="parentType">
@@ -38,14 +39,14 @@ namespace SoftwareNinjas.TestOriented.Core
         /// <param name="variableName">
         /// The name of the variable to which the result of the method will be assigned, if appropriate.
         /// </param>
-        public MethodCallStub (MethodDeclaration methodToCall, TypeDeclaration parentType, string variableName) 
+        public MethodCallStub (ParametrizedNode methodToCall, TypeDeclaration parentType, string variableName) 
             : base (methodToCall, parentType)
         {
             VariableName = variableName ?? "result";
             InstanceOrClass = NeedsInstance ? DetermineInstanceVariableName(parentType) : parentType.Name;
         }
 
-        internal static string Generate(MethodDeclaration methodToCall, TypeDeclaration parentType, 
+        internal static string Generate(ParametrizedNode methodToCall, TypeDeclaration parentType, 
             string returnVariableName)
         {
             var template = new MethodCallStub(methodToCall, parentType, returnVariableName);

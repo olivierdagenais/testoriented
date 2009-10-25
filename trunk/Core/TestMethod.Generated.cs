@@ -112,7 +112,7 @@ namespace SoftwareNinjas.TestOriented.Core {
             #line hidden
             
             #line 16 "TestMethod.tt"
-            this.Write( DetermineDeclarationForType(Method.TypeReference) );
+            this.Write( DetermineDeclarationForType(ReturnValue) );
             
             #line default
             #line hidden
@@ -124,7 +124,7 @@ namespace SoftwareNinjas.TestOriented.Core {
             #line hidden
             
             #line 16 "TestMethod.tt"
-            this.Write( DefaultValue(Method.TypeReference) );
+            this.Write( DefaultValue(ReturnValue) );
             
             #line default
             #line hidden

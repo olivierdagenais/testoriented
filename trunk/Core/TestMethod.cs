@@ -17,13 +17,13 @@ namespace SoftwareNinjas.TestOriented.Core
         /// </summary>
         /// 
         /// <param name="methodToTest">
-        /// The <see cref="MethodDeclaration"/> representing the method for which tests are to be written.
+        /// The <see cref="ParametrizedNode"/> representing the method or constructor for which tests are to be written.
         /// </param>
         /// 
         /// <param name="classUnderTest">
         /// The <see cref="TypeDeclaration"/> that contains <paramref name="methodToTest"/>.
         /// </param>
-        public TestMethod (MethodDeclaration methodToTest, TypeDeclaration classUnderTest) 
+        public TestMethod (ParametrizedNode methodToTest, TypeDeclaration classUnderTest) 
             : base (methodToTest, classUnderTest)
         {
         }

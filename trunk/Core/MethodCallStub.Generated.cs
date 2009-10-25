@@ -99,7 +99,7 @@ namespace SoftwareNinjas.TestOriented.Core {
             #line hidden
             
             #line 8 "MethodCallStub.tt"
-            this.Write( DetermineDeclarationForType(Method.TypeReference) );
+            this.Write( DetermineDeclarationForType(ReturnValue) );
             
             #line default
             #line hidden

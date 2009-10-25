@@ -26,7 +26,7 @@ namespace SoftwareNinjas.TestOriented.Core
             { "string",	"\"TODO\"" },
         };
 
-        private readonly MethodDeclaration _method;
+        private readonly ParametrizedNode _method;
         private readonly TypeDeclaration _parentType;
         /// <summary>
         /// Identifies if the <see cref="Method"/> that will be tested needs an instance of <see cref="ParentType"/>
@@ -46,30 +46,35 @@ namespace SoftwareNinjas.TestOriented.Core
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AbstractMethodTemplate"/> parameterized template with the
-        /// specified <paramref name="method"/> and <paramref name="parentType"/>.
+        /// specified <paramref name="node"/> and <paramref name="parentType"/>.
         /// </summary>
         /// 
-        /// <param name="method">
-        /// The <see cref="MethodDeclaration"/> representing the method for which tests are to be written.
+        /// <param name="node">
+        /// The <see cref="ParametrizedNode"/> representing the node for which templates are to be written.
         /// </param>
         /// 
         /// <param name="parentType">
-        /// The <see cref="TypeDeclaration"/> that contains <paramref name="method"/>.
+        /// The <see cref="TypeDeclaration"/> that contains <paramref name="node"/>.
         /// </param>
-        protected AbstractMethodTemplate (MethodDeclaration method, TypeDeclaration parentType)
+        protected AbstractMethodTemplate(ParametrizedNode node, TypeDeclaration parentType)
         {
-            _method = method;
+            _method = node;
             _parentType = parentType;
             NeedsInstance = !_method.Modifier.HasFlag(Modifiers.Static);
 
-            var returnValue = method.TypeReference;
+            ReturnValue = node.GetTypeReference(parentType);
             HasReturnValue =
             !(
-                returnValue.IsNull
-                || "System.Void" == returnValue.Type
-                || "void" == returnValue.Type
+                ReturnValue.IsNull
+                || "System.Void" == ReturnValue.Type
+                || "void" == ReturnValue.Type
             );
         }
+
+        /// <summary>
+        /// The value created or returned by the constructor or method call, if appropriate.
+        /// </summary>
+        public readonly TypeReference ReturnValue;
 
         /// <summary>
         /// Determines if the <see cref="Method"/> is expected to return a value.
@@ -77,9 +82,9 @@ namespace SoftwareNinjas.TestOriented.Core
         public readonly bool HasReturnValue;
 
         /// <summary>
-        /// The method being tested.
+        /// The method or constructor that is central to the template.
         /// </summary>
-        public MethodDeclaration Method
+        public ParametrizedNode Method
         {
             get
             {

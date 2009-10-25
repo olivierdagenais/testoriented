@@ -11,7 +11,7 @@ public void <#= Method.Name #>_TODO ( ) {
 	Assert.Fail ( "TODO: initialize variable(s)<# if ( HasReturnValue ) { #> and expected value<# } #>" );
 <#= MethodCallStub.Generate(Method, ParentType, "actual") #>
 <# if ( HasReturnValue ) { #>
-	<#= DetermineDeclarationForType(Method.TypeReference) #> expected = <#= DefaultValue(Method.TypeReference) #>;
+	<#= DetermineDeclarationForType(ReturnValue) #> expected = <#= DefaultValue(ReturnValue) #>;
 	Assert.AreEqual ( expected, actual );
 <# } #>
 }
