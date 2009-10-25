@@ -4,6 +4,6 @@
 <# foreach ( var parameter in Method.Parameters ) { #>
 	<#= DetermineDeclarationForType(parameter.TypeReference) #> <#= parameter.ParameterName #> = <#= DefaultValue(parameter.TypeReference) #>;
 <# } #>
-	<# if ( HasReturnValue ) { #><#= DetermineDeclarationForType(Method.TypeReference) #> <#= ReturnVariableName #> = <#
+	<# if ( HasReturnValue ) { #><#= DetermineDeclarationForType(Method.TypeReference) #> <#= VariableName #> = <#
 	} #><#= InstanceOrClass #>.<#= Method.Name #> ( <#= 
 		Method.Parameters.Join(", ", p => p.ParameterName ) #> );

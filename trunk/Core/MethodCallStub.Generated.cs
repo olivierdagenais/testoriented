@@ -111,7 +111,7 @@ namespace SoftwareNinjas.TestOriented.Core {
             #line hidden
             
             #line 8 "MethodCallStub.tt"
-            this.Write( ReturnVariableName );
+            this.Write( VariableName );
             
             #line default
             #line hidden

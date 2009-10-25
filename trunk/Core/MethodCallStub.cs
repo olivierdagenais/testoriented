@@ -15,7 +15,7 @@ namespace SoftwareNinjas.TestOriented.Core
         /// <summary>
         /// The name of the variable that will be assigned the result of the method call, if appropriate.
         /// </summary>
-        public readonly string ReturnVariableName;
+        public readonly string VariableName;
 
         /// <summary>
         /// The origin of the call to <see cref="MethodDeclaration"/>.
@@ -35,13 +35,13 @@ namespace SoftwareNinjas.TestOriented.Core
         /// The <see cref="TypeDeclaration"/> that contains <paramref name="methodToCall"/>.
         /// </param>
         /// 
-        /// <param name="returnVariableName">
+        /// <param name="variableName">
         /// The name of the variable to which the result of the method will be assigned, if appropriate.
         /// </param>
-        public MethodCallStub (MethodDeclaration methodToCall, TypeDeclaration parentType, string returnVariableName) 
+        public MethodCallStub (MethodDeclaration methodToCall, TypeDeclaration parentType, string variableName) 
             : base (methodToCall, parentType)
         {
-            ReturnVariableName = returnVariableName ?? "result";
+            VariableName = variableName ?? "result";
             InstanceOrClass = NeedsInstance ? DetermineInstanceVariableName(parentType) : parentType.Name;
         }
 

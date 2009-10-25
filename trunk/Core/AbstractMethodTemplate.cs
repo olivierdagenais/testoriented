@@ -61,27 +61,20 @@ namespace SoftwareNinjas.TestOriented.Core
             _method = method;
             _parentType = parentType;
             NeedsInstance = !_method.Modifier.HasFlag(Modifiers.Static);
+
+            var returnValue = method.TypeReference;
+            HasReturnValue =
+            !(
+                returnValue.IsNull
+                || "System.Void" == returnValue.Type
+                || "void" == returnValue.Type
+            );
         }
 
         /// <summary>
-        /// Determines if the <see cref="Method"/> that will be tested is expected to return a value.
+        /// Determines if the <see cref="Method"/> is expected to return a value.
         /// </summary>
-        /// 
-        /// <returns>
-        /// <see langword="true"/> if the <see cref="Method"/> returns a value; <see langword="false"/> otherwise.
-        /// </returns>
-        public bool HasReturnValue
-        {
-            get
-            {
-                var returnType = _method.TypeReference;
-                return !(
-                    returnType.IsNull
-                    || "System.Void" == returnType.Type
-                    || "void" == returnType.Type
-                );
-            }
-        }
+        public readonly bool HasReturnValue;
 
         /// <summary>
         /// The method being tested.

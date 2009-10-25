@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
+
 using ICSharpCode.NRefactory.Ast;
-using SoftwareNinjas.Core;
-using Parent = SoftwareNinjas.TestOriented.Core;
 using NUnit.Framework;
+using SoftwareNinjas.Core;
+
+using Parent = SoftwareNinjas.TestOriented.Core;
 
 namespace SoftwareNinjas.TestOriented.Core.Test
 {
@@ -13,7 +14,7 @@ namespace SoftwareNinjas.TestOriented.Core.Test
     [TestFixture]
     public class AbstractMethodTemplate
     {
-        private static readonly TypeReference StringTypeReference = new TypeReference("string", true);
+        internal static readonly TypeReference StringTypeReference = new TypeReference("string", true);
 
         private class TestableMethodTemplate : Parent.AbstractMethodTemplate
         {
@@ -130,7 +131,7 @@ namespace SoftwareNinjas.TestOriented.Core.Test
             Assert.AreEqual("System.String", actual);
         }        
 
-        private static TypeDeclaration CreateClassUnderTest()
+        internal static TypeDeclaration CreateClassUnderTest()
         {
             var cut = new TypeDeclaration(Modifiers.Public, Parent.AbstractMethodTemplate.EmptyAttributeList)
             {
@@ -139,7 +140,7 @@ namespace SoftwareNinjas.TestOriented.Core.Test
             return cut;
         }
 
-        private static ConstructorDeclaration CreateDefaultConstructor(TypeDeclaration cut)
+        internal static ConstructorDeclaration CreateDefaultConstructor(TypeDeclaration cut)
         {
             var result = new ConstructorDeclaration(cut.Name, Modifiers.Public,
                 Parent.AbstractMethodTemplate.EmptyParameterList, Parent.AbstractMethodTemplate.EmptyAttributeList);
@@ -147,7 +148,7 @@ namespace SoftwareNinjas.TestOriented.Core.Test
             return result;
         }
 
-        private static ConstructorDeclaration CreateParameterizedConstructor(TypeDeclaration cut)
+        internal static ConstructorDeclaration CreateParameterizedConstructor(TypeDeclaration cut)
         {
             var result = new ConstructorDeclaration(cut.Name, Modifiers.Public,
                 null, Parent.AbstractMethodTemplate.EmptyAttributeList);

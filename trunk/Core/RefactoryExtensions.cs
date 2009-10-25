@@ -37,5 +37,41 @@ namespace SoftwareNinjas.TestOriented.Core
             node.Parameters.Add(parameter);
             return parameter;
         }
+
+        /// <summary>
+        /// Provides a mechanism for making a <see cref="ConstructorDeclaration"/> a bit more like a
+        /// <see cref="MethodDeclaration"/> by simulating a common method for the result of their respective executions.
+        /// </summary>
+        /// 
+        /// <param name="node">
+        /// A constructor or method.
+        /// </param>
+        /// 
+        /// <param name="parentType">
+        /// The <see cref="TypeDeclaration"/> in which the constructor or method denoted by <paramref name="node"/> can
+        /// be found.
+        /// </param>
+        /// 
+        /// <returns>
+        /// A <see cref="TypeReference"/>, if one could be determined; otherwise <see cref="NullTypeReference"/>.
+        /// </returns>
+        public static TypeReference GetTypeReference(this ParametrizedNode node, TypeDeclaration parentType)
+        {
+            var result = TypeReference.Null;
+            var method = node as MethodDeclaration;
+            if(method != null)
+            {
+                result = method.TypeReference;
+            }
+            else
+            {
+                var constructor = node as ConstructorDeclaration;
+                if (constructor != null)
+                {
+                    result = new TypeReference(parentType.Name);
+                }
+            }
+            return result;
+        }
     }
 }
