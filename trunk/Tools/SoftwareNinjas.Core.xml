@@ -1141,6 +1141,29 @@
             An enumeration of the lines contained in <paramref name="input"/>.
             </returns>
         </member>
+        <member name="M:SoftwareNinjas.Core.StringExtensions.CombinePath(System.String,System.String[])">
+            <summary>
+            Combines all the path fragments together.
+            </summary>
+            
+            <param name="input">
+            The first fragment.
+            </param>
+            
+            <param name="pathFragments">
+            The subsequent fragment(s).
+            </param>
+            
+            <returns>
+            All fragments assembled - with the appropriate separator - into a single <see cref="T:System.String"/>.
+            </returns>
+            
+            <remarks>
+            This is equivalent to cascading calls to <see cref="M:System.IO.Path.Combine(System.String,System.String)"/>.
+            </remarks>
+            
+            <seealso cref="M:System.IO.Path.Combine(System.String,System.String)"/>
+        </member>
         <member name="T:System.Action">
             <summary>
             Encapsulates a method that takes no parameters and does not return a value.
@@ -1717,6 +1740,24 @@
             <summary>
             Tests <see cref="M:SoftwareNinjas.Core.StringExtensions.Lines(System.String)"/>
             with a multi-line string.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.StringExtensions.CombinePath_ZeroArguments">
+            <summary>
+            Tests <see cref="M:SoftwareNinjas.Core.StringExtensions.CombinePath(System.String,System.String[])"/>
+            with zero additional path fragments.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.StringExtensions.CombinePath_OneArgument">
+            <summary>
+            Tests <see cref="M:SoftwareNinjas.Core.StringExtensions.CombinePath(System.String,System.String[])"/>
+            with a single path fragment to add.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.StringExtensions.CombinePath_TwoArguments">
+            <summary>
+            Tests <see cref="M:SoftwareNinjas.Core.StringExtensions.CombinePath(System.String,System.String[])"/>
+            by adding two path fragments.
             </summary>
         </member>
     </members>
