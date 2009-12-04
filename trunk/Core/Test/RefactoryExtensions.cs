@@ -113,7 +113,7 @@ public void Unformat_TODO ( ) {
         }
 
         /// <summary>
-        /// Tests the <see cref="Parent.RefactoryExtensions.Collapse(IEnumerable&lt;ISpecial&gt;)"/> method
+        /// Tests the <see cref="Parent.RefactoryExtensions.Collapse(IEnumerable{ISpecial})"/> method
         /// with a list of <see cref="ISpecial"/> instances created by parsing source code.
         /// </summary>
         [Test]
@@ -125,9 +125,37 @@ public void Unformat_TODO ( ) {
             Assert.AreEqual (1, collapsedSpecials.Count);
             Comment comment = (Comment)collapsedSpecials[0];
             Assert.AreEqual (2, comment.StartPosition.Line);
-            Assert.AreEqual (5, comment.EndPosition.Line);
+            Assert.AreEqual (6, comment.EndPosition.Line, "The last of the specials also ended at line 6");
             Assert.AreEqual (SimpleCodeDocumentationComment, comment.CommentText);
         }
+
+        /// <summary>
+        /// Tests the <see cref="Parent.RefactoryExtensions.AttachDocumentationComments(INode,IEnumerable{ISpecial})"/>
+        /// method with a list of <see cref="ISpecial"/> instances created by parsing the source code of a method.
+        /// </summary>
+        [Test]
+        public void AttachDocumentationComments_ParsedFromSourceCode ()
+        {
+            var pair = ParseTypeMembers (DocumentedMethod);
+            var node = pair.Second[0];
+            Parent.RefactoryExtensions.AttachDocumentationComments (node, pair.First);
+            var actual = node.GetDocumentation ();
+            Assert.AreEqual (SimpleCodeDocumentationComment, actual);
+        }
+
+        /// <summary>
+        /// Tests the <see cref="Parent.RefactoryExtensions.DetermineEarliestLine(INode)" /> method with
+        /// a typical scenario of a unit test method decorated with an attribute.
+        /// </summary>
+        [Test]
+        public void DetermineEarliestLine_Typical()
+        {
+            var pair = ParseTypeMembers(DocumentedMethod);
+            var node = pair.Second[0];
+            var actual = Parent.RefactoryExtensions.DetermineEarliestLine(node);
+            Assert.AreEqual(6, actual);
+        }
+
 
         private static Pair<IList<ISpecial>, IList<INode>> ParseTypeMembers (string code)
         {

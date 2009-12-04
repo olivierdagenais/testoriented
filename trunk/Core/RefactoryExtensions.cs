@@ -158,7 +158,7 @@ namespace SoftwareNinjas.TestOriented.Core
                     sb.Append (comment.CommentText);
                     nextContiguousLine = comment.EndPosition.Line;
                 }
-                CreateAndAddComment (result, sb, lastCommentStartLine, nextContiguousLine - 1);
+                CreateAndAddComment (result, sb, lastCommentStartLine, nextContiguousLine);
             }
 
             return result;
@@ -182,5 +182,55 @@ namespace SoftwareNinjas.TestOriented.Core
             return false;
         }
 
+        /// <summary>
+        /// Scans the <paramref name="specials"/> and attaches those that it recognizes to their associated
+        /// <see cref="INode"/> instance in the tree under <paramref name="root"/>.
+        /// </summary>
+        /// 
+        /// <param name="root">
+        /// The starting point for the search to attach collapsed <see cref="ISpecial"/> instances to.
+        /// </param>
+        /// 
+        /// <param name="specials">
+        /// A sequence of <see cref="ISpecial"/> instances that were originally created by parsing the source code that
+        /// yielded the provided <paramref name="root"/>.
+        /// </param>
+        public static void AttachDocumentationComments (this INode root, IEnumerable<ISpecial> specials)
+        {
+            var collapsed = specials.Collapse ();
+            foreach (var special in collapsed)
+            {
+                var nextLine = special.EndPosition.Line;
+                var preOrdered = root.PreOrder (n => n.Children);
+                var filtered = preOrdered.Filter (n => DetermineEarliestLine(n) == nextLine);
+                var node = filtered.FirstOrDefault();
+                if (node != null)
+                {
+                    node.SetDocumentation (special);
+                }
+            }
+        }
+
+        internal static int DetermineEarliestLine (INode node)
+        {
+            int earliestLine = node.StartLocation.Line;
+            foreach(var child in node.FindRelatedNodes())
+            {
+                earliestLine = Math.Min (earliestLine, child.StartLocation.Line);
+            }
+            return earliestLine;
+        }
+
+        internal static IEnumerable<INode> FindRelatedNodes(this INode node)
+        {
+            if(node is AttributedNode)
+            {
+                var attributedNode = (AttributedNode) node;
+                foreach (var attribute in attributedNode.Attributes)
+                {
+                    yield return attribute;
+                }
+            }
+        }
     }
 }

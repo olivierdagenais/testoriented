@@ -28,17 +28,6 @@
             Initializes a new instance of the <see cref="T:Microsoft.VisualStudio.TextTemplating.TextTransformation"/> class.
             </summary>
         </member>
-        <member name="M:Microsoft.VisualStudio.TextTemplating.TextTransformation.#ctor(System.IFormatProvider)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Microsoft.VisualStudio.TextTemplating.TextTransformation"/> class with the specified
-            <paramref name="formatProvider"/>.
-            </summary>
-            
-            <param name="formatProvider">
-            The <see cref="T:System.IFormatProvider"/> to use when converting <see cref="T:System.Object"/> instances to
-            <see cref="T:System.String"/> instances.
-            </param>
-        </member>
         <member name="M:Microsoft.VisualStudio.TextTemplating.TextTransformation.Initialize">
             <summary>
             Initializes the <see cref="T:Microsoft.VisualStudio.TextTemplating.TextTransformation"/> class.  
@@ -301,6 +290,12 @@
             Destructor.
             </summary>
         </member>
+        <member name="P:Microsoft.VisualStudio.TextTemplating.TextTransformation.FormatProvider">
+            <summary>
+            Gets or sets the culture-specific formatting information that is used when calling
+            <see cref="M:Microsoft.VisualStudio.TextTemplating.TextTransformation.ToStringWithCulture(System.Object)"/>.
+            </summary>
+        </member>
         <member name="P:Microsoft.VisualStudio.TextTemplating.TextTransformation.Errors">
             <summary>
             Gets the error collection for the text template transformation process.
@@ -488,6 +483,24 @@
             
             <returns>
             The <paramref name="items"/> for which <paramref name="predicate"/> returned <see langword="true"/>.
+            </returns>
+        </member>
+        <member name="M:SoftwareNinjas.Core.EnumerableExtensions.FirstOrDefault``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Returns the first element of a sequence, or a default value if the sequence contains no elements.
+            </summary>
+            
+            <typeparam name="T">
+            The type of the elements of <paramref name="source"/>.
+            </typeparam>
+            
+            <param name="source">
+            The <see cref="T:System.Collections.Generic.IEnumerable`1"/> to return the first element of.
+            </param>
+            
+            <returns>
+            <b>default</b>(<typeparamref name="T"/>) if <paramref name="source"/> is empty; otherwise, the first element
+            in <paramref name="source"/>.
             </returns>
         </member>
         <member name="M:SoftwareNinjas.Core.EnumerableExtensions.ForElse``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Boolean},System.Action)">
@@ -1620,6 +1633,18 @@
             used to check if each <typeparamref name="T"/> is equal.
             </param>
         </member>
+        <member name="M:SoftwareNinjas.Core.Test.EnumerableExtensions.FirstOrDefault_EmptySequence">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.Core.EnumerableExtensions.FirstOrDefault``1(System.Collections.Generic.IEnumerable{``0})"/> method with
+            empty sequences.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.EnumerableExtensions.FirstOrDefault_SequenceWithOneItem">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.Core.EnumerableExtensions.FirstOrDefault``1(System.Collections.Generic.IEnumerable{``0})"/> method with
+            sequences that contain one item.
+            </summary>
+        </member>
         <member name="M:SoftwareNinjas.Core.Test.EnumerableExtensions.ForElse_HasOneItem">
             <summary>
             Tests <see cref="M:SoftwareNinjas.Core.EnumerableExtensions.ForElse``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0},System.Action)"/> with
@@ -1759,6 +1784,56 @@
             Tests <see cref="M:SoftwareNinjas.Core.StringExtensions.CombinePath(System.String,System.String[])"/>
             by adding two path fragments.
             </summary>
+        </member>
+        <member name="T:SoftwareNinjas.Core.Test.TreeExtensions">
+            <summary>
+            A class to test <see cref="T:SoftwareNinjas.Core.TreeExtensions"/>.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.TreeExtensions.PreOrder_OnlyOneNode">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.Core.TreeExtensions.PreOrder``1(``0,System.Func{``0,System.Collections.Generic.IEnumerable{``0}})"/> method with
+            the special case of a single node and no children.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.TreeExtensions.PreOrder_OneLevel">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.Core.TreeExtensions.PreOrder``1(``0,System.Func{``0,System.Collections.Generic.IEnumerable{``0}})"/> method with
+            the scenario of a single level of nodes.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.TreeExtensions.PreOrder_MultipleLevels">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.Core.TreeExtensions.PreOrder``1(``0,System.Func{``0,System.Collections.Generic.IEnumerable{``0}})"/> method with
+            what a high-level parse tree of a code file might look like.
+            </summary>
+        </member>
+        <member name="T:SoftwareNinjas.Core.TreeExtensions">
+            <summary>
+            Extension methods for tree-based structures.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.TreeExtensions.PreOrder``1(``0,System.Func{``0,System.Collections.Generic.IEnumerable{``0}})">
+            <summary>
+            Traverses a tree of objects by visiting the <paramref name="startingPoint"/> and then its children,
+            recursively.
+            </summary>
+            
+            <typeparam name="T">
+            The type of the <paramref name="startingPoint"/> as well as any children encountered along the way.
+            </typeparam>
+            
+            <param name="startingPoint">
+            The node from which the traversal will begin.
+            </param>
+            
+            <param name="children">
+            A method that can obtain the children of instances of <typeparamref name="T"/>.
+            </param>
+            
+            <returns>
+            A sequence of the nodes in the tree.
+            </returns>
         </member>
     </members>
 </doc>
