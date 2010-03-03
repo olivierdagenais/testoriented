@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-using SoftwareNinjas.Core;
-using ICSharpCode.NRefactory.Ast;
+﻿using ICSharpCode.NRefactory.Ast;
 
 namespace SoftwareNinjas.TestOriented.Core
 {
@@ -26,6 +22,27 @@ namespace SoftwareNinjas.TestOriented.Core
         public TestMethod (ParametrizedNode methodToTest, TypeDeclaration classUnderTest) 
             : base (methodToTest, classUnderTest)
         {
+        }
+
+        /// <summary>
+        /// Convenience method to create an instance of <see cref="TestMethod"/> initialized with the provided
+        /// <paramref name="methodToTest"/> and then execute the template to produce the string representation of the
+        /// unit test method.
+        /// </summary>
+        /// 
+        /// <param name="methodToTest">
+        /// The <see cref="ParametrizedNode"/> representing the method or constructor for which tests are to be written.
+        /// </param>
+        /// 
+        /// <returns>
+        /// The string representation of the source code of the generated method to test
+        /// <paramref name="methodToTest"/>.
+        /// </returns>
+        public static string Generate (ParametrizedNode methodToTest)
+        {
+            var testMethodGenerator = new TestMethod(methodToTest, (TypeDeclaration)methodToTest.Parent);
+            var testMethodCode = testMethodGenerator.TransformText();
+            return testMethodCode;
         }
     }
 }

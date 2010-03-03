@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Collections.Generic;
 using ICSharpCode.NRefactory.Ast;
 using NUnit.Framework;
 using SoftwareNinjas.Core;
@@ -73,20 +73,32 @@ namespace SoftwareNinjas.TestOriented.Core.Test
         }
 
         /// <summary>
-        /// Tests the <see cref="Parent.AbstractMethodTemplate.DetermineDeclarationForType(TypeReference)" /> method with
-        /// an array of arrays of explicit 32-bit integers.
+        /// Tests the <see cref="Parent.AbstractMethodTemplate.DetermineDeclarationForType(TypeReference)" /> method
+        /// with an array of arrays of explicit 32-bit integers.
         /// </summary>
         [Test]
         public void DetermineDeclarationForType_ArrayOfArrayOfInt32()
         {
             var intArrayArray = new TypeReference("System.Int32", new[] { 0, 0 }) { IsKeyword = true };
             var actual = Parent.AbstractMethodTemplate.DetermineDeclarationForType(intArrayArray);
-            Assert.AreEqual("System.Int32[][]", actual);
+            Assert.AreEqual("int[][]", actual);
         }
 
         /// <summary>
-        /// Tests the <see cref="Parent.AbstractMethodTemplate.DetermineDeclarationForType(TypeReference)" /> method with
-        /// an array of arrays of implicit 32-bit integers.
+        /// Tests the <see cref="Parent.AbstractMethodTemplate.DetermineDeclarationForType(TypeReference)" /> method
+        /// with an array of implicit 32-bit integers.
+        /// </summary>
+        [Test]
+        public void DetermineDeclarationForType_ArrayOfInt()
+        {
+            var intArray = new TypeReference("int", new[] { 0 }) { IsKeyword = true };
+            var actual = Parent.AbstractMethodTemplate.DetermineDeclarationForType(intArray);
+            Assert.AreEqual("int[]", actual);
+        }
+
+        /// <summary>
+        /// Tests the <see cref="Parent.AbstractMethodTemplate.DetermineDeclarationForType(TypeReference)" /> method
+        /// with an array of arrays of implicit 32-bit integers.
         /// </summary>
         [Test]
         public void DetermineDeclarationForType_ArrayOfArrayOfInt()
@@ -97,8 +109,8 @@ namespace SoftwareNinjas.TestOriented.Core.Test
         }
 
         /// <summary>
-        /// Tests the <see cref="Parent.AbstractMethodTemplate.DetermineDeclarationForType(TypeReference)" /> method with
-        /// a <see cref="string"/> defined as the simple type.
+        /// Tests the <see cref="Parent.AbstractMethodTemplate.DetermineDeclarationForType(TypeReference)" /> method
+        /// with a <see cref="string"/> defined as the simple type.
         /// </summary>
         [Test]
         public void DetermineDeclarationForType_SimpleString()
@@ -108,8 +120,20 @@ namespace SoftwareNinjas.TestOriented.Core.Test
         }
 
         /// <summary>
-        /// Tests the <see cref="Parent.AbstractMethodTemplate.DetermineDeclarationForType(TypeReference)" /> method with
-        /// a <see cref="String"/> defined as the official type.
+        /// Tests the <see cref="Parent.AbstractMethodTemplate.DetermineDeclarationForType(TypeReference)" /> method
+        /// with an array of implicit strings.
+        /// </summary>
+        [Test]
+        public void DetermineDeclarationForType_ArrayOfString()
+        {
+            var intArray = new TypeReference("string", new[] { 0 }) { IsKeyword = true };
+            var actual = Parent.AbstractMethodTemplate.DetermineDeclarationForType(intArray);
+            Assert.AreEqual("string[]", actual);
+        }
+
+        /// <summary>
+        /// Tests the <see cref="Parent.AbstractMethodTemplate.DetermineDeclarationForType(TypeReference)" /> method
+        /// with a <see cref="String"/> defined as the official type.
         /// </summary>
         [Test]
         public void DetermineDeclarationForType_ExplicitString()
@@ -120,16 +144,48 @@ namespace SoftwareNinjas.TestOriented.Core.Test
         }
 
         /// <summary>
-        /// Tests the <see cref="Parent.AbstractMethodTemplate.DetermineDeclarationForType(TypeReference)" /> method with
-        /// a <see cref="String"/> defined as the official scoped type.
+        /// Tests the <see cref="Parent.AbstractMethodTemplate.DetermineDeclarationForType(TypeReference)" /> method
+        /// with a <see cref="String"/> defined as the official scoped type.
         /// </summary>
         [Test]
         public void DetermineDeclarationForType_ExplicitAndScopedString()
         {
             var systemString = new TypeReference("System.String", false);
             var actual = Parent.AbstractMethodTemplate.DetermineDeclarationForType(systemString);
-            Assert.AreEqual("System.String", actual);
-        }        
+            Assert.AreEqual("string", actual);
+        }
+
+        /// <summary>
+        /// Tests the <see cref="Parent.AbstractMethodTemplate.DetermineDeclarationForType(TypeReference)" /> method
+        /// with an array of <see cref="String"/> defined as the official scoped type.
+        /// </summary>
+        [Test]
+        public void DetermineDeclarationForType_ArrayOfExplicitAndScopedString()
+        {
+            var systemStringArray = new TypeReference("System.String", new[] {0});
+            var actual = Parent.AbstractMethodTemplate.DetermineDeclarationForType(systemStringArray);
+            Assert.AreEqual("string[]", actual);
+        }
+
+        /// <summary>
+        /// Tests the <see cref="Parent.AbstractMethodTemplate.DetermineDeclarationForType(TypeReference)" /> method
+        /// with a <see cref="Dictionary{TKey,TValue}"/> where <c>TKey</c> is a <see cref="String"/> and <c>TValue</c>
+        /// is a <see cref="List{T}"/> of <see cref="Int32"/>[].
+        /// </summary>
+        [Test]
+        public void DetermineDeclarationForType_DictionaryOfStringAndListOfIntegerArrays()
+        {
+            var @string = new TypeReference("System.String");
+            var integerArray = new TypeReference("System.Int32", new[] { 0 });
+            var listOfIntegerArrays = new TypeReference("List") { GenericTypes = { integerArray } };
+            var dictionaryOfStringAndListOfIntegerArrays = new TypeReference("Dictionary")
+            {
+                GenericTypes = { @string, listOfIntegerArrays } 
+            };
+            var actual =
+                Parent.AbstractMethodTemplate.DetermineDeclarationForType(dictionaryOfStringAndListOfIntegerArrays);
+            Assert.AreEqual("Dictionary<string,List<int[]>>", actual);
+        }
 
         internal static TypeDeclaration CreateClassUnderTest()
         {

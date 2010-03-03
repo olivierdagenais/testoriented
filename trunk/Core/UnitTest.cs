@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using SoftwareNinjas.Core;
-using ICSharpCode.NRefactory.Ast;
+﻿using ICSharpCode.NRefactory.Ast;
 
 namespace SoftwareNinjas.TestOriented.Core
 {
@@ -17,7 +12,7 @@ namespace SoftwareNinjas.TestOriented.Core
         /// </summary>
         /// 
         /// <param name="methodToTest">
-        /// A <see cref="MethodDeclaration"/> representing the method for which a test is to be written.
+        /// A <see cref="ParametrizedNode"/> representing the method for which a test is to be written.
         /// </param>
         /// 
         /// <param name="classUnderTest">
@@ -27,7 +22,7 @@ namespace SoftwareNinjas.TestOriented.Core
         /// <returns>
         /// A C# NUnit test method stub.
         /// </returns>
-        public static string GenerateTestMethod(MethodDeclaration methodToTest, TypeDeclaration classUnderTest)
+        public static string GenerateTestMethod (ParametrizedNode methodToTest, TypeDeclaration classUnderTest)
         {
             var template = new TestMethod (methodToTest, classUnderTest);
             return template.TransformText();

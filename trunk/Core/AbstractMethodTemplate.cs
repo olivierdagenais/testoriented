@@ -110,6 +110,7 @@ namespace SoftwareNinjas.TestOriented.Core
             // TODO: TypeDeclaration could have the Static modifier, at which point there are no constructors possible!
 
             // TODO: The TypeDeclaration could be _partial_, at which point the search would be inconclusive!
+            // We would then have to either scan the rest of the project and/or the resulting/compiled assembly
             ParametrizedNode simplestConstructor = null;
             source.Children.Filter(node => node is ConstructorDeclaration).ForElse(
             node =>
@@ -170,7 +171,7 @@ namespace SoftwareNinjas.TestOriented.Core
         /// </returns>
         public static string DefaultValue(TypeReference source)
         {
-            var typeName = source.ToString();
+            var typeName = DetermineDeclarationForType(source);
             if(SimpleTypeDefaultValues.ContainsKey(typeName))
             {
                 return SimpleTypeDefaultValues[typeName];
@@ -181,9 +182,9 @@ namespace SoftwareNinjas.TestOriented.Core
 
         internal static string DetermineDeclarationForType(TypeReference type)
         {
-            // TODO: It might be worth improving this to use TypeReference.PrimitiveTypesCSharpReverse
-            // so the code looks more "natural"
-            var result = type.ToString();
+            // TODO: if the user is generating tests using the same-class-name convention, then type declarations
+            // must be namespace-unambiguous, using a namespace alias (if there is one) or the full name
+            var result = type.ToSimpleString();
             return result;
         }
 

@@ -548,6 +548,35 @@
             An action that will be called if the sequence did not yield any items.
             </param>
         </member>
+        <member name="M:SoftwareNinjas.Core.EnumerableExtensions.Insert``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``0},System.Int32)">
+            <summary>
+            Combines two sequences such that the <paramref name="insertedItems"/> will appear before the
+            <paramref name="items"/> at the provided <paramref name="insertionIndex"/>, followed by the rest of the
+            <paramref name="items"/>.
+            </summary>
+            
+            <typeparam name="T">
+            The type of <paramref name="items"/> and <paramref name="insertedItems"/>.
+            </typeparam>
+            
+            <param name="items">
+            The sequence in which to insert <paramref name="insertedItems"/>.
+            </param>
+            
+            <param name="insertedItems">
+            The sequence to insert into <paramref name="items"/>.
+            </param>
+            
+            <param name="insertionIndex">
+            The index of the item in <paramref name="items"/> before which <paramref name="insertedItems"/> will be
+            inserted.
+            </param>
+            
+            <returns>
+            A sequence representing the insertion of <paramref name="insertedItems"/> into <paramref name="items"/>
+            at the specified <paramref name="insertionIndex"/>.
+            </returns>
+        </member>
         <member name="M:SoftwareNinjas.Core.EnumerableExtensions.Join``1(System.Collections.Generic.IEnumerable{``0},System.String)">
             <summary>
             Concatenates a specified separator <see cref="T:System.String"/> between each element of a specified
@@ -1141,6 +1170,34 @@
             
             <seealso cref="M:System.String.Format(System.IFormatProvider,System.String,System.Object[])"/>
         </member>
+        <member name="M:SoftwareNinjas.Core.StringExtensions.InsertLines(System.String,System.String,System.Int32)">
+            <summary>
+            Merges two strings such that the lines of <paramref name="input"/> before
+            <paramref name="insertionLineNumber"/> will appear before the lines of <paramref name="inserted"/> and
+            finally the remaining lines of <paramref name="input"/> will be appear.
+            </summary>
+            
+            <param name="input">
+            The <see cref="T:System.String"/> in which to insert <paramref name="inserted"/>.
+            </param>
+            
+            <param name="inserted">
+            The <see cref="T:System.String"/> to insert inside <paramref name="input"/>.
+            </param>
+            
+            <param name="insertionLineNumber">
+            The (one-based) line number at which to insert <paramref name="inserted"/> into <paramref name="input"/>.
+            </param>
+            
+            <returns>
+            A <see cref="T:System.String"/> representing the insertion of <paramref name="inserted"/> at the specified
+            <paramref name="insertionLineNumber"/> inside of <paramref name="input"/>.
+            </returns>
+            
+            <remarks>
+            This is a special case of <see cref="M:SoftwareNinjas.Core.EnumerableExtensions.Insert``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``0},System.Int32)"/>.
+            </remarks>
+        </member>
         <member name="M:SoftwareNinjas.Core.StringExtensions.Lines(System.String)">
             <summary>
             Enumerates the lines of text inside the string.
@@ -1669,6 +1726,32 @@
             the exceptional case where the <see cref="T:System.Collections.Generic.IEnumerable`1"/> did not yield any items.
             </summary>
         </member>
+        <member name="M:SoftwareNinjas.Core.Test.EnumerableExtensions.Insert_Typical">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.Core.EnumerableExtensions.Insert``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``0},System.Int32)"/> method
+            with the typical case.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.EnumerableExtensions.Insert_TypicalWithMultiLineStrings">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.Core.EnumerableExtensions.Insert``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``0},System.Int32)"/> method
+            with the typical case, this time using multi-line strings.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.EnumerableExtensions.Insert_AtTheBeginning">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.Core.EnumerableExtensions.Insert``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``0},System.Int32)"/> method
+            with the edge case of the inserted items going before all the items, like calling
+            <see cref="M:SoftwareNinjas.Core.EnumerableExtensions.Compose``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``0})"/>.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.EnumerableExtensions.Insert_AtTheEnd">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.Core.EnumerableExtensions.Insert``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``0},System.Int32)"/> method
+            with the edge case of the inserted items going after all the items, like calling
+            <see cref="M:SoftwareNinjas.Core.EnumerableExtensions.Compose``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``0})"/>.
+            </summary>
+        </member>
         <member name="M:SoftwareNinjas.Core.Test.EnumerableExtensions.Join">
             <summary>
             Tests <see cref="M:SoftwareNinjas.Core.EnumerableExtensions.Join``1(System.Collections.Generic.IEnumerable{``0},System.String)"/>.
@@ -1747,6 +1830,12 @@
             <summary>
             Tests <see cref="M:SoftwareNinjas.Core.StringExtensions.FormatProvider(System.String,System.IFormatProvider,System.Object[])"/>
             with one argument.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.StringExtensions.Insert_Typical">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.Core.StringExtensions.InsertLines(System.String,System.String,System.Int32)"/> method with
+            the typical case.
             </summary>
         </member>
         <member name="M:SoftwareNinjas.Core.Test.StringExtensions.Lines_Empty">

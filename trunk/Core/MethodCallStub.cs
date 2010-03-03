@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-using SoftwareNinjas.Core;
-using ICSharpCode.NRefactory.Ast;
+﻿using ICSharpCode.NRefactory.Ast;
 
 namespace SoftwareNinjas.TestOriented.Core
 {

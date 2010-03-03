@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 
 using ICSharpCode.NRefactory;
 using ICSharpCode.NRefactory.Ast;
@@ -17,12 +16,12 @@ namespace SoftwareNinjas.TestOriented.Core.Test
     [TestFixture]
     public class RefactoryExtensions
     {
-        private const string SimpleCodeDocumentationComment = @" <summary>
+        internal const string SimpleCodeDocumentationComment = @" <summary>
  Tests the <c>Unformat</c> method with
  TODO: write about scenario
  </summary>";
 
-        private const string DocumentedMethod = @"
+        internal const string DocumentedMethod = @"
 /// <summary>
 /// Tests the <c>Unformat</c> method with
 /// TODO: write about scenario
@@ -37,7 +36,6 @@ public void Unformat_TODO ( ) {
 	Assert.AreEqual ( expected, actual );
 }
 ";
-
 
         /// <summary>
         /// Tests the <see cref="Parent.RefactoryExtensions.GetTypeReference(ParametrizedNode,TypeDeclaration)" />
@@ -104,10 +102,10 @@ public void Unformat_TODO ( ) {
         [Test]
         public void NodeDocumentation_ISpecial_ParsedFromSourceCode ()
         {
-            var pair = ParseTypeMembers (DocumentedMethod);
-            var specials = pair.First.Collapse();
-            var member = pair.Second[0];
-            Parent.RefactoryExtensions.SetDocumentation (member, specials[0]);
+            var pair = Parent.Parser.Parse(DocumentedMethod, Parent.Parser.DoParseTypeMembers);
+            var specials = pair.Second.Collapse();
+            var member = pair.First.Children[0].Children[0];
+            Parent.RefactoryExtensions.SetDocumentation (member, specials.FirstOrDefault());
             var actual = Parent.RefactoryExtensions.GetDocumentation (member);
             Assert.AreEqual (SimpleCodeDocumentationComment, actual);
         }
@@ -117,16 +115,78 @@ public void Unformat_TODO ( ) {
         /// with a list of <see cref="ISpecial"/> instances created by parsing source code.
         /// </summary>
         [Test]
-        public void Collapse_ParsedFromSourceCode ()
+        public void Collapse_MethodParsedFromSourceCode ()
         {
-            var pair = ParseTypeMembers (DocumentedMethod);
-            var specials = pair.First;
+            var pair = Parent.Parser.Parse(DocumentedMethod, Parent.Parser.DoParseTypeMembers);
+            var specials = pair.Second;
             var collapsedSpecials = Parent.RefactoryExtensions.Collapse ( specials );
-            Assert.AreEqual (1, collapsedSpecials.Count);
-            Comment comment = (Comment)collapsedSpecials[0];
+            var comment = (Comment)collapsedSpecials.FirstOrDefault();
             Assert.AreEqual (2, comment.StartPosition.Line);
             Assert.AreEqual (6, comment.EndPosition.Line, "The last of the specials also ended at line 6");
             Assert.AreEqual (SimpleCodeDocumentationComment, comment.CommentText);
+        }
+
+        /// <summary>
+        /// Tests the <see cref="Parent.RefactoryExtensions.Collapse(IEnumerable{ISpecial})"/> method
+        /// with a list of <see cref="ISpecial"/> instances created by parsing source code of a compilation unit.
+        /// </summary>
+        [Test]
+        public void Collapse_CompilationUnitParsedFromSourceCode()
+        {
+            var pair = Parent.Parser.Parse(UnitTest.UnformatterTestSource, Parent.Parser.DoParseCompilationUnit);
+            var specials = pair.Second;
+            var collapsedSpecials = Parent.RefactoryExtensions.Collapse(specials);
+            var e = collapsedSpecials.GetEnumerator();
+
+            Assert.IsTrue(e.MoveNext());
+            var comment = (Comment) e.Current;
+            Assert.AreEqual(6, comment.StartPosition.Line);
+            Assert.AreEqual(9, comment.EndPosition.Line);
+            Assert.AreEqual(UnitTest.ClassCodeDocumentationComment, comment.CommentText);
+
+            Assert.IsTrue(e.MoveNext());
+            comment = (Comment) e.Current;
+            Assert.AreEqual(12, comment.StartPosition.Line);
+            Assert.AreEqual(16, comment.EndPosition.Line);
+            Assert.AreEqual(SimpleCodeDocumentationComment, comment.CommentText);
+        }
+
+        /// <summary>
+        /// Tests the <see cref="Parent.RefactoryExtensions.InsertTestFor(String, ParametrizedNode)" /> method with
+        /// the sample Unformat() method.
+        /// </summary>
+        [Test]
+        public void InsertTestFor_UnformatMethod()
+        {
+            var cutCu = Parent.Parser.ParseCompilationUnit(UnitTest.UnformatterSource);
+            var cutType = cutCu.GetTypeDeclarations().FirstOrDefault();
+            var methodToTest = (ParametrizedNode) cutType.Children[0];
+
+            var actualTestSourceCode = 
+                Parent.RefactoryExtensions.InsertTestFor(UnitTest.UnformatterTestSourceBlank, methodToTest);
+
+            Assert.AreEqual(UnitTest.UnformatterTestSource, actualTestSourceCode);
+        }
+
+
+        /// <summary>
+        /// Tests the <see cref="Parent.RefactoryExtensions.GenerateSourceCode(CompilationUnit)"/> method with
+        /// the typical case.
+        /// </summary>
+        [Test]
+        public void GenerateSourceCode_Typical()
+        {
+            var cu = Parent.Parser.ParseCompilationUnit(UnitTest.UnformatterTestSource);
+            var actualSource = Parent.RefactoryExtensions.GenerateSourceCode(cu);
+            AssertAreEqualNormalized(UnitTest.UnformatterTestSource, actualSource);
+        }
+
+        internal static void AssertAreEqualNormalized(string expected, string actual)
+        {
+            var trimAndReplace = new Func<string, string>( s => s.TrimEnd().Replace("\r", "") );
+            var normalizedExpected = trimAndReplace(expected);
+            var normalizedActual = trimAndReplace(actual);
+            Assert.AreEqual(normalizedExpected, normalizedActual);
         }
 
         /// <summary>
@@ -136,9 +196,9 @@ public void Unformat_TODO ( ) {
         [Test]
         public void AttachDocumentationComments_ParsedFromSourceCode ()
         {
-            var pair = ParseTypeMembers (DocumentedMethod);
-            var node = pair.Second[0];
-            Parent.RefactoryExtensions.AttachDocumentationComments (node, pair.First);
+            var pair = Parent.Parser.Parse (DocumentedMethod, Parent.Parser.DoParseTypeMembers);
+            var node = pair.First.Children[0].Children[0];
+            Parent.RefactoryExtensions.AttachDocumentationComments (node, pair.Second);
             var actual = node.GetDocumentation ();
             Assert.AreEqual (SimpleCodeDocumentationComment, actual);
         }
@@ -150,25 +210,44 @@ public void Unformat_TODO ( ) {
         [Test]
         public void DetermineEarliestLine_Typical()
         {
-            var pair = ParseTypeMembers(DocumentedMethod);
-            var node = pair.Second[0];
+            var pair = Parent.Parser.Parse(DocumentedMethod, Parent.Parser.DoParseTypeMembers);
+            var node = pair.First.Children[0].Children[0];
             var actual = Parent.RefactoryExtensions.DetermineEarliestLine(node);
             Assert.AreEqual(6, actual);
         }
 
-
-        private static Pair<IList<ISpecial>, IList<INode>> ParseTypeMembers (string code)
+        /// <summary>
+        /// Tests the <see cref="Parent.RefactoryExtensions.GetTypeDeclarations" /> method with
+        /// the typical case.
+        /// </summary>
+        [Test]
+        public void GetTypeDeclarations_Typical()
         {
-            using (TextReader tr = new StringReader (code))
-            {
-                using (IParser parser = ParserFactory.CreateParser (SupportedLanguage.CSharp, tr))
-                {
-                    List<INode> members = parser.ParseTypeMembers ();
-                    Assert.AreEqual ("", parser.Errors.ErrorOutput);
-                    IList<ISpecial> specials = parser.Lexer.SpecialTracker.CurrentSpecials;
-                    return new Pair<IList<ISpecial>, IList<INode>> (specials, members);
-                }
-            }
+            var cu = Parent.Parser.ParseCompilationUnit(UnitTest.UnformatterSource);
+
+            var actualTypeDeclarations = Core.RefactoryExtensions.GetTypeDeclarations(cu);
+
+            var e = actualTypeDeclarations.GetEnumerator();
+            Assert.IsTrue(e.MoveNext());
+            Assert.AreEqual("Unformatter", e.Current.Name);
+            Assert.IsFalse(e.MoveNext());
         }
+
+        /// <summary>
+        /// Tests the <see cref="Parent.RefactoryExtensions.GetCompilationUnit(INode)" /> method with
+        /// the typical case.
+        /// </summary>
+        [Test]
+        public void GetCompilationUnit_Typical()
+        {
+            var cu = Parent.Parser.ParseCompilationUnit(UnitTest.UnformatterSource);
+            var typeDeclarations = Core.RefactoryExtensions.GetTypeDeclarations(cu);
+            var type = typeDeclarations.FirstOrDefault();
+            var method = (MethodDeclaration) type.Children[0];
+
+            Assert.AreEqual(cu, Parent.RefactoryExtensions.GetCompilationUnit(type));
+            Assert.AreEqual(cu, Parent.RefactoryExtensions.GetCompilationUnit(method));
+        }
+
     }
 }

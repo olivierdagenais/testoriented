@@ -33,32 +33,32 @@ namespace SoftwareNinjas.TestOriented.Core {
         public override string TransformText() {
             
             #line 4 "TestMethod.tt"
-            this.Write("\r\n/// <summary>\r\n/// Tests the <c>");
+            this.Write("        /// <summary>\r\n        /// Tests the <c>");
             
             #line default
             #line hidden
             
-            #line 6 "TestMethod.tt"
+            #line 5 "TestMethod.tt"
             this.Write( Method.Name );
             
             #line default
             #line hidden
             
-            #line 6 "TestMethod.tt"
-            this.Write("</c> method with\r\n/// TODO: write about scenario\r\n/// </summary>\r\n[Test]\r\npublic " +
-                    "void ");
+            #line 5 "TestMethod.tt"
+            this.Write("</c> method with\r\n        /// TODO: write about scenario\r\n        /// </summary>\r" +
+                    "\n        [Test()]\r\n        public void ");
             
             #line default
             #line hidden
             
-            #line 10 "TestMethod.tt"
+            #line 9 "TestMethod.tt"
             this.Write( Method.Name );
             
             #line default
             #line hidden
             
-            #line 10 "TestMethod.tt"
-            this.Write("_TODO ( ) {\r\n");
+            #line 9 "TestMethod.tt"
+            this.Write("_TODO()\r\n        {\r\n");
             
             #line default
             #line hidden
@@ -88,7 +88,7 @@ namespace SoftwareNinjas.TestOriented.Core {
             #line hidden
             
             #line 14 "TestMethod.tt"
-            this.Write("\tAssert.Fail ( \"TODO: initialize variable(s)");
+            this.Write("            Assert.Fail(\"TODO: initialize variable(s)");
             
             #line default
             #line hidden
@@ -112,7 +112,7 @@ namespace SoftwareNinjas.TestOriented.Core {
             #line hidden
             
             #line 16 "TestMethod.tt"
-            this.Write("\" );\r\n");
+            this.Write("\");\r\n");
             
             #line default
             #line hidden
@@ -136,7 +136,7 @@ namespace SoftwareNinjas.TestOriented.Core {
             #line hidden
             
             #line 19 "TestMethod.tt"
-            this.Write("\t");
+            this.Write("            ");
             
             #line default
             #line hidden
@@ -160,7 +160,7 @@ namespace SoftwareNinjas.TestOriented.Core {
             #line hidden
             
             #line 19 "TestMethod.tt"
-            this.Write(";\r\n\tAssert.AreEqual ( expected, actual );\r\n");
+            this.Write(";\r\n            Assert.AreEqual(expected, actual);\r\n");
             
             #line default
             #line hidden
@@ -172,7 +172,7 @@ namespace SoftwareNinjas.TestOriented.Core {
             #line hidden
             
             #line 22 "TestMethod.tt"
-            this.Write("}\r\n");
+            this.Write("        }\r\n");
             
             #line default
             #line hidden

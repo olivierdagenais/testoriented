@@ -39,7 +39,7 @@ namespace SoftwareNinjas.TestOriented.Core {
             #line hidden
             
             #line 5 "MethodCallStub.tt"
-            this.Write("\t");
+            this.Write("            ");
             
             #line default
             #line hidden
@@ -87,7 +87,7 @@ namespace SoftwareNinjas.TestOriented.Core {
             #line hidden
             
             #line 7 "MethodCallStub.tt"
-            this.Write("\t");
+            this.Write("            ");
             
             #line default
             #line hidden
@@ -124,7 +124,7 @@ namespace SoftwareNinjas.TestOriented.Core {
             
             #line 8 "MethodCallStub.tt"
 
-	} 
+    } 
             
             #line default
             #line hidden
@@ -136,20 +136,20 @@ namespace SoftwareNinjas.TestOriented.Core {
             #line hidden
             
             #line 10 "MethodCallStub.tt"
-            this.Write(" ( ");
+            this.Write("(");
             
             #line default
             #line hidden
             
             #line 10 "MethodCallStub.tt"
             this.Write( 
-		Method.Parameters.Join(", ", p => p.ParameterName ) );
+        Method.Parameters.Join(", ", p => p.ParameterName ) );
             
             #line default
             #line hidden
             
             #line 11 "MethodCallStub.tt"
-            this.Write(" );");
+            this.Write(");");
             
             #line default
             #line hidden
