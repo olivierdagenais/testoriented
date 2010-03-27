@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<project name="test-oriented suitability" default="cover"
+    xmlns="http://testoriented.googlecode.com/schemas/nant.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://testoriented.googlecode.com/schemas/nant.xsd Tools/NAnt.xsd">
+
+    <loadtasks assembly="Tools/nantcontrib/bin/NAnt.Contrib.Tasks.dll" />
+    <loadtasks assembly="Tools/SoftwareNinjas.NAnt.dll" />
+
+    <property name="configuration" value="Debug" overwrite="false" />
+    <property name="variations" value="base" />
+    <property name="projects" value="StringExtensions" />
+
+    <target name="schema">
+        <nantschema output="Tools/NAnt.xsd" target-ns="http://testoriented.googlecode.com/schemas/nant.xsd"/>
+    </target>
+
+    <target name="clean">
+        <foreach item="String" in="${projects}" delim="," property="project">
+            <echo message="Project: ${project}..." />
+            <foreach item="String" in="${variations}" delim="," property="variation">
+                <clean
+                    configuration="${configuration}"
+                    projects="${project},${project}.Tests"
+                    basedir="Projects/${project}/${variation}"/>
+            </foreach>
+        </foreach>
+    </target>
+
+    <target name="compile" depends="clean">
+        <foreach item="String" in="${projects}" delim="," property="project">
+            <echo message="Project: ${project}..." />
+            <foreach item="String" in="${variations}" delim="," property="variation">
+                <msbuild project="Projects/${project}/${variation}/${project}.sln">
+                    <arg value="/property:Configuration=${configuration}" />
+                    <arg value="/verbosity:minimal" />
+                </msbuild>
+            </foreach>
+        </foreach>
+    </target>
+
+    <target name="cover">
+        <call target="compile" />
+        <!-- Call NCover, etc. -->
+    </target>
+
+</project>

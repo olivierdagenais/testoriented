@@ -33,7 +33,7 @@
   <ItemGroup>
     <Reference Include="nunit.framework">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\NUnit\nunit.framework.dll</HintPath>
+      <HintPath>..\..\..\..\Tools\NUnit-2.4.8\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
