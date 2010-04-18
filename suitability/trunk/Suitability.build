@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<project name="test-oriented suitability" default="cover"
+<project name="test-oriented suitability" default="suitability"
     xmlns="http://testoriented.googlecode.com/schemas/nant.xsd"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://testoriented.googlecode.com/schemas/nant.xsd Tools/NAnt.xsd">
@@ -8,8 +8,17 @@
     <loadtasks assembly="Tools/SoftwareNinjas.NAnt.dll" />
 
     <property name="configuration" value="Debug" overwrite="false" />
-    <property name="variations" value="base" />
+
+    <property name="baseVariation" value="base" />
+    <property name="manualVariation" value="manual" />
+    <property name="toddVariation" value="testoriented" />
+    <!-- TODO: add manualVariation once there is at least one -->
+    <property name="variations" value="${baseVariation},${toddVariation}" />
+
     <property name="projects" value="StringExtensions" />
+    
+    <property name="pexFolder" value="Tools/Pex-0.22.50128.1" />
+    <property name="nunitConsole" value="Tools/NUnit-2.4.8/nunit-console-x86.exe" />
 
     <target name="schema">
         <nantschema output="Tools/NAnt.xsd" target-ns="http://testoriented.googlecode.com/schemas/nant.xsd"/>
@@ -18,20 +27,33 @@
     <target name="clean">
         <foreach item="String" in="${projects}" delim="," property="project">
             <echo message="Project: ${project}..." />
+            <property name="toddDestinationDir" value="Projects/${project}/${toddVariation}" />
+            <if test="${directory::exists(toddDestinationDir)}">
+                <delete dir="${toddDestinationDir}" failonerror="false" />
+            </if>
             <foreach item="String" in="${variations}" delim="," property="variation">
-                <clean
-                    configuration="${configuration}"
-                    projects="${project},${project}.Tests"
-                    basedir="Projects/${project}/${variation}"/>
+                <property name="destinationDir" value="Projects/${project}/working-${variation}" />
+                <if test="${directory::exists(destinationDir)}">
+                    <delete dir="${destinationDir}" failonerror="false" />
+                </if>
             </foreach>
         </foreach>
     </target>
 
-    <target name="compile" depends="clean">
+    <target name="compile">
         <foreach item="String" in="${projects}" delim="," property="project">
             <echo message="Project: ${project}..." />
             <foreach item="String" in="${variations}" delim="," property="variation">
-                <msbuild project="Projects/${project}/${variation}/${project}.sln">
+                <clean
+                    configuration="${configuration}"
+                    projects="${project},${project}.Tests"
+                    basedir="Projects/${project}/working-${variation}"/>
+            </foreach>
+        </foreach>
+        <foreach item="String" in="${projects}" delim="," property="project">
+            <echo message="Project: ${project}..." />
+            <foreach item="String" in="${variations}" delim="," property="variation">
+                <msbuild project="Projects/${project}/working-${variation}/${project}.sln">
                     <arg value="/property:Configuration=${configuration}" />
                     <arg value="/verbosity:minimal" />
                 </msbuild>
@@ -39,9 +61,215 @@
         </foreach>
     </target>
 
-    <target name="cover">
+    <target name="createToddVariation">
+        <foreach item="String" in="${projects}" delim="," property="project">
+            <echo message="Project: ${project}..." />
+            <property name="destinationDir" value="Projects/${project}/${toddVariation}" />
+            <if test="${directory::exists(destinationDir)}">
+                <delete dir="${destinationDir}" failonerror="false" />
+            </if>
+            <copy todir="${destinationDir}">
+                <fileset basedir="Projects/${project}/${baseVariation}">
+                    <include name="**" />
+                </fileset>
+            </copy>
+            <!-- TODO: apply TODD at destinationDir -->
+        </foreach>
+    </target>
+
+    <target name="createWorkingCopies">
+        <foreach item="String" in="${projects}" delim="," property="project">
+            <echo message="Project: ${project}..." />
+            <foreach item="String" in="${variations}" delim="," property="variation">
+                <property name="destinationDir" value="Projects/${project}/working-${variation}" />
+                <if test="${directory::exists(destinationDir)}">
+                    <delete dir="${destinationDir}" failonerror="false" />
+                </if>
+                <copy todir="${destinationDir}">
+                    <fileset basedir="Projects/${project}/${variation}">
+                        <include name="**" />
+                    </fileset>
+                </copy>
+            </foreach>
+        </foreach>
+    </target>
+
+    <target name="invokePexWizard">
+        <foreach item="String" in="${projects}" delim="," property="project">
+            <echo message="Project: ${project}..." />
+            <foreach item="String" in="${variations}" delim="," property="variation">
+                <property name="projectFolder" value="Projects/${project}/working-${variation}" />
+                <exec program="${pexFolder}/pexwizard.exe">
+                    <arg file="${projectFolder}/${project}/bin/${configuration}/${project}.dll" />
+                    <arg value="/TestFramework:NUnit" />
+                    <arg value="/TargetClrVersion2" />
+                    <arg value="/NoCompilation" />
+                    <arg value="/TestProjectFile:${projectFolder}/${project}.Tests/${project}.Tests.csproj" />
+                </exec>
+            </foreach>
+        </foreach>
+    </target>
+
+    <target name="fixPexWizardResults">
+        <foreach item="String" in="${projects}" delim="," property="project">
+            <echo message="Project: ${project}..." />
+            <foreach item="String" in="${variations}" delim="," property="variation">
+                <property name="projectFolder" value="Projects/${project}/working-${variation}" />
+                <property name="testProjectFile" value="${projectFolder}/${project}.Tests/${project}.Tests.csproj" />
+
+                <delete file="${testProjectFile}.bak" failonerror="false" />
+                <move file="${testProjectFile}" tofile="${testProjectFile}.bak" />
+                <style style="Tools/FixPexWizard.xsl" in="${testProjectFile}.bak" out="${testProjectFile}">
+                    <parameters>
+                        <parameter namespaceuri=""
+                                   name="baseDir"
+                                   value="${directory::get-current-directory()}"/>
+                        <parameter namespaceuri=""
+                                   name="projectName"
+                                   value="${project}" />
+                    </parameters>
+                </style>
+            </foreach>
+        </foreach>
+    </target>
+
+    <target name="invokePexGenerator">
+        <foreach item="String" in="${projects}" delim="," property="project">
+            <echo message="Project: ${project}..." />
+            <foreach item="String" in="${variations}" delim="," property="variation">
+                <property name="projectFolder" value="Projects/${project}/working-${variation}" />
+                <property name="testProjectFile" value="${projectFolder}/${project}.Tests/${project}.Tests.csproj" />
+                <exec program="${pexFolder}/pex.x86.exe">
+                    <arg file="${projectFolder}/${project}.Tests/bin/${configuration}/${project}.Tests.dll" />
+                    <arg value="/Targetx86" />
+                    <arg value="/AssemblyResolutionDirectories:Tools\NUnit-2.4.8" />
+                    <arg value="/TargetClrVersion2" />
+                    <arg value="/DoNotOpenReport" />
+                    <arg value="/PreferredLineWidth:120" />
+                    <arg value="/ReportLevel:None" />
+                    <arg value="/TestLanguage:cs" />
+                    <arg value="/TestProjectFile:&quot;${path::get-full-path(testProjectFile)}&quot;" />
+                </exec>
+            </foreach>
+        </foreach>
+    </target>
+
+    <target name="fixPexGeneratorResults">
+        <foreach item="String" in="${projects}" delim="," property="project">
+            <echo message="Project: ${project}..." />
+            <foreach item="String" in="${variations}" delim="," property="variation">
+                <property name="projectFolder" value="Projects/${project}/working-${variation}" />
+                <property name="testProjectFile" value="${projectFolder}/${project}.Tests/${project}.Tests.csproj" />
+
+                <delete file="${testProjectFile}.bak" failonerror="false" />
+                <move file="${testProjectFile}" tofile="${testProjectFile}.bak" />
+                <style style="Tools/FixPexGenerator.xsl" in="${testProjectFile}.bak" out="${testProjectFile}">
+                    <parameters>
+                        <parameter namespaceuri=""
+                                   name="baseDir"
+                                   value="${directory::get-current-directory()}"/>
+                        <parameter namespaceuri=""
+                                   name="projectName"
+                                   value="${project}" />
+                    </parameters>
+                </style>
+            </foreach>
+        </foreach>
+    </target>
+
+    <target name="testWithCoverage">
+        <foreach item="String" in="${projects}" delim="," property="project">
+            <echo message="Project: ${project}..." />
+            <foreach item="String" in="${variations}" delim="," property="variation">
+                <property name="projectFolder" value="Projects\${project}\working-${variation}" />
+                <property name="coverageFile" value="${projectFolder}\coverage.xml" />
+                <delete file="${coverageFile}" failonerror="false" />
+                <exec program="Tools/NCover-1.5.8/NCover.Console.exe" failonerror="false">
+                    <arg value="//w" />
+                    <arg value="${projectFolder}\${project}.Tests\bin\${configuration}" />
+                    <arg value="//a" />
+                    <arg value="${project}" />
+                    <arg value="//x" />
+                    <arg value="${coverageFile}" />
+                    <arg value="//l" />
+                    <arg value="${projectFolder}\coverage.log" />
+                    <arg value="${nunitConsole}" />
+                    <arg value="/nologo" />
+                    <arg value="/nodots" />
+                    <arg value="/noshadow" />
+                    <arg value="${project}.Tests.dll" />
+                </exec>
+            </foreach>
+        </foreach>
+    </target>
+
+    <target name="postResults">
+        <if test="${environment::variable-exists('BUILD_NUMBER')}">
+            <property name="buildNumber" value="${environment::get-variable('BUILD_NUMBER')}"/>
+        </if>
+        <if test="${not environment::variable-exists('BUILD_NUMBER')}">
+            <property name="buildNumber" value="private"/>
+        </if>
+        <property name="toddVersion" value="n/a" />
+        <foreach item="String" in="${projects}" delim="," property="project">
+            <echo message="Project: ${project}..." />
+            <foreach item="String" in="${variations}" delim="," property="variation">
+                <property name="projectFolder" value="Projects/${project}/working-${variation}" />
+                <property name="testProjectFile" value="${projectFolder}/${project}.Tests/${project}.Tests.csproj" />
+                <property name="coverageFile" value="${projectFolder}/coverage.xml" />
+                <xpath file="${coverageFile}" property="tsp" query="count(//seqpnt)" />
+                <xpath file="${coverageFile}" property="vsp" query="count(//seqpnt[not(@visitcount='0')])" />
+                <post action="https://spreadsheets.google.com/a/softwareninjas.ca/formResponse?formkey=dG9zQnFtTlQ0Z1dGUjI5TUlFMnpFWWc6MQ&amp;ifq">
+                    <!-- Batch # -->        <input name="entry.1.single" value="${buildNumber}" />
+                    <!-- Project -->        <input name="entry.2.single" value="${project}" />
+                    <!-- Variation -->      <input name="entry.3.single" value="${variation}" />
+                    <!-- TODD version -->   <input name="entry.4.single" value="${toddVersion}" />
+                    <!-- TSP -->            <input name="entry.5.single" value="${tsp}" />
+                    <!-- VSP -->            <input name="entry.6.single" value="${vsp}" />
+                    <!-- Google -->         <input name="pageNumber" value="0" />
+                    <!-- Google -->         <input name="backupCache" value="" />
+                    <!-- Google -->         <input name="submit" value="Submit" />
+                </post>
+            </foreach>
+        </foreach>
+    </target>
+
+    <target name="suitability">
+        <!-- Step 0: clean all working copies -->
+        <call target="clean" />
+        
+        <!-- Step 1: copy baseVariation to toddVariation and apply TODD on it -->
+        <call target="createToddVariation" />
+
+        <!-- Step 2: create working copies -->
+        <call target="createWorkingCopies" />
+
+        <!-- Step 3: compile -->
         <call target="compile" />
-        <!-- Call NCover, etc. -->
+
+        <!-- Step 4: invoke Pex wizard -->
+        <call target="invokePexWizard" />
+
+        <!-- Step 5: fix test projects -->
+        <call target="fixPexWizardResults" />
+
+        <!-- Step 6: compile -->
+        <call target="compile" />
+
+        <!-- Step 7: invoke Pex generator -->
+        <call target="invokePexGenerator" />
+
+        <!-- Step 8: fix test projects -->
+        <call target="fixPexGeneratorResults" />
+
+        <!-- Step 9: compile -->
+        <call target="compile" />
+
+        <!-- Step 10: run tests with code coverage -->
+        <call target="testWithCoverage" />
+
+        <!-- Step 11: interpret coverage report -->
+        <call target="postResults" />
     </target>
 
 </project>

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <xs:schema xmlns:nant="http://testoriented.googlecode.com/schemas/nant.xsd" elementFormDefault="qualified" targetNamespace="http://testoriented.googlecode.com/schemas/nant.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:annotation>
-    <xs:documentation>NAnt schema generated at 03/27/2010 17:02:56</xs:documentation>
+    <xs:documentation>NAnt schema generated at 04/17/2010 23:57:32</xs:documentation>
   </xs:annotation>
   <xs:complexType name="NAnt.Core.TaskContainer">
     <xs:sequence minOccurs="0" maxOccurs="unbounded">
@@ -202,7 +202,9 @@
         <xs:element name="assemblyToJar" type="nant:SoftwareNinjas.NAnt.Tasks.AssemblyToJarTask" />
         <xs:element name="clean" type="nant:SoftwareNinjas.NAnt.Tasks.CleanTask" />
         <xs:element name="customizeAssembly" type="nant:SoftwareNinjas.NAnt.Tasks.CustomizeAssemblyTask" />
+        <xs:element name="post" type="nant:SoftwareNinjas.NAnt.Tasks.PostTask" />
         <xs:element name="test" type="nant:SoftwareNinjas.NAnt.Tasks.TestTask" />
+        <xs:element name="xpath" type="nant:SoftwareNinjas.NAnt.Tasks.XpathTask" />
         <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other" processContents="strict" />
         <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##local" processContents="strict" />
       </xs:choice>
@@ -1913,7 +1915,9 @@
         <xs:element name="assemblyToJar" type="nant:SoftwareNinjas.NAnt.Tasks.AssemblyToJarTask" />
         <xs:element name="clean" type="nant:SoftwareNinjas.NAnt.Tasks.CleanTask" />
         <xs:element name="customizeAssembly" type="nant:SoftwareNinjas.NAnt.Tasks.CustomizeAssemblyTask" />
+        <xs:element name="post" type="nant:SoftwareNinjas.NAnt.Tasks.PostTask" />
         <xs:element name="test" type="nant:SoftwareNinjas.NAnt.Tasks.TestTask" />
+        <xs:element name="xpath" type="nant:SoftwareNinjas.NAnt.Tasks.XpathTask" />
         <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other" processContents="strict" />
         <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##local" processContents="strict" />
       </xs:choice>
@@ -2131,7 +2135,9 @@
         <xs:element name="assemblyToJar" type="nant:SoftwareNinjas.NAnt.Tasks.AssemblyToJarTask" />
         <xs:element name="clean" type="nant:SoftwareNinjas.NAnt.Tasks.CleanTask" />
         <xs:element name="customizeAssembly" type="nant:SoftwareNinjas.NAnt.Tasks.CustomizeAssemblyTask" />
+        <xs:element name="post" type="nant:SoftwareNinjas.NAnt.Tasks.PostTask" />
         <xs:element name="test" type="nant:SoftwareNinjas.NAnt.Tasks.TestTask" />
+        <xs:element name="xpath" type="nant:SoftwareNinjas.NAnt.Tasks.XpathTask" />
         <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other" processContents="strict" />
         <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##local" processContents="strict" />
       </xs:choice>
@@ -2388,7 +2394,9 @@
         <xs:element name="assemblyToJar" type="nant:SoftwareNinjas.NAnt.Tasks.AssemblyToJarTask" />
         <xs:element name="clean" type="nant:SoftwareNinjas.NAnt.Tasks.CleanTask" />
         <xs:element name="customizeAssembly" type="nant:SoftwareNinjas.NAnt.Tasks.CustomizeAssemblyTask" />
+        <xs:element name="post" type="nant:SoftwareNinjas.NAnt.Tasks.PostTask" />
         <xs:element name="test" type="nant:SoftwareNinjas.NAnt.Tasks.TestTask" />
+        <xs:element name="xpath" type="nant:SoftwareNinjas.NAnt.Tasks.XpathTask" />
         <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other" processContents="strict" />
         <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##local" processContents="strict" />
       </xs:choice>
@@ -5047,10 +5055,45 @@
     <xs:attribute name="unless" use="optional" />
     <xs:anyAttribute namespace="##other" processContents="skip" />
   </xs:complexType>
+  <xs:complexType name="SoftwareNinjas.NAnt.Tasks.FormField">
+    <xs:attribute name="name" use="required" />
+    <xs:attribute name="value" use="optional" />
+    <xs:anyAttribute namespace="##other" processContents="skip" />
+  </xs:complexType>
+  <xs:complexType name="SoftwareNinjas.NAnt.Tasks.PostTask">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element minOccurs="0" maxOccurs="1" name="input" type="nant:SoftwareNinjas.NAnt.Tasks.FormField" />
+    </xs:sequence>
+    <xs:attribute name="action" use="required" />
+    <xs:attribute name="failonerror" use="optional" />
+    <xs:attribute name="verbose" use="optional" />
+    <xs:attribute name="if" use="optional" />
+    <xs:attribute name="unless" use="optional" />
+    <xs:anyAttribute namespace="##other" processContents="skip" />
+  </xs:complexType>
   <xs:complexType name="SoftwareNinjas.NAnt.Tasks.TestTask">
     <xs:attribute name="configuration" use="required" />
     <xs:attribute name="basedir" use="optional" />
     <xs:attribute name="projects" use="required" />
+    <xs:attribute name="failonerror" use="optional" />
+    <xs:attribute name="verbose" use="optional" />
+    <xs:attribute name="if" use="optional" />
+    <xs:attribute name="unless" use="optional" />
+    <xs:anyAttribute namespace="##other" processContents="skip" />
+  </xs:complexType>
+  <xs:complexType name="SoftwareNinjas.NAnt.Tasks.XpathTask">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element minOccurs="0" maxOccurs="1" name="namespaces">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="namespace" type="nant:NAnt.Core.Types.XmlNamespace" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="file" use="required" />
+    <xs:attribute name="property" use="required" />
+    <xs:attribute name="query" use="required" />
     <xs:attribute name="failonerror" use="optional" />
     <xs:attribute name="verbose" use="optional" />
     <xs:attribute name="if" use="optional" />
@@ -5255,7 +5298,9 @@
       <xs:element name="assemblyToJar" type="nant:SoftwareNinjas.NAnt.Tasks.AssemblyToJarTask" />
       <xs:element name="clean" type="nant:SoftwareNinjas.NAnt.Tasks.CleanTask" />
       <xs:element name="customizeAssembly" type="nant:SoftwareNinjas.NAnt.Tasks.CustomizeAssemblyTask" />
+      <xs:element name="post" type="nant:SoftwareNinjas.NAnt.Tasks.PostTask" />
       <xs:element name="test" type="nant:SoftwareNinjas.NAnt.Tasks.TestTask" />
+      <xs:element name="xpath" type="nant:SoftwareNinjas.NAnt.Tasks.XpathTask" />
       <xs:element name="tarfileset" type="nant:NAnt.Compression.Types.TarFileSet" />
       <xs:element name="zipfileset" type="nant:NAnt.Compression.Types.ZipFileSet" />
       <xs:element name="assemblyfileset" type="nant:NAnt.DotNet.Types.AssemblyFileSet" />
@@ -5480,7 +5525,9 @@
         <xs:element name="assemblyToJar" type="nant:SoftwareNinjas.NAnt.Tasks.AssemblyToJarTask" />
         <xs:element name="clean" type="nant:SoftwareNinjas.NAnt.Tasks.CleanTask" />
         <xs:element name="customizeAssembly" type="nant:SoftwareNinjas.NAnt.Tasks.CustomizeAssemblyTask" />
+        <xs:element name="post" type="nant:SoftwareNinjas.NAnt.Tasks.PostTask" />
         <xs:element name="test" type="nant:SoftwareNinjas.NAnt.Tasks.TestTask" />
+        <xs:element name="xpath" type="nant:SoftwareNinjas.NAnt.Tasks.XpathTask" />
         <xs:element name="tarfileset" type="nant:NAnt.Compression.Types.TarFileSet" />
         <xs:element name="zipfileset" type="nant:NAnt.Compression.Types.ZipFileSet" />
         <xs:element name="assemblyfileset" type="nant:NAnt.DotNet.Types.AssemblyFileSet" />

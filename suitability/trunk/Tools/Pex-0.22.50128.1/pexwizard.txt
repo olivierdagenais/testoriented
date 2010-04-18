@@ -1,0 +1,135 @@
+Usage:
+        pexwizard.exe  <options>
+
+See also:
+
+    pexwizard help simple             for a list of most common options
+
+    pexwizard help options            for a list of all options
+
+    pexwizard help [option/category]  for help on a specific option or category
+
+    pexwizard help code               for changing the way test code is generated
+
+    pexwizard help debug              for debugging Pex.Wizard-internal errors
+
+    pexwizard help filtering          for selecting a subset of classes to generate tests for
+
+    pexwizard help logging            for changing the amount of information Pex.Wizard logs
+
+    pexwizard help main               for a list of the major configuration options
+
+    pexwizard help misc               for other options
+
+    pexwizard help symbols            for ?
+
+    pexwizard help troubleshooting    for ?
+
+    pexwizard help env                to see environment variables useful for debugging
+
+    @<file>                           Read response file for more options
+
+    pexwizard help AssemblyName (short: /an)               Assembly name of the generated project
+
+    pexwizard help Documentation (short: /doc)             Emits documentation for generated code
+
+    pexwizard help ForceCompilerGenerated (short: /fcg)    Generates tests for code marked with [CompilerGenerated(...)]
+
+    pexwizard help ForceGeneratedCode (short: /fgc)        Generates tests for code marked with [GeneratedCode(...)]
+
+    pexwizard help ForceObsolete (short: /fo)              Generates tests for code marked with [Obsolete(...)]
+
+    pexwizard help FullNamespaces (short: /fn)             Emit full namespaces with global:: to avoid name clashing
+
+    pexwizard help GenerateInheritedMembers (short: /gim)  Generate test stubs for inherited members
+
+    pexwizard help GenerateMoles (short: /gm)              Pre-executes the Moles code generation engine
+
+    pexwizard help InstrumentedAssemblies (short: /ia)     Additional instrumented assemblies
+
+    pexwizard help NoMoles (short: /N)                     Does not add a moles definition file
+
+    pexwizard help PreferredLineWidth (short: /lw)         Preferred line width of the generated code
+
+    pexwizard help RootNamespace (short: /ns)              Root namespace of the generated project
+
+    pexwizard help SkipInternalTypes (short: /it)          Skip generation of parameterized tests for internal types
+
+    pexwizard help TestClassFormatString (short: /tcfs)    Format string used to generate fixture names, {0} is expanded to the type under test name
+
+    pexwizard help TestMethodFormatString (short: /mcfs)   Format string used to generate test names, {0} is expanded to the method under test name
+
+    pexwizard help TestProjectTemplate (short: /testpt)    test project template
+
+    pexwizard help TodoComments (short: /todo)             Emits todo comments in generated code
+
+    pexwizard help ToolsVersion (short: /tv)               Overrides the generated project ToolsVersion. Values are 2.0, 3.5, 4.0
+
+    pexwizard help Driver (short: /dr)                     Driver for executing the monitored process, e.g. windbg.exe
+
+    pexwizard help ExcludeNamespaceFilter (short: /enf)    Exclusion namespace filter
+
+    pexwizard help ExcludeTypeFilter (short: /etf)         Exclusion type filter
+
+    pexwizard help IgnoreUnsafe (short: /iu)               Ignore unsafe signatures
+
+    pexwizard help Inconclusive (short: /ic)               Emits inconclusive clauses
+
+    pexwizard help NamespaceFilter (short: /nf)            Namespace filter
+
+    pexwizard help Patterns (short: /pa)                   Emit pattern checks
+
+    pexwizard help TypeFilter (short: /tf)                 Type filter
+
+    pexwizard help Console (short: /cout)                  Outputs to the console
+
+    pexwizard help DoNotCacheEvents (short: /nocache)      Stops caching logging events
+
+    pexwizard help Verbosity (short: /v)                   defines the console output minimum verbosity
+
+    pexwizard help Interfaces (short: /i)                  enables generating test fixture for interface types
+
+    pexwizard help NoCompilation (short: /nocsc)           Disables compilation of the generated project
+
+    pexwizard help OpenProject (short: /op)                Opens the generated project automatically
+
+    pexwizard help OutputDirectory (short: /o)             Output directory for the generated files
+
+    pexwizard help RunPex (short: /pex)                    Runs pex after compiling the project
+
+    pexwizard help TargetX86 (short: /x86)                 In an x64 environment, whether to run as a 32-bit process
+
+    pexwizard help TestAssemblyNameSuffix (short: /tans)   Suffix used to create the teste assembly name (default is '.Tests')
+
+    pexwizard help TestFramework (short: /testf)           visualstudiounittest, ...
+
+    pexwizard help TestProjectFile (short: /testp)         test project to update
+
+    pexwizard help CleanOuputDirectory (short: /c)         Cleans the output directory before executing the wizard
+
+    pexwizard help DoNotOpenReport (short: /nor)           do not open pex report
+
+    pexwizard help KeyFile (short: /key)                   key file name used to sign the generated project
+
+    pexwizard help SettingsAssembly (short: /sa)           Settings assembly (e.g. for loading custom test frameworks)
+
+    pexwizard help SourceControl (short: /S)               Name of the source control provider to use
+
+    pexwizard help TargetClrVersion (short: /clr)          Specifies the target CLR version (i.e. v2.0.50727.0)
+
+    pexwizard help TargetClrVersion2 (short: /v2)          Specifies the target v2.0.50727 CLR version
+
+    pexwizard help TargetClrVersion4 (short: /v4)          Specifies the target v4.0.21006 CLR version
+
+    pexwizard help Trust (short: /T)                       trust of the sandbox appdomain
+
+    pexwizard help SourcePath (short: /srcpath)            Specifies the source search path
+
+    pexwizard help SymbolPath (short: /sympath)            Symbol search path
+
+    pexwizard help Diagnostic (short: /d)                  diagnostic mode which turns on various outputs
+
+    pexwizard help Assembly                                Assembly under test
+
+
+The full manual is available at http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/Pex%20Wizard.html
