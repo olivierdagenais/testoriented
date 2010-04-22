@@ -12,10 +12,10 @@
     <property name="baseVariation" value="base" />
     <property name="manualVariation" value="manual" />
     <property name="toddVariation" value="testoriented" />
-    <!-- TODO: add manualVariation once there is at least one -->
-    <property name="variations" value="${baseVariation},${toddVariation}" />
+    <!-- TODO: add manualVariation once there is at least one and toddVariation once we have a testoriented build ready -->
+    <property name="variations" value="${baseVariation}" />
 
-    <property name="projects" value="StringExtensions" />
+    <property name="projects" value="KeePassLib,StringExtensions" />
     
     <property name="pexFolder" value="Tools/Pex-0.22.50128.1" />
     <property name="nunitConsole" value="Tools/NUnit-2.4.8/nunit-console-x86.exe" />
@@ -239,7 +239,9 @@
         <call target="clean" />
         
         <!-- Step 1: copy baseVariation to toddVariation and apply TODD on it -->
+        <!-- TODO: uncomment when ready:
         <call target="createToddVariation" />
+        -->
 
         <!-- Step 2: create working copies -->
         <call target="createWorkingCopies" />
