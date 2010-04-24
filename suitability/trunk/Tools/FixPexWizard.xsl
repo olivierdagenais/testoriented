@@ -6,7 +6,6 @@
     exclude-result-prefixes="msbuild">
 
     <xsl:output method="xml" encoding="UTF-8" indent="yes" omit-xml-declaration="yes" />
-    <!-- <xsl:namespace-alias stylesheet-prefix="msbuild" result-prefix="#default" /> -->
     <xsl:strip-space elements="*" />
     
     <xsl:param name="baseDir" />

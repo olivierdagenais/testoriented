@@ -15,7 +15,7 @@
     <!-- TODO: add manualVariation once there is at least one and toddVariation once we have a testoriented build ready -->
     <property name="variations" value="${baseVariation}" />
 
-    <property name="projects" value="KeePassLib,StringExtensions" />
+    <property name="projects" value="KeePassLib,StringExtensions,Textile" />
     
     <property name="pexFolder" value="Tools/Pex-0.22.50128.1" />
     <property name="nunitConsole" value="Tools/NUnit-2.4.8/nunit-console-x86.exe" />
