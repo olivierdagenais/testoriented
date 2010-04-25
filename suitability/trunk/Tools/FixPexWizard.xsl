@@ -11,12 +11,12 @@
     <xsl:param name="baseDir" />
     <xsl:param name="projectName" />
 
-	<!-- Pass-through (identity transform) template -->
-	<xsl:template match="* | @* | node()">
-		<xsl:copy>
-			<xsl:apply-templates select="* | @* | node()" />
-		</xsl:copy>
-	</xsl:template>
+    <!-- Pass-through (identity transform) template -->
+    <xsl:template match="* | @* | node()">
+        <xsl:copy>
+            <xsl:apply-templates select="* | @* | node()" />
+        </xsl:copy>
+    </xsl:template>
 
     <!-- Remove redundant content -->
 
@@ -24,17 +24,17 @@
     <xsl:template match="msbuild:Compile[@Include='Properties\Properties\AssemblyInfo.cs.cs']" />
 
     <!-- <Reference Include="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" /> -->
-	<xsl:template match="msbuild:Reference[@Include='mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089']" />
+    <xsl:template match="msbuild:Reference[@Include='mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089']" />
 
     <!-- <Reference Include="Microsoft.Pex.Framework, Version=0.22.50128.1, Culture=neutral, PublicKeyToken=76a274db078248c8" /> -->
-	<xsl:template match="msbuild:Reference[@Include='Microsoft.Pex.Framework, Version=0.22.50128.1, Culture=neutral, PublicKeyToken=76a274db078248c8']" />
+    <xsl:template match="msbuild:Reference[@Include='Microsoft.Pex.Framework, Version=0.22.50128.1, Culture=neutral, PublicKeyToken=76a274db078248c8']" />
 
     <!-- Remove entire redundant block:
     <Reference Include="StringExtensions">
       <HintPath>(...)\trunk\Projects\StringExtensions\testoriented\StringExtensions\bin\Debug\StringExtensions.dll</HintPath>
     </Reference>
     -->
-	<xsl:template match="msbuild:Reference[msbuild:HintPath]">
+    <xsl:template match="msbuild:Reference[msbuild:HintPath]">
         <xsl:choose>
             <xsl:when test="@Include=$projectName" />
             <xsl:otherwise>
@@ -56,6 +56,14 @@
                     <xsl:value-of select="string(.)" />
                 </xsl:otherwise>
             </xsl:choose>
+        </xsl:copy>
+    </xsl:template>
+
+    <!-- Fix partial reference <Reference Include="Microsoft.Pex.Linq" /> -->
+    <xsl:template match="msbuild:Reference[@Include='Microsoft.Pex.Linq']">
+        <xsl:copy>
+            <xsl:apply-templates select="@*" />
+            <HintPath xmlns="http://schemas.microsoft.com/developer/msbuild/2003">..\..\..\..\Tools\Pex-0.22.50128.1\Microsoft.Pex.Linq.dll</HintPath>
         </xsl:copy>
     </xsl:template>
 
