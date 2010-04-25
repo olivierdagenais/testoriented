@@ -1,0 +1,19 @@
+﻿div#maincolumn {
+	float: left;
+	width: 480px;
+	margin: 0 0 6px 0;
+}
+
+div#maincolumn_full {
+	float: left;
+	width: 620px;
+	margin: 7px 0px 0;
+	padding: 10px 0 0 0px;
+}
+
+/*div.module_text div div div div {
+	width: 162px;
+	background: #CAF3FD;
+	padding:3px;
+	margin:0 auto;
+}*/
