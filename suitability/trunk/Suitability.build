@@ -18,6 +18,7 @@
     <property name="projects" value="AtomicCms,KeePassLib,StringExtensions,Textile" />
     
     <property name="pexFolder" value="Tools/Pex-0.22.50128.1" />
+    <property name="ncoverFolder" value="Tools/NCover-1.5.8" />
     <property name="nunitFolder" value="Tools/NUnit-2.4.8" />
 
     <target name="schema">
@@ -28,7 +29,7 @@
         <comregister>
             <fileset>
                 <include name="${pexFolder}/Microsoft.ExtendedReflection.ClrMonitor.X86.dll" />
-                <include name="${nunitFolder}/CoverLib.dll" />
+                <include name="${ncoverFolder}/CoverLib.dll" />
             </fileset>
         </comregister>
         <exec program="reg.exe">
