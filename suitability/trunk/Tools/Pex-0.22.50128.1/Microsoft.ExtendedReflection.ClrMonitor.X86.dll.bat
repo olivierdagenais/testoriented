@@ -1,1 +1,0 @@
-regsvr32 Microsoft.ExtendedReflection.ClrMonitor.X86.dll

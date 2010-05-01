@@ -18,10 +18,23 @@
     <property name="projects" value="AtomicCms,KeePassLib,StringExtensions,Textile" />
     
     <property name="pexFolder" value="Tools/Pex-0.22.50128.1" />
-    <property name="nunitConsole" value="Tools/NUnit-2.4.8/nunit-console-x86.exe" />
+    <property name="nunitFolder" value="Tools/NUnit-2.4.8" />
 
     <target name="schema">
         <nantschema output="Tools/NAnt.xsd" target-ns="http://testoriented.googlecode.com/schemas/nant.xsd"/>
+    </target>
+
+    <target name="prepare">
+        <comregister>
+            <fileset>
+                <include name="${pexFolder}/Microsoft.ExtendedReflection.ClrMonitor.X86.dll" />
+                <include name="${nunitFolder}/CoverLib.dll" />
+            </fileset>
+        </comregister>
+        <exec program="reg.exe">
+            <arg value="import" />
+            <arg file="${pexFolder}/HKLM_Software_Microsoft_Fusion.reg" />
+        </exec>
     </target>
 
     <target name="clean">
@@ -193,7 +206,7 @@
                     <arg value="${coverageFile}" />
                     <arg value="//l" />
                     <arg value="${projectFolder}\coverage.log" />
-                    <arg value="${nunitConsole}" />
+                    <arg value="${nunitFolder}/nunit-console-x86.exe" />
                     <arg value="/nologo" />
                     <arg value="/nodots" />
                     <arg value="/noshadow" />
