@@ -7,7 +7,7 @@
     <loadtasks assembly="Tools/nantcontrib/bin/NAnt.Contrib.Tasks.dll" />
     <loadtasks assembly="Tools/SoftwareNinjas.NAnt.dll" />
 
-    <property name="configuration" value="Debug" overwrite="false" />
+    <property name="configuration" value="Release" overwrite="false" />
 
     <property name="baseVariation" value="base" />
     <property name="manualVariation" value="manual" />
