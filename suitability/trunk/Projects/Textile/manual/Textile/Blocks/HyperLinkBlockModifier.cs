@@ -44,6 +44,11 @@ namespace Textile.Blocks
 
         private string HyperLinksFormatMatchEvaluator(Match m)
         {
+            return InternalHyperLinksFormatMatchEvaluator(m, m_rel);
+        }
+
+        internal static string InternalHyperLinksFormatMatchEvaluator(Match m, string rel)
+        {
             //TODO: check the URL
             string atts = BlockAttributesParser.ParseBlockAttributes(m.Groups["atts"].Value, "");
             if (m.Groups["title"].Length > 0)
@@ -51,12 +56,12 @@ namespace Textile.Blocks
             string linkText = m.Groups["text"].Value.Trim(' ');
 
             string str = m.Groups["pre"].Value + "<a ";
-			if (m_rel != null && m_rel != string.Empty)
-				str += "ref=\"" + m_rel + "\" ";
-			str += "href=\"" +
-				  Globals.EncodeHTMLLink(m.Groups["url"].Value) + m.Groups["slash"].Value + "\"" +
-				  atts +
-				  ">" + linkText + "</a>" + m.Groups["post"].Value;
+            if (rel != null && rel != string.Empty)
+                str += "ref=\"" + rel + "\" ";
+            str += "href=\"" +
+                   Globals.EncodeHTMLLink(m.Groups["url"].Value) + m.Groups["slash"].Value + "\"" +
+                   atts +
+                   ">" + linkText + "</a>" + m.Groups["post"].Value;
             return str;
         }
     }

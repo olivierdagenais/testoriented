@@ -26,7 +26,7 @@ namespace Textile.Blocks
         {
         }
 
-        protected string PhraseModifierFormat(string input, string modifier, string tag)
+        internal static string PhraseModifierFormat(string input, string modifier, string tag)
         {
             // All phrase modifiers are one character, or a double character. Sometimes,
             // there's an additional escape character for the regex ('\').
@@ -51,20 +51,20 @@ namespace Textile.Blocks
             // Now we can do the replacement.
             PhraseModifierMatchEvaluator pmme = new PhraseModifierMatchEvaluator(tag);
             string res = Regex.Replace(input,
-                                            @"(?<=\s|" + punctuationPattern + @"|[{\(\[]|^)" +
-                                            modifier +
-                                            Globals.BlockModifiersPattern +
-                                            @"(:(?<cite>(\S+)))?" +
-                                            @"(?<content>[^" + compressedModifier + "]*)" +
-                                            @"(?<end>" + punctuationPattern + @"*)" +
-                                            modifier +
-                                            @"(?=[\]\)}]|" + punctuationPattern + @"+|\s|$)",
+                                       @"(?<=\s|" + punctuationPattern + @"|[{\(\[]|^)" +
+                                       modifier +
+                                       Globals.BlockModifiersPattern +
+                                       @"(:(?<cite>(\S+)))?" +
+                                       @"(?<content>[^" + compressedModifier + "]*)" +
+                                       @"(?<end>" + punctuationPattern + @"*)" +
+                                       modifier +
+                                       @"(?=[\]\)}]|" + punctuationPattern + @"+|\s|$)",
                                        new MatchEvaluator(pmme.MatchEvaluator)
-                                      );
+                );
             return res;
         }
 
-        private class PhraseModifierMatchEvaluator
+        internal class PhraseModifierMatchEvaluator
         {
             string m_tag;
 
@@ -75,6 +75,11 @@ namespace Textile.Blocks
 
             public string MatchEvaluator(Match m)
             {
+                return InternalMatchEvaluator(m, m_tag);
+            }
+
+            internal static string InternalMatchEvaluator(Match m, string tag)
+            {
                 if (m.Groups["content"].Length == 0)
                 {
                     // It's possible that the "atts" match groups eats the contents
@@ -82,16 +87,16 @@ namespace Textile.Blocks
                     // happens to match the syntax. For example: "*(blah)*".
                     if (m.Groups["atts"].Length == 0)
                         return m.ToString();
-                    return "<" + m_tag + ">" + m.Groups["atts"].Value + m.Groups["end"].Value + "</" + m_tag + ">";
+                    return "<" + tag + ">" + m.Groups["atts"].Value + m.Groups["end"].Value + "</" + tag + ">";
                 }
 
                 string atts = BlockAttributesParser.ParseBlockAttributes(m.Groups["atts"].Value, "");
                 if (m.Groups["cite"].Length > 0)
                     atts += " cite=\"" + m.Groups["cite"] + "\"";
 
-                string res = "<" + m_tag + atts + ">" +
+                string res = "<" + tag + atts + ">" +
                              m.Groups["content"].Value + m.Groups["end"].Value +
-                             "</" + m_tag + ">";
+                             "</" + tag + ">";
                 return res;
             }
         }

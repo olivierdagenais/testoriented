@@ -55,8 +55,13 @@ namespace Textile.States
         }
         protected override void OnContextAcquired()
         {
-            Match m = Regex.Match(Tag, @"^fn(?<id>[0-9]+)");
-            m_noteID = Int32.Parse(m.Groups["id"].Value);
+            m_noteID = ParseFootNoteId(Tag);
+        }
+
+        internal static int ParseFootNoteId(string input)
+        {
+            Match m = Regex.Match(input, @"^fn(?<id>[0-9]+)");
+            return Int32.Parse(m.Groups["id"].Value);
         }
 
         public override bool ShouldNestState(FormatterState other)

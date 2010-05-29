@@ -55,13 +55,18 @@ namespace Textile.States
 
 		public override bool ShouldExit(string input)
 		{
-			Match m = Regex.Match(input,
-                                   @"^\s*" + Globals.AlignPattern + Globals.BlockModifiersPattern +
-								   @"(\.\s?)?(?<tag>\|)" +
-								   @"(?<content>.*)(?=\|)"
-								  );
-			return( m.Success == false );
+		    return InternalShouldExit(input);
 		}
+
+        internal static bool InternalShouldExit(string input)
+        {
+            Match m = Regex.Match(input,
+                                  @"^\s*" + Globals.AlignPattern + Globals.BlockModifiersPattern +
+                                  @"(\.\s?)?(?<tag>\|)" +
+                                  @"(?<content>.*)(?=\|)"
+                );
+            return( m.Success == false );
+        }
 
         protected string FormattedStylesAndAlignment()
         {

@@ -43,12 +43,22 @@ namespace Textile.States
 
         protected override bool IsMatchForMe(string input, int minNestingDepth, int maxNestingDepth)
         {
-            return Regex.IsMatch(input, @"^\s*([\*#]{" + (minNestingDepth - 1) + @"," + (maxNestingDepth - 1) + @"})#" + Globals.BlockModifiersPattern + @"\s");
+            return InternalIsMatchForMe(input, minNestingDepth, maxNestingDepth);
         }
 
-        protected override bool IsMatchForOthers(string input, int minNestingDepth, int maxNestingDepth)
-        {
-            return Regex.IsMatch(input, @"^\s*([\*#]{" + (minNestingDepth - 1) + @"," + (maxNestingDepth - 1) + @"})\*" + Globals.BlockModifiersPattern + @"\s");
-        }
+	    internal static bool InternalIsMatchForMe(string input, int minNestingDepth, int maxNestingDepth)
+	    {
+	        return Regex.IsMatch(input, @"^\s*([\*#]{" + (minNestingDepth - 1) + @"," + (maxNestingDepth - 1) + @"})#" + Globals.BlockModifiersPattern + @"\s");
+	    }
+
+	    protected override bool IsMatchForOthers(string input, int minNestingDepth, int maxNestingDepth)
+	    {
+	        return InternalIsMatchForOthers(input, minNestingDepth, maxNestingDepth);
+	    }
+
+	    internal static bool InternalIsMatchForOthers(string input, int minNestingDepth, int maxNestingDepth)
+	    {
+	        return Regex.IsMatch(input, @"^\s*([\*#]{" + (minNestingDepth - 1) + @"," + (maxNestingDepth - 1) + @"})\*" + Globals.BlockModifiersPattern + @"\s");
+	    }
 	}
 }

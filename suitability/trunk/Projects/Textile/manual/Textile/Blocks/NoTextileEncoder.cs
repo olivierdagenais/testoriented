@@ -59,7 +59,7 @@ namespace Textile.Blocks
             return tmp;
         }
 
-        private static string EncodeNoTextileZonesMatchEvaluator(Match m)
+        internal static string EncodeNoTextileZonesMatchEvaluator(Match m)
         {
             string toEncode = m.Groups["notex"].Value;
             if (toEncode == string.Empty)
@@ -73,7 +73,7 @@ namespace Textile.Blocks
             return toEncode;
         }
 
-        private static string DecodeNoTextileZonesMatchEvaluator(Match m)
+        internal static string DecodeNoTextileZonesMatchEvaluator(Match m)
         {
             string toEncode = m.Groups["notex"].Value;
             for (int i = 0; i < TextileModifiers.GetLength(0); ++i)

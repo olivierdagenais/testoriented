@@ -14,7 +14,7 @@ namespace Textile.Blocks
             return line;
         }
 
-        static private string CapitalsFormatMatchEvaluator(Match m)
+        static internal string CapitalsFormatMatchEvaluator(Match m)
         {
             return @"<span class=""caps"">" + m.Groups["caps"].Value + @"</span>";
         }

@@ -56,17 +56,7 @@ namespace Textile
                     // Modify the line with our block modifiers.
                     if (CurrentState == null || CurrentState.ShouldFormatBlocks(tmp))
                     {    
-                        foreach (BlockModifier blockModifier in s_blockModifiers)
-                        {
-                            //TODO: if not disabled...
-                            tmp = blockModifier.ModifyLine(tmp);
-                        }
-
-                        for (int i = s_blockModifiers.Count - 1; i >= 0; i--)
-                        {
-                            BlockModifier blockModifier = s_blockModifiers[i];
-                            tmp = blockModifier.Conclude(tmp);
-                        }
+                        tmp = ApplyBlockModifiers(tmp);
                     }
 
                     // Format the current line.
@@ -83,6 +73,22 @@ namespace Textile
             m_output.End();
         }
 
+        internal static string ApplyBlockModifiers(string tmp)
+        {
+            foreach (BlockModifier blockModifier in s_blockModifiers)
+            {
+                //TODO: if not disabled...
+                tmp = blockModifier.ModifyLine(tmp);
+            }
+
+            for (int i = s_blockModifiers.Count - 1; i >= 0; i--)
+            {
+                BlockModifier blockModifier = s_blockModifiers[i];
+                tmp = blockModifier.Conclude(tmp);
+            }
+            return tmp;
+        }
+
         #endregion
 
         #region Preparation Methods
@@ -94,13 +100,13 @@ namespace Textile
         /// <returns>The clean text.</returns>
         /// This method cleans stuff like line endings, so that
         /// we don't have to bother with it while formatting.
-        private string PrepareInputForFormatting(string input)
+        internal static string PrepareInputForFormatting(string input)
         {
             input = CleanWhiteSpace(input);
             return input;
         }
 
-        private string CleanWhiteSpace(string text)
+        internal static string CleanWhiteSpace(string text)
         {
             text = text.Replace("\r\n", "\n");
             text = text.Replace("\t", "");

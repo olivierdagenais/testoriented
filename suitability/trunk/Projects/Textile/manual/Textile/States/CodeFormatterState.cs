@@ -70,7 +70,7 @@ namespace Textile.States
             return false;
         }
 
-        private string FixEntities(string text)
+        internal static string FixEntities(string text)
         {
             // de-entify any remaining angle brackets or ampersands
             text = text.Replace("&", "&amp;");

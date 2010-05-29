@@ -53,6 +53,13 @@ namespace Textile.States
         {
             // can get: Align & Classes
 
+            string formattedLine = ComputeFormattedLine(input);
+
+            Formatter.Output.WriteLine(formattedLine);
+        }
+
+        internal static string ComputeFormattedLine(string input)
+        {
             string formattedLine = "";
 
             string[] cellsInput = input.Split('|');
@@ -62,8 +69,7 @@ namespace Textile.States
                 TableCellParser tcp = new TableCellParser(cellInput);
                 formattedLine += tcp.GetLineFragmentFormatting();
             }
-
-            Formatter.Output.WriteLine(formattedLine);
+            return formattedLine;
         }
 
         public override bool ShouldExit(string input)
