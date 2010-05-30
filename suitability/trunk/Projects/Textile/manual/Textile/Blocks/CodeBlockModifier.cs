@@ -54,10 +54,19 @@ namespace Textile.Blocks
 
         static public string CodeFormatMatchEvaluator(Match m)
         {
-            string res = m.Groups["before"].Value + "<code";
-            if (m.Groups["lang"].Length > 0)
-                res += " language=\"" + m.Groups["lang"].Value + "\"";
-            res += ">" + m.Groups["code"].Value + "</code>" + m.Groups["after"].Value;
+            return BuildCodeElementString(
+                m.Groups["before"].Value, 
+                m.Groups["lang"].Value, 
+                m.Groups["code"].Value, 
+                m.Groups["after"].Value);
+        }
+
+        internal static string BuildCodeElementString(string before, string lang, string code, string after)
+        {
+            string res = before + "<code";
+            if (lang.Length > 0)
+                res += " language=\"" + lang + "\"";
+            res += ">" + code + "</code>" + after;
             return res;
         }
     }

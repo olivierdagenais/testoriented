@@ -112,6 +112,26 @@ namespace Textile
 
         #region State Handling
 
+
+        internal static string GetConsumedInput(List<Type> disabledFormatterStates, string input, TextileFormatter instance)
+        {
+            for (int i = 0; i < s_registeredStates.Count; i++)
+            {
+                Type type = s_registeredStates[i];
+                if (!disabledFormatterStates.Contains(type))
+                {
+                    FormatterStateAttribute att = s_registeredStatesAttributes[i];
+                    Match m = Regex.Match(input, att.Pattern);
+                    if (m.Success)
+                    {
+                        FormatterState formatterState = (FormatterState) Activator.CreateInstance(type, instance);
+                        return formatterState.Consume(input, m);
+                    }
+                }
+            }
+            return null;
+        }
+
         /// <summary>
         /// Parses the string and updates the state accordingly.
         /// </summary>
@@ -122,19 +142,10 @@ namespace Textile
         /// their own syntax and remove it?
         private string HandleFormattingState(string input)
         {
-            for (int i = 0; i < s_registeredStates.Count; i++)
+            string consumedInput = GetConsumedInput(m_disabledFormatterStates, input, this);
+            if (consumedInput != null)
             {
-                Type type = s_registeredStates[i];
-                if (IsFormatterStateEnabled(type))
-                {
-                    FormatterStateAttribute att = s_registeredStatesAttributes[i];
-                    Match m = Regex.Match(input, att.Pattern);
-                    if (m.Success)
-                    {
-                        FormatterState formatterState = (FormatterState)Activator.CreateInstance(type, this);
-                        return formatterState.Consume(input, m);
-                    }
-                }
+                return consumedInput;
             }
 
             // Default, when no block is specified, we ask the current state, or
