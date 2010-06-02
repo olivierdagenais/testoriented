@@ -17,7 +17,7 @@
 
     <property name="projects" value="AtomicCms,KeePassLib,StringExtensions,Textile" />
     
-    <property name="pexFolder" value="Tools/Pex-0.22.50128.1" />
+    <property name="pexFolder" value="Tools/Pex-0.91.50418.0" />
     <property name="ncoverFolder" value="Tools/NCover-1.5.8" />
     <property name="nunitFolder" value="Tools/NUnit-2.4.8" />
 
@@ -32,6 +32,11 @@
                 <include name="${ncoverFolder}/CoverLib.dll" />
             </fileset>
         </comregister>
+        <exec program="Tools/gacutil.exe">
+            <arg value="/i" />
+            <arg file="${pexFolder}/Microsoft.ExtendedReflection.dll" />
+            <arg value="/f" />
+        </exec>
         <exec program="reg.exe">
             <arg value="import" />
             <arg file="${pexFolder}/HKLM_Software_Microsoft_Fusion.reg" />
@@ -114,9 +119,13 @@
             <foreach item="String" in="${variations}" delim="," property="variation">
                 <property name="projectFolder" value="Projects/${project}/working-${variation}" />
                 <exec program="${pexFolder}/pexwizard.exe">
+                    <environment>
+                        <variable name="moles_appdir" dir="${pexFolder}" />
+                    </environment>
                     <arg file="${projectFolder}/${project}/bin/${configuration}/${project}.dll" />
                     <arg value="/TestFramework:NUnit" />
-                    <arg value="/TargetClrVersion2" />
+                    <arg value="/ClrVersion2" />
+                    <arg value="/NoMoles" />
                     <arg value="/NoCompilation" />
                     <arg value="/TestProjectFile:${projectFolder}/${project}.Tests/${project}.Tests.csproj" />
                 </exec>
@@ -154,10 +163,13 @@
                 <property name="projectFolder" value="Projects/${project}/working-${variation}" />
                 <property name="testProjectFile" value="${projectFolder}/${project}.Tests/${project}.Tests.csproj" />
                 <exec program="${pexFolder}/pex.x86.exe">
+                    <environment>
+                        <variable name="moles_appdir" dir="${pexFolder}" />
+                    </environment>
                     <arg file="${projectFolder}/${project}.Tests/bin/${configuration}/${project}.Tests.dll" />
                     <arg value="/Targetx86" />
                     <arg value="/AssemblyResolutionDirectories:Tools\NUnit-2.4.8" />
-                    <arg value="/TargetClrVersion2" />
+                    <arg value="/ClrVersion2" />
                     <arg value="/DoNotOpenReport" />
                     <arg value="/PreferredLineWidth:120" />
                     <arg value="/ReportLevel:None" />
