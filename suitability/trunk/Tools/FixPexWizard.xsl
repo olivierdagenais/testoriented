@@ -10,6 +10,7 @@
     
     <xsl:param name="baseDir" />
     <xsl:param name="projectName" />
+    <xsl:param name="pexFolder" />
 
     <!-- Pass-through (identity transform) template -->
     <xsl:template match="* | @* | node()">
@@ -63,7 +64,7 @@
     <xsl:template match="msbuild:Reference[@Include='Microsoft.Pex.Linq']">
         <xsl:copy>
             <xsl:apply-templates select="@*" />
-            <HintPath xmlns="http://schemas.microsoft.com/developer/msbuild/2003">..\..\..\..\Tools\Pex-0.22.50128.1\Microsoft.Pex.Linq.dll</HintPath>
+            <HintPath xmlns="http://schemas.microsoft.com/developer/msbuild/2003">..\..\..\..\<xsl:value-of select="$pexFolder" />\Microsoft.Pex.Linq.dll</HintPath>
         </xsl:copy>
     </xsl:template>
 

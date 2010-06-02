@@ -150,6 +150,9 @@
                         <parameter namespaceuri=""
                                    name="projectName"
                                    value="${project}" />
+                        <parameter namespaceuri=""
+                                   name="pexFolder"
+                                   value="${string::replace(pexFolder, '/', '\')}" />
                     </parameters>
                 </style>
             </foreach>
