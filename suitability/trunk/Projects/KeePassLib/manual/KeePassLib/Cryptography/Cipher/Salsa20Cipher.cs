@@ -55,67 +55,73 @@ namespace KeePassLib.Cryptography.Cipher
 		{
 			uint[] x = m_x; // Local alias for working buffer
 
-			// Compiler/runtime might remove array bound checks after this
-			if(x.Length < 16) throw new InvalidOperationException();
+			NextOutput(x, m_state, m_output);
 
-			Array.Copy(m_state, x, 16);
+		    m_outputPos = 0;
+        }
 
-			unchecked
-			{
-				for(int i = 0; i < 10; ++i) // (int i = 20; i > 0; i -= 2)
-				{
-					x[ 4] ^= Rotl32(x[ 0] + x[12],  7);
-					x[ 8] ^= Rotl32(x[ 4] + x[ 0],  9);
-					x[12] ^= Rotl32(x[ 8] + x[ 4], 13);
-					x[ 0] ^= Rotl32(x[12] + x[ 8], 18);
-					x[ 9] ^= Rotl32(x[ 5] + x[ 1],  7);
-					x[13] ^= Rotl32(x[ 9] + x[ 5],  9);
-					x[ 1] ^= Rotl32(x[13] + x[ 9], 13);
-					x[ 5] ^= Rotl32(x[ 1] + x[13], 18);
-					x[14] ^= Rotl32(x[10] + x[ 6],  7);
-					x[ 2] ^= Rotl32(x[14] + x[10],  9);
-					x[ 6] ^= Rotl32(x[ 2] + x[14], 13);
-					x[10] ^= Rotl32(x[ 6] + x[ 2], 18);
-					x[ 3] ^= Rotl32(x[15] + x[11],  7);
-					x[ 7] ^= Rotl32(x[ 3] + x[15],  9);
-					x[11] ^= Rotl32(x[ 7] + x[ 3], 13);
-					x[15] ^= Rotl32(x[11] + x[ 7], 18);
-					x[ 1] ^= Rotl32(x[ 0] + x[ 3],  7);
-					x[ 2] ^= Rotl32(x[ 1] + x[ 0],  9);
-					x[ 3] ^= Rotl32(x[ 2] + x[ 1], 13);
-					x[ 0] ^= Rotl32(x[ 3] + x[ 2], 18);
-					x[ 6] ^= Rotl32(x[ 5] + x[ 4],  7);
-					x[ 7] ^= Rotl32(x[ 6] + x[ 5],  9);
-					x[ 4] ^= Rotl32(x[ 7] + x[ 6], 13);
-					x[ 5] ^= Rotl32(x[ 4] + x[ 7], 18);
-					x[11] ^= Rotl32(x[10] + x[ 9],  7);
-					x[ 8] ^= Rotl32(x[11] + x[10],  9);
-					x[ 9] ^= Rotl32(x[ 8] + x[11], 13);
-					x[10] ^= Rotl32(x[ 9] + x[ 8], 18);
-					x[12] ^= Rotl32(x[15] + x[14],  7);
-					x[13] ^= Rotl32(x[12] + x[15],  9);
-					x[14] ^= Rotl32(x[13] + x[12], 13);
-					x[15] ^= Rotl32(x[14] + x[13], 18);
-				}
+	    internal static void NextOutput(uint[] x, uint[] state, byte[] output)
+	    {
+		    // Compiler/runtime might remove array bound checks after this
+	        if(x.Length < 16) throw new InvalidOperationException();
 
-				for(int i = 0; i < 16; ++i)
-					x[i] += m_state[i];
+	        Array.Copy(state, x, 16);
 
-				for(int i = 0; i < 16; ++i)
-				{
-					m_output[i << 2] = (byte)x[i];
-					m_output[(i << 2) + 1] = (byte)(x[i] >> 8);
-					m_output[(i << 2) + 2] = (byte)(x[i] >> 16);
-					m_output[(i << 2) + 3] = (byte)(x[i] >> 24);
-				}
+	        unchecked
+	        {
+	            for(int i = 0; i < 10; ++i) // (int i = 20; i > 0; i -= 2)
+	            {
+	                x[ 4] ^= Rotl32(x[ 0] + x[12],  7);
+	                x[ 8] ^= Rotl32(x[ 4] + x[ 0],  9);
+	                x[12] ^= Rotl32(x[ 8] + x[ 4], 13);
+	                x[ 0] ^= Rotl32(x[12] + x[ 8], 18);
+	                x[ 9] ^= Rotl32(x[ 5] + x[ 1],  7);
+	                x[13] ^= Rotl32(x[ 9] + x[ 5],  9);
+	                x[ 1] ^= Rotl32(x[13] + x[ 9], 13);
+	                x[ 5] ^= Rotl32(x[ 1] + x[13], 18);
+	                x[14] ^= Rotl32(x[10] + x[ 6],  7);
+	                x[ 2] ^= Rotl32(x[14] + x[10],  9);
+	                x[ 6] ^= Rotl32(x[ 2] + x[14], 13);
+	                x[10] ^= Rotl32(x[ 6] + x[ 2], 18);
+	                x[ 3] ^= Rotl32(x[15] + x[11],  7);
+	                x[ 7] ^= Rotl32(x[ 3] + x[15],  9);
+	                x[11] ^= Rotl32(x[ 7] + x[ 3], 13);
+	                x[15] ^= Rotl32(x[11] + x[ 7], 18);
+	                x[ 1] ^= Rotl32(x[ 0] + x[ 3],  7);
+	                x[ 2] ^= Rotl32(x[ 1] + x[ 0],  9);
+	                x[ 3] ^= Rotl32(x[ 2] + x[ 1], 13);
+	                x[ 0] ^= Rotl32(x[ 3] + x[ 2], 18);
+	                x[ 6] ^= Rotl32(x[ 5] + x[ 4],  7);
+	                x[ 7] ^= Rotl32(x[ 6] + x[ 5],  9);
+	                x[ 4] ^= Rotl32(x[ 7] + x[ 6], 13);
+	                x[ 5] ^= Rotl32(x[ 4] + x[ 7], 18);
+	                x[11] ^= Rotl32(x[10] + x[ 9],  7);
+	                x[ 8] ^= Rotl32(x[11] + x[10],  9);
+	                x[ 9] ^= Rotl32(x[ 8] + x[11], 13);
+	                x[10] ^= Rotl32(x[ 9] + x[ 8], 18);
+	                x[12] ^= Rotl32(x[15] + x[14],  7);
+	                x[13] ^= Rotl32(x[12] + x[15],  9);
+	                x[14] ^= Rotl32(x[13] + x[12], 13);
+	                x[15] ^= Rotl32(x[14] + x[13], 18);
+	            }
 
-				m_outputPos = 0;
-				++m_state[8];
-				if(m_state[8] == 0) ++m_state[9];
-			}
-		}
+	            for(int i = 0; i < 16; ++i)
+	                x[i] += state[i];
 
-		private static uint Rotl32(uint x, int b)
+	            for(int i = 0; i < 16; ++i)
+	            {
+	                output[i << 2] = (byte)x[i];
+	                output[(i << 2) + 1] = (byte)(x[i] >> 8);
+	                output[(i << 2) + 2] = (byte)(x[i] >> 16);
+	                output[(i << 2) + 3] = (byte)(x[i] >> 24);
+	            }
+
+	            ++state[8];
+	            if(state[8] == 0) ++state[9];
+	        }
+	    }
+
+	    internal static uint Rotl32(uint x, int b)
 		{
 			unchecked
 			{
@@ -123,7 +129,7 @@ namespace KeePassLib.Cryptography.Cipher
 			}
 		}
 
-		private static uint U8To32Little(byte[] pb, int iOffset)
+		internal static uint U8To32Little(byte[] pb, int iOffset)
 		{
 			unchecked
 			{
@@ -134,35 +140,45 @@ namespace KeePassLib.Cryptography.Cipher
 
 		private void KeySetup(byte[] k)
 		{
-			if(k == null) throw new ArgumentNullException("pbKey");
-			if(k.Length != 32) throw new ArgumentException();
-
-			m_state[1] = U8To32Little(k, 0);
-			m_state[2] = U8To32Little(k, 4);
-			m_state[3] = U8To32Little(k, 8);
-			m_state[4] = U8To32Little(k, 12);
-			m_state[11] = U8To32Little(k, 16);
-			m_state[12] = U8To32Little(k, 20);
-			m_state[13] = U8To32Little(k, 24);
-			m_state[14] = U8To32Little(k, 28);
-			m_state[0] = m_sigma[0];
-			m_state[5] = m_sigma[1];
-			m_state[10] = m_sigma[2];
-			m_state[15] = m_sigma[3];
+		    KeySetup(k, m_state);
 		}
 
-		private void IvSetup(byte[] pbIV)
-		{
-			if(pbIV == null) throw new ArgumentNullException("pbIV");
-			if(pbIV.Length != 8) throw new ArgumentException();
+	    internal static void KeySetup(byte[] k, uint[] state)
+	    {
+	        if(k == null) throw new ArgumentNullException("pbKey");
+	        if(k.Length != 32) throw new ArgumentException();
 
-			m_state[6] = U8To32Little(pbIV, 0);
-			m_state[7] = U8To32Little(pbIV, 4);
-			m_state[8] = 0;
-			m_state[9] = 0;
-		}
+	        state[1] = U8To32Little(k, 0);
+	        state[2] = U8To32Little(k, 4);
+	        state[3] = U8To32Little(k, 8);
+	        state[4] = U8To32Little(k, 12);
+	        state[11] = U8To32Little(k, 16);
+	        state[12] = U8To32Little(k, 20);
+	        state[13] = U8To32Little(k, 24);
+	        state[14] = U8To32Little(k, 28);
+	        state[0] = m_sigma[0];
+	        state[5] = m_sigma[1];
+	        state[10] = m_sigma[2];
+	        state[15] = m_sigma[3];
+	    }
 
-		public void Encrypt(byte[] m, int nByteCount, bool bXor)
+	    private void IvSetup(byte[] pbIV)
+	    {
+	        IvSetup(pbIV, m_state);
+	    }
+
+	    internal static void IvSetup(byte[] pbIV, uint[] state)
+	    {
+	        if(pbIV == null) throw new ArgumentNullException("pbIV");
+	        if(pbIV.Length != 8) throw new ArgumentException();
+
+	        state[6] = U8To32Little(pbIV, 0);
+	        state[7] = U8To32Little(pbIV, 4);
+	        state[8] = 0;
+	        state[9] = 0;
+	    }
+
+	    public void Encrypt(byte[] m, int nByteCount, bool bXor)
 		{
 			if(m == null) throw new ArgumentNullException("m");
 			if(nByteCount > m.Length) throw new ArgumentException();

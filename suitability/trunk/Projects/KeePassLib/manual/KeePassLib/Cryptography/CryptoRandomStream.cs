@@ -163,16 +163,21 @@ namespace KeePassLib.Cryptography
 
 		public ulong GetRandomUInt64()
 		{
-			byte[] pb = GetRandomBytes(8);
+		    byte[] pb = GetRandomBytes(8);
 
-			unchecked
-			{
-				return ((ulong)pb[0]) | ((ulong)pb[1] << 8) |
-					((ulong)pb[2] << 16) | ((ulong)pb[3] << 24) |
-					((ulong)pb[4] << 32) | ((ulong)pb[5] << 40) |
-					((ulong)pb[6] << 48) | ((ulong)pb[7] << 56);
-			}
+		    return ConvertToUInt64(pb);
 		}
+
+	    internal static ulong ConvertToUInt64(byte[] eightBytes)
+	    {
+	        unchecked
+	        {
+	            return ((ulong)eightBytes[0]) | ((ulong)eightBytes[1] << 8) |
+	                   ((ulong)eightBytes[2] << 16) | ((ulong)eightBytes[3] << 24) |
+	                   ((ulong)eightBytes[4] << 32) | ((ulong)eightBytes[5] << 40) |
+	                   ((ulong)eightBytes[6] << 48) | ((ulong)eightBytes[7] << 56);
+	        }
+	    }
 
 #if CRSBENCHMARK
 		public static string Benchmark()

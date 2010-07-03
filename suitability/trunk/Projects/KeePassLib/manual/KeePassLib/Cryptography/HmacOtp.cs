@@ -64,7 +64,7 @@ namespace KeePassLib.Cryptography
 		private static readonly uint[] vDoubleDigits = new uint[]{ 0, 2, 4, 6, 8,
 			1, 3, 5, 7, 9 };
 
-		private static uint CalculateChecksum(uint uNum, uint uDigits)
+		internal static uint CalculateChecksum(uint uNum, uint uDigits)
 		{
 			bool bDoubleDigit = true;
 			uint uTotal = 0;

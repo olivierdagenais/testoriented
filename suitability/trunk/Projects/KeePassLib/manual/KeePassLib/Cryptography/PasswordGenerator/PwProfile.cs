@@ -235,21 +235,7 @@ namespace KeePassLib.Cryptography.PasswordGenerator
 			PwCharSet pcs = pp.CharSet;
 			pcs.Clear();
 
-			foreach(char ch in vChars)
-			{
-				if((ch >= 'A') && (ch <= 'Z')) pcs.Add(PwCharSet.UpperCase);
-				else if((ch >= 'a') && (ch <= 'z')) pcs.Add(PwCharSet.LowerCase);
-				else if((ch >= '0') && (ch <= '9')) pcs.Add(PwCharSet.Digits);
-				else if((@"!#$%&'*+,./:;=?@^").IndexOf(ch) >= 0) pcs.Add(pcs.SpecialChars);
-				else if(ch == ' ') pcs.Add(' ');
-				else if(ch == '-') pcs.Add('-');
-				else if(ch == '_') pcs.Add('_');
-				else if(ch == '\"') pcs.Add(pcs.SpecialChars);
-				else if(ch == '\\') pcs.Add(pcs.SpecialChars);
-				else if((@"()[]{}<>").IndexOf(ch) >= 0) pcs.Add(PwCharSet.Brackets);
-				else if((ch >= '~') && (ch <= 255)) pcs.Add(pcs.HighAnsiChars);
-				else pcs.Add(ch);
-			}
+			PopulateCharSet(vChars, pcs);
 
 			Array.Clear(vChars, 0, vChars.Length);
 			Array.Clear(pbUTF8, 0, pbUTF8.Length);
@@ -257,7 +243,26 @@ namespace KeePassLib.Cryptography.PasswordGenerator
 			return pp;
 		}
 
-		public bool HasSecurityReducingOption()
+	    internal static void PopulateCharSet(char[] vChars, PwCharSet pcs)
+	    {
+	        foreach(char ch in vChars)
+	        {
+	            if((ch >= 'A') && (ch <= 'Z')) pcs.Add(PwCharSet.UpperCase);
+	            else if((ch >= 'a') && (ch <= 'z')) pcs.Add(PwCharSet.LowerCase);
+	            else if((ch >= '0') && (ch <= '9')) pcs.Add(PwCharSet.Digits);
+	            else if((@"!#$%&'*+,./:;=?@^").IndexOf(ch) >= 0) pcs.Add(pcs.SpecialChars);
+	            else if(ch == ' ') pcs.Add(' ');
+	            else if(ch == '-') pcs.Add('-');
+	            else if(ch == '_') pcs.Add('_');
+	            else if(ch == '\"') pcs.Add(pcs.SpecialChars);
+	            else if(ch == '\\') pcs.Add(pcs.SpecialChars);
+	            else if((@"()[]{}<>").IndexOf(ch) >= 0) pcs.Add(PwCharSet.Brackets);
+	            else if((ch >= '~') && (ch <= 255)) pcs.Add(pcs.HighAnsiChars);
+	            else pcs.Add(ch);
+	        }
+	    }
+
+	    public bool HasSecurityReducingOption()
 		{
 			return (m_bNoLookAlike || m_bNoRepeat || (m_strExclude.Length > 0));
 		}
