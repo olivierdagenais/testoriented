@@ -86,7 +86,7 @@ namespace KeePassLib.Serialization
 			ReadDocumentStreamed(CreateXmlReader(readerStream), sParentStream);
 		}
 
-		private static XmlReader CreateXmlReader(Stream readerStream)
+		internal static XmlReader CreateXmlReader(Stream readerStream)
 		{
 			XmlReaderSettings xmlSettings = new XmlReaderSettings();
 			xmlSettings.CloseInput = true;

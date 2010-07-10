@@ -256,15 +256,20 @@ namespace KeePassLib.Serialization
 
 		public string GetDisplayName()
 		{
-			string str = m_strUrl;
-
-			if(m_strUser.Length > 0)
-				str += @": " + m_strUser;
-
-			return str;
+		    return GetDisplayName(m_strUrl, m_strUser);
 		}
 
-		public bool IsEmpty()
+	    internal static string GetDisplayName(string url, string user)
+	    {
+	        string str = url;
+
+	        if(user.Length > 0)
+	            str += @": " + user;
+
+	        return str;
+	    }
+
+	    public bool IsEmpty()
 		{
 			return (m_strUrl.Length > 0);
 		}
@@ -288,10 +293,15 @@ namespace KeePassLib.Serialization
 
 		public bool IsLocalFile()
 		{
-			return (m_strUrl.IndexOf(@"://") < 0);
+		    return IsLocalFile(m_strUrl);
 		}
 
-		public void ClearCredentials(bool bDependingOnRememberMode)
+	    internal static bool IsLocalFile(string url)
+	    {
+	        return (url.IndexOf(@"://") < 0);
+	    }
+
+	    public void ClearCredentials(bool bDependingOnRememberMode)
 		{
 			if((bDependingOnRememberMode == false) ||
 				(m_ioCredSaveMode == IOCredSaveMode.NoSave))

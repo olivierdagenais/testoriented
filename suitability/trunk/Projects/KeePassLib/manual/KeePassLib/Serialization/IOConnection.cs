@@ -55,7 +55,7 @@ namespace KeePassLib.Serialization
 
 #if !KeePassLibSD
 		// Allow self-signed certificates, expired certificates, etc.
-		private static bool ValidateServerCertificate(object sender,
+		internal static bool ValidateServerCertificate(object sender,
 			X509Certificate certificate, X509Chain chain,
 			SslPolicyErrors sslPolicyErrors)
 		{
@@ -79,13 +79,13 @@ namespace KeePassLib.Serialization
 			// }
 		}
 
-		private static void PrepareWebAccess()
+		internal static void PrepareWebAccess()
 		{
 			ServicePointManager.ServerCertificateValidationCallback =
 				ValidateServerCertificate;
 		}
 
-		private static IOWebClient CreateWebClient(IOConnectionInfo ioc)
+		internal static IOWebClient CreateWebClient(IOConnectionInfo ioc)
 		{
 			PrepareWebAccess();
 
@@ -98,7 +98,7 @@ namespace KeePassLib.Serialization
 			return wc;
 		}
 
-		private static WebRequest CreateWebRequest(IOConnectionInfo ioc)
+		internal static WebRequest CreateWebRequest(IOConnectionInfo ioc)
 		{
 			PrepareWebAccess();
 
@@ -125,7 +125,7 @@ namespace KeePassLib.Serialization
 		}
 #endif
 
-		private static Stream OpenReadLocal(IOConnectionInfo ioc)
+		internal static Stream OpenReadLocal(IOConnectionInfo ioc)
 		{
 			return new FileStream(ioc.Path, FileMode.Open, FileAccess.Read,
 				FileShare.Read);
@@ -145,7 +145,7 @@ namespace KeePassLib.Serialization
 		}
 #endif
 
-		private static Stream OpenWriteLocal(IOConnectionInfo ioc)
+		internal static Stream OpenWriteLocal(IOConnectionInfo ioc)
 		{
 			return new FileStream(ioc.Path, FileMode.Create, FileAccess.Write,
 				FileShare.None);

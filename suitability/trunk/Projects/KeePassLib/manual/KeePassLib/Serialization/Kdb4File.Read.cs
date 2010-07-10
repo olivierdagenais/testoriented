@@ -170,9 +170,7 @@ namespace KeePassLib.Serialization
 
 			byte[] pb = br.ReadBytes(4);
 			uint uVersion = MemUtil.BytesToUInt32(pb);
-			if((uVersion & FileVersionCriticalMask) > (FileVersion32 & FileVersionCriticalMask))
-				throw new FormatException(KLRes.FileVersionUnsupported +
-					MessageService.NewParagraph + KLRes.FileNewVerReq);
+			ValidateVersion(uVersion);
 
 			while(true)
 			{
@@ -180,6 +178,13 @@ namespace KeePassLib.Serialization
 					break;
 			}
 		}
+
+        internal static void ValidateVersion(uint uVersion)
+        {
+            if (( uVersion & FileVersionCriticalMask ) > ( FileVersion32 & FileVersionCriticalMask ))
+                throw new FormatException(KLRes.FileVersionUnsupported +
+                                          MessageService.NewParagraph + KLRes.FileNewVerReq);
+        }
 
 		private bool ReadHeaderField(BinaryReaderEx brSource)
 		{
