@@ -150,24 +150,30 @@ namespace KeePassLib.Keys
 		{
 			ValidateUserKeys();
 
-			// Concatenate user key data
-			MemoryStream ms = new MemoryStream();
-			foreach(IUserKey pKey in m_vUserKeys)
-			{
-				ProtectedBinary b = pKey.KeyData;
-				if(b != null)
-				{
-					byte[] pbKeyData = b.ReadData();
-					ms.Write(pbKeyData, 0, pbKeyData.Length);
-					Array.Clear(pbKeyData, 0, pbKeyData.Length);
-				}
-			}
+		    MemoryStream ms = ConcatenateUserKeyData(m_vUserKeys);
 
-			SHA256Managed sha256 = new SHA256Managed();
+		    SHA256Managed sha256 = new SHA256Managed();
 			return sha256.ComputeHash(ms.ToArray());
 		}
 
-		/// <summary>
+	    internal static MemoryStream ConcatenateUserKeyData(IEnumerable<IUserKey> keys)
+	    {
+            // Concatenate user key data
+            MemoryStream ms = new MemoryStream();
+	        foreach(IUserKey pKey in keys)
+	        {
+	            ProtectedBinary b = pKey.KeyData;
+	            if(b != null)
+	            {
+	                byte[] pbKeyData = b.ReadData();
+	                ms.Write(pbKeyData, 0, pbKeyData.Length);
+	                Array.Clear(pbKeyData, 0, pbKeyData.Length);
+	            }
+	        }
+	        return ms;
+	    }
+
+	    /// <summary>
 		/// Generate a 32-bit wide key out of the composite key.
 		/// </summary>
 		/// <param name="pbKeySeed32">Seed used in the key transformation
@@ -200,20 +206,25 @@ namespace KeePassLib.Keys
 
 		private void ValidateUserKeys()
 		{
-			int nAccounts = 0;
-
-			foreach(IUserKey uKey in m_vUserKeys)
-				if(uKey is KcpUserAccount)
-					++nAccounts;
-
-			if(nAccounts >= 2)
-			{
-				Debug.Assert(false);
-				throw new InvalidOperationException();
-			}
+		    ValidateUserKeys(m_vUserKeys);
 		}
 
-		/// <summary>
+	    internal static void ValidateUserKeys(IEnumerable<IUserKey> userKeys)
+	    {
+	        int nAccounts = 0;
+
+	        foreach(IUserKey uKey in userKeys)
+	            if(uKey is KcpUserAccount)
+	                ++nAccounts;
+
+	        if(nAccounts >= 2)
+	        {
+	            Debug.Assert(false);
+	            throw new InvalidOperationException();
+	        }
+	    }
+
+	    /// <summary>
 		/// Transform the current key <c>uNumRounds</c> times.
 		/// </summary>
 		/// <param name="pbOriginalKey32">The original key which will be transformed.
@@ -222,7 +233,7 @@ namespace KeePassLib.Keys
 		/// be <c>null</c>. This parameter won't be modified.</param>
 		/// <param name="uNumRounds">Transformation count.</param>
 		/// <returns>256-bit transformed key.</returns>
-		private static byte[] TransformKey(byte[] pbOriginalKey32, byte[] pbKeySeed32,
+		internal static byte[] TransformKey(byte[] pbOriginalKey32, byte[] pbKeySeed32,
 			ulong uNumRounds)
 		{
 			Debug.Assert((pbOriginalKey32 != null) && (pbOriginalKey32.Length == 32));

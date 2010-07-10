@@ -85,7 +85,7 @@ namespace KeePassLib.Keys
 			}
 		}
 
-		private static string GetUserKeyFilePath(bool bCreate)
+		internal static string GetUserKeyFilePath(bool bCreate)
 		{
 			string strUserDir = Environment.GetFolderPath(
 				Environment.SpecialFolder.ApplicationData);
@@ -100,7 +100,7 @@ namespace KeePassLib.Keys
 			return strUserDir + UserKeyFileName;
 		}
 
-		private static byte[] LoadUserKey(bool bShowWarning)
+		internal static byte[] LoadUserKey(bool bShowWarning)
 		{
 			byte[] pbKey = null;
 
@@ -126,7 +126,7 @@ namespace KeePassLib.Keys
 			return pbKey;
 		}
 
-		private static byte[] CreateUserKey()
+		internal static byte[] CreateUserKey()
 		{
 			byte[] pbKey = null;
 

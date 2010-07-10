@@ -82,7 +82,7 @@ namespace KeePassLib.Keys
 			}
 		}
 
-		private static byte[] LoadKeyFile(string strKeyFilePath)
+		internal static byte[] LoadKeyFile(string strKeyFilePath)
 		{
 			FileStream fs;
 
@@ -113,7 +113,7 @@ namespace KeePassLib.Keys
 			return pbKey;
 		}
 
-		private static byte[] LoadBinaryKey32(byte[] pbFileData)
+		internal static byte[] LoadBinaryKey32(byte[] pbFileData)
 		{
 			if(pbFileData == null) { Debug.Assert(false); return null; }
 			if(pbFileData.Length != 32) { Debug.Assert(false); return null; }
@@ -121,7 +121,7 @@ namespace KeePassLib.Keys
 			return pbFileData;
 		}
 
-		private static byte[] LoadHexKey32(byte[] pbFileData)
+		internal static byte[] LoadHexKey32(byte[] pbFileData)
 		{
 			if(pbFileData == null) { Debug.Assert(false); return null; }
 			if(pbFileData.Length != 64) { Debug.Assert(false); return null; }
@@ -196,7 +196,7 @@ namespace KeePassLib.Keys
 		private const string KeyElementName = "Key";
 		private const string KeyDataElementName = "Data";
 
-		private static byte[] LoadXmlKeyFile(string strFile)
+		internal static byte[] LoadXmlKeyFile(string strFile)
 		{
 			Debug.Assert(strFile != null); if(strFile == null) throw new ArgumentNullException("strFile");
 
@@ -232,7 +232,7 @@ namespace KeePassLib.Keys
 			return pbKeyData;
 		}
 
-		private static void CreateXmlKeyFile(string strFile, byte[] pbKeyData)
+		internal static void CreateXmlKeyFile(string strFile, byte[] pbKeyData)
 		{
 			Debug.Assert(strFile != null);
 			if(strFile == null) throw new ArgumentNullException("strFile");
