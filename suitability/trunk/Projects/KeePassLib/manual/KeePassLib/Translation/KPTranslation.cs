@@ -176,7 +176,7 @@ namespace KeePassLib.Translation
 			}
 		}
 
-		private static void RtlApplyToControls(Control.ControlCollection cc)
+	    internal static void RtlApplyToControls(Control.ControlCollection cc)
 		{
 			foreach(Control c in cc)
 			{
@@ -203,7 +203,7 @@ namespace KeePassLib.Translation
 			}
 		}
 
-		private static void RtlMoveChildControls(Control cParent)
+	    internal static void RtlMoveChildControls(Control cParent)
 		{
 			int nParentWidth = cParent.Size.Width;
 
@@ -214,7 +214,7 @@ namespace KeePassLib.Translation
 			}
 		}
 
-		private static void RtlApplyToToolStripItems(ToolStripItemCollection tsic)
+	    internal static void RtlApplyToToolStripItems(ToolStripItemCollection tsic)
 		{
 			foreach(ToolStripItem tsi in tsic)
 			{

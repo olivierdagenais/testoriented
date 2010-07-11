@@ -95,12 +95,12 @@ namespace KeePassLib.Utility
 
 		public static event EventHandler<MessageServiceEventArgs> MessageShowing;
 
-		private static string ObjectsToMessage(object[] vLines)
+		internal static string ObjectsToMessage(object[] vLines)
 		{
 			return ObjectsToMessage(vLines, false);
 		}
 
-		private static string ObjectsToMessage(object[] vLines, bool bFullExceptions)
+        internal static string ObjectsToMessage(object[] vLines, bool bFullExceptions)
 		{
 			if(vLines == null) return string.Empty;
 

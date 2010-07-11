@@ -62,24 +62,13 @@ namespace KeePassLib.Utility
 				ch = strHexString[i];
 				if((ch == ' ') || (ch == '\t') || (ch == '\r') || (ch == '\n')) continue;
 
-				if((ch >= '0') && (ch <= '9'))
-					bt = (byte)(ch - '0');
-				else if((ch >= 'a') && (ch <= 'f'))
-					bt = (byte)(ch - 'a' + 10);
-				else if((ch >= 'A') && (ch <= 'F'))
-					bt = (byte)(ch - 'A' + 10);
-				else bt = 0;
+				bt = ParseNibble(ch);
 
 				bt <<= 4;
 				++i;
 
 				ch = strHexString[i];
-				if((ch >= '0') && (ch <= '9'))
-					bt += (byte)(ch - '0');
-				else if((ch >= 'a') && (ch <= 'f'))
-					bt += (byte)(ch - 'a' + 10);
-				else if((ch >= 'A') && (ch <= 'F'))
-					bt += (byte)(ch - 'A' + 10);
+			    bt += ParseNibble(ch);
 
 				pb[i / 2] = bt;
 			}
@@ -87,7 +76,20 @@ namespace KeePassLib.Utility
 			return pb;
 		}
 
-		/// <summary>
+	    internal static byte ParseNibble(char ch)
+	    {
+	        byte bt;
+	        if((ch >= '0') && (ch <= '9'))
+	            bt = (byte)(ch - '0');
+	        else if((ch >= 'a') && (ch <= 'f'))
+	            bt = (byte)(ch - 'a' + 10);
+	        else if((ch >= 'A') && (ch <= 'F'))
+	            bt = (byte)(ch - 'A' + 10);
+	        else bt = 0;
+	        return bt;
+	    }
+
+	    /// <summary>
 		/// Convert a byte array to a hexadecimal string.
 		/// </summary>
 		/// <param name="pbArray">Input byte array.</param>

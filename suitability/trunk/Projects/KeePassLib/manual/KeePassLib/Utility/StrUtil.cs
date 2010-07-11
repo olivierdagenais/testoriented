@@ -78,12 +78,17 @@ namespace KeePassLib.Utility
 			{
 				char ch = ReadChar();
 
-				if((ch != ' ') && (ch != '\t') && (ch != '\r') && (ch != '\n'))
+				if(IsNotWhitespace(ch))
 					return ch;
 			}
 		}
 
-		public char PeekChar()
+	    internal static bool IsNotWhitespace(char ch)
+	    {
+	        return (ch != ' ') && (ch != '\t') && (ch != '\r') && (ch != '\n');
+	    }
+
+	    public char PeekChar()
 		{
 			if(m_nPos < 0) return char.MinValue;
 			if(m_nPos >= m_strString.Length) return char.MinValue;
@@ -103,7 +108,7 @@ namespace KeePassLib.Utility
 
 				char ch = m_strString[iIndex];
 
-				if((ch != ' ') && (ch != '\t') && (ch != '\r') && (ch != '\n'))
+                if (IsNotWhitespace(ch))
 					return ch;
 
 				++iIndex;

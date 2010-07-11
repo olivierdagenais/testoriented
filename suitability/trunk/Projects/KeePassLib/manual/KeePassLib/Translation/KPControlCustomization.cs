@@ -105,7 +105,7 @@ namespace KeePassLib.Translation
 			if(v.HasValue) c.Height = v.Value;
 		}
 
-		private static int? GetModControlParameter(Control c, LayoutParameterEx p,
+		internal static int? GetModControlParameter(Control c, LayoutParameterEx p,
 			string strModParam)
 		{
 			if(strModParam.Length == 0) return null;
@@ -304,7 +304,7 @@ namespace KeePassLib.Translation
 				Base64FormattingOptions.None);
 		}
 
-		private static void WriteControlDependentParams(StringBuilder sb, Control c)
+		internal static void WriteControlDependentParams(StringBuilder sb, Control c)
 		{
 			CheckBox cb = (c as CheckBox);
 			RadioButton rb = (c as RadioButton);
@@ -346,7 +346,7 @@ namespace KeePassLib.Translation
 			}
 		}
 
-		private static void WriteCpiParam(StringBuilder sb, string strProp)
+		internal static void WriteCpiParam(StringBuilder sb, string strProp)
 		{
 			sb.Append('/');
 			sb.Append(strProp);
