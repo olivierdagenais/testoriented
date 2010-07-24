@@ -843,46 +843,46 @@ namespace KeePassLib
 
 			foreach(PwGroup pg in vGroups)
 			{
-				if((m_slStatus != null) && !m_slStatus.ContinueWork()) break;
+			    if((m_slStatus != null) && !m_slStatus.ContinueWork()) break;
 
-				// PwGroup pgOrg = pgOrgStructure.FindGroup(pg.Uuid, true);
-				IStructureItem ptOrg = ppOrgStructure.Get(pg.Uuid);
-				if(ptOrg == null) continue;
-				// PwGroup pgSrc = pgSrcStructure.FindGroup(pg.Uuid, true);
-				IStructureItem ptSrc = ppSrcStructure.Get(pg.Uuid);
-				if(ptSrc == null) continue;
+                // PwGroup pgOrg = pgOrgStructure.FindGroup(pg.Uuid, true);
+                IStructureItem ptOrg = ppOrgStructure.Get(pg.Uuid);
+                if (ptOrg == null) continue;
+                // PwGroup pgSrc = pgSrcStructure.FindGroup(pg.Uuid, true);
+                IStructureItem ptSrc = ppSrcStructure.Get(pg.Uuid);
+                if (ptSrc == null) continue;
 
-				PwGroup pgOrgParent = ptOrg.ParentGroup;
-				PwGroup pgSrcParent = ptSrc.ParentGroup;
-				if(pgOrgParent.Uuid.EqualsValue(pgSrcParent.Uuid))
-				{
-					pg.LocationChanged = ((ptSrc.LocationChanged > ptOrg.LocationChanged) ?
-						ptSrc.LocationChanged : ptOrg.LocationChanged);
+	        PwGroup pgOrgParent = ptOrg.ParentGroup;
+	        PwGroup pgSrcParent = ptSrc.ParentGroup;
+	        if(pgOrgParent.Uuid.EqualsValue(pgSrcParent.Uuid))
+	        {
+	            pg.LocationChanged = ((ptSrc.LocationChanged > ptOrg.LocationChanged) ?
+					ptSrc.LocationChanged : ptOrg.LocationChanged);
 					continue;
-				}
+	        }
 
-				if(ptSrc.LocationChanged > ptOrg.LocationChanged)
-				{
+	        if(ptSrc.LocationChanged > ptOrg.LocationChanged)
+	        {
 					PwGroup pgLocal = m_pgRootGroup.FindGroup(pgSrcParent.Uuid, true);
 					if(pgLocal == null) { Debug.Assert(false); continue; }
 
 					if(pgLocal.IsContainedIn(pg)) continue;
 
-					pg.ParentGroup.Groups.Remove(pg);
-					pgLocal.AddGroup(pg, true);
-					pg.LocationChanged = ptSrc.LocationChanged;
-				}
-				else
-				{
-					Debug.Assert(pg.ParentGroup.Uuid.EqualsValue(pgOrgParent.Uuid));
-					Debug.Assert(pg.LocationChanged == ptOrg.LocationChanged);
-				}
-			}
+	            pg.ParentGroup.Groups.Remove(pg);
+	            pgLocal.AddGroup(pg, true);
+	            pg.LocationChanged = ptSrc.LocationChanged;
+	        }
+	        else
+	        {
+	            Debug.Assert(pg.ParentGroup.Uuid.EqualsValue(pgOrgParent.Uuid));
+	            Debug.Assert(pg.LocationChanged == ptOrg.LocationChanged);
+	        }
+	    }
 
 			Debug.Assert(m_pgRootGroup.GetGroups(true).UCount == vGroups.UCount);
 		}
 
-		private void RelocateEntries(PwObjectPool ppOrgStructure,
+	    private void RelocateEntries(PwObjectPool ppOrgStructure,
 			PwObjectPool ppSrcStructure)
 		{
 			PwObjectList<PwEntry> vEntries = m_pgRootGroup.GetEntries(true);
@@ -1050,7 +1050,7 @@ namespace KeePassLib
 #endif
 		}
 
-		private static uint FindLocationChangedPivot<T>(PwObjectList<T> vItems,
+		internal static uint FindLocationChangedPivot<T>(PwObjectList<T> vItems,
 			KeyValuePair<uint, uint> kvpRange, PwObjectPool ppOrgStructure,
 			PwObjectPool ppSrcStructure, Queue<PwUuid> qBefore, Queue<PwUuid> qAfter,
 			bool bEntries)
@@ -1087,7 +1087,7 @@ namespace KeePassLib
 			return uPosMax;
 		}
 
-		private static void GetNeighborItems(List<IStructureItem> vItems,
+		internal static void GetNeighborItems(List<IStructureItem> vItems,
 			PwUuid pwPivot, Queue<PwUuid> qBefore, Queue<PwUuid> qAfter)
 		{
 			qBefore.Clear();
@@ -1354,7 +1354,7 @@ namespace KeePassLib
 			return true;
 		}
 
-		private static void RemoveCustomIconUuid(PwEntry pe, List<PwUuid> vToDelete)
+		internal static void RemoveCustomIconUuid(PwEntry pe, List<PwUuid> vToDelete)
 		{
 			PwUuid uuidThis = pe.CustomIconUuid;
 			if(uuidThis.EqualsValue(PwUuid.Zero)) return;

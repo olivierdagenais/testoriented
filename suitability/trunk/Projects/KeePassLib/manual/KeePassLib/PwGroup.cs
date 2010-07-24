@@ -588,7 +588,7 @@ namespace KeePassLib
 			return list;
 		}
 
-		private void LinearizeGroupRecursive(LinkedList<PwGroup> list, PwGroup pg, ushort uLevel)
+	    internal static void LinearizeGroupRecursive(LinkedList<PwGroup> list, PwGroup pg, ushort uLevel)
 		{
 			Debug.Assert(pg != null); if(pg == null) return;
 
@@ -773,7 +773,7 @@ namespace KeePassLib
 			PreOrderTraverseTree(null, eh);
 		}
 
-		private static void SearchEvalAdd(string strSearch, string strDataField,
+	    internal static void SearchEvalAdd(string strSearch, string strDataField,
 			StringComparison scType, Regex rx, PwEntry pe, PwObjectList<PwEntry> lResults)
 		{
 			if(rx == null)
