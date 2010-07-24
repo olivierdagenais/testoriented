@@ -1,0 +1,1189 @@
+﻿
+html, body, div, span, small, object, iframe, h1, h2, h3, h4, h5, h6, pre, a, abbr, blockquote, acronym, address, code, del, dfn, dl, dt, dd, em, img, q, ol, ul, li, fieldset, form, label, legend, caption, tbody, tfoot, thead, b, p
+{
+    border: 0;
+    font-size: 100%;
+    font-family: inherit;
+}
+img, input
+{
+    behavior: url("iepngfix.htc");
+}
+body
+{
+    background: #d5d5d5;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    line-height: 1.5em;
+    color: #000000;
+    margin: 0;
+}
+.clearfix:after
+{
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+.clearfix
+{
+    display: inline-block;
+}
+html[xmlns] .clearfix
+{
+    display: block;
+}
+* html .clearfix
+{
+    height: 1%;
+}
+#wrapper
+{
+    width: 100%;
+    height: auto;
+    margin: auto;
+}
+#toppart
+{
+    width: 100%;
+    height: auto;
+    margin: auto;
+}
+#footer
+{
+    width: 100%;
+    height: 100px;
+    margin: auto;
+    background: #414141;
+}
+p.copyright
+{
+    color: #cecece;
+    font: 1em Arial, Helvetica, sans-serif;
+    margin: auto;
+    padding: 10px 20px;
+}
+#header
+{
+    background: #ffffff url(images/header.gif) repeat-x bottom left;
+    height: 13px;
+    width: 100%;
+}
+.logo
+{
+    margin: auto;
+    padding: 0 0 0 0;
+}
+#header span
+{
+    padding: 5px 10px;
+    font: bold 1em Arial, Helvetica, sans-serif;
+    color: #484848;
+}
+#header span small
+{
+    font: 11px Arial, Helvetica, sans-serif;
+    color: #f64e40;
+}
+.logo a:link
+{
+    color: #484848;
+}
+.logo a:hover
+{
+    color: #ffffff;
+}
+/* ================================================= */
+/* 	 COLUMN CSS                               */
+/* ================================================= */
+#middlepart
+{
+    overflow: auto;
+    height: 100%;
+    background: #d5d5d5;
+    margin: auto;
+    padding: 20px 20px;
+}
+#leftcolumn
+{
+    width: 99%;
+    padding: 10px 10px;
+    background: #ffffff;
+    float: left;
+}
+#rightcolumn
+{
+    width: 25%;
+    padding: 10px;
+    background: #ffffff;
+    float: right;
+}
+
+/* ================================================= */
+/* 	 ToP MENU CSS                               */
+/* ================================================= */
+#menu
+{
+    background: #414141 url(images/menu.gif) repeat-x;
+    height: 31px;
+    width: 100%;
+}
+#menu .topmenu
+{
+    width: 900px;
+    margin: auto;
+}
+/* ================================================= */
+/* 	 Settings MENU   CSS                               */
+/* ================================================= */
+.settingsblock
+{
+    width: auto;
+    background: #414141 url(images/settingsbg.gif) top left repeat-x;
+    padding: 0px 10px 5px 10px;
+    height: 60px;
+    margin: auto 0 0px 0;
+    clear: both;
+}
+.settingsblock div
+{
+    float: left;
+    font: normal 2em Arial, Helvetica, sans-serif;
+    color: #CCCCCC;
+    padding: 20px 0 0 10px;
+}
+.settingsblock div a:visited, .settingsblock div a:active, .settingsblock div a:link
+{
+    background: url(images/arrow.gif) 0% 50% no-repeat;
+    padding: 10px 10px;
+    float: left;
+}
+.settingsblock img
+{
+    vertical-align: middle;
+}
+
+.settingsblock a:link, .settingsblock a:visited, .settingsblock a:active, .settingsblock span
+{
+    border: 0px solid #d9d9d9;
+    display: inline-block;
+    margin: 0 5px 0 0;
+    float: right;
+    color: #fff;
+    font: normal 10px tahoma, Helvetica, sans-serif;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+}
+.settingsblock a:hover
+{
+    color: #f64e40;
+}
+/* ================================================= */
+/* 	 SUB MENU   CSS                               */
+/* ================================================= */
+#submenu
+{
+    background: #fff URL(images/submenu.gif) top left repeat-x;
+    padding: 1px 10px;
+}
+#submenu ul
+{
+    margin: 0;
+    padding: 5px;
+}
+#submenu li
+{
+    list-style: none;
+    display: inline;
+    font-weight: bold;
+    margin: 0 3px 0 0;
+    padding: 4px 10px;
+}
+#submenu li a
+{
+    color: #ececec;
+}
+#submenu li:hover
+{
+    color: #fff;
+    background: URL(images/menutop.gif) 50% 0% no-repeat;
+}
+#submenu li.iehoversm
+{
+    color: #fff;
+    background: URL(images/menutop.gif) 50% 0% no-repeat;
+}
+
+#submenu li a:hover
+{
+    color: #fff;
+}
+
+/* ================================================= */
+/* 	 SIDEBAR MENU CSS                              */
+/* ================================================= */
+#sidebarmenu
+{
+    background: #fff;
+    padding: 1px 0px;
+}
+#sidebarmenu ul
+{
+    margin: 0;
+    list-style: none;
+    padding: 0px;
+}
+#sidebarmenu li
+{
+    list-style: none;
+    font-weight: bold;
+    line-height: 25px;
+    margin: 0 0px 1px 0;
+    padding: 4px 10px;
+    border-left: 5px solid #414141;
+    background: #ededed;
+}
+#sidebarmenu li a
+{
+    color: #414141;
+}
+#sidebarmenu li:hover
+{
+    color: #f64e40;
+}
+#sidebarmenu li a:hover
+{
+    color: #f64e40;
+}
+#sidebarmenu .activesub
+{
+    color: #f64e40;
+}
+/* ================================================= */
+/* 	 SEARCH BAR CSS ITEMS                          */
+/* ================================================= */
+.searchbar
+{
+    float: right;
+    padding: 3px 20px 0 0;
+    text-transform: uppercase;
+    color: #fff;
+}
+.searchbar input
+{
+    padding: 0px 10px;
+}
+#submenu img
+{
+    vertical-align: middle;
+}
+/* ================================================= */
+/* 	 Login Box CSS ITEMS                              */
+/* ================================================= */
+.loginform
+{
+    border-top: 0px solid #414141;
+    padding: 10px;
+}
+#login div .remember
+{
+    float: left;
+}
+div.loginform span
+{
+    float: left;
+}
+div.loginform input
+{
+    clear: left;
+}
+#login .forgot
+{
+    clear: both;
+    float: left;
+}
+#login div .submit input, input.submit, input.cancel, input.delete
+{
+    padding: 3px 8px;
+    border: none;
+    background: #39b54a;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #ffffff;
+    margin: 0 3px 0 5px;
+}
+input.cancel
+{
+    background: #a7a7a7;
+}
+input.delete
+{
+    background: #f73333;
+}
+
+#login div .submit input:hover, input:hover.submit, input:hover.cancel, input:hover.delete
+{
+    padding: 3px 8px;
+    border: none;
+    color: #ffffff;
+    background: #007236;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+input:hover.cancel
+{
+    background: #717171;
+}
+input:hover.delete
+{
+    background: #a53333;
+}
+div .submit
+{
+    float: right;
+}
+#login
+{
+    width: 550px;
+    margin: 1em auto;
+}
+#userpass, #userlogin, #useremail
+{
+    font-size: 12px;
+    width: 97%;
+    padding: 3px;
+}
+.vmiddle
+{
+    vertical-align: middle;
+}
+/* ================================================= */
+/* 	 COMMON CSS ITEMS                              */
+/* ================================================= */
+a:link, a:visited, a:active
+{
+    color: #484848;
+    text-decoration: none;
+}
+a:hover
+{
+    color: #f64e40;
+    text-decoration: none;
+}
+h1
+{
+    font-size: 250%;
+    margin: 10px 0;
+    font-weight: normal;
+}
+h2
+{
+    font-size: 210%;
+    margin: 8px 0;
+    font-weight: normal;
+}
+h3
+{
+    font-size: 180%;
+    margin: 7px 0;
+    font-weight: normal;
+}
+h4
+{
+    font-size: 140%;
+    margin: 5px 0;
+    font-weight: normal;
+}
+h5
+{
+    font-size: 110%;
+    margin: 5px 0;
+    font-weight: normal;
+}
+h6
+{
+    font-size: 92.5%;
+    margin: 5px 0;
+    font-weight: normal;
+}
+pre, code
+{
+    font: 1em/1.4em "Courier News" , monospace;
+    color: #484848;
+    line-height: 1.5em;
+}
+/* ================================================= */
+/* 	 MESSAGE BOX CSS                               */
+/* ================================================= */
+div.success
+{
+    background: #e0ecd1 url(images/success.gif) no-repeat 12px 50%;
+    border: 1px solid #60a400;
+    border-width: 5px 0 0 0;
+    color: #60a400;
+}
+div.error
+{
+    background: #ffe3e1 url(images/error.gif) no-repeat 12px 50%;
+    border: 1px solid #f14545;
+    border-width: 5px 0 0 0;
+    color: #f14545;
+}
+div.notice
+{
+    background: #fff0db url(images/warning.gif) no-repeat 12px 50%;
+    border: 1px solid #e7a74c;
+    border-width: 5px 0 0 0;
+    color: #e7a74c;
+}
+div.notice, div.success, div.error
+{
+    font-size: 100%;
+    padding: 10px;
+    width: auto;
+    margin: 0 0 20px 0;
+    text-align: left;
+}
+.notice span, .success span, .error span
+{
+    font-weight: bold;
+    font-size: 18px;
+    padding: 2px 40px;
+}
+.success p, .error p, .notice p
+{
+    margin: 0;
+    padding: 0 40px;
+    color: #333333;
+}
+/* ================================================= */
+/* 	 LIST ITEMS CSS                                   */
+/* ================================================= */
+.nums ul
+{
+    margin: 0;
+    padding: 0 10px;
+}
+.nums li
+{
+    list-style: decimal;
+}
+.squares ul
+{
+    margin: 0;
+    padding: 0 10px;
+}
+.squares li
+{
+    list-style: square;
+    padding: 0;
+}
+.circles ul
+{
+    margin: 0 10px;
+    padding: 0 10px;
+    float: right;
+}
+.circles li
+{
+    list-style: circle;
+    vertical-align: top;
+}
+/* ================================================= */
+/* 	 RIGHTCOLUMN BOX CSS                               */
+/* ================================================= */
+.notes
+{
+    background: #e8e8e8;
+    border: 1px solid #c5c5c5;
+    border-top: 7px solid #414141;
+}
+.notes
+{
+    font-size: 100%;
+    color: #484848;
+    padding: 20px;
+    width: auto;
+    margin: 0 0 10px 0;
+    text-align: left;
+}
+.notes p
+{
+    margin: 0;
+    padding: 0;
+    clear: both;
+}
+.notes span
+{
+    font-weight: bold;
+    font-size: 1.2em;
+    padding-bottom: 2px;
+    margin-bottom: 10px;
+}
+/* ================================================= */
+/* 	 PAGINATION CSS                               */
+/* ================================================= */
+.pagelink
+{
+    width: 10px;
+    background: #e7e8e8 url(images/page.gif) repeat-x bottom left;
+    border: 1px solid #b2b2b2;
+    color: #787878;
+    clear: both;
+    line-height: 35px;
+    text-decoration: none;
+}
+a.pagelink:active, a.pagelink:visited, a.pagelink:link
+{
+    width: 10px;
+    background: url(images/page.gif) repeat-x bottom left;
+    border: 1px solid #b2b2b2;
+    color: #787878;
+    padding: 6px;
+}
+a.pagelink:hover
+{
+    width: 10px;
+    background: #fff url(images/page.gif) repeat-x bottom left;
+    border: 1px solid #b2b2b2;
+    color: #f64e40;
+    padding: 6px;
+}
+.pagecurrent
+{
+    width: 10px;
+    background: #fff url(images/page.gif) repeat-x bottom left;
+    border: 1px solid #b2b2b2;
+    color: #f64e40;
+    padding: 6px;
+}
+/* ================================================= */
+/* 	 Small Box CSS                               */
+/* ================================================= */
+.mainbox
+{
+    width: auto;
+}
+div.boxcontainer
+{
+    color: #888;
+    width: 30%;
+    float: left;
+    min-height: 100px;
+    font: normal 10px Tahoma, Arial, Helvetica, sans-serif;
+    background: #ffffff url(images/boxb.gif) repeat-x top left;
+    padding: 5px;
+    margin: 0 0 1% 1%;
+    border: 1px solid #c6c6c6;
+}
+.boxcontainer h4
+{
+    float: none;
+    font-size: 18px;
+    margin: 0;
+    font-family: Arial, Tahoma, Verdana, Sans-serif;
+    padding-bottom: 2px;
+}
+.boxcontainer h4
+{
+    padding: 5px 0 5px 0;
+}
+a img.box_thumb, a:visited img.box_thumb
+{
+    float: left;
+    margin-right: 10px;
+    padding: 5px;
+    border: 1px solid #7a7a7a;
+    background: #7a7a7a;
+}
+a:hover img.box_thumb
+{
+    background: #fff;
+}
+
+
+
+/* ================================================= */
+/* 	 TABLE BUTTONS CSS                               */
+/* ================================================= */
+
+a.submit:visited, a.submit:active, a.submit:link, a.add:visited, a.add:active, a.add:link, a.publish:visited, a.publish:active, a.publish:link, a.edit:visited, a.edit:active, a.edit:link, a.delete:visited, a.delete:active, a.delete:link, a.reset:visited, a.reset:active, a.reset:link
+{
+    width: auto;
+    margin: 0 2px 0 0;
+    padding: 2px 8px;
+    text-transform: uppercase;
+    font: bold 10px "Lucida Grande" , Arial, Helvetica, sans-serif;
+    color: #fff;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+a.publish
+{
+    background: #afd2ea;
+    color: #ffffff;
+}
+a.publish:hover
+{
+    background: #0072bc;
+    color: #ffffff;
+}
+
+a.edit
+{
+    background: #949ca1;
+    color: #000000;
+}
+a.edit:hover
+{
+    background: #727c82;
+    color: #ffffff;
+}
+
+a.delete
+{
+    background: #ffb5b5;
+    color: #ffffff;
+}
+a.delete:hover
+{
+    background: #d80047;
+    color: #ffffff;
+}
+
+a.add
+{
+    background: #99d177;
+    color: #ffffff;
+}
+a.add:hover
+{
+    background: #00a651;
+    color: #ffffff;
+}
+
+a.reset
+{
+    background: #96aabf;
+    color: #ffffff;
+}
+a.reset:hover
+{
+    background: #6f7f90;
+    color: #ffffff;
+}
+
+a.submit
+{
+    background: #12486b;
+    color: #ffffff;
+}
+a.submit:hover
+{
+    background: #000000;
+    color: #ffffff;
+}
+
+
+/* ====================================================================== */
+/* DataGrid class for all tables in project with dataGrid class           */
+/* ====================================================================== */
+.dataGrid
+{
+    border-collapse: collapse;
+    background: #ffffff;
+    font-size: 11px;
+    border-width: 1px 0px 1px 0px;
+    color: #333;
+}
+.dataGrid td, .dataGrid th
+{
+    padding: 10px;
+    text-align: center;
+    vertical-align: top;
+    border: 1px solid #cacaca;
+    border-width: 1px 0px 1px 0px;
+}
+.dataGrid td.left
+{
+    padding: 5px 10px 0 0;
+    text-align: left;
+    vertical-align: top;
+}
+.dataGrid th.left
+{
+    padding: 10px;
+    text-align: left;
+    vertical-align: top;
+}
+
+.dataGrid caption
+{
+    padding: 5px 10px;
+    text-align: left;
+    font: bold 14px "Trebuchet MS" , Georgia, "Times New Roman" , Times, sans-serif;
+    text-transform: uppercase;
+    background: #414141 url(images/caption.gif) repeat-x;
+    width: auto;
+    color: #414141;
+}
+
+tfoot th
+{
+    background: #414141 url(../images/menu.gif) repeat-x;
+    font: bold 8pt "Lucida Grande" , Arial, Helvetica, sans-serif;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    text-align: left;
+}
+tfoot td
+{
+    background: url(../images/caption.gif) repeat-x;
+}
+
+/* ================================================= */
+/* Menu Link                                         */
+/* ================================================= */
+
+.dataGrid a
+{
+    text-decoration: none;
+}
+.dataGrid a:link
+{
+}
+.dataGrid a:visited
+{
+}
+
+/* ================================================= */
+/* Heads Footer                                      */
+/* ================================================= */
+
+.dataGrid th
+{
+    background: #414141 url(images/menu.gif) repeat-x;
+    color: #FFFFFF;
+    font: bold 8pt "Lucida Grande" , Arial, Helvetica, sans-serif;
+    text-transform: uppercase;
+}
+
+/* ================================================= */
+/* Table Body                                        */
+/* ================================================= */
+
+.dataGrid tbody th, tbody td
+{
+}
+.dataGrid tbody th
+{
+    white-space: nowrap;
+}
+.dataGrid tbody th a
+{
+    color: #333;
+}
+.dataGrid .odd
+{
+    background-color: #f5f5f5;
+}
+.dataGrid td img
+{
+    padding: 0 15px;
+}
+
+.dataGrid .mouseOver
+{
+    background-color: #ddddff;
+}
+
+/* menu css */
+/* ================================================= */
+/* This file created by Aivah                        */
+/* Dated: 3rd Feb 2009	                             */
+/* Copyright : 2009 Aivah.com                        */
+/* Stylesheet: menu.css                              */
+/* ================================================= */
+
+/* ================================================= */
+/* Root = Horizontal, Secondary = Vertical           */
+/* ================================================= */
+
+
+ul#navmenu
+{
+    border: 0 none;
+    padding: 0;
+    width: auto; /*For KHTML*/
+    list-style: none;
+    height: 24px;
+}
+
+ul#navmenu li
+{
+    margin: 0;
+    border: 0 none;
+    padding: 0;
+    float: left; /*For Gecko*/
+    display: inline;
+    list-style: none;
+    position: relative;
+    height: 31px;
+}
+
+ul#navmenu ul
+{
+    margin: 0;
+    border: 0 none;
+    padding: 0;
+    width: 160px;
+    list-style: none;
+    display: none;
+    position: absolute;
+    top: 31px;
+    left: 0;
+}
+
+ul#navmenu ul:after /*From IE 7 lack of compliance*/
+{
+    clear: both;
+    display: block;
+    font: 1px/0px serif;
+    content: ".";
+    height: 0;
+    visibility: hidden;
+}
+
+ul#navmenu ul li
+{
+    width: 160px;
+    float: left; /*For IE 7 lack of compliance*/
+    display: block !important;
+    display: inline; /*For IE*/
+}
+
+/* ================================================= */
+/* Root Menu                                         */
+/* ================================================= */
+
+ul#navmenu a
+{
+    border: 0px solid #e8f2db;
+    border-right-color: #e8f2db;
+    border-left-color: #e8f2db;
+    border-bottom-color: #e8f2db;
+    padding: 4px 10px;
+    float: none !important; /*For Opera*/
+    float: left; /*For IE*/
+    display: block;
+    color: #d4d4d4;
+    font: bold 12px/22px Arial, Helvetica, sans-serif;
+    text-decoration: none;
+    height: auto !important;
+    height: 1%; /*For IE*/
+}
+
+/* ================================================= */
+/* Root Menu Hover Persistence                       */
+/* ================================================= */
+ul#navmenu a:hover, ul#navmenu li:hover a, ul#navmenu li.iehover a
+{
+    background: #f64e40 URL(images/menutop.gif) 50% 0% no-repeat;
+    color: #FFF;
+}
+#navmenu li ul
+{
+    border: 1px solid #d6d6d6;
+    background: #ffffff;
+    border-width: 1px 1px 3px 1px;
+}
+#navmenu li ul li a
+{
+    background: URL(images/arrow.gif) 50% 0% no-repeat;
+}
+
+/* ================================================= */
+/* 2nd Menu                                          */
+/* ================================================= */
+ul#navmenu li:hover li a, ul#navmenu li.iehover li a
+{
+    float: none;
+    background: #ffffff URL(images/bg.gif) top left repeat-x;
+    color: #414141;
+}
+
+/* ================================================= */
+/* 2nd Menu Hover Persistence                        */
+/* ================================================= */
+ul#navmenu li:hover li a:hover, ul#navmenu li:hover li:hover a, ul#navmenu li.iehover li a:hover, ul#navmenu li.iehover li.iehover a
+{
+    color: #f64e40;
+    background: #ffffff URL(images/bg.gif) top left repeat-x;
+}
+
+/* ================================================= */
+/* 3rd Menu                                          */
+/* ================================================= */
+ul#navmenu li:hover li:hover li a, ul#navmenu li.iehover li.iehover li a
+{
+    background: #ffffff URL(images/bg.gif) top left repeat-x;
+    color: #414141;
+}
+
+/* ================================================= */
+/* 3rd Menu Hover Persistence                        */
+/* ================================================= */
+ul#navmenu li:hover li:hover li a:hover, ul#navmenu li:hover li:hover li:hover a, ul#navmenu li.iehover li.iehover li a:hover, ul#navmenu li.iehover li.iehover li.iehover a
+{
+    background: #FFF URL(images/bg.gif) top left repeat-x;
+    color: #f64e40;
+}
+
+/* ================================================= */
+/* 4th Menu                                          */
+/* ================================================= */
+ul#navmenu li:hover li:hover li:hover li a, ul#navmenu li.iehover li.iehover li.iehover li a
+{
+    background: #c2c9a8;
+    color: #4c4f49;
+}
+
+/* ================================================= */
+/* 4th Menu Hover                                    */
+/* ================================================= */
+ul#navmenu li:hover li:hover li:hover li a:hover, ul#navmenu li.iehover li.iehover li.iehover li a:hover
+{
+    background: #e8f2db;
+    color: #4c4f49;
+}
+
+ul#navmenu ul ul, ul#navmenu ul ul ul
+{
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 160px;
+}
+
+/* ================================================= */
+/* Do Not Move - Must Come Before display:block for Gecko */
+/* ================================================= */
+
+ul#navmenu li:hover ul ul, ul#navmenu li:hover ul ul ul, ul#navmenu li.iehover ul ul, ul#navmenu li.iehover ul ul ul
+{
+    display: none;
+}
+
+ul#navmenu li:hover ul, ul#navmenu ul li:hover ul, ul#navmenu ul ul li:hover ul, ul#navmenu li.iehover ul, ul#navmenu ul li.iehover ul, ul#navmenu ul ul li.iehover ul
+{
+    display: block;
+}
+
+/* form css */
+/* ================================================= */
+/* This file created by Aivah                        */
+/* Dated: 3rd Feb 2009	                             */
+/* Copyright : 2009 Aivah.com                        */
+/* Stylesheet: form.css                              */
+/* ================================================= */
+
+
+.form
+{
+    font: 12px Geneva, arial, sans-serif;
+    margin: 0 0;
+    padding: 10px 0;
+    width: 100%;
+}
+fieldset
+{
+    padding: 10px 0;
+    margin: 0 0 15px 0;
+    background: #fff;
+    border: 5px solid #ececec;
+}
+* html fieldset
+{
+    position: relative;
+    margin: 10px 0 30px 0;
+    padding: 20px 0;
+}
+* html legend
+{
+    position: absolute;
+    top: -1.2em;
+    left: 0;
+}
+fieldset legend
+{
+    font: normal 1.5em Helvetica, sans-serif;
+    padding: 10px 5px;
+    text-transform: uppercase;
+    background: #fff;
+}
+
+.form input, .form textarea, .form select
+{
+    width: auto;
+    margin: 5px 0 0 0;
+}
+textarea
+{
+    overflow: auto;
+}
+
+.form input#reset
+{
+    margin-left: 0;
+}
+
+.form small
+{
+    display: block;
+    margin: 0 0 5px 160px;
+    padding: 1px 3px;
+    font-size: 88%;
+}
+.form .required
+{
+    font-weight: bold;
+}
+.form br
+{
+    clear: left;
+}
+
+input.medium
+{
+    width: 45%;
+}
+input.wysiwyg
+{
+    width: 80%;
+    height: 50%;
+}
+
+.editPageMain, .editPagePropertyies
+{
+    background-color: #f6f6f6;
+    border: solid 2px #ececec;
+    margin: 5px;
+    font-size: 95%;
+    padding: 5px;
+}
+
+.editPageMain
+{
+    float: left;
+    min-height: 100px;
+    min-width: 100px;
+    width: 65%;
+}
+.editPagePropertyies
+{
+    float: right;
+    min-height: 100px;
+    min-width: 100px;
+    width: 30%;
+    border-style: dashed;
+}
+
+input.textbox, textarea.textbox, textarea.description
+{
+    border: solid 1px #aaa;
+    font-size: 95%;
+    width: 55%;
+}
+
+textarea.description
+{
+    height: 90px;
+}
+
+textarea.long
+{
+    height:400px;
+}
+
+span.label
+{
+    width: 140px;
+    display: block;
+    float: left;
+    padding-top: 5px;
+}
+.leftControls, .rightControls
+{
+    background-color: #fff;
+    border: solid 2px #ececec;
+    padding: 5px;
+}
+
+.leftControls
+{
+    float: left;
+    width: 98%;
+}
+.rightControls
+{
+    width: 30%;
+    float: right;
+}
+
+.field
+{
+    margin-top: 10px;
+    clear: both;
+}
+
+.wide
+{
+    width: 75% !important;
+}
+.medium
+{
+    width: 55% !important;
+}
+.small
+{
+    width: 20% !important;
+}
+
+textarea.htmlEditor
+{
+    width: 100%;
+    height: 500px;
+}
+
+label.error
+{
+    
+    color: red;
+    font-style: italic;
+    font-weight: normal;
+}
+
+input.error
+{
+    border: 2px solid red;
+}
+
+td.field input.error, td.field select.error, tr.errorRow td.field input, tr.errorRow td.field select
+{
+    border: 2px solid red;
+    background-color: #FFFFD5;
+    margin: 0px;
+    color: red;
+}
+
+
+input.smallButton, input.smallButton:hover
+{
+    padding:0px;
+    margin:0px;
+    font:bold 10px "Lucida Grande",Arial,Helvetica,sans-serif;
+}
