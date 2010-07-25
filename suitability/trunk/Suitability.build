@@ -233,11 +233,11 @@
     </target>
 
     <target name="postResults">
-        <if test="${environment::variable-exists('BUILD_NUMBER')}">
-            <property name="buildNumber" value="${environment::get-variable('BUILD_NUMBER')}"/>
+        <if test="${environment::variable-exists('SVN_REVISION')}">
+            <property name="svnRevision" value="${environment::get-variable('SVN_REVISION')}"/>
         </if>
-        <if test="${not environment::variable-exists('BUILD_NUMBER')}">
-            <property name="buildNumber" value="private"/>
+        <if test="${not environment::variable-exists('SVN_REVISION')}">
+            <property name="svnRevision" value="private"/>
         </if>
         <property name="toddVersion" value="n/a" />
         <foreach item="String" in="${projects}" delim="," property="project">
@@ -249,7 +249,7 @@
                 <xpath file="${coverageFile}" property="tsp" query="count(//seqpnt)" />
                 <xpath file="${coverageFile}" property="vsp" query="count(//seqpnt[not(@visitcount='0')])" />
                 <post action="https://spreadsheets.google.com/a/softwareninjas.ca/formResponse?formkey=dG9zQnFtTlQ0Z1dGUjI5TUlFMnpFWWc6MQ&amp;ifq">
-                    <!-- Batch # -->        <input name="entry.1.single" value="${buildNumber}" />
+                    <!-- Batch # -->        <input name="entry.1.single" value="${svnRevision}" />
                     <!-- Project -->        <input name="entry.2.single" value="${project}" />
                     <!-- Variation -->      <input name="entry.3.single" value="${variation}" />
                     <!-- TODD version -->   <input name="entry.4.single" value="${toddVersion}" />
