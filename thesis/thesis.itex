@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<iTeX>
+  <preamble><!-- !TEX TS-program = pdflatex -->
+    <!-- !TEX encoding = UTF-8 Unicode -->
+
+    <command name="documentclass" opt="12pt" param="dalthesis" />
+
+    <command name="usepackage" opt="utf8" param="inputenc" /> <!-- set input encoding (not needed with XeLaTeX) -->
+      </preamble>
+  <document>
+    <command name="title" param="Title: \\ Multiline \\ If Necessary \\" />
+    <command name="author" param="Your Name" />
+    <command name="submitdate" param="December 6, 2006" />
+    <command name="copyrightyear" param="2006" />
+    
+    <command name="frontmatter">
+      <block param="abstract">
+        An abstract is required in all theses.
+        Make sure that it fits on one page!
+      </block>
+      <block param="acknowledgements">
+        This is the acknowledgements.
+        It is optional.
+      </block>
+    </command>
+    <command name="mainmatter">
+      <command name="chapter" param="Introduction">
+        <command name="section" param="Introduction">
+          ... what the chapter is about ...
+        </command>
+        <command name="section" param="Motivation">
+          ...
+        </command>
+        <command name="section" param="Statement of the Problem">
+          ...
+        </command>
+        <command name="section" param="Contributions">
+          ... why are they worthwhile ...
+        </command>
+        <command name="section" param="Overview of Results">
+          ... summary of acheivements ...
+        </command>
+        <command name="section" param="Organization of Thesis">
+          ...
+        </command>
+        <command name="section" param="Summary">
+          ... key points of what was presented and linkage to next chapter...
+        </command>
+      </command>
+      <command name="chapter" param="Background">
+        <command name="section" param="Introduction">
+          ... what the chapter is about ...
+        </command>
+        <command name="section" param="Background Material on Related Discipline 1">
+          ...
+        </command>
+        <command name="section" param="Background Material on Related Discipline 2">
+          ...
+        </command>
+        <command name="section" param="Background Material on Related Discipline n">
+          ...
+        </command>
+        <command name="section" param="Summary">
+          ... key points of what was presented and linkage to next chapter...
+        </command>
+      </command>
+      <command name="chapter" param="Related Work: State of the Art">
+        <command name="section" param="Introduction">
+          ... what the chapter is about ...
+        </command>
+        <command name="section" param="Key Area of Related Work 1">
+          <!-- <command name="section" param="Artificial Immune System Search Algorithms"> -->
+          ...
+        </command>
+        <command name="section" param="Key Area of Related Work 2">
+          <!-- <command name="section" param="Other Evolutionary Search Techniques"> -->
+          ...
+        </command>
+        <command name="section" param="Key Area of Related Work n">
+          <!-- <command name="section" param="Techniques for Directed Search"> -->
+          ...
+        </command>
+        <command name="section" param="Summary">
+          ... key points of what was presented and linkage to next chapter...
+        </command>
+      </command>
+      <command name="chapter" param="Introduction to The Main Contribution">
+        <!-- <command name="chapter" param="Antigenic Search as a Directed Search Technique"> -->
+        <command name="section" param="Introduction">
+          ... what the chapter is about ...
+        </command>
+        <command name="section" param="The Problem">
+          ... a concise statement of the problem addressed ...
+        </command>
+        <command name="section" param="The Proposed Solution">
+          ... a concise statement of the problem addressed ...
+        </command>
+        <command name="section" param="Justification of Claim to Originality">
+          ... done in context of related work in last section ...
+        </command>
+        <command name="section" param="Valuation of Contribution">
+          ... why is my contribution worthwhile ...
+        </command>
+        <command name="section" param="Alternatives">
+          ... what are the alternatives to this solution...
+        </command>
+        <command name="section" param="Summary">
+          ... key points of what was presented and linkage to next chapter...
+        </command>
+      </command>
+      <command name="chapter" param="Theoretical Treatment">
+        <command name="section" param="Introduction">
+          ... what the chapter is about ...
+        </command>
+        <command name="section" param="Main Theoretical Component 1">
+          ...
+        </command>
+        <command name="section" param="Main Theoretical Component 2">
+          ...
+        </command>
+        <command name="section" param="Main Theoretical Component n">
+          ...
+        </command>
+        <command name="section" param="Summary">
+          ... key points of what was presented and linkage to next chapter...
+        </command>
+      </command>
+      <command name="chapter" param="Description of Algorithmic Designs">
+        <!-- <command name="chapter" param="A Class of Antigenic Search Algorithms for Multimodal Function Optimization"> -->
+        <command name="section" param="Introduction">
+          ... what the chapter is about ...
+        </command>
+        <command name="section" param="The Basic Algorithm">
+          ...
+        </command>
+        <command name="section" param="Discussion of Design Issues">
+          ...
+        </command>
+        <command name="section" param="Algorithm Enhancements">
+          ...
+        </command>
+        <command name="section" param="Discussion of the Parameter Space">
+          ...
+        </command>
+        <command name="section" param="Summary">
+          ... key points of what was presented and linkage to next chapter...
+        </command>
+      </command>
+      <command name="chapter" param="Description of Experimental Procedures and Testing">
+        <command name="section" param="Introduction">
+          ... what the chapter is about ...
+        </command>
+        <command name="section" param="The Test Functions">
+          ...
+        </command>
+        <command name="section" param="The Testing Methodology">
+          ...
+        </command>
+        <command name="section" param="Discussion of Analytical and Statistical Procedures to be Used">
+          ...
+        </command>
+        <command name="section" param="Summary">
+          ... key points of what was presented and linkage to next chapter...
+        </command>
+      </command>
+      <command name="chapter" param="Presentation of Experimental Results">
+        <command name="section" param="Introduction">
+          ... what the chapter is about ...
+        </command>
+        <command name="section" param="Analysis of Results">
+          ... include charts, tables, figures ...
+          ... include proper statistical treatment ...
+        </command>
+        <command name="section" param="Comparison of Performance Against Other Techniques">
+          ...
+        </command>
+        <command name="section" param="Summary">
+          ... key points of what was presented and linkage to next chapter...
+        </command>
+      </command>
+      <command name="chapter" param="Summary of work, Conclusions and Future Work">
+        <command name="section" param="Introduction">
+          ... what the chapter is about ...
+        </command>
+        <command name="section" param="Summary of Results">
+          ...
+        </command>
+        <command name="section" param="Conclusions">
+          ... list of inferences made ...
+        </command>
+        <command name="section" param="Contributions">
+          ... list of contributions to new knowledge ...
+        </command>
+        <command name="section" param="Future Work">
+          ... best ideas of next steps ...
+        </command>
+      </command>
+    </command>
+    <command name="appendix">
+      <command name="chapter" param="Stuff">
+        ... material of length that would impede the flow of the
+        main body: program listings, long data results, long mathematical
+        proofs ...
+      </command>
+    </command>
+    <command name="bibliographystyle" param="abbrv" />
+    <command name="bibliography" param="thesis" />
+  </document>
+</iTeX>
