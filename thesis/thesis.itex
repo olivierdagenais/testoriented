@@ -6,13 +6,18 @@
     <command name="documentclass" opt="12pt" param="dalthesis" />
 
     <command name="usepackage" opt="utf8" param="inputenc" /> <!-- set input encoding (not needed with XeLaTeX) -->
-      </preamble>
+    
+    <!-- disable turning "fi", "ff", etc. into one character: http://www.latex-community.org/forum/viewtopic.php?f=5&t=953  -->
+    <command name="usepackage" param="microtype" />
+    <command name="DisableLigatures" param="encoding = *, family = *" />
+  </preamble>
   <document>
     <command name="title" param="Title: \\ Multiline \\ If Necessary \\" />
-    <command name="author" param="Your Name" />
-    <command name="submitdate" param="December 6, 2006" />
-    <command name="copyrightyear" param="2006" />
-    
+    <command name="author" param="Olivier Dagenais" />
+    <command name="submitdate" param="January 1, 2011" />
+    <command name="copyrightyear" param="2011" />
+    <command name="degree" param="Master of Computer Science" />
+
     <command name="frontmatter">
       <block param="abstract">
         An abstract is required in all theses.
