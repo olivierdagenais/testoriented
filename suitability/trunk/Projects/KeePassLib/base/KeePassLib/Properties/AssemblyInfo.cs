@@ -42,3 +42,5 @@ using System.Runtime.InteropServices;
 // Assembly version information
 [assembly: AssemblyVersion("2.1.0.*")]
 [assembly: AssemblyFileVersion("2.1.0.0")]
+
+[assembly: InternalsVisibleTo("KeePassLib.Tests")]
