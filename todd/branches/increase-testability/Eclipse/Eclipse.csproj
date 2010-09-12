@@ -1,0 +1,112 @@
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8BFF59A3-F0D2-4D97-88F3-7D8E52D19A38}</ProjectGuid>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <OutputType>Library</OutputType>
+    <NoStandardLibraries>false</NoStandardLibraries>
+    <AssemblyName>org.dyndns.opendemogroup.todd_1.1.0</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <RootNamespace>Eclipse</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>deprecation;unchecked</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="junitsupport.jar">
+      <HintPath>dependencies\Eclipse-3.2.1\junitsupport.jar</HintPath>
+    </Reference>
+    <Reference Include="org.eclipse.core.jobs_3.2.0.v20060603.jar">
+      <HintPath>dependencies\Eclipse-3.2.1\org.eclipse.core.jobs_3.2.0.v20060603.jar</HintPath>
+    </Reference>
+    <Reference Include="org.eclipse.core.resources_3.2.1.R32x_v20060914.jar">
+      <HintPath>dependencies\Eclipse-3.2.1\org.eclipse.core.resources_3.2.1.R32x_v20060914.jar</HintPath>
+    </Reference>
+    <Reference Include="org.eclipse.core.runtime_3.2.0.v20060603.jar">
+      <HintPath>dependencies\Eclipse-3.2.1\org.eclipse.core.runtime_3.2.0.v20060603.jar</HintPath>
+    </Reference>
+    <Reference Include="org.eclipse.equinox.common_3.2.0.v20060603.jar">
+      <HintPath>dependencies\Eclipse-3.2.1\org.eclipse.equinox.common_3.2.0.v20060603.jar</HintPath>
+    </Reference>
+    <Reference Include="org.eclipse.jdt.core_3.2.1.v_677_R32x.jar">
+      <HintPath>dependencies\Eclipse-3.2.1\org.eclipse.jdt.core_3.2.1.v_677_R32x.jar</HintPath>
+    </Reference>
+    <Reference Include="org.eclipse.jdt.ui_3.2.1.r321_v20060907.jar">
+      <HintPath>dependencies\Eclipse-3.2.1\org.eclipse.jdt.ui_3.2.1.r321_v20060907.jar</HintPath>
+    </Reference>
+    <Reference Include="org.eclipse.jface.text_3.2.1.r321_v20060810.jar">
+      <HintPath>dependencies\Eclipse-3.2.1\org.eclipse.jface.text_3.2.1.r321_v20060810.jar</HintPath>
+    </Reference>
+    <Reference Include="org.eclipse.jface_3.2.1.M20060908-1000.jar">
+      <HintPath>dependencies\Eclipse-3.2.1\org.eclipse.jface_3.2.1.M20060908-1000.jar</HintPath>
+    </Reference>
+    <Reference Include="org.eclipse.osgi_3.2.0.v20060601.jar">
+      <HintPath>dependencies\Eclipse-3.2.1\org.eclipse.osgi_3.2.0.v20060601.jar</HintPath>
+    </Reference>
+    <Reference Include="org.eclipse.ui.workbench_3.2.1.M20060906-0800.jar">
+      <HintPath>dependencies\Eclipse-3.2.1\org.eclipse.ui.workbench_3.2.1.M20060906-0800.jar</HintPath>
+    </Reference>
+    <Reference Include="junit-4.6.jar">
+      <HintPath>..\Tools\junit-4.6.jar</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".classpath" />
+    <None Include=".project" />
+    <None Include=".settings\org.eclipse.jdt.ui.prefs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="META-INF\MANIFEST.MF" />
+    <EmbeddedResource Include="plugin.properties" />
+    <EmbeddedResource Include="plugin.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="dependencies\Eclipse-3.2.1\junitsupport.jar" />
+    <Content Include="dependencies\Eclipse-3.2.1\org.eclipse.core.jobs_3.2.0.v20060603.jar" />
+    <Content Include="dependencies\Eclipse-3.2.1\org.eclipse.core.resources_3.2.1.R32x_v20060914.jar" />
+    <Content Include="dependencies\Eclipse-3.2.1\org.eclipse.core.runtime_3.2.0.v20060603.jar" />
+    <Content Include="dependencies\Eclipse-3.2.1\org.eclipse.equinox.common_3.2.0.v20060603.jar" />
+    <Content Include="dependencies\Eclipse-3.2.1\org.eclipse.jdt.core_3.2.1.v_677_R32x.jar" />
+    <Content Include="dependencies\Eclipse-3.2.1\org.eclipse.jdt.ui_3.2.1.r321_v20060907.jar" />
+    <Content Include="dependencies\Eclipse-3.2.1\org.eclipse.jface.text_3.2.1.r321_v20060810.jar" />
+    <Content Include="dependencies\Eclipse-3.2.1\org.eclipse.jface_3.2.1.M20060908-1000.jar" />
+    <Content Include="dependencies\Eclipse-3.2.1\org.eclipse.osgi_3.2.0.v20060601.jar" />
+    <Content Include="dependencies\Eclipse-3.2.1\org.eclipse.ui.workbench_3.2.1.M20060906-0800.jar" />
+    <Compile Include="src\org\dyndns\opendemogroup\todd\Activator.java" />
+    <Compile Include="src\org\dyndns\opendemogroup\todd\SimpleSearchRequestor.java" />
+    <Compile Include="src\org\dyndns\opendemogroup\todd\SimpleStructuredSelection.java" />
+    <Compile Include="src\org\dyndns\opendemogroup\todd\ui\actions\ActionBase.java" />
+    <Compile Include="src\org\dyndns\opendemogroup\todd\ui\actions\DebugTestsAction.java" />
+    <Compile Include="src\org\dyndns\opendemogroup\todd\ui\actions\GenerateTestsAction.java" />
+    <Compile Include="src\org\dyndns\opendemogroup\todd\ui\actions\GenerateTestsActionTest.java" />
+    <Compile Include="src\org\dyndns\opendemogroup\todd\ui\actions\LaunchActionBase.java" />
+    <Compile Include="src\org\dyndns\opendemogroup\todd\ui\actions\RunTestsAction.java" />
+    <Compile Include="src\org\dyndns\opendemogroup\todd\ui\actions\TestingClass.java" />
+    <Compile Include="src\org\dyndns\opendemogroup\todd\ui\actions\TestingMethod.java" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\org\dyndns\opendemogroup\todd\ui\actions\test\" />
+  </ItemGroup>
+  <Import Project="..\Tools\SoftwareNinjas.Java.targets" />
+  <ProjectExtensions>
+    <VisualStudio AllowExistingFolder="true" />
+  </ProjectExtensions>
+</Project>

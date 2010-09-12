@@ -1,0 +1,9 @@
+﻿<#@ template language="C#v3.5" inherits="AbstractMethodTemplate" #>
+<#@ import namespace="SoftwareNinjas.Core" #>
+<#@ import namespace="ICSharpCode.NRefactory.Ast" #>
+<# foreach ( var parameter in Method.Parameters ) { #>
+            <#= DetermineDeclarationForType(parameter.TypeReference) #> <#= parameter.ParameterName #> = <#= DefaultValue(parameter.TypeReference) #>;
+<# } #>
+            <# if ( HasReturnValue ) { #><#= DetermineDeclarationForType(ReturnValue) #> <#= VariableName #> = <#
+    } #><#= Invocation #>(<#= 
+        Method.Parameters.Join(", ", p => p.ParameterName ) #>);

@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<project name="Test Oriented Development &amp; Debugging" default="deploy"
+    xmlns="http://testoriented.googlecode.com/schemas/nant.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://testoriented.googlecode.com/schemas/nant.xsd Tools/NAnt.xsd">
+
+    <loadtasks assembly="Tools/nantcontrib/bin/NAnt.Contrib.Tasks.dll" />
+    <loadtasks assembly="Tools/TextileNET/Textile.NAnt.dll" />
+    <loadtasks assembly="Tools/SoftwareNinjas.NAnt.dll" />
+
+    <property name="configuration" value="Debug" overwrite="false" />
+    <property name="projects" value="Core" />
+
+    <target name="schema">
+        <nantschema output="Tools/NAnt.xsd" target-ns="http://testoriented.googlecode.com/schemas/nant.xsd"/>
+    </target>
+
+    <target name="clean">
+        <clean projects="${projects}"/>
+    </target>
+
+    <target name="customize" depends="clean">
+        <!-- TODO: rename to customizeProject and add support for stamping META-INF/MANIFEST.MF with version number -->
+        <!-- TODO: could also work that functionality into an MSBuild pre-Compile target -->
+        <customizeAssembly projects="${projects}"/>
+    </target>
+
+    <target name="compile" depends="customize">
+        <msbuild project="TestOriented.sln">
+            <arg value="/property:Configuration=${configuration}" />
+            <arg value="/verbosity:minimal" />
+        </msbuild>
+    </target>
+
+    <target name="test" depends="compile">
+        <test projects="${projects}" configuration="${configuration}" />
+    </target>
+
+    <target name="documentation" depends="test">
+         <textile todir="Documentation">
+            <fileset basedir="Wiki">
+                <include name="**/*.wiki"/>
+            </fileset>
+        </textile>
+    </target>
+
+    <target name="deploy" depends="documentation">
+        <xmlpeek file="Version.xml" xpath="/version/@major" property="major" />
+        <xmlpeek file="Version.xml" xpath="/version/@minor" property="minor" />
+        <if test="${environment::variable-exists('BUILD_NUMBER')}">
+            <property name="buildNumber" value="${environment::get-variable('BUILD_NUMBER')}"/>
+        </if>
+        <if test="${not environment::variable-exists('BUILD_NUMBER')}">
+            <property name="buildNumber" value="private"/>
+        </if>
+        <property name="versionFolder" value="SoftwareNinjas.TestOriented-${major}.${minor}.${buildNumber}"/>
+
+        <delete dir="Deploy" failonerror="false"/>
+        <mkdir dir="Deploy/${versionFolder}"/>
+        <copy todir="Deploy/${versionFolder}" flatten="true">
+            <fileset>
+                <include name="*/bin/${configuration}/*.jar"/>
+                <include name="*/bin/${configuration}/SoftwareNinjas.*.dll"/>
+                <include name="*/bin/${configuration}/SoftwareNinjas.*.exe"/>
+                <include name="*/bin/${configuration}/SoftwareNinjas.*.xml"/>
+            </fileset>
+        </copy>
+        <copy todir="Deploy/${versionFolder}/doc">
+            <fileset basedir="Documentation">
+                <include name="**"/>
+            </fileset>
+        </copy>
+
+        <zip zipfile="Deploy/${versionFolder}.zip">
+            <fileset basedir="Deploy">
+                <include name="${versionFolder}/**"/>
+            </fileset>
+        </zip>
+
+        <!-- TODO: create installer -->
+    </target>
+
+    <target name="release">
+        <property name="configuration" value="release" />
+        <call target="deploy" />
+    </target>
+</project>

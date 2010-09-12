@@ -1,0 +1,20 @@
+﻿<#@ template language="C#v3.5" inherits="AbstractMethodTemplate" #>
+<#@ import namespace="SoftwareNinjas.Core" #>
+<#@ import namespace="ICSharpCode.NRefactory.Ast" #>
+        /// <summary>
+        /// Tests the <c><#= Method.Name #></c> method with
+        /// TODO: write about scenario
+        /// </summary>
+        [Test()]
+        public void <#= Method.Name #>_TODO()
+        {
+<# if ( NeedsInstance ) { #>
+<#= GenerateConstructorCall(ParentType) #>
+<# } #>
+            Assert.Fail("TODO: initialize variable(s)<# if ( HasReturnValue ) { #> and expected value<# } #>");
+<#= MethodCallStub.Generate(Method, ParentType, "actual") #>
+<# if ( HasReturnValue ) { #>
+            <#= DetermineDeclarationForType(ReturnValue) #> expected = <#= DefaultValue(ReturnValue) #>;
+            Assert.AreEqual(expected, actual);
+<# } #>
+        }
