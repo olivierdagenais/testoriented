@@ -17,5 +17,5 @@ rem 4. Then run LaTeX again to make any updates corresponding to including the p
 rem (e.g., updating your final page count on each of your pages, updating your ToC, etc.).
 latex thesis.tex
 rem Generating DVI then converting to PDF yields smaller files than the one-step pdflatex
-dvipdfm thesis.dvi
+dvipdfm -p letter thesis.dvi
 cd ..
