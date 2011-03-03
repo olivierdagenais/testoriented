@@ -111,7 +111,28 @@
     </xsl:template>
 
     <xsl:template match="comment()">
-        <xsl:text>%</xsl:text><xsl:value-of select="." />
+        <xsl:variable name="escapedCrLf">
+            <xsl:call-template name="replaceCharsInString">
+                <xsl:with-param name="stringIn" select="." />
+                <xsl:with-param name="charsIn" select="'&#xD;&#xA;'" />
+                <xsl:with-param name="charsOut" select="'&#xD;&#xA;% '" />
+            </xsl:call-template>
+        </xsl:variable>
+        <xsl:variable name="escapedLf">
+            <xsl:call-template name="replaceCharsInString">
+                <xsl:with-param name="stringIn" select="$escapedCrLf" />
+                <xsl:with-param name="charsIn" select="'&#xA;'" />
+                <xsl:with-param name="charsOut" select="'&#xA;% '" />
+            </xsl:call-template>
+        </xsl:variable>
+        <xsl:variable name="escapedCr">
+            <xsl:call-template name="replaceCharsInString">
+                <xsl:with-param name="stringIn" select="$escapedLf" />
+                <xsl:with-param name="charsIn" select="'&#xD;'" />
+                <xsl:with-param name="charsOut" select="'&#xD;% '" />
+            </xsl:call-template>
+        </xsl:variable>
+        <xsl:text>%</xsl:text><xsl:value-of select="$escapedCr" />
     </xsl:template>
     
     <xsl:template match="raw">
