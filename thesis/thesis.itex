@@ -14,198 +14,140 @@
   <document>
     <command name="title" param="Title: \\ Multiline \\ If Necessary \\" />
     <command name="author" param="Olivier Dagenais" />
-    <command name="submitdate" param="January 1, 2011" />
+    <command name="submitdate" param="July 29, 2011" />
     <command name="copyrightyear" param="2011" />
     <command name="degree" param="Master of Computer Science" />
 
     <command name="frontmatter">
       <block param="abstract">
-        An abstract is required in all theses.
-        Make sure that it fits on one page!
+        <!-- An abstract is required in all theses. -->
+        <!-- Make sure that it fits on one page! -->
       </block>
       <block param="acknowledgements">
-        This is the acknowledgements.
-        It is optional.
+        <!-- This is the acknowledgements. -->
+        <!-- It is optional. -->
       </block>
     </command>
     <command name="mainmatter">
       <command name="chapter" param="Introduction">
         <command name="section" param="Introduction">
-          ... what the chapter is about ...
-        </command>
-        <command name="section" param="Motivation">
-          Citation test: McMinn and Helcombe introduce the state problem in evolutionary testing <command name="cite" param="Mcminn03thestate" />.  It turns out we can simply avoid the problem in the first place!
-        </command>
-        <command name="section" param="Statement of the Problem">
+          <!-- what the chapter is about -->
           ...
         </command>
-        <command name="section" param="Contributions">
-          ... why are they worthwhile ...
+        <command name="section" param="Problem">
+          Citation test: McMinn and Helcombe introduce the state problem in evolutionary testing <command name="cite" param="Mcminn03thestate" />.  It turns out we can simply avoid the problem in the first place!
         </command>
-        <command name="section" param="Overview of Results">
-          ... summary of acheivements ...
+        <command name="section" param="Motivation">
+          <!-- Explain why some people would care -->
+          ...
         </command>
-        <command name="section" param="Organization of Thesis">
+        <command name="section" param="Goals">
+          <!-- Can address only part of the problem -->
+          <!-- Something abstract/general, such as "world hunger", or a subset of it "hunger in Ottawa" -->
+          <!-- Can be written retroactively, after the results have been written -->
+          ...
+        </command>
+        <command name="section" param="Objectives">
+          <!-- (what you will produce to meet your goal) -->
+          <!-- action items to address goal -->
+          ...
+        </command>
+        <command name="section" param="Outline">
           ...
         </command>
         <command name="section" param="Summary">
-          ... key points of what was presented and linkage to next chapter...
+          <!-- key points of what was presented and linkage to next chapter -->
+          ...
         </command>
       </command>
       <command name="chapter" param="Background">
         <command name="section" param="Introduction">
-          ... what the chapter is about ...
-        </command>
-        <command name="section" param="Background Material on Related Discipline 1">
+          <!-- what the chapter is about -->
           ...
         </command>
-        <command name="section" param="Background Material on Related Discipline 2">
+        <command name="section" param="Related work">
           ...
         </command>
-        <command name="section" param="Background Material on Related Discipline n">
+        <command name="section" param="Context">
+          <!-- Show that I understand what everybody else has done ("master an area") -->
+          ...
+        </command>
+        <command name="section" param="Scope">
+          <!-- End with feature matrix, comparing my solution to others -->
           ...
         </command>
         <command name="section" param="Summary">
-          ... key points of what was presented and linkage to next chapter...
+          <!-- key points of what was presented and linkage to next chapter -->
+          ...
         </command>
       </command>
-      <command name="chapter" param="Related Work: State of the Art">
+      <command name="chapter" param="Approach">
         <command name="section" param="Introduction">
-          ... what the chapter is about ...
-        </command>
-        <command name="section" param="Key Area of Related Work 1">
-          <!-- <command name="section" param="Artificial Immune System Search Algorithms"> -->
+          <!-- what the chapter is about -->
           ...
         </command>
-        <command name="section" param="Key Area of Related Work 2">
-          <!-- <command name="section" param="Other Evolutionary Search Techniques"> -->
+        <command name="section" param="Design">
           ...
         </command>
-        <command name="section" param="Key Area of Related Work n">
-          <!-- <command name="section" param="Techniques for Directed Search"> -->
+        <command name="section" param="Decisions made">
+          ...
+        </command>
+        <command name="section" param="Reproducability">
+          <!-- Enough for somebody to reproduce experiment -->
           ...
         </command>
         <command name="section" param="Summary">
-          ... key points of what was presented and linkage to next chapter...
+          <!-- key points of what was presented and linkage to next chapter -->
+          ...
         </command>
       </command>
-      <command name="chapter" param="Introduction to The Main Contribution">
-        <!-- <command name="chapter" param="Antigenic Search as a Directed Search Technique"> -->
+      <command name="chapter" param="Results and Validation">
         <command name="section" param="Introduction">
-          ... what the chapter is about ...
-        </command>
-        <command name="section" param="The Problem">
-          ... a concise statement of the problem addressed ...
-        </command>
-        <command name="section" param="The Proposed Solution">
-          ... a concise statement of the problem addressed ...
-        </command>
-        <command name="section" param="Justification of Claim to Originality">
-          ... done in context of related work in last section ...
-        </command>
-        <command name="section" param="Valuation of Contribution">
-          ... why is my contribution worthwhile ...
-        </command>
-        <command name="section" param="Alternatives">
-          ... what are the alternatives to this solution...
-        </command>
-        <command name="section" param="Summary">
-          ... key points of what was presented and linkage to next chapter...
-        </command>
-      </command>
-      <command name="chapter" param="Theoretical Treatment">
-        <command name="section" param="Introduction">
-          ... what the chapter is about ...
-        </command>
-        <command name="section" param="Main Theoretical Component 1">
+          <!-- what the chapter is about -->
           ...
         </command>
-        <command name="section" param="Main Theoretical Component 2">
+        <command name="section" param="Results">
           ...
         </command>
-        <command name="section" param="Main Theoretical Component n">
+        <command name="section" param="Detailed results">
+          ...
+        </command>
+        <command name="section" param="Validation">
+          <!-- Demonstrate that you met your goal -->
+          <!-- Objectives can be checked off one by one -->
+          <!-- If goal was "improve X", then show that X became better (i.e. less clicks, etc.) -->
+          <!-- Verification isn't very useful; this really has to be about validation -->
           ...
         </command>
         <command name="section" param="Summary">
-          ... key points of what was presented and linkage to next chapter...
-        </command>
-      </command>
-      <command name="chapter" param="Description of Algorithmic Designs">
-        <!-- <command name="chapter" param="A Class of Antigenic Search Algorithms for Multimodal Function Optimization"> -->
-        <command name="section" param="Introduction">
-          ... what the chapter is about ...
-        </command>
-        <command name="section" param="The Basic Algorithm">
           ...
-        </command>
-        <command name="section" param="Discussion of Design Issues">
-          ...
-        </command>
-        <command name="section" param="Algorithm Enhancements">
-          ...
-        </command>
-        <command name="section" param="Discussion of the Parameter Space">
-          ...
-        </command>
-        <command name="section" param="Summary">
-          ... key points of what was presented and linkage to next chapter...
-        </command>
-      </command>
-      <command name="chapter" param="Description of Experimental Procedures and Testing">
-        <command name="section" param="Introduction">
-          ... what the chapter is about ...
-        </command>
-        <command name="section" param="The Test Functions">
-          ...
-        </command>
-        <command name="section" param="The Testing Methodology">
-          ...
-        </command>
-        <command name="section" param="Discussion of Analytical and Statistical Procedures to be Used">
-          ...
-        </command>
-        <command name="section" param="Summary">
-          ... key points of what was presented and linkage to next chapter...
-        </command>
-      </command>
-      <command name="chapter" param="Presentation of Experimental Results">
-        <command name="section" param="Introduction">
-          ... what the chapter is about ...
-        </command>
-        <command name="section" param="Analysis of Results">
-          ... include charts, tables, figures ...
-          ... include proper statistical treatment ...
-        </command>
-        <command name="section" param="Comparison of Performance Against Other Techniques">
-          ...
-        </command>
-        <command name="section" param="Summary">
-          ... key points of what was presented and linkage to next chapter...
         </command>
       </command>
       <command name="chapter" param="Summary of work, Conclusions and Future Work">
         <command name="section" param="Introduction">
-          ... what the chapter is about ...
+          <!-- what the chapter is about -->
+          ...
         </command>
-        <command name="section" param="Summary of Results">
+        <command name="section" param="Summary of results">
+          <!-- Review goal and contributions -->
           ...
         </command>
         <command name="section" param="Conclusions">
-          ... list of inferences made ...
+          <!-- list of inferences made -->
+          ...
         </command>
-        <command name="section" param="Contributions">
-          ... list of contributions to new knowledge ...
-        </command>
-        <command name="section" param="Future Work">
-          ... best ideas of next steps ...
+        <command name="section" param="Future work">
+          <!-- best ideas of next steps -->
+          ...
         </command>
       </command>
     </command>
     <command name="appendix">
-      <command name="chapter" param="Stuff">
-        ... material of length that would impede the flow of the
-        main body: program listings, long data results, long mathematical
-        proofs ...
+      <command name="chapter" param="TODO">
+        <!-- material of length that would impede the flow of the -->
+        <!-- main body: program listings, long data results, long mathematical -->
+        <!-- proofs -->
+        ...
       </command>
     </command>
     <command name="bibliographystyle" param="abbrv" />
