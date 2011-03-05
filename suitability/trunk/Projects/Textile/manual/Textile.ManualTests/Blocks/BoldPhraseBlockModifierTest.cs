@@ -1,0 +1,19 @@
+﻿using NUnit.Framework;
+using Textile.Blocks;
+
+namespace Textile.ManualTests.Blocks
+{
+    /// <summary>
+    /// A class to test <see cref="BoldPhraseBlockModifier"/>.
+    /// </summary>
+    [TestFixture]
+    public class BoldPhraseBlockModifierTest
+    {
+        [Test]
+        public void InnerModifyLine ()
+        {
+            var actual = BoldPhraseBlockModifier.InnerModifyLine ("I **really** __know__");
+            Assert.AreEqual ("I <b>really</b> __know__", actual);
+        }
+    }
+}
