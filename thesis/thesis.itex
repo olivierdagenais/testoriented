@@ -35,21 +35,45 @@
           ...
         </command>
         <command name="section" param="Problem">
+          <!--
+          - Tests are good
+          - Some code is without tests
+          - Tests are difficult or impossible to write because said code is not reachable
+          -->
           Citation test: McMinn and Helcombe introduce the state problem in evolutionary testing <command name="cite" param="Mcminn03thestate" />.  It turns out we can simply avoid the problem in the first place!
         </command>
         <command name="section" param="Motivation">
           <!-- Explain why some people would care -->
+          <!--
+          - Test as much code as feasible
+          - Make unit tests as simple as possible
+          - Test the smallest amount of functionality possible
+          -- code that computes tax and discount at the same time makes it harder to test tax and discount computations separately
+          - 
+          -->
           ...
         </command>
         <command name="section" param="Goals">
-          <!-- Can address only part of the problem -->
-          <!-- Something abstract/general, such as "world hunger", or a subset of it "hunger in Ottawa" -->
-          <!-- Can be written retroactively, after the results have been written -->
+          <!-- Can address only part of the problem 
+          Something abstract/general, such as "world hunger", or a subset of it "hunger in Ottawa"
+          Can be written retroactively, after the results have been written -->
+          <!--
+          - Increase testability of code (by making it easier to reach functionality) with minimal changes of the public interfaces
+          -->
           ...
         </command>
         <command name="section" param="Objectives">
-          <!-- (what you will produce to meet your goal) -->
-          <!-- action items to address goal -->
+          <!-- (what you will produce to meet your goal)
+          action items to address goal -->
+          <!-- 
+          - reduce the number of inputs participating in the test
+          -- reduce the number of methods called to bring object under test into appropriate state (methods executed before - arrange)
+          -- reduce the number of instances created to support test scenario
+          - reduce the number of outputs produced by the test
+          -- reduce the number of methods called to extract interesting output (methods executed after - assert)
+          - reduce the amount of clean-up done to compensate for "arrange" phase
+          - avoid changing the public interface?
+          -->
           ...
         </command>
         <command name="section" param="Outline">
@@ -66,6 +90,18 @@
           ...
         </command>
         <command name="section" param="Related work">
+          <!--
+          - Miško Hevery
+          -- testability explorer
+          --- Non-Mockable Total Recursive Cyclomatic Complexity
+          --- Global Mutable State
+          --- Law of Demeter
+          -- "How to think about OO"
+          -- "Static Methods are Death to Testability"
+          - FxCop/Code Analysis tools
+          -- "CA1502: Avoid excessive complexity" http://msdn.microsoft.com/en-us/library/ms182212.aspx
+          --- "A low cyclomatic complexity generally indicates a method that is easy to understand, test, and maintain."
+          -->
           ...
         </command>
         <command name="section" param="Context">
@@ -74,6 +110,30 @@
         </command>
         <command name="section" param="Scope">
           <!-- End with feature matrix, comparing my solution to others -->
+          <!--
+          - contrast with isolated, stand-alone tests
+          - contrast with test helper methods
+          -- For example, DeepZoomImageTest.TestComputeLevelSize() that creates two instances per call:
+          Assert.AreEqual (new Size (1200, 1500), TestComputeLevelSize (PortraitImageSize, 12));
+          vs. the original stateless method that could be called directly:
+          Assert.AreEqual (new Size (1200, 1500), DeepZoomImage.ComputeLevelSize (PortraitImageSize, 12));
+          --- For that particular one, because my settings class performs work in the constructor, there are some properties which MUST be provided.
+          -- they shift complexity instead of removing it altogether.  I need to find some way to prove that this leads to more brittle tests.
+          - contrast with better abstractions/use of interfaces
+          -- virtual/in-memory file system
+          -- operating on sequences instead of streams
+          -- introducing a class for private methods that coordinate related pieces of data
+          -- introducing a functor for methods that coordinate related pieces of data
+          -- introducing a generic class to remove copy/pasted typed implementations (i.e. FooCollection, BarCollection replaced by Collection{Foo} and Collection{Bar})
+          - contrast with trivial increase in visibility
+          - contrast with static code analysis
+          -- contrast with code contracts
+          - contrast with code reviews
+          - contrast with dependency injection
+          Not in scope:
+          - parallelization of tests (although probably easier with technique)
+          - difficult-to-test object state changes?
+          -->
           ...
         </command>
         <command name="section" param="Summary">
@@ -87,6 +147,33 @@
           ...
         </command>
         <command name="section" param="Design">
+          <!-- 
+          - discuss applicability/suitability (in 1 or 2 sections?)
+          -- existing/legacy systems with few tests (through acquisition, maintenance)
+          -- technology constraints (i.e. class must have default public constructor, such as IHttpModule implementations in ASP.NET)
+          -- programming language with visibility controls for methods such that the extracted methods are visible to tests but not necessarily all users
+          - discuss theoretical trade-offs and suitability towards goal
+          -- forces number of arguments of stateless method to remain small, to avoid Misko's splippery slope
+          -- MUST be a pure refactor, i.e. callers are/will be none the wiser
+          --- no bugs added
+          --- no bugs fixed during this step, always expose and fix bug separately from extraction
+          --- no performance differences (extracted method could always be inlined by the compiler for release)
+          -- MUST preserve seams, in case code is already partially tested
+          => work around reachability barriers
+          - discuss scope of technique (i.e. on which code should it be applied)
+          -- what to extract
+          -- how many [static/instance] fields read
+          -- how many [static/instance] fields modified
+          -- how many parameters needed
+          -- what happens when environment-modifying operations are used
+          - discuss experiments with Pex (if only to introduce for another section)
+          -- trade-offs of automatic test generation based on code coverage
+          -- differences between a constraint solver and evolutionary testing
+          - manual application
+          -- manual test writing
+          -- manual statelesss method extraction
+          -- compare unit tests before and after
+          -->
           ...
         </command>
         <command name="section" param="Decisions made">
@@ -110,13 +197,39 @@
           ...
         </command>
         <command name="section" param="Detailed results">
+          <!--
+          - applying the stateless method extraction technique to the open-source projects
+          - applying the technique to examples provided in original paper
+          - applying the technique backwards to PivotStack
+          - evaluating with code coverage percentage of tests generated by Pex
+          - difficulties with Pex:
+          -- 2010/07/14: "tests generated between runs of Pex aren't always the same due to timeouts"
+          -- not aware of test double opportunities (i.e. mocks)
+          -- 2010/09/11: "time - it will give up/timeout to not be stuck"
+          -- 2010/09/11: "intent - unit testing is (validation +) verification exercise using specification/requirements, neither of which are available"
+          --- "Parameter of abstract type Stream (System.IO) is somewhat vague; there are many implementations of it that could be used, but for unit tests, a MemoryStream should probably ue used. Pex has no such guidance and seems to [randomly?] pick System.Security.Cryptography.TailStream which I can't find in System.Security nor in MSDN documentation!"
+          -- 2010/09/11: "no focus - unless code is decorated with exclude/ignore attributes"
+          -- 2010/09/11: "scope"
+          --- "testability issue" with certain methods, such as:
+          ---- Environment.get_NewLine()
+          ---- Environment.get_OSVersion()
+          ---- File.*
+          ---- FileStream..ctor
+          --- "uninstrumentable" with memory allocation & garbage collection
+          --- "uninstrumented" source code not available for analysis
+          --- "extern" behaviour only available at runtime; special case of "uninstrumented"
+          --- HttpWebRequest (System.Net) does not have a public constructor; the Remarks of the class say to call WebRequest.Create() (which isn't instrumented)
+          --- Neither does Match (System.Text.RegularExpressions) and it is not instrumented anyway.
+          - evaluating with metrics (cyclomatic complexity)
+          -->
           ...
         </command>
         <command name="section" param="Validation">
-          <!-- Demonstrate that you met your goal -->
-          <!-- Objectives can be checked off one by one -->
-          <!-- If goal was "improve X", then show that X became better (i.e. less clicks, etc.) -->
-          <!-- Verification isn't very useful; this really has to be about validation -->
+          <!-- Demonstrate that you met your goal
+          Objectives can be checked off one by one
+          If goal was "improve X", then show that X became better (i.e. less clicks, etc.)
+          Verification isn't very useful; this really has to be about validation -->
+          <!-- Cross-reference with Scope and discuss observed trade-offs of other potential approaches -->
           ...
         </command>
         <command name="section" param="Summary">
