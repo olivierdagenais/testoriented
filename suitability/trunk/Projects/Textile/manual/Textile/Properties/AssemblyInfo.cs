@@ -39,3 +39,4 @@ using System.Runtime.InteropServices;
 // Make the private data of this assembly visible to the unit tests.
 [assembly: InternalsVisibleTo("Textile.UnitTests")]
 [assembly: InternalsVisibleTo("Textile.Tests")]
+[assembly: InternalsVisibleTo("Textile.ManualTests")]
