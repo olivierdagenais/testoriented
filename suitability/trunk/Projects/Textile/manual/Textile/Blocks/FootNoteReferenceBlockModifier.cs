@@ -24,6 +24,11 @@ namespace Textile.Blocks
     {
         public override string ModifyLine(string line)
         {
+            return InnerModifyLine (line);
+        }
+
+        internal static string InnerModifyLine (string line)
+        {
             return Regex.Replace(line, @"\b\[([0-9]+)\](\W)", "<sup><a href=\"#fn$1\">$1</a></sup>$2");
         }
     }
