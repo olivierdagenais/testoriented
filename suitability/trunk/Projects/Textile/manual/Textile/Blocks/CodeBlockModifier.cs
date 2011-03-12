@@ -24,6 +24,11 @@ namespace Textile.Blocks
     {
         public override string ModifyLine(string line)
         {
+            return InnerModifyLine(line);
+        }
+
+        internal static string InnerModifyLine(string line)
+        {
             // Replace "@...@" zones with "<code>" tags.
             MatchEvaluator me = new MatchEvaluator(CodeFormatMatchEvaluator);
             line = Regex.Replace(line,
@@ -44,8 +49,13 @@ namespace Textile.Blocks
 
         public override string Conclude(string line)
         {
+            return InnerConclude(line);
+        }
+
+        internal static string InnerConclude(string line)
+        {
             // Recode everything except "<" and ">";
-            line = NoTextileEncoder.DecodeNoTextileZones(line,
+            line = NoTextileEncoder.DecodeNoTextileZones (line,
                                     @"(?<=(^|\s)<code(" + Globals.HtmlAttributesPattern + @")>)",
                                     @"(?=</code>)",
                                     new string[] { "<", ">" });

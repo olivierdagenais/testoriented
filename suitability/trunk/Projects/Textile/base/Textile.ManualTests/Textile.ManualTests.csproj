@@ -43,6 +43,7 @@
     <Compile Include="Blocks\BoldPhraseBlockModifierTest.cs" />
     <Compile Include="Blocks\CapitalsBlockModifierTest.cs" />
     <Compile Include="Blocks\CitePhraseBlockModifierTest.cs" />
+    <Compile Include="Blocks\CodeBlockModifierTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
