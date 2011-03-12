@@ -46,6 +46,7 @@
     <Compile Include="Blocks\CodeBlockModifierTest.cs" />
     <Compile Include="Blocks\DeletedPhraseBlockModifierTest.cs" />
     <Compile Include="Blocks\EmphasisPhraseBlockModifierTest.cs" />
+    <Compile Include="Blocks\FootNoteReferenceBlockModifierTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
