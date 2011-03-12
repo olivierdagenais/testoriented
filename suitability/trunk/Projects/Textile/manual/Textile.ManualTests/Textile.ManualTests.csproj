@@ -44,6 +44,7 @@
     <Compile Include="Blocks\CapitalBlockModifierTest.cs" />
     <Compile Include="Blocks\CitePhraseBlockModifierTest.cs" />
     <Compile Include="Blocks\CodeBlockModifierTest.cs" />
+    <Compile Include="Blocks\DeletedPhraseBlockModifierTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
