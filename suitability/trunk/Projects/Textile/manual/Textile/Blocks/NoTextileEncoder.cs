@@ -59,26 +59,34 @@ namespace Textile.Blocks
             return tmp;
         }
 
-        internal static string EncodeNoTextileZonesMatchEvaluator(Match m)
+        private static string EncodeNoTextileZonesMatchEvaluator(Match m)
         {
-            string toEncode = m.Groups["notex"].Value;
+            return EncodeMatch (m.Groups["notex"].Value, m_encodeExceptions);
+        }
+
+        internal static string EncodeMatch (string toEncode, string[] encodeExceptions)
+        {
             if (toEncode == string.Empty)
                 return string.Empty;
 
             for (int i = 0; i < TextileModifiers.GetLength(0); ++i)
             {
-                if (m_encodeExceptions == null || Array.IndexOf(m_encodeExceptions, TextileModifiers[i, 0]) < 0)
+                if (encodeExceptions == null || Array.IndexOf(encodeExceptions, TextileModifiers[i, 0]) < 0)
                     toEncode = toEncode.Replace(TextileModifiers[i, 0], TextileModifiers[i, 1]);
             }
             return toEncode;
         }
 
-        internal static string DecodeNoTextileZonesMatchEvaluator(Match m)
+        private static string DecodeNoTextileZonesMatchEvaluator(Match m)
         {
-            string toEncode = m.Groups["notex"].Value;
-            for (int i = 0; i < TextileModifiers.GetLength(0); ++i)
+            return DecodeMatch (m.Groups["notex"].Value, m_decodeExceptions);
+        }
+
+        internal static string DecodeMatch (string toEncode, string[] decodeExceptions)
+        {
+            for (int i = 0; i < TextileModifiers.GetLength (0); ++i)
             {
-                if (m_decodeExceptions == null || Array.IndexOf(m_decodeExceptions, TextileModifiers[i, 0]) < 0)
+                if (decodeExceptions == null || Array.IndexOf(decodeExceptions, TextileModifiers[i, 0]) < 0)
                     toEncode = toEncode.Replace(TextileModifiers[i, 1], TextileModifiers[i, 0]);
             }
             return toEncode;
