@@ -51,6 +51,7 @@
     <Compile Include="Blocks\HyperLinkBlockModifierTest.cs" />
     <Compile Include="Blocks\ImageBlockModifierTest.cs" />
     <Compile Include="Blocks\InsertedPhraseBlockModifierTest.cs" />
+    <Compile Include="Blocks\ItalicPhraseBlockModifierTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
