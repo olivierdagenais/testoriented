@@ -48,6 +48,7 @@
     <Compile Include="Blocks\EmphasisPhraseBlockModifierTest.cs" />
     <Compile Include="Blocks\FootNoteReferenceBlockModifierTest.cs" />
     <Compile Include="Blocks\GlyphBlockModifierTest.cs" />
+    <Compile Include="Blocks\HyperLinkBlockModifierTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
