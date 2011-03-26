@@ -24,12 +24,22 @@ namespace Textile.Blocks
     {
         public override string ModifyLine(string line)
         {
+            return InnerModifyLine (line);
+        }
+
+        internal static string InnerModifyLine (string line)
+        {
             line = NoTextileEncoder.EncodeNoTextileZones(line, @"(?<=^|\s)<notextile>", @"</notextile>(?=(\s|$)?)");
             line = NoTextileEncoder.EncodeNoTextileZones(line, @"==", @"==");
             return line;
         }
 
         public override string Conclude(string line)
+        {
+            return InnerConclude (line);
+        }
+
+        internal static string InnerConclude (string line)
         {
             // Recode "x"... we can safely replace all occurences because there's no reason
             // we should leave it encoded.
