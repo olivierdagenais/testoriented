@@ -50,6 +50,7 @@
     <Compile Include="Blocks\GlyphBlockModifierTest.cs" />
     <Compile Include="Blocks\HyperLinkBlockModifierTest.cs" />
     <Compile Include="Blocks\ImageBlockModifierTest.cs" />
+    <Compile Include="Blocks\InsertedPhraseBlockModifierTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
