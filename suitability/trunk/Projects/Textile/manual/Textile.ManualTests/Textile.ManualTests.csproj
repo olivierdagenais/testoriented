@@ -54,6 +54,7 @@
     <Compile Include="Blocks\ItalicPhraseBlockModifierTest.cs" />
     <Compile Include="Blocks\NoTextileBlockModifierTest.cs" />
     <Compile Include="Blocks\NoTextileEncoderTest.cs" />
+    <Compile Include="Blocks\PhraseBlockModifierTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
