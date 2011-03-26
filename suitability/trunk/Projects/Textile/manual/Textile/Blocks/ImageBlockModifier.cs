@@ -23,6 +23,16 @@ namespace Textile.Blocks
     {
         public override string ModifyLine(string line)
         {
+            return InnerModifyLine (line);
+        }
+
+        internal static string InnerModifyLine (string line)
+        {
+            return InnerModifyLine (line, ImageFormatMatchEvaluator);
+        }
+
+        internal static string InnerModifyLine (string line, MatchEvaluator evaluator)
+        {
             line = Regex.Replace(line,
                                     @"\!" +                   // opening !
                                     @"(?<algn>\<|\=|\>)?" +   // optional alignment atts
@@ -34,20 +44,31 @@ namespace Textile.Blocks
                                     @"\!" +                   // closing
                                     @"(?::(?<href>(\S+)))?" +     // optional href
                                     @"(?=\s|\.|,|;|\)|\||$)",               // lookahead: space or simple punctuation or end of string
-                                new MatchEvaluator(ImageFormatMatchEvaluator)
+                                evaluator
                                 );
             return line;
         }
 
         static string ImageFormatMatchEvaluator(Match m)
         {
-            string atts = BlockAttributesParser.ParseBlockAttributes(m.Groups["atts"].Value, "");
-            if (m.Groups["algn"].Length > 0)
-                atts += " align=\"" + Globals.ImageAlign[m.Groups["algn"].Value] + "\"";
-            if (m.Groups["title"].Length > 0)
+            return BuildImageElementString (
+                m.Groups["atts"].Value,
+                m.Groups["algn"].Value,
+                m.Groups["title"].Value,
+                m.Groups["url"].Value,
+                m.Groups["href"].Value);
+        }
+
+        internal static string BuildImageElementString 
+            (string attsValue, string algn, string title, string url, string href)
+        {
+            string atts = BlockAttributesParser.ParseBlockAttributes(attsValue, "");
+            if (algn.Length > 0)
+                atts += " align=\"" + Globals.ImageAlign[algn] + "\"";
+            if (title.Length > 0)
             {
-                atts += " title=\"" + m.Groups["title"].Value + "\"";
-                atts += " alt=\"" + m.Groups["title"].Value + "\"";
+                atts += " title=\"" + title + "\"";
+                atts += " alt=\"" + title + "\"";
             }
             else
             {
@@ -55,14 +76,13 @@ namespace Textile.Blocks
             }
             // Get Image Size?
 
-            string res = "<img src=\"" + m.Groups["url"].Value + "\"" + atts + " />";
+            string res = "<img src=\"" + url + "\"" + atts + " />";
 
-            if (m.Groups["href"].Length > 0)
+            if (href.Length > 0)
             {
-                string href = m.Groups["href"].Value;
                 string end = string.Empty;
                 Match endMatch = Regex.Match(href, @"(.*)(?<end>\.|,|;|\))$");
-                if (m.Success && !string.IsNullOrEmpty(endMatch.Groups["end"].Value))
+                if (endMatch.Success && !string.IsNullOrEmpty(endMatch.Groups["end"].Value))
                 {
                     href = href.Substring(0, href.Length - 1);
                     end = endMatch.Groups["end"].Value;
