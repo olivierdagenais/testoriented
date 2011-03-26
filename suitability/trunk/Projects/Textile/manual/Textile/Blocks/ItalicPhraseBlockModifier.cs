@@ -8,6 +8,11 @@ namespace Textile.Blocks
     {
         public override string ModifyLine(string line)
         {
+            return InnerModifyLine (line);
+        }
+
+        internal static string InnerModifyLine (string line)
+        {
             return PhraseModifierFormat(line, @"__", "i");
         }
     }
