@@ -22,9 +22,17 @@ namespace Textile.Blocks
 {
     public class HyperLinkBlockModifier : BlockModifier
     {
-        private string m_rel = string.Empty;
-
         public override string ModifyLine(string line)
+        {
+            return InnerModifyLine (line);
+        }
+
+        internal static string InnerModifyLine (string line)
+        {
+            return InnerModifyLine (line, HyperLinksFormatMatchEvaluator);
+        }
+
+        internal static string InnerModifyLine (string line, MatchEvaluator evaluator)
         {
             line = Regex.Replace(line,
                                     @"(?<pre>[\s[{(]|" + Globals.PunctuationPattern + @")?" +       // $pre
@@ -38,30 +46,36 @@ namespace Textile.Blocks
                                     @"(?<slash>\/)?" +						// slash
                                     @"(?<post>[^\w\/;]*)" +					// post
                                     @"(?=\s|$)",
-                                   new MatchEvaluator(HyperLinksFormatMatchEvaluator));
+                                   evaluator);
             return line;
         }
 
-        private string HyperLinksFormatMatchEvaluator(Match m)
+        internal static string HyperLinksFormatMatchEvaluator(Match m)
         {
-            return InternalHyperLinksFormatMatchEvaluator(m, m_rel);
+            return BuildHyperlinkElementString (
+                m.Groups["pre"].Value,
+                m.Groups["atts"].Value,
+                m.Groups["title"].Value,
+                m.Groups["text"].Value,
+                m.Groups["url"].Value,
+                m.Groups["slash"].Value,
+                m.Groups["post"].Value);
         }
 
-        internal static string InternalHyperLinksFormatMatchEvaluator(Match m, string rel)
+        internal static string BuildHyperlinkElementString
+            (string pre, string attsValue, string title, string text, string url, string slash, string post)
         {
             //TODO: check the URL
-            string atts = BlockAttributesParser.ParseBlockAttributes(m.Groups["atts"].Value, "");
-            if (m.Groups["title"].Length > 0)
-                atts += " title=\"" + m.Groups["title"].Value + "\"";
-            string linkText = m.Groups["text"].Value.Trim(' ');
+            string atts = BlockAttributesParser.ParseBlockAttributes (attsValue, "");
+            if (title.Length > 0)
+                atts += " title=\"" + title + "\"";
+            string linkText = text.Trim(' ');
 
-            string str = m.Groups["pre"].Value + "<a ";
-            if (rel != null && rel != string.Empty)
-                str += "ref=\"" + rel + "\" ";
+            string str = pre + "<a ";
             str += "href=\"" +
-                   Globals.EncodeHTMLLink(m.Groups["url"].Value) + m.Groups["slash"].Value + "\"" +
+                   Globals.EncodeHTMLLink(url) + slash + "\"" +
                    atts +
-                   ">" + linkText + "</a>" + m.Groups["post"].Value;
+                   ">" + linkText + "</a>" + post;
             return str;
         }
     }
