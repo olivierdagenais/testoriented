@@ -64,6 +64,31 @@ namespace Textile.Blocks
             return res;
         }
 
+        internal static string BuildTagElementString
+            (string content, string attsValue, string matchValue, string tag, string end, string cite)
+        {
+            if (content.Length == 0)
+            {
+                // It's possible that the "atts" match groups eats the contents
+                // when the user didn't want to give block attributes, but the content
+                // happens to match the syntax. For example: "*(blah)*".
+                if (attsValue.Length == 0)
+                {
+                    return matchValue;
+                }
+                return "<" + tag + ">" + attsValue + end + "</" + tag + ">";
+            }
+
+            string atts = BlockAttributesParser.ParseBlockAttributes (attsValue, "");
+            if (cite.Length > 0)
+                atts += " cite=\"" + cite + "\"";
+
+            string res = "<" + tag + atts + ">" +
+                         content + end +
+                         "</" + tag + ">";
+            return res;
+        }
+
         internal class PhraseModifierMatchEvaluator
         {
             string m_tag;
@@ -75,29 +100,13 @@ namespace Textile.Blocks
 
             public string MatchEvaluator(Match m)
             {
-                return InternalMatchEvaluator(m, m_tag);
-            }
-
-            internal static string InternalMatchEvaluator(Match m, string tag)
-            {
-                if (m.Groups["content"].Length == 0)
-                {
-                    // It's possible that the "atts" match groups eats the contents
-                    // when the user didn't want to give block attributes, but the content
-                    // happens to match the syntax. For example: "*(blah)*".
-                    if (m.Groups["atts"].Length == 0)
-                        return m.ToString();
-                    return "<" + tag + ">" + m.Groups["atts"].Value + m.Groups["end"].Value + "</" + tag + ">";
-                }
-
-                string atts = BlockAttributesParser.ParseBlockAttributes(m.Groups["atts"].Value, "");
-                if (m.Groups["cite"].Length > 0)
-                    atts += " cite=\"" + m.Groups["cite"] + "\"";
-
-                string res = "<" + tag + atts + ">" +
-                             m.Groups["content"].Value + m.Groups["end"].Value +
-                             "</" + tag + ">";
-                return res;
+                return BuildTagElementString (
+                    m.Groups["content"].Value,
+                    m.Groups["atts"].Value,
+                    m.ToString (),
+                    m_tag,
+                    m.Groups["end"].Value,
+                    m.Groups["cite"].Value);
             }
         }
     }
