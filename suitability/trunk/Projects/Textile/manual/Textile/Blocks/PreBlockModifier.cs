@@ -24,6 +24,11 @@ namespace Textile.Blocks
     {
         public override string ModifyLine(string line)
         {
+            return InnerModifyLine (line);
+        }
+
+        internal static string InnerModifyLine (string line)
+        {
             // Encode the contents of the "<pre>" tags so that we don't
             // generate formatting out of it.
             line = NoTextileEncoder.EncodeNoTextileZones(line,
@@ -33,6 +38,11 @@ namespace Textile.Blocks
         }
 
         public override string Conclude(string line)
+        {
+            return InnerConclude (line);
+        }
+
+        internal static string InnerConclude (string line)
         {
             // Recode everything.
             line = NoTextileEncoder.DecodeNoTextileZones(line,
