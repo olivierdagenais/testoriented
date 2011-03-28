@@ -32,6 +32,15 @@
                 { waiting = 0; alarm_on = 0; signal_off = 1; }
             }
         }
+
+        public static void Reset ()
+        {
+            time = 0;
+            off_time = 0;
+            detected = 0;
+            alarm_on = 0;
+            waiting = 0;
+        }
         // ReSharper restore InconsistentNaming
     }
 }
