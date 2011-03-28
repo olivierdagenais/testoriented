@@ -57,6 +57,7 @@
     <Compile Include="Blocks\PhraseBlockModifierTest.cs" />
     <Compile Include="Blocks\PreBlockModifierTest.cs" />
     <Compile Include="Blocks\SpanPhraseBlockModifierTest.cs" />
+    <Compile Include="Blocks\StrongPhraseBlockModifierTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
