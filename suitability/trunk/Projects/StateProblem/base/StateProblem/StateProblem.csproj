@@ -35,6 +35,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExamMarks.cs" />
     <Compile Include="SmokeDetector.cs" />
     <Compile Include="Thermostat.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
