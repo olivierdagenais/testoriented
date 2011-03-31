@@ -20,7 +20,6 @@ using System.Text.RegularExpressions;
 
 namespace Textile.States
 {
-    [FormatterState(SimpleBlockFormatterState.PatternBegin + @"fn[0-9]+" + SimpleBlockFormatterState.PatternEnd)]
     public class FootNoteFormatterState : SimpleBlockFormatterState
     {
         int m_noteID = 0;

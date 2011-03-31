@@ -23,7 +23,6 @@ namespace Textile.States
     /// <summary>
     /// Formatting state for headers and titles.
     /// </summary>
-    [FormatterState(SimpleBlockFormatterState.PatternBegin + @"h[0-9]+" + SimpleBlockFormatterState.PatternEnd)]
     public class HeaderFormatterState : SimpleBlockFormatterState
     {
         int m_headerLevel = 0;

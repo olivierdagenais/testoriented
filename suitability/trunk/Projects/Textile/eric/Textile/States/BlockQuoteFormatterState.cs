@@ -20,7 +20,6 @@ using System.Text.RegularExpressions;
 
 namespace Textile.States
 {
-    [FormatterState(SimpleBlockFormatterState.PatternBegin + @"bq" + SimpleBlockFormatterState.PatternEnd)]
 	public class BlockQuoteFormatterState : SimpleBlockFormatterState
 	{
         public BlockQuoteFormatterState(TextileFormatter f)

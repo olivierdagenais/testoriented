@@ -5,7 +5,6 @@ using System.Text.RegularExpressions;
 
 namespace Textile.States
 {
-    [FormatterState(@"^\s*<(h[0-9]|p|pre|blockquote)" + Globals.HtmlAttributesPattern + ">")]
     public class PassthroughFormatterState : FormatterState
     {
         public PassthroughFormatterState(TextileFormatter f)

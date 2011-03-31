@@ -6,11 +6,6 @@ using System.Text.RegularExpressions;
 
 namespace Textile.States
 {
-    [FormatterState(@"^\s*(?<tag>table)" +
-                   Globals.SpanPattern +
-                   Globals.AlignPattern +
-                   Globals.BlockModifiersPattern +
-                   @"\.\s*$")]
 	public class TableFormatterState : FormatterState
 	{
         private string m_attsInfo;
