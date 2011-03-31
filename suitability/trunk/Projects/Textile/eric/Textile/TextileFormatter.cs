@@ -33,19 +33,6 @@ namespace Textile
 	{
         static TextileFormatter()
         {
-            RegisterFormatterState(typeof(HeaderFormatterState));
-            RegisterFormatterState(typeof(BlockQuoteFormatterState));
-            RegisterFormatterState(typeof(ParagraphFormatterState));
-            RegisterFormatterState(typeof(FootNoteFormatterState));
-            RegisterFormatterState(typeof(OrderedListFormatterState));
-            RegisterFormatterState(typeof(UnorderedListFormatterState));
-            RegisterFormatterState(typeof(TableFormatterState));
-            RegisterFormatterState(typeof(TableRowFormatterState));
-            RegisterFormatterState(typeof(CodeFormatterState));
-            RegisterFormatterState(typeof(PreFormatterState));
-            RegisterFormatterState(typeof(PreCodeFormatterState));
-            RegisterFormatterState(typeof(NoTextileFormatterState));
-
             RegisterBlockModifier(new NoTextileBlockModifier());
             RegisterBlockModifier(new CodeBlockModifier());
             RegisterBlockModifier(new PreBlockModifier());

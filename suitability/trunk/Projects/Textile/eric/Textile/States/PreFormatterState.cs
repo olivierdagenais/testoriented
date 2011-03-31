@@ -5,7 +5,6 @@ using System.Text.RegularExpressions;
 
 namespace Textile.States
 {
-    [FormatterState(@"^\s*<pre" + Globals.HtmlAttributesPattern + ">")]
     public class PreFormatterState : FormatterState
     {
         bool m_shouldExitNextTime = false;

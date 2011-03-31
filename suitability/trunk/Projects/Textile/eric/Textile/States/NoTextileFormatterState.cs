@@ -5,7 +5,6 @@ using System.Text.RegularExpressions;
 
 namespace Textile.States
 {
-    [FormatterState(@"^\s*((?<tag><notextile>)\s*$|(?<tag>(notextile.))\s*)")]
     public class NoTextileFormatterState : FormatterState
     {
         bool m_shouldExitNextTime = false;

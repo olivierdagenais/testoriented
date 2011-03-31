@@ -13,7 +13,6 @@
 #region Using Statements
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Text.RegularExpressions;
 #endregion
 
@@ -22,29 +21,6 @@ namespace Textile
 {
     public partial class TextileFormatter
     {
-        #region State Registration
-
-        private static List<Type> s_registeredStates = new List<Type>();
-        private static List<FormatterStateAttribute> s_registeredStatesAttributes = new List<FormatterStateAttribute>();
-
-        public static void RegisterFormatterState(Type formatterStateType)
-        {
-            if (!formatterStateType.IsSubclassOf(typeof(FormatterState)))
-                throw new ArgumentException("The formatter state must be a sub-public class of FormatterStateBase.");
-
-            if (formatterStateType.GetConstructor(new Type[] { typeof(TextileFormatter) }) == null)
-                throw new ArgumentException("The formatter state must have a constructor that takes a TextileFormatter reference.");
-
-            FormatterStateAttribute att = FormatterStateAttribute.Get(formatterStateType);
-            if (att == null)
-                throw new ArgumentException("The formatter state must have the FormatterStateAttribute.");
-
-            s_registeredStates.Add(formatterStateType);
-            s_registeredStatesAttributes.Add(att);
-        }
-
-        #endregion
-
         #region State Management
 
         private List<Type> m_disabledFormatterStates = new List<Type>();
@@ -122,18 +98,14 @@ namespace Textile
         /// their own syntax and remove it?
         private string HandleFormattingState(string input)
         {
-            for (int i = 0; i < s_registeredStates.Count; i++)
             {
-                Type type = s_registeredStates[i];
-                if (IsFormatterStateEnabled(type))
+                var factory = new StateFactory(this);
+                Match match;
+                var formatterState = factory.Find(input, out match);
+                if (formatterState != null)
                 {
-                    FormatterStateAttribute att = s_registeredStatesAttributes[i];
-                    Match m = Regex.Match(input, att.Pattern);
-                    if (m.Success)
-                    {
-                        FormatterState formatterState = (FormatterState)Activator.CreateInstance(type, this);
-                        return formatterState.Consume(input, m);
-                    }
+                    var result = formatterState.Consume(input, match);
+                    return result;
                 }
             }
 

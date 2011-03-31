@@ -5,7 +5,6 @@ using System.Text.RegularExpressions;
 
 namespace Textile.States
 {
-    [FormatterState(@"^\s*<code" + Globals.HtmlAttributesPattern + ">")]
     public class CodeFormatterState : FormatterState
     {
         bool m_shouldExitNextTime = false;

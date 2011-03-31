@@ -5,8 +5,6 @@ using System.Text.RegularExpressions;
 
 namespace Textile.States
 {
-    [FormatterState(@"^\s*(" + Globals.AlignPattern + Globals.BlockModifiersPattern + @"\.\s?)?" +
-                                   @"\|(?<content>.*)\|\s*$")]
     public class TableRowFormatterState : FormatterState
     {
         private string m_attsInfo;

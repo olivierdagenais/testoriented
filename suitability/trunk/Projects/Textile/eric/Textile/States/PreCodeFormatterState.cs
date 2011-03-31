@@ -5,7 +5,6 @@ using System.Text.RegularExpressions;
 
 namespace Textile.States
 {
-    [FormatterState(SimpleBlockFormatterState.PatternBegin + @"bc" + SimpleBlockFormatterState.PatternEnd)]
     public class PreCodeFormatterState : SimpleBlockFormatterState
     {
         public PreCodeFormatterState(TextileFormatter formatter)
