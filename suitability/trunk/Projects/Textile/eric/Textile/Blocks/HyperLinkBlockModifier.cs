@@ -22,8 +22,6 @@ namespace Textile.Blocks
 {
     public class HyperLinkBlockModifier : BlockModifier
     {
-        private string m_rel = string.Empty;
-
         public override string ModifyLine(string line)
         {
             line = Regex.Replace(line,
@@ -51,8 +49,6 @@ namespace Textile.Blocks
             string linkText = m.Groups["text"].Value.Trim(' ');
 
             string str = m.Groups["pre"].Value + "<a ";
-			if (m_rel != null && m_rel != string.Empty)
-				str += "ref=\"" + m_rel + "\" ";
 			str += "href=\"" +
 				  Globals.EncodeHTMLLink(m.Groups["url"].Value) + m.Groups["slash"].Value + "\"" +
 				  atts +
