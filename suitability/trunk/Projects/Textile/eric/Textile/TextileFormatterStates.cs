@@ -137,23 +137,29 @@ namespace Textile
 
         private static void RegisterAllStates()
         {
+            const string simpleBlockPatternBegin = @"^\s*(?<tag>";
+            const string simpleBlockPatternEnd = @")" + Globals.AlignPattern + Globals.BlockModifiersPattern + @"\.(?:\s+)?(?<content>.*)$";
+
+            const string listPatternBegin = @"^\s*(?<tag>";
+            const string listPatternEnd = @")" + Globals.BlockModifiersPattern + @"(?:\s+)? (?<content>.*)$";
+
             Register(f => new HeaderFormatterState(f),
-                SimpleBlockFormatterState.PatternBegin + @"h[0-9]+" + SimpleBlockFormatterState.PatternEnd);
+                simpleBlockPatternBegin + @"h[0-9]+" + simpleBlockPatternEnd);
 
             Register(f => new BlockQuoteFormatterState(f),
-                SimpleBlockFormatterState.PatternBegin + @"bq" + SimpleBlockFormatterState.PatternEnd);
+                simpleBlockPatternBegin + @"bq" + simpleBlockPatternEnd);
 
             Register(f => new ParagraphFormatterState(f),
-                SimpleBlockFormatterState.PatternBegin + @"p" + SimpleBlockFormatterState.PatternEnd);
+                simpleBlockPatternBegin + @"p" + simpleBlockPatternEnd);
 
             Register(f => new FootNoteFormatterState(f),
-                SimpleBlockFormatterState.PatternBegin + @"fn[0-9]+" + SimpleBlockFormatterState.PatternEnd);
+                simpleBlockPatternBegin + @"fn[0-9]+" + simpleBlockPatternEnd);
 
             Register(f => new OrderedListFormatterState(f),
-                ListFormatterState.PatternBegin + @"#+" + ListFormatterState.PatternEnd);
+                listPatternBegin + @"#+" + listPatternEnd);
 
             Register(f => new UnorderedListFormatterState(f),
-                ListFormatterState.PatternBegin + @"\*+" + ListFormatterState.PatternEnd);
+                listPatternBegin + @"\*+" + listPatternEnd);
 
             Register(f => new TableFormatterState(f),
                 @"^\s*(?<tag>table)" +
@@ -170,7 +176,7 @@ namespace Textile
                 @"^\s*<code" + Globals.HtmlAttributesPattern + ">");
 
             Register(f => new PreCodeFormatterState(f),
-                SimpleBlockFormatterState.PatternBegin + @"bc" + SimpleBlockFormatterState.PatternEnd);
+                simpleBlockPatternBegin + @"bc" + simpleBlockPatternEnd);
 
             Register(f => new PreFormatterState(f),
                 @"^\s*<pre" + Globals.HtmlAttributesPattern + ">");

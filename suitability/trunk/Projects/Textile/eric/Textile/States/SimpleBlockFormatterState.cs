@@ -7,9 +7,6 @@ namespace Textile.States
 {
     public abstract class SimpleBlockFormatterState : FormatterState
     {
-        internal const string PatternBegin = @"^\s*(?<tag>";
-        internal const string PatternEnd = @")" + Globals.AlignPattern + Globals.BlockModifiersPattern + @"\.(?:\s+)?(?<content>.*)$";
-
         private string m_tag = null;
         public string Tag
         {

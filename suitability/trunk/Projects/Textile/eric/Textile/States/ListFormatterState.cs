@@ -25,9 +25,6 @@ namespace Textile.States
     /// </summary>
     abstract public class ListFormatterState : FormatterState
     {
-        internal const string PatternBegin = @"^\s*(?<tag>";
-        internal const string PatternEnd = @")" + Globals.BlockModifiersPattern + @"(?:\s+)? (?<content>.*)$";
-
         private bool m_firstItem = true;
         private bool m_firstItemLine = true;
         private string m_tag;
