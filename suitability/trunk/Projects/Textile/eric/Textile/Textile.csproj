@@ -68,7 +68,6 @@
     <Compile Include="Blocks\SubScriptPhraseBlockModifier.cs" />
     <Compile Include="Blocks\SuperScriptPhraseBlockModifier.cs" />
     <Compile Include="FormatterState.cs" />
-    <Compile Include="StateFactory.cs" />
     <Compile Include="States\BlockQuoteFormatterState.cs" />
     <Compile Include="States\CodeFormatterState.cs" />
     <Compile Include="States\FootNoteFormatterState.cs" />

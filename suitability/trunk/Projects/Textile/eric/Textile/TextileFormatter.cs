@@ -33,6 +33,8 @@ namespace Textile
 	{
         static TextileFormatter()
         {
+            RegisterAllStates();
+
             RegisterBlockModifier(new NoTextileBlockModifier());
             RegisterBlockModifier(new CodeBlockModifier());
             RegisterBlockModifier(new PreBlockModifier());
