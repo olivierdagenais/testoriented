@@ -132,7 +132,8 @@
                 <xsl:with-param name="charsOut" select="'&#xD;% '" />
             </xsl:call-template>
         </xsl:variable>
-        <xsl:text>%</xsl:text><xsl:value-of select="$escapedCr" />
+        <xsl:text>%</xsl:text><xsl:value-of select="$escapedCr" /><xsl:text>
+</xsl:text>
     </xsl:template>
     
     <xsl:template match="raw">
