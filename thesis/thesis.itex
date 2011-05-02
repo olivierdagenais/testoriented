@@ -12,11 +12,13 @@
     <command name="DisableLigatures" param="encoding = *, family = *" />
   </preamble>
   <document>
-    <command name="title" param="Title: \\ Multiline \\ If Necessary \\" />
-    <command name="author" param="Olivier Dagenais" />
-    <command name="submitdate" param="July 29, 2011" />
-    <command name="copyrightyear" param="2011" />
-    <command name="degree" param="Master of Computer Science" />
+    <group name="Title page">
+      <command name="title" param="Stateless Programming And Testing: \\ Extracting a functional layer from object-oriented code" />
+      <command name="author" param="Olivier Dagenais" />
+      <command name="submitdate" param="July 29, 2011" />
+      <command name="copyrightyear" param="2011" />
+      <command name="degree" param="Master of Computer Science" />
+    </group>
 
     <command name="frontmatter">
       <block param="abstract">
@@ -31,34 +33,53 @@
     <command name="mainmatter">
       <command name="chapter" param="Introduction">
         <command name="section" param="Introduction">
-          <!-- what the chapter is about -->
-          ...
+          This chapter introduces the problem and the motivation for solving it, as well as the overall goals and specific objectives covered by the present thesis.  It concludes with an overview of the rest of the document.
         </command>
         <command name="section" param="Problem">
-          <!--
-          - Tests are good
-          - Some code is without tests
-          - Tests are difficult or impossible to write because said code is not reachable
-          -->
-          Citation test: McMinn and Helcombe introduce the state problem in evolutionary testing <command name="cite" param="Mcminn03thestate" />.  It turns out we can simply avoid the problem in the first place!
+          Software has advanced considerably in the last "many" years, but has software quality kept up?  We don't always know how good a program or component is or if it is free of defects, if only those defects that will affect us, directly or not.
+
+          Programming languages and compilers evolved to add features that make it easier to write code, although those features don't always make it easier to test the same code.  Object-oriented programming, for example, has introduced constructs and paradigms designed to make abstraction, inheritance and polymorphism easier, but at the same time introduced a feature that can make testing more difficult:  encapsulation (i.e. information hiding) in the form of instance state.  Alan Kay wrote that object state was meant to be immutable <!-- TODO: reference --> but that intent is seldom enforced by programming languages, frameworks or toolkits.
+
+          Hidden and <!-- TODO: but? --> mutable instance state poses a problem for unit testing because that instance state may come into play for exercising a specific scenario.  Because it is mutable, the values may not be necessarily initialized at instance construction or can change as instance methods are called.  Because it is hidden, there exists, by definition, no way to manipulate this instance state directly.  
+
+          The result of hidden, mutable state is we end up with lots of difficult-to-test code, which means it stays untested, even despite the many automated test frameworks and systems <!-- TODO: reference http://opensourcetesting.org/ -->.  This is likely due to a tradeoff between ease of maintenance <!-- TODO: modification? --> and testability <!-- TODO: find source --> where testability was ultimately not favoured.
+
+          We therefore want to test the code, but we must first surmount the difficult-to-test obstacle of hidden mutable state (HMS).  In the process of testing a method that relies on hidden instance state, it usually becomes necessary to write the unit test such that it will indirectly orchestrate the instance state so that specific scenarios can be implemented <!-- TODO: instrumented/probed/explored? -->.  This makes the test method difficult to maintain because the "arrange" phase will be more unwieldy and less obvious, which will have the effect of discouraging the creation of such tests.
+
+          <command name="subsection" param="Problem types">
+            
+            <!-- TODO:
+            = instance state cannot be set from constructor
+            = no available constructor
+            == must use factory method
+            == not even a factory method exists!
+            = fields of abstract type (i.e. System.IO.Stream)
+            = environment-related values (input domain is very constrained and specialized)
+            -->
+          </command>
         </command>
         <command name="section" param="Motivation">
           <!-- Explain why some people would care -->
+          Lest we could somehow perform the practically impossible "complete testing", <!-- TODO: cite a source? --> testing can only prove the presence of defects and not their absence <!-- TODO: cite Dijkstra -->.  A good set of tests, on the other hand, can catch software regressions that may be introduced through the addition of features or the removal of defects.  
+
+          A good set of tests is defined as one that can catch such software regressions.  A metric commonly used to represent the confidence in a set of tests is code coverage <!-- TODO: source -->.  Code that is covered might be - but is not necessarily - tested, but uncovered code is definitely untested code.  Shipping software with untested code is like serving a dish that has not yet been tasted.
+
+          Instance state does not just present trouble to human-generated tests (HGT), but also to computer-generated tests (CGT), such as those generated through Evolutionary Testing <command name="cite" param="Mcminn03thestate" />, which uses a form of Search Based Software Testing (SBST).  <!-- TODO: does Concolic Testing also suffer from the state problem? -->
           <!--
-          - Test as much code as feasible
-          - Make unit tests as simple as possible
-          - Test the smallest amount of functionality possible
-          -- code that computes tax and discount at the same time makes it harder to test tax and discount computations separately
-          - 
+          = find defects as early as possible, when they cost the least
+          = Test as much code as feasible
+          = Make unit tests as simple as possible
+          = Test the smallest amount of functionality possible
+          == code that computes tax and discount at the same time makes it harder to test tax and discount computations separately
+          = work around/break out of external constraints on the code, such as entry points (i.e. you will be invoked through this interface method)
           -->
-          ...
         </command>
         <command name="section" param="Goals">
           <!-- Can address only part of the problem 
           Something abstract/general, such as "world hunger", or a subset of it "hunger in Ottawa"
           Can be written retroactively, after the results have been written -->
           <!--
-          - Increase testability of code (by making it easier to reach functionality) with minimal changes of the public interfaces
+          = Increase testability of code (by making it easier to reach functionality) with minimal changes of the public interfaces
           -->
           ...
         </command>
@@ -66,13 +87,13 @@
           <!-- (what you will produce to meet your goal)
           action items to address goal -->
           <!-- 
-          - reduce the number of inputs participating in the test
-          -- reduce the number of methods called to bring object under test into appropriate state (methods executed before - arrange)
-          -- reduce the number of instances created to support test scenario
-          - reduce the number of outputs produced by the test
-          -- reduce the number of methods called to extract interesting output (methods executed after - assert)
-          - reduce the amount of clean-up done to compensate for "arrange" phase
-          - avoid changing the public interface?
+          = reduce the number of inputs participating in the test
+          == reduce the number of methods called to bring object under test into appropriate state (methods executed before - arrange)
+          == reduce the number of instances created to support test scenario
+          = reduce the number of outputs produced by the test
+          == reduce the number of methods called to extract interesting output (methods executed after - assert)
+          = reduce the amount of clean-up done to compensate for "arrange" phase
+          = avoid changing the public interface?
           -->
           ...
         </command>
@@ -89,50 +110,119 @@
           <!-- what the chapter is about -->
           ...
         </command>
+        <command name="section" param="Automated testing">
+          <!-- TODO:
+          = intro
+          = I think it was Binder who painfully explained these test frameworks from the point of view of someone who has only ever done manual testing
+          -->
+          <command name="subsection" param="Testing frameworks">
+            <!-- TODO:
+            = xUnit
+            = arrange, act, assert
+            = integration with a build process to further establish confidence
+            -->
+          </command>
+          <command name="subsection" param="Test scope">
+            <!-- TODO:
+            = unit tests vs. integration tests vs. ???
+            -->
+          </command>
+          <command name="subsection" param="Code coverage">
+          </command>
+        </command>
+        <command name="section" param="Motivations for Computer-Generated Tests">
+          <!-- TODO:
+          = see notes about the reasons given by the car guys (computer-generated code, integration/co-operation testing of components written by many parties, expensive manual testing like driving the car, etc.)
+          -->
+        </command>
+        <command name="section" param="Intents of Computer-Generated Tests">
+          There are four major reasons <!-- TODO: is it a reason? how about objective? --> to use Computer-Generated Tests (CGT).
+          <command name="subsection" param="Structural Testing">
+          </command>
+          <command name="subsection" param="Functional Testing">
+          </command>
+          <command name="subsection" param="Non-functional Testing">
+          </command>
+          <!-- <command name="subsection" param="TODO: 4th Intent of CGT">
+          </command> -->
+        </command>
+        <command name="section" param="Approaches to Computer-Generated Tests">
+          There are three major approaches in generating tests. <!-- TODO: cite "An empirical investigation into branch coverage for C programs using CUTE and AUSTIN" -->
+          <command name="subsection" param="Random Testing">
+          </command>
+          <command name="subsection" param="Search Based Software Testing">
+            <!-- 
+            = Also called metaheuristic
+            = Hill climbing, simulated annealing
+            = Evolutionary Testing
+            -->
+          </command>
+          <command name="subsection" param="Concolic Testing">
+            <!--
+            = Concrete + Symbolic = Concolic (a.k.a. dynamic symbolic execution)
+            = Constraint solvers
+            = Pex
+            -->
+          </command>
+        </command>
         <command name="section" param="Related work">
           <!--
-          - Miško Hevery
-          -- testability explorer
-          --- Non-Mockable Total Recursive Cyclomatic Complexity
-          --- Global Mutable State
-          --- Law of Demeter
-          -- "How to think about OO"
-          -- "Static Methods are Death to Testability"
-          - FxCop/Code Analysis tools
-          -- "CA1502: Avoid excessive complexity" http://msdn.microsoft.com/en-us/library/ms182212.aspx
-          --- "A low cyclomatic complexity generally indicates a method that is easy to understand, test, and maintain."
+          = Miško Hevery
+          == testability explorer
+          === Non-Mockable Total Recursive Cyclomatic Complexity
+          === Global Mutable State
+          === Law of Demeter
+          == "How to think about OO"
+          == "Static Methods are Death to Testability"
+          = FxCop/Code Analysis tools
+          == "CA1502: Avoid excessive complexity" http://msdn.microsoft.com/en-us/library/ms182212.aspx
+          === "A low cyclomatic complexity generally indicates a method that is easy to understand, test, and maintain."
+          = The same data dependency analysis used in Mcminn03thestate can also be used to determine the arguments to a stateless method
+          = any SBST research that aims to work around state problems
+          == GP then GA
+          == Data Dependency Analysis
+          == temporary program transformations
           -->
           ...
         </command>
         <command name="section" param="Context">
           <!-- Show that I understand what everybody else has done ("master an area") -->
           ...
+          Binder, page 52 introduces a few relevant concepts
         </command>
         <command name="section" param="Scope">
           <!-- End with feature matrix, comparing my solution to others -->
           <!--
-          - contrast with isolated, stand-alone tests
-          - contrast with test helper methods
-          -- For example, DeepZoomImageTest.TestComputeLevelSize() that creates two instances per call:
+          = contrast with isolated, stand-alone tests
+          = contrast with test helper methods
+          == For example, DeepZoomImageTest.TestComputeLevelSize() that creates two instances per call:
           Assert.AreEqual (new Size (1200, 1500), TestComputeLevelSize (PortraitImageSize, 12));
           vs. the original stateless method that could be called directly:
           Assert.AreEqual (new Size (1200, 1500), DeepZoomImage.ComputeLevelSize (PortraitImageSize, 12));
-          --- For that particular one, because my settings class performs work in the constructor, there are some properties which MUST be provided.
-          -- they shift complexity instead of removing it altogether.  I need to find some way to prove that this leads to more brittle tests.
-          - contrast with better abstractions/use of interfaces
-          -- virtual/in-memory file system
-          -- operating on sequences instead of streams
-          -- introducing a class for private methods that coordinate related pieces of data
-          -- introducing a functor for methods that coordinate related pieces of data
-          -- introducing a generic class to remove copy/pasted typed implementations (i.e. FooCollection, BarCollection replaced by Collection{Foo} and Collection{Bar})
-          - contrast with trivial increase in visibility
-          - contrast with static code analysis
-          -- contrast with code contracts
-          - contrast with code reviews
-          - contrast with dependency injection
+          === For that particular one, because my settings class performs work in the constructor, there are some properties which MUST be provided.
+          == they shift complexity instead of removing it altogether.  I need to find some way to prove that this leads to more brittle tests.  Perhaps the fact that the stateless method is reusable vs. the test helper method isn't?
+          = contrast with better abstractions/use of interfaces
+          == virtual/in-memory file system
+          == operating on sequences instead of streams
+          == introducing a class for private methods that coordinate related pieces of data
+          == introducing a functor for methods that coordinate related pieces of data
+          == introducing a generic class to remove copy/pasted typed implementations (i.e. FooCollection, BarCollection replaced by Collection{Foo} and Collection{Bar})
+          = contrast with visible, mutable state
+          == changes current public interface
+          = contrast with hidden, immutable state
+          == changes current public interface
+          = contrast with no state whatsoever
+          == changes current public interface
+          = contrast with static code analysis
+          == contrast with code contracts
+          = contrast with code reviews
+          = contrast with dependency injection
+          = contrast with improving the tools (i.e. research in SBST and DSE)
+          = contrast with temporary program transformations (i.e. non-refactoring)
+          
           Not in scope:
-          - parallelization of tests (although probably easier with technique)
-          - difficult-to-test object state changes?
+          = parallelization of tests (although probably easier with technique)
+          = difficult-to-test object state changes?
           -->
           ...
         </command>
@@ -148,35 +238,39 @@
         </command>
         <command name="section" param="Design">
           <!-- 
-          - discuss applicability/suitability (in 1 or 2 sections?)
-          -- existing/legacy systems with few tests (through acquisition, maintenance)
-          -- technology constraints (i.e. class must have default public constructor, such as IHttpModule implementations in ASP.NET)
-          -- programming language with visibility controls for methods such that the extracted methods are visible to tests but not necessarily all users
-          - discuss theoretical trade-offs and suitability towards goal
-          -- forces number of arguments of stateless method to remain small, to avoid Misko's splippery slope
-          -- MUST be a pure refactor, i.e. callers are/will be none the wiser
-          --- no bugs added
-          --- no bugs fixed during this step, always expose and fix bug separately from extraction
-          --- no performance differences (extracted method could always be inlined by the compiler for release)
-          -- MUST preserve seams, in case code is already partially tested
+          = discuss applicability/suitability (in 1 or 2 sections?)
+          == existing/legacy systems with few tests (through acquisition, maintenance)
+          == technology constraints (i.e. class must have default public constructor, such as IHttpModule implementations in ASP.NET)
+          == programming language with visibility controls for methods such that the extracted methods are visible to tests but not necessarily all users
+          = discuss theoretical trade-offs and suitability towards goal
+          == forces number of arguments of stateless method to remain small, to avoid Misko's splippery slope
+          == MUST be a pure refactor, i.e. callers are/will be none the wiser
+          === no bugs added
+          === no bugs fixed during this step, always expose and fix bug separately from extraction
+          === no performance differences (extracted method could always be inlined by the compiler for release)
+          == MUST preserve seams, in case code is already partially tested
           => work around reachability barriers
-          - discuss scope of technique (i.e. on which code should it be applied)
-          -- what to extract
-          -- how many [static/instance] fields read
-          -- how many [static/instance] fields modified
-          -- how many parameters needed
-          -- what happens when environment-modifying operations are used
-          - discuss experiments with Pex (if only to introduce for another section)
-          -- trade-offs of automatic test generation based on code coverage
-          -- differences between a constraint solver and evolutionary testing
-          - manual application
-          -- manual test writing
-          -- manual statelesss method extraction
-          -- compare unit tests before and after
+          = discuss scope of technique (i.e. on which code should it be applied)
+          == what to extract, what not to extract
+          == what can be re-ordered because its exact "timing" is not terribly important
+          == how many [static/instance] fields read
+          == how many [static/instance] fields modified
+          == how many parameters needed
+          == what happens when environment-modifying operations are used
+          = discuss experiments with Pex (if only to introduce for another section)
+          == trade-offs of automatic test generation based on code coverage
+          == differences between a constraint solver and evolutionary testing
+          = manual application
+          == manual test writing
+          == manual statelesss method extraction
+          == compare unit tests before and after
           -->
           ...
         </command>
         <command name="section" param="Decisions made">
+          <!--
+          = {Project}.ManualTests created to avoid interference with Pex if had used {Project}.Tests
+          -->
           ...
         </command>
         <command name="section" param="Reproducability">
@@ -198,29 +292,29 @@
         </command>
         <command name="section" param="Detailed results">
           <!--
-          - applying the stateless method extraction technique to the open-source projects
-          - applying the technique to examples provided in original paper
-          - applying the technique backwards to PivotStack
-          - evaluating with code coverage percentage of tests generated by Pex
-          - difficulties with Pex:
-          -- 2010/07/14: "tests generated between runs of Pex aren't always the same due to timeouts"
-          -- not aware of test double opportunities (i.e. mocks)
-          -- 2010/09/11: "time - it will give up/timeout to not be stuck"
-          -- 2010/09/11: "intent - unit testing is (validation +) verification exercise using specification/requirements, neither of which are available"
-          --- "Parameter of abstract type Stream (System.IO) is somewhat vague; there are many implementations of it that could be used, but for unit tests, a MemoryStream should probably ue used. Pex has no such guidance and seems to [randomly?] pick System.Security.Cryptography.TailStream which I can't find in System.Security nor in MSDN documentation!"
-          -- 2010/09/11: "no focus - unless code is decorated with exclude/ignore attributes"
-          -- 2010/09/11: "scope"
-          --- "testability issue" with certain methods, such as:
-          ---- Environment.get_NewLine()
-          ---- Environment.get_OSVersion()
-          ---- File.*
-          ---- FileStream..ctor
-          --- "uninstrumentable" with memory allocation & garbage collection
-          --- "uninstrumented" source code not available for analysis
-          --- "extern" behaviour only available at runtime; special case of "uninstrumented"
-          --- HttpWebRequest (System.Net) does not have a public constructor; the Remarks of the class say to call WebRequest.Create() (which isn't instrumented)
-          --- Neither does Match (System.Text.RegularExpressions) and it is not instrumented anyway.
-          - evaluating with metrics (cyclomatic complexity)
+          = applying the stateless method extraction technique to the open-source projects
+          = applying the technique to examples provided in original paper
+          = applying the technique backwards to PivotStack
+          = evaluating with code coverage percentage of tests generated by Pex
+          = difficulties with Pex:
+          == 2010/07/14: "tests generated between runs of Pex aren't always the same due to timeouts"
+          == not aware of test double opportunities (i.e. mocks)
+          == 2010/09/11: "time - it will give up/timeout to not be stuck"
+          == 2010/09/11: "intent - unit testing is (validation +) verification exercise using specification/requirements, neither of which are available"
+          === "Parameter of abstract type Stream (System.IO) is somewhat vague; there are many implementations of it that could be used, but for unit tests, a MemoryStream should probably ue used. Pex has no such guidance and seems to [randomly?] pick System.Security.Cryptography.TailStream which I can't find in System.Security nor in MSDN documentation!"
+          == 2010/09/11: "no focus - unless code is decorated with exclude/ignore attributes"
+          == 2010/09/11: "scope"
+          === "testability issue" with certain methods, such as:
+          ==== Environment.get_NewLine()
+          ==== Environment.get_OSVersion()
+          ==== File.*
+          ==== FileStream..ctor
+          === "uninstrumentable" with memory allocation & garbage collection
+          === "uninstrumented" source code not available for analysis
+          === "extern" behaviour only available at runtime; special case of "uninstrumented"
+          === HttpWebRequest (System.Net) does not have a public constructor; the Remarks of the class say to call WebRequest.Create() (which isn't instrumented)
+          === Neither does Match (System.Text.RegularExpressions) and it is not instrumented anyway.
+          = evaluating with metrics (cyclomatic complexity)
           -->
           ...
         </command>
