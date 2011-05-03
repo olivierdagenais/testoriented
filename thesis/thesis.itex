@@ -36,52 +36,60 @@
           This chapter introduces the problem and the motivation for solving it, as well as the overall goals and specific objectives covered by the present thesis.  It concludes with an overview of the rest of the document.
         </command>
         <command name="section" param="Problem">
-          Software has advanced considerably in the last "many" years, but has software quality kept up?  We don't always know how good a program or component is or if it is free of defects, if only those defects that will affect us, directly or not.
+          Software has advanced considerably in the last "many" years, but has software quality kept up?  We don't always know how good a program or component is or if it is free of defects, if only those defects that will affect us, directly or otherwise.
 
           Programming languages and compilers evolved to add features that make it easier to write code, although those features don't always make it easier to test the same code.  Object-oriented programming, for example, has introduced constructs and paradigms designed to make abstraction, inheritance and polymorphism easier, but at the same time introduced a feature that can make testing more difficult:  encapsulation (i.e. information hiding) in the form of instance state.  Alan Kay wrote that object state was meant to be immutable <!-- TODO: reference --> but that intent is seldom enforced by programming languages, frameworks or toolkits.
 
-          Hidden and <!-- TODO: but? --> mutable instance state poses a problem for unit testing because that instance state may come into play for exercising a specific scenario.  Because it is mutable, the values may not be necessarily initialized at instance construction or can change as instance methods are called.  Because it is hidden, there exists, by definition, no way to manipulate this instance state directly.  
+          Hidden and mutable instance state poses a problem for unit testing because that instance state may come into play when exercising a specific scenario.  Because it is mutable, the values may not be initialized at instance construction or can change as instance methods are called.  Because it is hidden, there exists, by definition, no way to manipulate this instance state directly.  
 
-          The result of hidden, mutable state is we end up with lots of difficult-to-test code, which means it stays untested, even despite the many automated test frameworks and systems <!-- TODO: reference http://opensourcetesting.org/ -->.  This is likely due to a tradeoff between ease of maintenance <!-- TODO: modification? --> and testability <!-- TODO: find source --> where testability was ultimately not favoured.
+          <command name="subsection" param="Hidden mutable state, described">
+            Hidden mutable state (HMS) manifests itself in a few different forms:
+            <block param="itemize">
+              <command name="item"> Instance state that cannot be set from the constructor or a factory method.</command>
+              <command name="item"> Instance state that cannot be directly set from a setter method or property.</command>
+              <command name="item"> A constructor or direct factory method is not available.  In other words, the number of steps to create an instance of the class under test is greater than 1.</command>
+              <command name="item"> Instance state points to objects with their own hidden mutable state.</command>
+            </block>
+            In other words, a class has instance state that must be modified indirectly as a result of calling a method that, although it may not be directly related, nonetheless modifies one or more fields.
+          </command>
 
-          We therefore want to test the code, but we must first surmount the difficult-to-test obstacle of hidden mutable state (HMS).  In the process of testing a method that relies on hidden instance state, it usually becomes necessary to write the unit test such that it will indirectly orchestrate the instance state so that specific scenarios can be implemented <!-- TODO: instrumented/probed/explored? -->.  This makes the test method difficult to maintain because the "arrange" phase will be more unwieldy and less obvious, which will have the effect of discouraging the creation of such tests.
+          The result of hidden mutable state is we end up with lots of difficult-to-test code, which means it stays untested, even despite the many automated test frameworks and systems <!-- TODO: reference http://opensourcetesting.org/ -->.  This is likely due to a tradeoff between ease of maintenance <!-- TODO: modification? --> and testability <!-- TODO: find source --> where testability was ultimately not favoured.
 
-          <command name="subsection" param="Problem types">
-            
+          We still want to test the code, but we must first surmount the difficult-to-test obstacle that hidden mutable state introduces.  In the process of testing a method that uses hidden instance state (as input, output or both), it usually becomes necessary to write the unit test such that it will indirectly orchestrate said instance state so that specific scenarios can be implemented <!-- TODO: instrumented/probed/explored? -->.  This makes the test method difficult to maintain because the "arrange" phase will be more unwieldy and less obvious, which will have the effect of discouraging the creation of such tests.
             <!-- TODO:
-            = instance state cannot be set from constructor
-            = no available constructor
-            == must use factory method
-            == not even a factory method exists!
             = fields of abstract type (i.e. System.IO.Stream)
             = environment-related values (input domain is very constrained and specialized)
             -->
-          </command>
         </command>
         <command name="section" param="Motivation">
           <!-- Explain why some people would care -->
-          Lest we could somehow perform the practically impossible "complete testing", <!-- TODO: cite a source? --> testing can only prove the presence of defects and not their absence <!-- TODO: cite Dijkstra -->.  A good set of tests, on the other hand, can catch software regressions that may be introduced through the addition of features or the removal of defects.  
+          Lest we could somehow perform the practically impossible "complete testing", <!-- TODO: cite a source? --> testing can only prove the presence of defects and not their absence <!-- TODO: cite Dijkstra -->.  A good set of tests, on the other hand, can catch software regressions that may be introduced through the addition of a feature or the removal of a defect.  Finding regressions as early is possible ensures their fixing cost is minimized <!-- TOOD: source, probably Joel Spolsky -->.  A good set of tests is henceforth defined as one that can catch such software regressions.
 
-          A good set of tests is defined as one that can catch such software regressions.  A metric commonly used to represent the confidence in a set of tests is code coverage <!-- TODO: source -->.  Code that is covered might be - but is not necessarily - tested, but uncovered code is definitely untested code.  Shipping software with untested code is like serving a dish that has not yet been tasted.
+          A metric commonly used to represent confidence in a set of tests is code coverage percentage <!-- TODO: source -->, usually in the form of branch coverage <!-- TODO: source -->.  Code that is covered might be - but is not necessarily - tested, but uncovered code is definitely untested code.  Shipping software with untested code is like serving a dish that has not yet been tasted.
 
-          Instance state does not just present trouble to human-generated tests (HGT), but also to computer-generated tests (CGT), such as those generated through Evolutionary Testing <command name="cite" param="Mcminn03thestate" />, which uses a form of Search Based Software Testing (SBST).  <!-- TODO: does Concolic Testing also suffer from the state problem? -->
+          Hidden mutable state (HMS) does not just present trouble to human-generated tests (HGT), but also to computer-generated tests (CGT), such as those generated through Evolutionary Testing (ET), a form of Search Based Software Testing (SBST).  <!-- TODO: does Concolic Testing also suffer from the state problem? -->  Indeed, McMinn reported on the difficulty HMS brought to ET <command name="cite" param="Mcminn03thestate" />:
+          <block param="quote">States can cause a variety of problems for ET, since test 
+goals involving states can be dependent on the entire history of input to the test object, as well as just the current input.
+          </block>
+
+          Although it is possible to work around some HMS with a noteworthy "arrange" phase, this is not always desirable as it can increase the maintenance overhead and costs to write the unit tests, both for human- and computer-generated tests.  There are other options available, such as increasing the visiblity of the mutable state or converting the state from mutable to read-only, but both options would likely change the public interface of the class under test to an unacceptable level, not to mention the associated risk in performing non-trivial modifications without the safety net of sufficient tests.
+
+        </command>
+        <command name="section" param="Goals">
+          <!-- Can address only part of the problem
+          Something abstract/general, such as "world hunger", or a subset of it "hunger in Ottawa"
+          Can be written retroactively, after the results have been written -->
+          If we are to defeat the difficulties of hidden mutable state (HMS), can we do so with minimal changes to the public interface and minimal risk of introducing regressions?  Can the unit tests be kept parsimonious, yet cover all the important edge cases?  Is there something we can do to make code containing hidden mutable state more easily testable?
+
+          The goal of this thesis (paper?) is to introduce and motivate the use of a testability refactoring <!-- TODO: cite "Refactoring as testability transformation" --> that extracts a functional (as in state-free) software layer to work around many of the <!-- [testability] --> problems of HMS.
           <!--
-          = find defects as early as possible, when they cost the least
           = Test as much code as feasible
           = Make unit tests as simple as possible
           = Test the smallest amount of functionality possible
           == code that computes tax and discount at the same time makes it harder to test tax and discount computations separately
           = work around/break out of external constraints on the code, such as entry points (i.e. you will be invoked through this interface method)
-          -->
-        </command>
-        <command name="section" param="Goals">
-          <!-- Can address only part of the problem 
-          Something abstract/general, such as "world hunger", or a subset of it "hunger in Ottawa"
-          Can be written retroactively, after the results have been written -->
-          <!--
           = Increase testability of code (by making it easier to reach functionality) with minimal changes of the public interfaces
           -->
-          ...
         </command>
         <command name="section" param="Objectives">
           <!-- (what you will produce to meet your goal)
@@ -109,6 +117,14 @@
         <command name="section" param="Introduction">
           <!-- what the chapter is about -->
           ...
+        </command>
+        <command name="section" param="Object oriented programming">
+          <!-- TODO:
+          = classes
+          = instance fields, methods, properties
+          = static fields, methods, properties
+          = interfaces
+          -->
         </command>
         <command name="section" param="Automated testing">
           <!-- TODO:
@@ -195,6 +211,7 @@
           <!--
           = contrast with isolated, stand-alone tests
           = contrast with test helper methods
+          == how about test helper properties?
           == For example, DeepZoomImageTest.TestComputeLevelSize() that creates two instances per call:
           Assert.AreEqual (new Size (1200, 1500), TestComputeLevelSize (PortraitImageSize, 12));
           vs. the original stateless method that could be called directly:
@@ -207,6 +224,7 @@
           == introducing a class for private methods that coordinate related pieces of data
           == introducing a functor for methods that coordinate related pieces of data
           == introducing a generic class to remove copy/pasted typed implementations (i.e. FooCollection, BarCollection replaced by Collection{Foo} and Collection{Bar})
+          == a regular expression toolkit or compiler that generates a model specific to the specified expression
           = contrast with visible, mutable state
           == changes current public interface
           = contrast with hidden, immutable state
@@ -354,6 +372,9 @@
         <!-- material of length that would impede the flow of the -->
         <!-- main body: program listings, long data results, long mathematical -->
         <!-- proofs -->
+        <!-- TODO:
+        = glossary, including abbreviations/TLAs
+        -->
         ...
       </command>
     </command>
