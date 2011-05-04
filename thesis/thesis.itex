@@ -63,6 +63,10 @@
         </command>
         <command name="section" param="Motivation">
           <!-- Explain why some people would care -->
+          <!-- TODO: 
+          = should I motivate [unit] testing more, like I did in my paper?
+          = how about talking about the applicability to code that is currently without tests or with insufficient tests
+          -->
           Lest we could somehow perform the practically impossible "complete testing", <!-- TODO: cite a source? --> testing can only prove the presence of defects and not their absence <!-- TODO: cite Dijkstra -->.  A good set of tests, on the other hand, can catch software regressions that may be introduced through the addition of a feature or the removal of a defect.  Finding regressions as early is possible ensures their fixing cost is minimized <!-- TOOD: source, probably Joel Spolsky -->.  A good set of tests is henceforth defined as one that can catch such software regressions.
 
           A metric commonly used to represent confidence in a set of tests is code coverage percentage <!-- TODO: source -->, usually in the form of branch coverage <!-- TODO: source -->.  Code that is covered might be - but is not necessarily - tested, but uncovered code is definitely untested code.  Shipping software with untested code is like serving a dish that has not yet been tasted.
@@ -73,37 +77,79 @@ goals involving states can be dependent on the entire history of input to the te
           </block>
 
           Although it is possible to work around some HMS with a noteworthy "arrange" phase, this is not always desirable as it can increase the maintenance overhead and costs to write the unit tests, both for human- and computer-generated tests.  There are other options available, such as increasing the visiblity of the mutable state or converting the state from mutable to read-only, but both options would likely change the public interface of the class under test to an unacceptable level, not to mention the associated risk in performing non-trivial modifications without the safety net of sufficient tests.
-
         </command>
         <command name="section" param="Goals">
           <!-- Can address only part of the problem
           Something abstract/general, such as "world hunger", or a subset of it "hunger in Ottawa"
           Can be written retroactively, after the results have been written -->
-          If we are to defeat the difficulties of hidden mutable state (HMS), can we do so with minimal changes to the public interface and minimal risk of introducing regressions?  Can the unit tests be kept parsimonious, yet cover all the important edge cases?  Is there something we can do to make code containing hidden mutable state more easily testable?
+          If we are to defeat the difficulties of hidden mutable state (HMS), can we do so with minimal changes to the public interface and with minimal risk of introducing regressions?  Can the unit tests be kept parsimonious, yet cover all the important edge cases?  Is there something we can do to make code containing hidden mutable state more easily testable?
 
-          The goal of this thesis (paper?) is to introduce and motivate the use of a testability refactoring <!-- TODO: cite "Refactoring as testability transformation" --> that extracts a functional (as in state-free) software layer to work around many of the <!-- [testability] --> problems of HMS.
+          The goal of this thesis (paper?) is to introduce and motivate the use of a testability refactoring <!-- TODO: cite "Refactoring as testability transformation" --> that extracts a functional (as in state-free) software layer to specifically work around many of the <!-- [testability] --> problems of HMS and to generally increase the testability of the code under test, while minimally affecting maintainability and the public interface of the code under test.  The goal is to be validated according to the following metrics:
+          
+          <block param="enumerate">
+            <command name="item"> Complexity of the unit tests.
+            <!-- TODO: 
+            = i.e. Make unit tests as small and simple as possible.
+            == Count not just "arrange" but also "clean-up"
+            == code that computes tax and discount at the same time makes it harder to test tax and discount computations separately
+            = complexity can be measured as:
+            == cyclomatic complexity
+            == number of instructions
+            == number of methods executed?
+            == number of lines of code
+            -->
+            </command>
+            <command name="item"> Number of changes to class under test's public interface.</command>
+            <command name="item"> Percentage of branches covered using concolic testing <!-- TODO: source -->.
+            <!-- TODO:
+            = i.e. Test as much code as feasible
+            = when I was testing with Pex, I think the fact that methods were introduced was skewing the percentage numbers; can we account for that?
+            = ultimately, the previous metric is a measure of reachability.  Is there a better one?
+            -->
+            <!-- TODO: can maintainability be measured? -->
+            <!-- TODO:
+            = can I measure the risk of introducing defects or regressions?
+            = in other words, what is the safety of the testability transformation/refactoring?
+            -->
+            </command>
+          </block>
           <!--
-          = Test as much code as feasible
-          = Make unit tests as simple as possible
-          = Test the smallest amount of functionality possible
-          == code that computes tax and discount at the same time makes it harder to test tax and discount computations separately
-          = work around/break out of external constraints on the code, such as entry points (i.e. you will be invoked through this interface method)
-          = Increase testability of code (by making it easier to reach functionality) with minimal changes of the public interfaces
+          = even though I mention ET in the motivation section, I have no goal to evaluate anything for ET???
           -->
         </command>
         <command name="section" param="Objectives">
           <!-- (what you will produce to meet your goal)
           action items to address goal -->
-          <!-- 
-          = reduce the number of inputs participating in the test
-          == reduce the number of methods called to bring object under test into appropriate state (methods executed before - arrange)
-          == reduce the number of instances created to support test scenario
-          = reduce the number of outputs produced by the test
-          == reduce the number of methods called to extract interesting output (methods executed after - assert)
-          = reduce the amount of clean-up done to compensate for "arrange" phase
-          = avoid changing the public interface?
-          -->
-          ...
+          To meet the goal, the some experiments/evaluations will be performed using the source code from a specially-crafted project (designed to expose problematic scenarios) as well as the following open-source projects:
+          <block param="enumerate">
+            <command name="item"> AtomicCms</command>
+            <command name="item"> KeePassLib</command>
+            <command name="item"> PivotStack</command>
+            <command name="item"> Textile</command>
+          </block>
+
+          Unit tests will be written for select functionality from all projects using the following approaches/strategies:
+          <block param="enumerate">
+            <command name="item"> No modifications to the code under test</command>
+            <command name="item"> Stateless method extraction</command>
+            <command name="item"> Visibility increases</command>
+            <command name="item"> Mutation removal</command>
+            <command name="item"> Private accessors</command>
+            <command name="item"> Test helper methods</command>
+          </block>
+          
+          <!-- TODO: is it necessary to include this next part? -->
+          The following evaluations will be made against the results of writing tests using each of the 6 strategies on each of the 5 projects:
+          <block param="enumerate">
+            <command name="item"> Complexity of the unit tests.</command>
+            <command name="item"> Number of changes to class under test's public interface.</command>
+            <command name="item"> Percentage of branches covered using concolic testing.</command>
+          </block>
+          
+          <command name="subsection" param="Implementation details">
+            <!-- TODO: isn't this the kind of stuff we would find in the Approach chapter? -->
+            All source code is in C#, targetting the .NET runtime.  Unit tests will be written or generated using the NUnit framework.  The concolic testing tool used will be Pex.
+          </command>
         </command>
         <command name="section" param="Outline">
           ...
@@ -282,6 +328,14 @@ goals involving states can be dependent on the entire history of input to the te
           == manual test writing
           == manual statelesss method extraction
           == compare unit tests before and after
+          -->
+          <!-- 
+          = reduce the number of inputs participating in the test
+          == reduce the number of methods called to bring object under test into appropriate state (methods executed before - arrange)
+          == reduce the number of instances created to support test scenario
+          = reduce the number of outputs produced by the test
+          == reduce the number of methods called to extract interesting output (methods executed after - assert)
+          = reduce the amount of clean-up done to compensate for "arrange" phase
           -->
           ...
         </command>
