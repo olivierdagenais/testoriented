@@ -42,6 +42,7 @@
 
           Hidden and mutable instance state poses a problem for unit testing because that instance state may come into play when exercising a specific scenario.  Because it is mutable, the values may not be initialized at instance construction or can change as instance methods are called.  Because it is hidden, there exists, by definition, no way to manipulate this instance state directly.  
 
+          <!-- TODO: we could use a small example snippet or two -->
           <command name="subsection" param="Hidden mutable state, described">
             Hidden mutable state (HMS) manifests itself in a few different forms:
             <block param="itemize">
@@ -56,10 +57,7 @@
           The result of hidden mutable state is we end up with lots of difficult-to-test code, which means it stays untested, even despite the many automated test frameworks and systems <!-- TODO: reference http://opensourcetesting.org/ -->.  This is likely due to a tradeoff between ease of maintenance <!-- TODO: modification? --> and testability <!-- TODO: find source --> where testability was ultimately not favoured.
 
           We still want to test the code, but we must first surmount the difficult-to-test obstacle that hidden mutable state introduces.  In the process of testing a method that uses hidden instance state (as input, output or both), it usually becomes necessary to write the unit test such that it will indirectly orchestrate said instance state so that specific scenarios can be implemented <!-- TODO: instrumented/probed/explored? -->.  This makes the test method difficult to maintain because the "arrange" phase will be more unwieldy and less obvious, which will have the effect of discouraging the creation of such tests.
-            <!-- TODO:
-            = fields of abstract type (i.e. System.IO.Stream)
-            = environment-related values (input domain is very constrained and specialized)
-            -->
+          <!-- TODO: we could use a small example snippet or two -->
         </command>
         <command name="section" param="Motivation">
           <!-- Explain why some people would care -->
@@ -67,7 +65,7 @@
           = should I motivate [unit] testing more, like I did in my paper?
           = how about talking about the applicability to code that is currently without tests or with insufficient tests
           -->
-          Lest we could somehow perform the practically impossible "complete testing", <!-- TODO: cite a source? --> testing can only prove the presence of defects and not their absence <!-- TODO: cite Dijkstra -->.  A good set of tests, on the other hand, can catch software regressions that may be introduced through the addition of a feature or the removal of a defect.  Finding regressions as early is possible ensures their fixing cost is minimized <!-- TOOD: source, probably Joel Spolsky -->.  A good set of tests is henceforth defined as one that can catch such software regressions.
+          Lest we could somehow perform the practically impossible "complete testing" (i.e. exhaustively trying all possible inputs), <!-- TODO: cite a source? --> testing can only prove the presence of defects and not their absence <!-- TODO: cite Dijkstra -->.  A good set of tests, on the other hand, can catch software regressions that may be introduced through the addition of a feature or the removal of a defect.  Finding regressions as early as possible ensures their fixing cost is minimized <!-- TOOD: source, probably Joel Spolsky -->.  A good set of tests is henceforth defined as one that can catch such software regressions.
 
           A metric commonly used to represent confidence in a set of tests is code coverage percentage <!-- TODO: source -->, usually in the form of branch coverage <!-- TODO: source -->.  Code that is covered might be - but is not necessarily - tested, but uncovered code is definitely untested code.  Shipping software with untested code is like serving a dish that has not yet been tasted.
 
@@ -84,8 +82,8 @@ goals involving states can be dependent on the entire history of input to the te
           Can be written retroactively, after the results have been written -->
           If we are to defeat the difficulties of hidden mutable state (HMS), can we do so with minimal changes to the public interface and with minimal risk of introducing regressions?  Can the unit tests be kept parsimonious, yet cover all the important edge cases?  Is there something we can do to make code containing hidden mutable state more easily testable?
 
-          The goal of this thesis (paper?) is to introduce and motivate the use of a testability refactoring <!-- TODO: cite "Refactoring as testability transformation" --> that extracts a functional (as in state-free) software layer to specifically work around many of the <!-- [testability] --> problems of HMS and to generally increase the testability of the code under test, while minimally affecting maintainability and the public interface of the code under test.  The goal is to be validated according to the following metrics:
-          
+          The goal of this thesis (paper?) is to introduce and motivate the use of a testability refactoring <!-- TODO: cite "Refactoring as testability transformation" --> that extracts a functional (as in state-free) software layer to specifically work around many of the <!-- [testability] --> problems of HMS and to generally increase the testability of the code under test, while minimally affecting functionality, maintainability and the public interface of the code under test.  <!-- TODO: we could use a small example snippet or two -->The goal is to be validated according to the following metrics:
+
           <block param="enumerate">
             <command name="item"> Complexity of the unit tests.
             <!-- TODO: 
@@ -115,12 +113,25 @@ goals involving states can be dependent on the entire history of input to the te
           </block>
           <!--
           = even though I mention ET in the motivation section, I have no goal to evaluate anything for ET???
+          = is there a mention of instance state (i.e. HMS) being a problem for Pex or concolic testing in general?
+          == my experiments with Pex were designed to have it be the objective evaluator, such that if Pex is unable to create an instance of a class, it is unlikely a human will have an easy time.  This is mostly for the case where a class has no constructor and no easy factory method.
+          == Pex is documented as handling ALL state with the help of a shadow interpreter
+          == "But then Pex may not know how to create an object through the publicly available constructors such that the object's private fields are in the desired state." (Pex)
+          == "If the class is visible and has a visible default constructor, Pex can create an instance of the class. If all the fields are visible, it can generate values for them as well. However, if the fields are encapsulated with properties or not exposed to the outside world, Pex requires help to create the object so as to achieve a better code coverage." http://msdn.microsoft.com/en-us/magazine/ee819140.aspx
+          ==
+          """
+          Warning: field xxx is not public; Pex needs help to construct object (or similar)
+
+Pex generates test inputs, and part of the inputs may be objects with fields. Here, Pex wants to generate an instance of an object which has a private field, and Pex believes that an interesting program behavior will occur when this private field has a particular value. However, while possible with Reflection, Pex does not dare to manufacture objects with arbitrary field values. Instead, in those cases it relies on the user to provide hints how to use the public methods of a class to create an object and bring it into a state where its private field has the desired value.
+          """
+http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20help%20to%20construct%20object.html
+          === I should be able to find instances where Pex can't
           -->
         </command>
         <command name="section" param="Objectives">
           <!-- (what you will produce to meet your goal)
           action items to address goal -->
-          To meet the goal, the some experiments/evaluations will be performed using the source code from a specially-crafted project (designed to expose problematic scenarios) as well as the following open-source projects:
+          To meet the goal, some experiments/evaluations will be performed using the source code from a specially-crafted project (designed to expose problematic scenarios) as well as the following open-source projects:
           <block param="enumerate">
             <command name="item"> AtomicCms</command>
             <command name="item"> KeePassLib</command>
@@ -224,6 +235,9 @@ goals involving states can be dependent on the entire history of input to the te
             = Concrete + Symbolic = Concolic (a.k.a. dynamic symbolic execution)
             = Constraint solvers
             = Pex
+            = difficulties with concolic, esp. Pex
+            == fields of abstract type (i.e. System.IO.Stream)
+            == environment-related values (input domain is very constrained and specialized)
             -->
           </command>
         </command>
@@ -257,13 +271,20 @@ goals involving states can be dependent on the entire history of input to the te
           <!--
           = contrast with isolated, stand-alone tests
           = contrast with test helper methods
-          == how about test helper properties?
           == For example, DeepZoomImageTest.TestComputeLevelSize() that creates two instances per call:
           Assert.AreEqual (new Size (1200, 1500), TestComputeLevelSize (PortraitImageSize, 12));
           vs. the original stateless method that could be called directly:
           Assert.AreEqual (new Size (1200, 1500), DeepZoomImage.ComputeLevelSize (PortraitImageSize, 12));
           === For that particular one, because my settings class performs work in the constructor, there are some properties which MUST be provided.
+          == how about test helper properties?
           == they shift complexity instead of removing it altogether.  I need to find some way to prove that this leads to more brittle tests.  Perhaps the fact that the stateless method is reusable vs. the test helper method isn't?
+          = constrast with factory methods:
+          """
+          As an alternative to employing only existing constructors to configure objects,
+the user may also provide factory methods, which could invoke a sequence of
+method calls to construct and configure a new object, possibly creating cyclic
+references as well.
+          """ Pex, last paragraph of section 3.4
           = contrast with better abstractions/use of interfaces
           == virtual/in-memory file system
           == operating on sequences instead of streams
