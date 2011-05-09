@@ -1,0 +1,64 @@
+<Project DefaultTargets="compile" ToolsVersion="4.0"
+  xmlns="http://schemas.microsoft.com/developer/msbuild/2003" >
+
+  <!-- Replaces the XslTransformation task since it has a bug with whitespace after comments -->
+  <UsingTask TaskName="Xsl" TaskFactory="CodeTaskFactory"
+    AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+    <ParameterGroup>
+      <Source ParameterType="System.String" Required="true" />
+      <Stylesheet ParameterType="System.String" Required="true" />
+      <Destination ParameterType="System.String" Required="true" />
+    </ParameterGroup>
+    <Task>
+      <Reference Include="System.Xml"/>
+      <Using Namespace="System.Xml" />
+      <Using Namespace="System.Xml.Xsl" />
+      <Code Type="Fragment" Language="cs"><![CDATA[
+var settings = new XsltSettings(true, true);
+var transformer = new XslCompiledTransform();
+transformer.Load(Stylesheet, settings, new XmlUrlResolver());
+
+transformer.Transform(Source, Destination);
+]]></Code>
+    </Task>
+  </UsingTask>
+
+  <Target Name="clean">
+    <RemoveDir Directories="obj" />
+  </Target>
+  <Target Name="samples">
+    <!-- TODO: invoke <MSBuild Projects="" /> with samples/*.sln -->
+  </Target>
+  <Target Name="compile" DependsOnTargets="clean;samples">
+    <MakeDir Directories="obj;bin" />
+    <Xsl
+      Source="thesis.itex"
+      Stylesheet="iTeX.xsl"
+      Destination="obj/thesis.tex"
+    />
+    <ItemGroup>
+      <ExtraFiles Include="dalthesis.cls;thesis.bib;samples/**/*.cs" />
+    </ItemGroup>
+    <Copy SourceFiles="@(ExtraFiles)"
+      DestinationFiles="@(ExtraFiles->'obj/%(RecursiveDir)%(Filename)%(Extension)')" />
+    
+    <!-- http://www.latex-community.org/forum/viewtopic.php?f=5&t=2011&start=0 -->
+    <!-- 1. Run LaTeX to generate the AUX file. It adds a line every time it finds a cite. -->
+    <Exec WorkingDirectory="obj/" Command="latex thesis.tex" />
+    <!-- 2. Then run BibTeX (executable: bibtex) to generate the BBL (from the AUX lines). -->
+    <Exec WorkingDirectory="obj/" Command="bibtex thesis.aux" />
+    <!-- 3. Then run LaTeX again, which will include the BBL. -->
+    <Exec WorkingDirectory="obj/" Command="latex thesis.tex" />
+    <!-- 4. Then run LaTeX again to make any updates corresponding to including the possibly massive BBL -->
+    <!-- (e.g., updating your final page count on each of your pages, updating your ToC, etc.). -->
+    <Exec WorkingDirectory="obj/" Command="latex thesis.tex" />
+    <!-- Generating DVI then converting to PDF yields smaller files than the one-step pdflatex -->
+    <Exec WorkingDirectory="obj/" Command="dvipdfm -p letter thesis.dvi" />
+
+    <Delete Files="bin/thesis.pdf" ContinueOnError="true">
+      <Output TaskParameter="DeletedFiles" ItemName="DeletedPdf" />
+    </Delete>
+    <!-- TODO: PDFXCView.exe /close bin/thesis.pdf Condition=" '' == '$(DeletedPdf)'" -->
+    <Copy SourceFiles="obj/thesis.pdf" DestinationFiles="bin/thesis.pdf" />
+  </Target>
+</Project>
