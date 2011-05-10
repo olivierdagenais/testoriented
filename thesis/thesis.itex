@@ -10,17 +10,29 @@
     <!-- disable turning "fi", "ff", etc. into one character: http://www.latex-community.org/forum/viewtopic.php?f=5&t=953  -->
     <command name="usepackage" param="microtype" />
     <command name="DisableLigatures" param="encoding = *, family = *" />
+
+    <region comment='the "listings" package is used for source code snippets'>
+      <command name="usepackage" param="listings" />
+      <command name="usepackage" param="courier" />
+      <command name="lstset"
+        param="basicstyle=\tiny\ttfamily,tabsize=2,numbers=left,numberstyle=\tiny\ttfamily" />
+    </region>
   </preamble>
   <document>
-    <group name="Title page">
+    <region name="Title page">
       <command name="title" param="Stateless Programming And Testing: \\ Extracting a functional layer from object-oriented code" />
       <command name="author" param="Olivier Dagenais" />
       <command name="submitdate" param="July 29, 2011" />
       <command name="copyrightyear" param="2011" />
       <command name="degree" param="Master of Computer Science" />
-    </group>
+    </region>
 
     <command name="frontmatter">
+      <region name="[List of] Listings">
+        <command name="addcontentsline" param="toc}{chapter}{Listings" />
+        <command name="lstlistoflistings" />
+        <command name="clearpage" />
+      </region>
       <block param="abstract">
         <!-- An abstract is required in all theses. -->
         <!-- Make sure that it fits on one page! -->
