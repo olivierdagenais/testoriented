@@ -37,7 +37,7 @@ transformer.Transform(Source, Destination);
       Destination="obj/thesis.tex"
     />
     <ItemGroup>
-      <ExtraFiles Include="dalthesis.cls;thesis.bib;samples/**/*.cs" />
+      <ExtraFiles Include="dalthesis.cls;thesis.bib;Samples/**/*.cs" Exclude="Samples/**/Properties/*.cs" />
     </ItemGroup>
     <Copy SourceFiles="@(ExtraFiles)"
       DestinationFiles="@(ExtraFiles->'obj/%(RecursiveDir)%(Filename)%(Extension)')" />
