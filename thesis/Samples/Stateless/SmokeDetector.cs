@@ -5,12 +5,12 @@
 	private bool alarmOn = false, waiting = false;
 
 	public int Cycle(double level) {
-		return Cycle(level, ref time, ref offTime, ref detected,
-			ref alarmOn, ref waiting);
+		return Cycle(level, ref time, ref offTime,
+			ref detected, ref alarmOn, ref waiting);
 	}
 
-	internal static int Cycle(double level, ref int time,
-		ref int offTime, ref int detected,
+	internal static int Cycle(double level,
+		ref int time, ref int offTime, ref int detected,
 		ref bool alarmOn, ref bool waiting) {
 		int signal = 0;
 		time++;

@@ -48,11 +48,11 @@
           This chapter introduces the problem and the motivation for solving it, as well as the overall goals and specific objectives covered by the present thesis.  It concludes with an overview of the rest of the document.
         </command>
         <command name="section" param="Problem">
-          Software has advanced considerably in the last "many" years, but has software quality kept up?  We don't always know how good a program or component is or if it is free of defects, if only those defects that will affect us, directly or otherwise.
+          Software has advanced considerably in the last "many" years, but has software quality kept up?  We don't always know how good a program or component is or if it is free of defects, if only those defects that will affect us, directly or otherwise.  Software defects can range from the bening, such as incorrect colors and typographical errors in the interface or output, to very serious, such as causing the destruction of a rocket carrying four spacecraft <!-- TODO: cite "Ariane 5 Flight 501 Failure, Report by the Inquiry Board" --> and causing the death of several patients <!-- TODO: cite "Medical Devices: The Therac-25 Nancy Leveson, University of Washington" -->.
 
-          Programming languages and compilers evolved to add features that make it easier to write code, although those features don't always make it easier to test the same code.  Object-oriented programming, for example, has introduced constructs and paradigms designed to make abstraction, inheritance and polymorphism easier, but at the same time introduced a feature that can make testing more difficult:  encapsulation (i.e. information hiding) in the form of instance state.  Alan Kay wrote that object state was meant to be immutable <!-- TODO: reference --> but that intent is seldom enforced by programming languages, frameworks or toolkits.
+          Programming languages and compilers evolved to add features that make it easier to write code, although those features don't always make it easier to test the same code.  Object-oriented programming, for example, has introduced constructs and paradigms designed to make abstraction, inheritance and polymorphism easier, but at the same time introduced a feature that can make testing more difficult:  encapsulation (i.e. information hiding) in the form of instance state.  Encapsulation allows an object to hide its implementation details so as to present a simpler interface to callers.  Alan Kay wrote that object state was meant to be immutable <!-- TODO: reference --> but that intent is seldom enforced by programming languages, frameworks or toolkits.
 
-          Hidden and mutable instance state poses a problem for unit testing because that instance state may come into play when exercising a specific scenario.  Because it is mutable, the values may not be initialized at instance construction or can change as instance methods are called.  Because it is hidden, there exists, by definition, no way to manipulate this instance state directly.  
+          Hidden and mutable instance state poses a problem for unit testing because that instance state may come into play when exercising a specific scenario <!-- TODO: cite Binder at page 961 -->.  Because it is mutable, the values may not be initialized at instance construction or can change as instance methods are called.  Because it is hidden, there exists, by definition, no way to manipulate this instance state directly.
 
           <!-- TODO: we could use a small example snippet or two -->
           <command name="subsection" param="Hidden mutable state, described">
@@ -66,10 +66,23 @@
             In other words, a class has instance state that must be modified indirectly as a result of calling a method that, although it may not be directly related, nonetheless modifies one or more fields.
           </command>
 
-          The result of hidden mutable state is we end up with lots of difficult-to-test code, which means it stays untested, even despite the many automated test frameworks and systems <!-- TODO: reference http://opensourcetesting.org/ -->.  This is likely due to a tradeoff between ease of maintenance <!-- TODO: modification? --> and testability <!-- TODO: find source --> where testability was ultimately not favoured.
+          The result of hidden mutable state is we end up with [lots of] difficult-to-test code, which means it stays untested, even despite the many automated test frameworks and systems <!-- TODO: reference http://opensourcetesting.org/ -->.  This is likely due to a tradeoff between ease of maintenance <!-- TODO: modification? --> and testability <!-- TODO: find source --> where testability was ultimately not favoured.
 
-          We still want to test the code, but we must first surmount the difficult-to-test obstacle that hidden mutable state introduces.  In the process of testing a method that uses hidden instance state (as input, output or both), it usually becomes necessary to write the unit test such that it will indirectly orchestrate said instance state so that specific scenarios can be implemented <!-- TODO: instrumented/probed/explored? -->.  This makes the test method difficult to maintain because the "arrange" phase will be more unwieldy and less obvious, which will have the effect of discouraging the creation of such tests.
-          <!-- TODO: we could use a small example snippet or two -->
+          We still want to test the code, but we must first surmount the difficult-to-test obstacle that hidden mutable state introduces.  In the process of testing a method that uses hidden instance state (as input, output or both), it usually becomes necessary to write the unit test such that it will indirectly orchestrate said instance state so that specific scenarios can be implemented <!-- TODO: instrumented/probed/explored? --> <!-- TODO: cite Binder page 962 -->.  This makes the test method difficult to maintain because the test will be more unwieldy and less obvious - especially in the "arrange" phase - which may have the effect of discouraging the creation of such tests.
+
+          An example of the state problem can be seen in listings <command name="ref" param="lst:StatefulSmokeDetector" /> and <command name="ref" param="lst:StatefulSmokeDetectorTest" />.  Notice how having all the instance fields private makes it so any test wishing to bring the object to a certain state (such as "alarm sounds while detection decays") has to repeatedly call the <e>Cycle()</e> method with various values for the <e>level</e> parameter?  By the same token, the only observable state for verification is the return value of the method, although, in this particular instance, this should be sufficient for most scenarios.
+          <!-- TODO: should the listings use a figure with subfloats, instead? -->
+          <region name="table and two stateful code listings">
+            <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
+            <command name="lstinputlisting"
+              opt="label=lst:StatefulSmokeDetector,caption=SmokeDetector class with hidden mutable state"
+              param="Stateful/SmokeDetector.cs" />
+            <raw>&amp;</raw>
+            <command name="lstinputlisting"
+              opt="label=lst:StatefulSmokeDetectorTest,caption=Test class for SmokeDetector"
+              param="Stateful/SmokeDetectorTest.cs" />
+            <raw>\end{tabular}</raw>
+          </region>
         </command>
         <command name="section" param="Motivation">
           <!-- Explain why some people would care -->
@@ -86,7 +99,22 @@
 goals involving states can be dependent on the entire history of input to the test object, as well as just the current input.
           </block>
 
-          Although it is possible to work around some HMS with a noteworthy "arrange" phase, this is not always desirable as it can increase the maintenance overhead and costs to write the unit tests, both for human- and computer-generated tests.  There are other options available, such as increasing the visiblity of the mutable state or converting the state from mutable to read-only, but both options would likely change the public interface of the class under test to an unacceptable level, not to mention the associated risk in performing non-trivial modifications without the safety net of sufficient tests.
+          Although it is possible to work around some HMS with a noteworthy "arrange" phase, this is not always desirable as it can increase the maintenance overhead and costs to write the unit tests, both for human- and computer-generated tests.  There are other obvious options available, such as increasing the visiblity of the mutable state or converting the state from mutable to read-only, but both these options would likely change the public interface of the class under test to an unacceptable level (in other words, breaking encapsulation), not to mention the associated risk in performing non-trivial modifications (in the latter case) without the safety net of sufficient tests.
+
+          One perhaps less obvious option is the extraction of a subset of the state<e>ful</e> functionality in the form of a state<e>less</e> method which has all its inputs and outputs available to the test driver, while sourcing those inputs and outputs from and to the very instance fields they represent within the implementation itself.  An example of this can be seen in listings <command name="ref" param="lst:StatelessSmokeDetector" /> and <command name="ref" param="lst:StatelessSmokeDetectorTest" />.  Notice how the original implementation of the <e>Cycle()</e> method has been trivially extracted into a static overload that accepts all its input and emits all its output through parameters and the method return value?  The <e>AccumulateDetection()</e> test method can then be written to supply values for all fields, while keeping said fields safe from modification.  Indeed, the previous test is still there, unchanged, since the <e>SmokeDetector</e>'s public interface did not change.
+
+          <!-- TODO: should the listings use a figure with subfloats, instead? -->
+          <region name="table and two stateless code listings">
+            <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
+            <command name="lstinputlisting"
+              opt="label=lst:StatelessSmokeDetector,caption=SmokeDetector class with a stateless method extracted"
+              param="Stateless/SmokeDetector.cs" />
+            <raw>&amp;</raw>
+            <command name="lstinputlisting"
+              opt="label=lst:StatelessSmokeDetectorTest,caption=Test class for SmokeDetector exploiting the new Cycle() method overload"
+              param="Stateless/SmokeDetectorTest.cs" />
+            <raw>\end{tabular}</raw>
+          </region>
         </command>
         <command name="section" param="Goals">
           <!-- Can address only part of the problem
