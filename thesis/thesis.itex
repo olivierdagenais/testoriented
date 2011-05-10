@@ -455,14 +455,20 @@ references as well.
       </command>
     </command>
     <command name="appendix">
-      <command name="chapter" param="TODO">
-        <!-- material of length that would impede the flow of the -->
-        <!-- main body: program listings, long data results, long mathematical -->
-        <!-- proofs -->
-        <!-- TODO:
-        = glossary, including abbreviations/TLAs
-        -->
-        ...
+      <!-- material of length that would impede the flow of the -->
+      <!-- main body: program listings, long data results, long mathematical -->
+      <!-- proofs -->
+      <command name="chapter" param="Acronyms">
+        <!-- TODO: do we need to turn this into a glossary with explanations? -->
+        <block param="description">
+          <command name="item" opt="API"> Application Programming Interface</command>
+          <command name="item" opt="CGT"> Computer-Generated Tests</command>
+          <command name="item" opt="ET"> Evolutionary Testing</command>
+          <command name="item" opt="HGT"> Human-Generated Tests</command>
+          <command name="item" opt="HMT"> Hidden Mutable State</command>
+          <command name="item" opt="IUT"> Implementation Under Test</command>
+          <command name="item" opt="SBST"> Search-Based Software Testing</command>
+        </block>
       </command>
     </command>
     <command name="bibliographystyle" param="abbrv" />
