@@ -116,13 +116,13 @@ goals involving states can be dependent on the entire history of input to the te
             <raw>\end{tabular}</raw>
           </region>
         </command>
-        <command name="section" param="Goals">
+        <command name="section" param="Goal">
           <!-- Can address only part of the problem
           Something abstract/general, such as "world hunger", or a subset of it "hunger in Ottawa"
           Can be written retroactively, after the results have been written -->
           If we are to defeat the difficulties of hidden mutable state (HMS), can we do so with minimal changes to the public interface and with minimal risk of introducing regressions?  Can the unit tests be kept parsimonious, yet cover all the important edge cases?  Is there something we can do to make code containing hidden mutable state more easily testable?
 
-          The goal of this thesis is to introduce and motivate the use of a testability refactoring <!-- TODO: cite "Refactoring as testability transformation" --> that extracts a functional (as in state-free) software layer to specifically work around many of the <!-- [testability] --> problems of HMS and to generally increase the testability of the code under test, while minimally affecting functionality, maintainability and the public interface of the code under test.  <!-- TODO: we could use a small example snippet or two -->The goal is to be validated according to the following metrics:
+          The goal of this thesis is to improve the testability of classes that suffer from the "state problem" -- because they contain HMS -- while minimally affecting functionality, maintainability and the public interface of the code under test.  The goal is to be validated according to the following metrics:
 
           <block param="enumerate">
             <command name="item"> Complexity of the unit tests.
@@ -171,26 +171,27 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
         <command name="section" param="Objectives">
           <!-- (what you will produce to meet your goal)
           action items to address goal -->
-          To meet the goal, some experiments/evaluations will be performed using the source code from a specially-crafted project (designed to expose problematic scenarios) as well as the following open-source projects:
-          <block param="enumerate">
-            <command name="item"> AtomicCms</command>
-            <command name="item"> KeePassLib</command>
-            <command name="item"> PivotStack</command>
-            <command name="item"> Textile</command>
-          </block>
-
-          Unit tests will be written for select functionality from all projects using the following approaches/strategies:
+          To meet the goal, a testability refactoring <!-- TODO: cite "Refactoring as testability transformation" --> algorithm called "stateless method extraction" (SME) is proposed and explained/detailed.  The SME algorithm transforms the source code of the implementation under test (IUT) to introduce a functional (i.e. "externally state-free") software layer to specifically work around many of the testability problems of hidden mutable state (HMS) and to generally increase the testability of the code under test  <!-- TODO: we could use a small example snippet or two -->.  
+          
+          To verify the proposed SME algorithm's efficiency and validate its effectiveness, it is to be compared to (against?) the following strategies:
           <block param="enumerate">
             <command name="item"> No modifications to the code under test</command>
-            <command name="item"> Stateless method extraction</command>
             <command name="item"> Visibility increases</command>
             <command name="item"> Mutation removal</command>
             <command name="item"> Private accessors</command>
             <command name="item"> Test helper methods</command>
           </block>
           
+          Verification and validation will take place on interesting and/or difficult-to-test methods from the source code of the following 4 select open-source projects:
+          <block param="enumerate">
+            <command name="item"> AtomicCms</command>
+            <command name="item"> KeePassLib</command>
+            <command name="item"> PivotStack</command>
+            <command name="item"> Textile</command>
+          </block>
+          
           <!-- TODO: is it necessary to include this next part? -->
-          The following evaluations will be made against the results of writing tests using each of the 6 strategies on each of the 5 projects:
+          The following evaluations will be made against the results of writing tests using each of the 6 strategies on each of the 4 projects:
           <block param="enumerate">
             <command name="item"> Complexity of the unit tests.</command>
             <command name="item"> Number of changes to class under test's public interface.</command>
@@ -204,6 +205,7 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
         </command>
         <command name="section" param="Outline">
           ...
+          The <!-- ref: Approach --> chapter covers the details, the how-tos and applicability of the proposed testability refactoring.
         </command>
         <command name="section" param="Summary">
           <!-- key points of what was presented and linkage to next chapter -->
@@ -496,6 +498,7 @@ references as well.
           <command name="item" opt="HMT"> Hidden Mutable State</command>
           <command name="item" opt="IUT"> Implementation Under Test</command>
           <command name="item" opt="SBST"> Search-Based Software Testing</command>
+          <command name="item" opt="SME"> Stateless Method Extraction</command>
         </block>
       </command>
     </command>
