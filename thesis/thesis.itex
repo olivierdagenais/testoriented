@@ -125,25 +125,9 @@ goals involving states can be dependent on the entire history of input to the te
           The goal of this thesis is to improve the testability of classes that suffer from the "state problem" -- because they contain HMS -- while minimally affecting functionality, maintainability and the public interface of the code under test.  The goal is to be validated according to the following metrics:
 
           <block param="enumerate">
-            <command name="item"> Complexity of the unit tests.
-            <!-- TODO: 
-            = i.e. Make unit tests as small and simple as possible.
-            == Count not just "arrange" but also "clean-up"
-            == code that computes tax and discount at the same time makes it harder to test tax and discount computations separately
-            = complexity can be measured as:
-            == cyclomatic complexity
-            == number of instructions
-            == number of methods executed?
-            == number of lines of code
-            -->
-            </command>
+            <command name="item"> Cyclomatic complexity <!-- TODO: cite --> of the unit tests.</command>
             <command name="item"> Number of changes to class under test's public interface.</command>
             <command name="item"> Percentage of branches covered using concolic testing <!-- TODO: source -->.
-            <!-- TODO:
-            = i.e. Test as much code as feasible
-            = when I was testing with Pex, I think the fact that methods were introduced was skewing the percentage numbers; can we account for that?
-            = ultimately, the previous metric is a measure of reachability.  Is there a better one?
-            -->
             <!-- TODO: can maintainability be measured? -->
             <!-- TODO:
             = can I measure the risk of introducing defects or regressions?
@@ -171,37 +155,7 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
         <command name="section" param="Objectives">
           <!-- (what you will produce to meet your goal)
           action items to address goal -->
-          To meet the goal, a testability refactoring <!-- TODO: cite "Refactoring as testability transformation" --> algorithm called "stateless method extraction" (SME) is proposed and explained/detailed.  The SME algorithm transforms the source code of the implementation under test (IUT) to introduce a functional (i.e. "externally state-free") software layer to specifically work around many of the testability problems of hidden mutable state (HMS) and to generally increase the testability of the code under test  <!-- TODO: we could use a small example snippet or two -->.  
-          
-          To verify the proposed SME algorithm's efficiency and validate its effectiveness, it is to be compared to (against?) the following strategies:
-          <block param="enumerate">
-            <command name="item"> No modifications to the code under test</command>
-            <command name="item"> Visibility increases</command>
-            <command name="item"> Mutation removal</command>
-            <command name="item"> Private accessors</command>
-            <command name="item"> Test helper methods</command>
-          </block>
-          
-          Verification and validation will take place on interesting and/or difficult-to-test methods from the source code of the following 4 select open-source projects:
-          <block param="enumerate">
-            <command name="item"> AtomicCms</command>
-            <command name="item"> KeePassLib</command>
-            <command name="item"> PivotStack</command>
-            <command name="item"> Textile</command>
-          </block>
-          
-          <!-- TODO: is it necessary to include this next part? -->
-          The following evaluations will be made against the results of writing tests using each of the 6 strategies on each of the 4 projects:
-          <block param="enumerate">
-            <command name="item"> Complexity of the unit tests.</command>
-            <command name="item"> Number of changes to class under test's public interface.</command>
-            <command name="item"> Percentage of branches covered using concolic testing.</command>
-          </block>
-          
-          <command name="subsection" param="Implementation details">
-            <!-- TODO: is not this the kind of stuff we would find in the Approach chapter? -->
-            All source code is in C#, targetting the .NET runtime.  Unit tests will be written or generated using the NUnit framework.  The concolic testing tool used will be Pex.
-          </command>
+          To meet the goal, a testability refactoring <!-- TODO: cite "Refactoring as testability transformation" --> algorithm called "stateless method extraction" (SME) is proposed and explained/detailed.  The SME algorithm transforms the source code of the implementation under test (IUT) to introduce a functional (i.e. "externally state-free") software layer to specifically work around many of the testability problems of hidden mutable state (HMS) and to generally increase the testability of the code under test.  The SME algorithm's efficiency and effectiveness will be evaluted by comparing the results of the algorithm's application to other testing approaches.
         </command>
         <command name="section" param="Outline">
           ...
@@ -350,6 +304,8 @@ references as well.
           Not in scope:
           = parallelization of tests (although probably easier with technique)
           = difficult-to-test object state changes?
+          = should we assume no changes to IUT's public interface are allowed?
+          == the IUT's design suitability is out of scope, we could assume it's "perfect" for the needs of the user (or impossible to change due to implementing an interface)
           -->
           ...
         </command>
@@ -421,6 +377,50 @@ references as well.
         <command name="section" param="Introduction">
           <!-- what the chapter is about -->
           ...
+        </command>
+        <command name="section" param="Evaluation/experiment design">
+          To verify the proposed stateless method extraction (SME) algorithm's efficiency and validate its effectiveness, it is to be compared to (against?) the following strategies (should we bother with "visibility increase" and "mutation removal"?  they both alter the implementation under test (IUT)'s public interface):
+          <block param="enumerate">
+            <command name="item"> No modifications to the code under test</command>
+            <command name="item"> Visibility increases</command>
+            <command name="item"> Mutation removal</command>
+            <command name="item"> Private accessors</command>
+            <command name="item"> Test helper methods</command>
+          </block>
+  
+          Verification and validation will take place on interesting and/or difficult-to-test methods from the source code of the following 4 select open-source projects:
+          <block param="enumerate">
+            <command name="item"> AtomicCms</command>
+            <command name="item"> KeePassLib</command>
+            <command name="item"> PivotStack</command>
+            <command name="item"> Textile</command>
+          </block>
+
+          The following evaluations will be made against the results of writing tests using each of the 6 strategies on each of the 4 projects:
+          <block param="enumerate">
+            <command name="item"> Cyclomatic complexity of the unit tests.</command>
+            <command name="item"> Number of changes to the class under test's public interface.</command>
+            <command name="item"> Percentage of branches covered using concolic testing.</command>
+          </block>
+
+          The 3 metrics are now explained in further detail.
+          <command name="subsection" param="Cyclomatic complexity of the unit tests">
+            Cyclomatic complexity was selected as a metric since it essentially measures the simplicity of a method, in this case unit test methods.  The more simple the unit test methods are, the easier they are to maintain <!-- TODO: cite -->.  Should a regression be introduced in the future, it would be more desirable to have many small test methods instead of a few large test methods, to make it easier to discover exactly what is broken and what is not <!-- TODO: cite -->.
+            
+            <!-- TODO: talk about which variant of the metric is used, what counts toward the score and what does not, which tool was used and how the results were extracted -->
+          </command>
+          <command name="subsection" param="Number of changes to the class under test's public interface">
+            It could be undesirable to make changes to the class under test (CUT)'s public interface simply to increase its testability.  Reasons for not wanting any such changes include:
+            <block param="enumerate">
+              <command name="item"> Textile</command>
+              <command name="item"> The class is part of an API with pre-existing releases. Changes to the API would break third-party applications consuming it.</command>
+              <command name="item"> The class must implement a specific interface.  This is a technological variation of the previous reason.</command>
+              <command name="item"> Exposing instance state as directly mutable might allow callers to violate some constraints or invariants previously handled by the instance state-altering methods.</command>
+            </block>
+            
+          </command>
+          <command name="subsection" param="Percentage of branches covered using concolic testing">
+          </command>
         </command>
         <command name="section" param="Results">
           ...
