@@ -181,8 +181,14 @@
         <xsl:text>\\</xsl:text>
     </xsl:template>
 
-    <xsl:template match="e">
+    <xsl:template match="m">
         <xsl:text>$</xsl:text><xsl:value-of select="." /><xsl:text>$</xsl:text>
+    </xsl:template>
+    <xsl:template match="tt">
+        <xsl:text>\texttt{</xsl:text><xsl:value-of select="." /><xsl:text>}</xsl:text>
+    </xsl:template>
+    <xsl:template match="em">
+        <xsl:text>\emph{</xsl:text><xsl:value-of select="." /><xsl:text>}</xsl:text>
     </xsl:template>
 
     <!-- Pass-through (identity transform) template -->

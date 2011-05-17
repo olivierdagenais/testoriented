@@ -70,7 +70,7 @@
 
           We still want to test the code, but we must first surmount the difficult-to-test obstacle that hidden mutable state introduces.  In the process of testing a method that uses hidden instance state (as input, output or both), it usually becomes necessary to write the unit test such that it will indirectly orchestrate said instance state so that specific scenarios can be implemented <!-- TODO: instrumented/probed/explored? --> <!-- TODO: cite Binder page 962 -->.  This makes the test method difficult to maintain because the test will be more unwieldy and less obvious - especially in the "arrange" phase - which may have the effect of discouraging the creation of such tests.
 
-          An example of the state problem can be seen in listings <command name="ref" param="lst:StatefulSmokeDetector" /> and <command name="ref" param="lst:StatefulSmokeDetectorTest" />.  Notice how having all the instance fields private makes it so any test wishing to bring the object to a certain state (such as "alarm sounds while detection decays") has to repeatedly call the <e>Cycle()</e> method with various values provided to the <e>level</e> parameter?  By the same token, the only observable state for verification is the return value of the method, although, in this particular instance, this should be sufficient for most test scenarios.
+          An example of the state problem can be seen in listings <command name="ref" param="lst:StatefulSmokeDetector" /> and <command name="ref" param="lst:StatefulSmokeDetectorTest" />.  Notice how having all the instance fields private makes it so any test wishing to bring the object to a certain state (such as "alarm sounds while detection decays") has to repeatedly call the <tt>Cycle()</tt> method with various values provided to the <tt>level</tt> parameter?  By the same token, the only observable state for verification is the return value of the method, although, in this particular instance, this should be sufficient for most test scenarios.
           <!-- TODO: should the listings use a figure with subfloats, instead? -->
           <region name="table and two stateful code listings">
             <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
@@ -101,7 +101,7 @@ goals involving states can be dependent on the entire history of input to the te
 
           Although it is possible to work around some HMS with a noteworthy "arrange" phase, this is not always desirable as it can increase the maintenance overhead and costs to write the unit tests, both for human- and computer-generated tests.  There are other obvious options available, such as increasing the visiblity of the mutable state or converting the state from mutable to read-only, but both these options would likely change the public interface of the class under test to an unacceptable level (such as breaking encapsulation), not to mention the associated risk in performing non-trivial modifications (in the latter case) without the safety net of sufficient tests.
 
-          One perhaps less obvious option is the extraction of a subset of the state<e>ful</e> functionality in the form of a state<e>less</e> method which has all its inputs and outputs available to the test driver, while sourcing those inputs and outputs from and to the very instance fields they represent within the implementation itself.  An example of this can be seen in listings <command name="ref" param="lst:StatelessSmokeDetector" /> and <command name="ref" param="lst:StatelessSmokeDetectorTest" />.  Notice how the original implementation of the <e>Cycle()</e> method has been trivially extracted into a static overload that accepts all its input and emits all its output through parameters and the method return value?  The <e>AccumulateDetection()</e> test method can then be written to supply values for all parameters, while keeping the fields that the parameters would be initialized from safe from modification.  Indeed, the previous test is still there, unchanged, since the <e>SmokeDetector</e>'s public interface did not change as a result of performing this transformation.
+          One perhaps less obvious option is the extraction of a subset of the state<em>ful</em> functionality in the form of a state<em>less</em> method which has all its inputs and outputs available to the test driver, while sourcing those inputs and outputs from and to the very instance fields they represent within the implementation itself.  An example of this can be seen in listings <command name="ref" param="lst:StatelessSmokeDetector" /> and <command name="ref" param="lst:StatelessSmokeDetectorTest" />.  Notice how the original implementation of the <tt>Cycle()</tt> method has been trivially extracted into a static overload that accepts all its input and emits all its output through parameters and the method return value?  The <tt>AccumulateDetection()</tt> test method can then be written to supply values for all parameters, while keeping the fields that the parameters would be initialized from safe from modification.  Indeed, the previous test is still there, unchanged, since the <tt>SmokeDetector</tt>'s public interface did not change as a result of performing this transformation.
 
           <!-- TODO: should the listings use a figure with subfloats, instead? -->
           <region name="table and two stateless code listings">
@@ -168,16 +168,26 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
       </command>
       <command name="chapter" param="Background">
         <command name="section" param="Introduction">
-          <!-- what the chapter is about -->
-          ...
+          This chapter presents an overview of the related concepts from object-oriented programming to automated testing to computer-generated tests, introduces related work, establishes context within that work and lastly defines the scope of the thesis.
         </command>
         <command name="section" param="Object oriented programming">
-          <!-- TODO:
-          = classes
-          = instance fields, methods, properties
-          = static fields, methods, properties
-          = interfaces
-          -->
+          This thesis focuses on testing programs written with object-oriented (OO) languages, as opposed to procedural or functional languages because the intent is to solve a problem specific to OO languages:  hidden mutable state (HMS).  Although procedural languages (such as C) allow programs to have mutable state, the state is generally not hidden as there is (by definition) no encapsulation mechanism.  Functional languages (such as Lisp) on the other hand, allow programs to be written using immutable state through the use of set-once variables.
+
+          <command name="subsection" param="Terminology">
+            OO languages will generally have a basic set of features, the most important of which are described here for clarity.
+            <block param="description">
+              <command name="item" opt="class"> The definition for an object.</command>
+              <command name="item" opt="instance"> A run-time manifestation of a class, which carries its own scope.</command>
+              <command name="item" opt="static"> A scope for the definition of a class.</command>
+              <command name="item" opt="field"> A variable associated with a class (static field) or with an object (instance field).</command>
+              <command name="item" opt="method"> A set of operations attached to a class (static method) or to an object (instance method).</command>
+              <command name="item" opt="constructor"> A special method that is called when an instance of a class is created.</command>
+              <command name="item" opt="factory method"> A method whose purpose is to create instances of a class, but not necessarily of the class on which it is found.</command>
+              <command name="item" opt="overload"> Two (or more) methods that have the same name but different parameter types are said to be <em>overloads</em> of the same method.</command>
+              <command name="item" opt="interface"> A contract (usually in the form of a list of methods) for classes to implement to enable their instances to be interchangeable with other implementations of the interface.</command>
+              <command name="item" opt="property"> A method whose purpose is to allow the reading or reading and writing of a field's value.  Some languages support this directly while others offer a convention of "getters and setters", instead.</command>
+            </block>
+          </command>
         </command>
         <command name="section" param="Automated testing">
           <!-- TODO:
