@@ -92,7 +92,7 @@
           -->
           Lest we could somehow perform the practically impossible "complete testing" (i.e. exhaustively trying all possible inputs), <!-- TODO: cite a source? --> testing can only prove the presence of defects and not their absence <!-- TODO: cite Dijkstra -->.  A good set of automated tests, on the other hand, can catch software regressions that may be introduced through the addition of a feature or the removal of a defect.  Finding regressions as early as possible ensures their fixing cost is minimized <!-- TOOD: source, probably Joel Spolsky -->.  A good set of automated tests is henceforth defined as one that can catch such software regressions.
 
-          A metric commonly used to represent confidence in a set of automated tests is code coverage percentage <!-- TODO: source -->, usually in the form of branch coverage <!-- TODO: source -->.  Code that is covered might be - but is not necessarily - tested, but uncovered code is definitely untested code.  Shipping software with untested code is like serving a dish that has not yet been tasted.
+          A metric commonly used to represent confidence in a set of automated tests is code coverage percentage <!-- TODO: source -->, usually in the form of statement coverage <!-- TODO: source -->.  Code that is covered might be - but is not necessarily - tested, but uncovered code is definitely untested code.  Shipping software with untested code is like serving a dish that has not yet been tasted.
 
           Hidden mutable state (HMS) does not just present trouble to tests written by programmers (henceforth referred to as human-generated tests (HGT)), but also to computer-generated tests (CGT), such as those generated through Evolutionary Testing (ET), a form of Search Based Software Testing.  <!-- TODO: does Concolic Testing also suffer from the state problem? -->  Indeed, McMinn reported on the difficulty HMS brought to ET <command name="cite" param="Mcminn03thestate" />:
           <block param="quote">States can cause a variety of problems for ET, since test 
@@ -171,42 +171,43 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
           This chapter presents an overview of the related concepts from object-oriented programming to automated testing to computer-generated tests, introduces related work, establishes context within that work and lastly defines the scope of the thesis.
         </command>
         <command name="section" param="Object oriented programming">
-          This thesis focuses on testing programs written with object-oriented (OO) languages, as opposed to procedural or functional languages because the intent is to solve a problem specific to OO languages:  hidden mutable state (HMS).  Although procedural languages (such as C) allow programs to have mutable state, the state is generally not hidden as there is (by definition) no encapsulation mechanism.  Functional languages (such as Lisp) on the other hand, allow programs to be written using immutable state through the use of set-once variables.
+          This thesis focuses on testing programs written with object-oriented (OO) languages, as opposed to procedural or functional languages because the intent is to solve a problem specific to OO languages:  hidden mutable state (HMS).  Although procedural languages (such as C) allow programs to have mutable state, the state is not hidden.  Functional languages (such as Lisp) on the other hand, allow programs to be written using immutable state through the use of set-once variables.
 
           <command name="subsection" param="Terminology">
             OO languages will generally have a basic set of features, the most important of which are described here for clarity.
             <block param="description">
               <command name="item" opt="class"> The definition for an object.</command>
-              <command name="item" opt="instance"> A run-time manifestation of a class, which carries its own scope.</command>
+              <command name="item" opt="instance"> A run-time manifestation of a class, each of which have their own scope.</command>
               <command name="item" opt="static"> A scope for the definition of a class.</command>
-              <command name="item" opt="field"> A variable associated with a class (static field) or with an object (instance field).</command>
-              <command name="item" opt="method"> A set of operations attached to a class (static method) or to an object (instance method).</command>
+              <command name="item" opt="field"> A variable associated with a class (static field) or with an instance (instance field).</command>
+              <command name="item" opt="method"> A set of operations attached to a class (static method) or to an instance (instance method).</command>
               <command name="item" opt="constructor"> A special method that is called when an instance of a class is created.</command>
               <command name="item" opt="factory method"> A method whose purpose is to create instances of a class, but not necessarily of the class on which it is found.</command>
-              <command name="item" opt="overload"> Two (or more) methods that have the same name but different parameter types are said to be <em>overloads</em> of the same method.</command>
+              <command name="item" opt="overload"> Two (or more) methods that have the same name but different parameter numbers and/or types are said to be <em>overloads</em> of the same method.</command>
               <command name="item" opt="interface"> A contract (usually in the form of a list of methods) for classes to implement to enable their instances to be interchangeable with other implementations of the interface.</command>
-              <command name="item" opt="property"> A method whose purpose is to allow the reading or reading and writing of a field's value.  Some languages support this directly while others offer a convention of "getters and setters", instead.</command>
+              <command name="item" opt="property"> A method whose purpose is to allow the reading or reading and writing of a field's value.  Some languages support this directly while others offer a convention of "getter" and "setter" methods, instead.</command>
+              <!-- TODO: encapsulation? -->
             </block>
           </command>
         </command>
         <command name="section" param="Automated testing">
-          <!-- TODO:
-          = intro
-          = I think it was Binder who painfully explained these test frameworks from the point of view of someone who has only ever done manual testing
-          -->
+          A proper introduction to automated testing, especially as it pertains to object-oriented programs would fill a book and indeed it has.  The reader is encouraged to consult <em>Testing Object-Oriented Systems</em> by Robert V. Binder <!-- TODO: ref --> for  details beyond this quick overview.
+
+          Generally, a test is said to be automated if there exists a program that can start the implementation under test (IUT) or a subset thereof, initialize some suitable inputs for the scenario to be verified, provide these inputs to the IUT and then verify the resulting output, without any intervening assistance.
           <command name="subsection" param="Testing frameworks">
-            <!-- TODO:
-            = xUnit
-            = arrange, act, assert
-            = integration with a build process to further establish confidence
-            -->
+            Automated testing frameworks provide developers the ability to write and organize test scenarios, execute them sequentially and independently from one another and finally report on their successes.
+
+            This thesis focuses on testing frameworks that allow the test development environment to be identical to the implementation development environment, collectively called xUnit <!-- TODO: ref -->.  A single test scenario can be implemented as a <em>test method</em> in a <em>test class</em>, exercising functionality in the method under test (MUT) in another class; the class under test (CUT).  A collection of test classes is known as a <em>test suite</em>.
+
+            Test methods will generally have three phases - arrange, act and assert - although the functionality is not always separated as such and might be intermixed or even be located elsewhere in the test class.  The <em>arrange</em> phase concerns itself with preparing the CUT and/or the environment, effectively setting the indirect inputs for the MUT.  The <em>act</em> phase contains code that calls the MUT with its direct inputs and collect the direct outputs, if any.  The <em>assert</em> phase derives any indirect outputs, if any, and verifies the <em>actual</em> outputs against the <em>expected</em> outputs, cleaning up the environment afterward, as necessary.
           </command>
           <command name="subsection" param="Test scope">
-            <!-- TODO:
-            = unit tests vs. integration tests vs. ???
-            -->
+            As alluded to in the previous sub-section, this thesis concerns itself with automated testing at the lowest level by focusing the test scenarios on methods, which is also known as <em>unit testing</em>.  This is in contrast to <em>integration testing</em> which concerns itself with the interaction between a class and another class and/or some external environment such as a file system or a network, and <em>subsystem testing</em> which involves observing the interaction between a class and several other classes and/or external components such as a database or a web service.
           </command>
           <command name="subsection" param="Code coverage">
+            An IUT can be <em>instrumented</em> <!-- TODO: ref --> to record which statements and expressions are executed during an automated test run.  The resulting report is known as <em>statement coverage</em> and will usually correlate its results with the original source code by highlighting the statements and expressions that were executed.  This report will also include enough data to determine the coverage percentage - which is computed as the number of statements executed divided by the total number of statements - at the method, class, namespace and program levels.
+
+            Code coverage can be used to determine the completeness of the test suite or, more precisely, to identify areas of the IUT that are untouched by the tests.  The presence of uncovered code can also reveal surprises in the implementation <!-- TODO: ref Binder, page 49 --> although its best (?) use remains the generation of missing test scenarios.
           </command>
         </command>
         <command name="section" param="Motivations for Computer-Generated Tests">
