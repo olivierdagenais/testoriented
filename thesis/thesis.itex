@@ -210,7 +210,10 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
             Code coverage can be used to determine the completeness of the test suite or, more precisely, to identify areas of the IUT that are untouched by the tests.  The presence of uncovered code can also reveal surprises in the implementation <!-- TODO: ref Binder, page 49 --> although its best (?) use remains the generation of missing test scenarios.
           </command>
         </command>
-        <command name="section" param="Motivations for Computer-Generated Tests">
+        <command name="section" param="Motivation for Computer-Generated Tests">
+          It may not always be possible or feasible to have a programmer write tests for a component or an implementation.  Reasons provided by Bühler and Wegener <!-- TODO: "Evolutionary functional testing" paper --> include the simultaneous satisfaction of functional, real-time and safety requirements as well as the very large test space resulting from the interaction of 50-70 independent embedded systems.  Evolutionary testing, "the application of evolutionary computation to test automation" <!-- TODO: ref same? -->, is therefore suggested to efficiently sample the test input space, as genetic algorithms are well-suited to a mix of exploration and focus of the search space <!-- TODO: ref -->.
+
+          Coupling an automated test generator with a code coverage tool makes it possible to not only discover which inputs can be used to reach hard-to-cover areas but also to discover areas of the code where no inputs can be found to reach them (within a pre-defined search time).  This could indicate the code is unreachable due to conflicting pre-conditions.
           <!-- TODO:
           = see notes about the reasons given by the car guys (computer-generated code, integration/co-operation testing of components written by many parties, expensive manual testing like driving the car, etc.)
           -->
