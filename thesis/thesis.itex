@@ -211,12 +211,15 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
           </command>
         </command>
         <command name="section" param="Motivation for Computer-Generated Tests">
-          It may not always be possible or feasible to have a programmer write tests for a component or an implementation.  Reasons provided by Bühler and Wegener <!-- TODO: "Evolutionary functional testing" paper --> include the simultaneous satisfaction of functional, real-time and safety requirements as well as the very large test space resulting from the interaction of 50-70 independent embedded systems.  Evolutionary testing, "the application of evolutionary computation to test automation" <!-- TODO: ref same? -->, is therefore suggested to efficiently sample the test input space, as genetic algorithms are well-suited to a mix of exploration and focus of the search space <!-- TODO: ref -->.
+          It may not always be possible or feasible to have a programmer write automated tests for a component or an implementation.  Reasons provided by Bühler and Wegener <!-- TODO: "Evolutionary functional testing" paper --> include the simultaneous satisfaction of functional, real-time and safety requirements as well as the very large test space resulting from the interaction of 50-70 independently-developed embedded systems.  The nature of the assembled system - in this case a premium vehicle - also makes manual testing, such as driving the vehicle in an environment suitable for each scenario, prohibitively expensive.  Bühler and Wegener go on to suggest generating tests automatically to work around these obstacles and thus reduce costs.
+
+          Evolutionary testing, "the application of evolutionary computation to test automation" <!-- TODO: ref same? -->, is therefore suggested to automatically and efficiently sample the test input space, as genetic algorithms are well-suited to a mix of exploration and focus in the search space <!-- TODO: ref -->.
 
           Coupling an automated test generator with a code coverage tool makes it possible to not only discover which inputs can be used to reach hard-to-cover areas but also to discover areas of the code where no inputs can be found to reach them (within a pre-defined search time).  This could indicate the code is unreachable due to conflicting pre-conditions.
           <!-- TODO:
           = see notes about the reasons given by the car guys (computer-generated code, integration/co-operation testing of components written by many parties, expensive manual testing like driving the car, etc.)
           -->
+          In the present case, there's an additional reason computer-generated tests are interesting:  we can use an automatic structural test generator to compare the testability of source code under various transformations.
         </command>
         <command name="section" param="Intents of Computer-Generated Tests">
           There are four major reasons <!-- TODO: is it a reason? how about objective? --> to use Computer-Generated Tests (CGT).
