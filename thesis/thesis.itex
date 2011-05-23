@@ -6,7 +6,7 @@
     <command name="documentclass" opt="12pt" param="dalthesis" />
 
     <command name="usepackage" opt="utf8" param="inputenc" /> <!-- set input encoding (not needed with XeLaTeX) -->
-    
+
     <!-- disable turning "fi", "ff", etc. into one character: http://www.latex-community.org/forum/viewtopic.php?f=5&t=953  -->
     <command name="usepackage" param="microtype" />
     <command name="DisableLigatures" param="encoding = *, family = *" />
@@ -86,7 +86,7 @@
         </command>
         <command name="section" param="Motivation">
           <!-- Explain why some people would care -->
-          <!-- TODO: 
+          <!-- TODO:
           = should I motivate [unit] testing more, like I did in my paper?
           = how about talking about the applicability to code that is currently without tests or with insufficient tests
           -->
@@ -95,8 +95,8 @@
           A metric commonly used to represent confidence in a set of automated tests is code coverage percentage <!-- TODO: source -->, usually in the form of statement coverage <!-- TODO: source -->.  Code that is covered might be - but is not necessarily - tested, but uncovered code is definitely untested code.  Shipping software with untested code is like serving a dish that has not yet been tasted.
 
           Hidden mutable state (HMS) does not just present trouble to tests written by programmers (henceforth referred to as human-generated tests (HGT)), but also to computer-generated tests (CGT), such as those generated through Evolutionary Testing (ET), a form of Search Based Software Testing.  <!-- TODO: does Concolic Testing also suffer from the state problem? -->  Indeed, McMinn reported on the difficulty HMS brought to ET <command name="cite" param="Mcminn03thestate" />:
-          <block param="quote">States can cause a variety of problems for ET, since test 
-goals involving states can be dependent on the entire history of input to the test object, as well as just the current input.
+          <block param="quote">
+            States can cause a variety of problems for ET, since test goals involving states can be dependent on the entire history of input to the test object, as well as just the current input.
           </block>
 
           Although it is possible to work around some HMS with a noteworthy "arrange" phase, this is not always desirable as it can increase the maintenance overhead and costs to write the unit tests, both for human- and computer-generated tests.  There are other obvious options available, such as increasing the visiblity of the mutable state or converting the state from mutable to read-only, but both these options would likely change the public interface of the class under test to an unacceptable level (such as breaking encapsulation), not to mention the associated risk in performing non-trivial modifications (in the latter case) without the safety net of sufficient tests.
@@ -199,7 +199,9 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
 
             This thesis focuses on testing frameworks that allow the test development environment to be identical to the implementation development environment, collectively called xUnit <!-- TODO: ref -->.  A single test scenario can be implemented as a <em>test method</em> in a <em>test class</em>, exercising functionality in the method under test (MUT) in another class; the class under test (CUT).  A collection of test classes is known as a <em>test suite</em>.
 
-            Test methods will generally have three phases - arrange, act and assert - although the functionality is not always separated as such and might be intermixed or even be located elsewhere in the test class.  The <em>arrange</em> phase concerns itself with preparing the CUT and/or the environment, effectively setting the indirect inputs for the MUT.  The <em>act</em> phase contains code that calls the MUT with its direct inputs and collect the direct outputs, if any.  The <em>assert</em> phase derives any indirect outputs, if any, and verifies the <em>actual</em> outputs against the <em>expected</em> outputs, cleaning up the environment afterward, as necessary.
+            Test methods will generally have three phases - arrange, act and assert - although the functionality is not always separated as such and might be intermixed or even be located elsewhere in the test class.  The <em>arrange</em> phase concerns itself with preparing the CUT and/or the environment, effectively setting the indirect inputs for the MUT and optionally initializing complex direct inputs.  The <em>act</em> phase contains code that calls the MUT with its direct inputs and collects the direct outputs, if any.  The <em>assert</em> phase derives any indirect outputs, if any, and verifies the <em>actual</em> outputs against the <em>expected</em> outputs, cleaning up the environment afterward, as necessary.
+
+            The terms <em>test inputs</em> and <em>test outputs</em> will henceforth be used to refer to both their direct and indirect sets.
           </command>
           <command name="subsection" param="Test scope">
             As alluded to in the previous sub-section, this thesis concerns itself with automated testing at the lowest level by focusing the test scenarios on methods, which is also known as <em>unit testing</em>.  This is in contrast to <em>integration testing</em> which concerns itself with the interaction between a class and another class and/or some external environment such as a file system or a network, and <em>subsystem testing</em> which involves observing the interaction between a class and several other classes and/or external components such as a database or a web service.
@@ -211,37 +213,35 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
           </command>
         </command>
         <command name="section" param="Motivation for Computer-Generated Tests">
-          It may not always be possible or feasible to have a programmer write automated tests for a component or an implementation.  Reasons provided by Bühler and Wegener <!-- TODO: "Evolutionary functional testing" paper --> include the simultaneous satisfaction of functional, real-time and safety requirements as well as the very large test space resulting from the interaction of 50-70 independently-developed embedded systems.  The nature of the assembled system - in this case a premium vehicle - also makes manual testing, such as driving the vehicle in an environment suitable for each scenario, prohibitively expensive.  Bühler and Wegener go on to suggest generating tests automatically to work around these obstacles and thus reduce costs.
+          It may not always be possible or feasible to have a programmer write automated tests for a component or an implementation.  Reasons provided by Bühler and Wegener <!-- TODO: "Evolutionary functional testing" paper --> include the simultaneous satisfaction of functional, real-time and safety requirements as well as the very large test space resulting from the interaction of 50-70 independently-developed embedded systems.  The nature of the assembled system - in this case a premium vehicle - also makes manual testing, such as driving the vehicle in an environment suitable for each scenario, prohibitively expensive.  Bühler and Wegener go on to suggest generating tests automatically to work around these obstacles and thus reduce costs.  Evolutionary testing (ET), "the application of evolutionary computation to test automation" <!-- TODO: ref same? -->, is therefore suggested to automatically and efficiently sample the test input space.  ET will usually be implemented using genetic algorithms (GA), which are well-suited to a mix of exploration and exploitation in the search space <!-- TODO: ref -->.
 
-          Evolutionary testing, "the application of evolutionary computation to test automation" <!-- TODO: ref same? -->, is therefore suggested to automatically and efficiently sample the test input space, as genetic algorithms are well-suited to a mix of exploration and focus in the search space <!-- TODO: ref -->.
+          Binder <!-- TODO: ref, page 812 --> writes:
+          <block param="quote">
+            Automatic test generation can be used without having to pregenerate expected results.  Although generating input values automatically is easy, generating the corresponding expected results automatically is usually difficult.
+          </block>
+          Even if tests are automatically generated without the use of an oracle (human or otherwise), the generated test suite can still serve as a baseline and could be used to detect changes in the outputs as a result of adding features or fixing defects.  These changes in the outputs could indicate a regression, just as changes in the outputs of human-generated tests would.
 
-          Coupling an automated test generator with a code coverage tool makes it possible to not only discover which inputs can be used to reach hard-to-cover areas but also to discover areas of the code where no inputs can be found to reach them (within a pre-defined search time).  This could indicate the code is unreachable due to conflicting pre-conditions.
-          <!-- TODO:
-          = see notes about the reasons given by the car guys (computer-generated code, integration/co-operation testing of components written by many parties, expensive manual testing like driving the car, etc.)
-          -->
-          In the present case, there's an additional reason computer-generated tests are interesting:  we can use an automatic structural test generator to compare the testability of source code under various transformations.
-        </command>
-        <command name="section" param="Intents of Computer-Generated Tests">
-          There are four major reasons <!-- TODO: is it a reason? how about objective? --> to use Computer-Generated Tests (CGT).
-          <command name="subsection" param="Structural Testing">
-          </command>
-          <command name="subsection" param="Functional Testing">
-          </command>
-          <command name="subsection" param="Non-functional Testing">
-          </command>
-          <!-- <command name="subsection" param="TODO: 4th Intent of CGT">
-          </command> -->
+          In the present case, there's an additional reason computer-generated tests are interesting:  we can use an automatic structural test generator to objectively compare the testability of source code under various transformations.
+
+          More details about the various flavours and uses of computer-generated tests are provided in the following sections.
         </command>
         <command name="section" param="Approaches to Computer-Generated Tests">
           There are three major approaches in generating tests. <!-- TODO: cite "An empirical investigation into branch coverage for C programs using CUTE and AUSTIN" -->
           <command name="subsection" param="Random Testing">
+            Random testing (RT), as the name implies, consists of generating inputs based on random numbers and is thus undirected.  RT does not perform as well as ET <!-- TODO: ref "Evolutionary test environment for automatic structural testing" -->, although it has been used as a baseline for comparing other test generators <!-- TODO: ref "An empirical investigation into branch coverage for C programs using CUTE and AUSTIN" -->.
           </command>
           <command name="subsection" param="Search Based Software Testing">
-            <!-- 
-            = Also called metaheuristic
-            = Hill climbing, simulated annealing
-            = Evolutionary Testing
-            -->
+            Search-based software testing (SBST) is the application of a metaheuristic search technique (MST) to the problem of generating test inputs. <!-- TODO: ref "Search-based software test data generation - A survey" -->  The technique is based around optimization of an <em>objective function</em>, trying to improve an initial solution based on feedback by said objective function - either by maximizing or minimizing its value, depending on the desired outcome - effectively making it a guided quest for global optima in the search space.
+
+            For test input generation, the search space is the domain of the test inputs and the objective function is carefully constructed to reward interesting and relevant test inputs.  The nature of "interesting and relevant" depends on the <em>intent</em> of the testing exercise.  Consult the following section for the major intents, but suffice it to say that the biggest difficulty of SBST lies in the definition of the objective function. <!-- TODO: should probably cite a few papers that try to improve the fitness function for structural testing -->
+
+            The general flow of MST implementations is to start with one or more "initial solutions", created either with domain knowledge or at random, and apply the objective function on the solution(s) to establish a solution score.  If no solution score exceeded a pre-defined threshold, tweak the solution(s) according to some heuristic and repeat the process with the new solution(s) until either no improvement in score is detected or some pre-defined time or iteration threshold is reached.
+
+            The simplest heuristic is called "hill climbing" and is a strategy that focuses on the best objective function value in the neighborhood of the current solution's search space.  This greedy exploit-only strategy will often cause a hill climber to get stuck in local optima.
+
+            An improvement to hill climbing was proposed in the "simulated annealing" heuristic whereby solutions with worse objective function values will be considered with a probability decreasing with the number of iterations, allowing more of the search space to be explored in the beginning and ending with a hill climber-like exploitation.
+
+            One of the better MST heuristics is "genetic algorithms (GA)", a class of "evolutionary algorithms".  It is designed to simulate the process of natural selection (i.e. "survival of the fittest") through modeling a <em>population</em> of solutions as chromosomes and providing ways for pairs of solutions to "breed" through recombination (splicing part of one parent with part of the other and repeating the process with the remaining two parts), providing the next generation of solutions.  The simulation is made more authentic through the use of mutations (random, low-probability alterations to the chromosome) and various reproduction selection mechanisms, such as fitness-proportional selection and tournament selection.  Through this simulation, solutions will appear to evolve across the generations and, given appropriately-tuned parameters, the population of solutions will be diverse and "fit", thus providing a good balance of exploration and exploitation of the search space.
           </command>
           <command name="subsection" param="Concolic Testing">
             <!--
@@ -252,6 +252,18 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
             == fields of abstract type (i.e. System.IO.Stream)
             == environment-related values (input domain is very constrained and specialized)
             -->
+          </command>
+        </command>
+        <command name="section" param="Intents of Computer-Generated Tests">
+          There are four major uses of Computer-Generated Tests (CGT).  If Evolutionary Testing (ET) is used, the difference between them lies in the definition of the objective function.
+          <command name="subsection" param="Structural Testing">
+            Coupling an automated test generator with a code coverage tool makes it possible to not only discover which inputs can be used to reach hard-to-cover areas but also to discover areas of the code where no inputs can be found to reach them (within a pre-defined search time).  This could indicate the code is unreachable, because it contains, for example, conflicting pre-conditions.
+          </command>
+          <command name="subsection" param="Functional Testing">
+          </command>
+          <command name="subsection" param="Grey Box Testing">
+          </command>
+          <command name="subsection" param="Non-functional Testing">
           </command>
         </command>
         <command name="section" param="Related work">
@@ -317,7 +329,7 @@ references as well.
           = contrast with dependency injection
           = contrast with improving the tools (i.e. research in SBST and DSE)
           = contrast with temporary program transformations (i.e. non-refactoring)
-          
+
           Not in scope:
           = parallelization of tests (although probably easier with technique)
           = difficult-to-test object state changes?
@@ -337,7 +349,9 @@ references as well.
           ...
         </command>
         <command name="section" param="Design">
-          <!-- 
+          <!-- TODO: regarding the motivation for CGT in our case -->
+          The better the statement coverage of the generated tests, the more testable the original source code under the transformation is considered.
+          <!--
           = discuss applicability/suitability (in 1 or 2 sections?)
           == existing/legacy systems with few tests (through acquisition, maintenance)
           == technology constraints (i.e. class must have default public constructor, such as IHttpModule implementations in ASP.NET)
@@ -365,7 +379,7 @@ references as well.
           == manual statelesss method extraction
           == compare unit tests before and after
           -->
-          <!-- 
+          <!--
           = reduce the number of inputs participating in the test
           == reduce the number of methods called to bring object under test into appropriate state (methods executed before - arrange)
           == reduce the number of instances created to support test scenario
@@ -404,7 +418,7 @@ references as well.
             <command name="item"> Private accessors</command>
             <command name="item"> Test helper methods</command>
           </block>
-  
+
           Verification and validation will take place on interesting and/or difficult-to-test methods from the source code of the following 4 select open-source projects:
           <block param="enumerate">
             <command name="item"> AtomicCms</command>
@@ -423,7 +437,7 @@ references as well.
           The 3 metrics are now explained in further detail.
           <command name="subsection" param="Cyclomatic complexity of the unit tests">
             Cyclomatic complexity was selected as a metric since it essentially measures the simplicity of a method, in this case unit test methods.  The more simple the unit test methods are, the easier they are to maintain <!-- TODO: cite -->.  Should a regression be introduced in the future, it would be more desirable to have many small test methods instead of a few large test methods, to make it easier to discover exactly what is broken and what is not <!-- TODO: cite -->.
-            
+
             <!-- TODO: talk about which variant of the metric is used, what counts toward the score and what does not, which tool was used and how the results were extracted -->
           </command>
           <command name="subsection" param="Number of changes to the class under test's public interface">
@@ -434,7 +448,7 @@ references as well.
               <command name="item"> The class must implement a specific interface.  This is a technological variation of the previous reason.</command>
               <command name="item"> Exposing instance state as directly mutable might allow callers to violate some constraints or invariants previously handled by the instance state-altering methods.</command>
             </block>
-            
+
           </command>
           <command name="subsection" param="Percentage of branches covered using concolic testing">
           </command>
@@ -510,10 +524,15 @@ references as well.
         <block param="description">
           <command name="item" opt="API"> Application Programming Interface</command>
           <command name="item" opt="CGT"> Computer-Generated Tests</command>
+          <command name="item" opt="CUT"> Class Under Test</command>
           <command name="item" opt="ET"> Evolutionary Testing</command>
+          <command name="item" opt="GA"> Genetic Algorithms</command>
           <command name="item" opt="HGT"> Human-Generated Tests</command>
           <command name="item" opt="HMT"> Hidden Mutable State</command>
           <command name="item" opt="IUT"> Implementation Under Test</command>
+          <command name="item" opt="MST"> Metaheuristic Search Technique</command>
+          <command name="item" opt="MUT"> Method Under Test</command>
+          <command name="item" opt="RT"> Random Testing</command>
           <command name="item" opt="SBST"> Search-Based Software Testing</command>
           <command name="item" opt="SME"> Stateless Method Extraction</command>
         </block>
