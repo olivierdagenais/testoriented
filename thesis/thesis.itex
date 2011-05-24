@@ -201,7 +201,7 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
 
             Test methods will generally have three phases - arrange, act and assert - although the functionality is not always separated as such and might be intermixed or even be located elsewhere in the test class.  The <em>arrange</em> phase concerns itself with preparing the CUT and/or the environment, effectively setting the indirect inputs for the MUT and optionally initializing complex direct inputs.  The <em>act</em> phase contains code that calls the MUT with its direct inputs and collects the direct outputs, if any.  The <em>assert</em> phase derives any indirect outputs, if any, and verifies the <em>actual</em> outputs against the <em>expected</em> outputs, cleaning up the environment afterward, as necessary.
 
-            The terms <em>test inputs</em> and <em>test outputs</em> will henceforth be used to refer to both their direct and indirect sets.
+            The terms <em>test inputs</em> and <em>test outputs</em> will henceforth be used to refer to both their direct and indirect sets.  It is worth noting that because exhaustive testing is infeasible, test suites will usually contain scenarios that sample only a fraction of the possible input space.  In those cases, the test inputs will have been selected to represent typical use, boundary conditions and other potential areas for defects.  Such classes of values for the test inputs earns them the "interesting and relevant" designation.
           </command>
           <command name="subsection" param="Test scope">
             As alluded to in the previous sub-section, this thesis concerns itself with automated testing at the lowest level by focusing the test scenarios on methods, which is also known as <em>unit testing</em>.  This is in contrast to <em>integration testing</em> which concerns itself with the interaction between a class and another class and/or some external environment such as a file system or a network, and <em>subsystem testing</em> which involves observing the interaction between a class and several other classes and/or external components such as a database or a web service.
@@ -226,12 +226,12 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
           More details about the various flavours and uses of computer-generated tests are provided in the following sections.
         </command>
         <command name="section" param="Approaches to Computer-Generated Tests">
-          There are three major approaches in generating tests. <!-- TODO: cite "An empirical investigation into branch coverage for C programs using CUTE and AUSTIN" -->
+          There are three major approaches in generating tests <!-- TODO: cite "An empirical investigation into branch coverage for C programs using CUTE and AUSTIN" -->.
           <command name="subsection" param="Random Testing">
             Random testing (RT), as the name implies, consists of generating inputs based on random numbers and is thus undirected.  RT does not perform as well as ET <!-- TODO: ref "Evolutionary test environment for automatic structural testing" -->, although it has been used as a baseline for comparing other test generators <!-- TODO: ref "An empirical investigation into branch coverage for C programs using CUTE and AUSTIN" -->.
           </command>
           <command name="subsection" param="Search Based Software Testing">
-            Search-based software testing (SBST) is the application of a metaheuristic search technique (MST) to the problem of generating test inputs. <!-- TODO: ref "Search-based software test data generation - A survey" -->  The technique is based around optimization of an <em>objective function</em>, trying to improve an initial solution based on feedback by said objective function - either by maximizing or minimizing its value, depending on the desired outcome - effectively making it a guided quest for global optima in the search space.
+            Search-based software testing (SBST) is the application of a metaheuristic search technique (MST) to the problem of generating test inputs <!-- TODO: ref "Search-based software test data generation - A survey" -->.  The technique is based around optimization of an <em>objective function</em>, trying to improve an initial solution based on feedback by said objective function - either by maximizing or minimizing its value, depending on the desired outcome - effectively making it a guided quest for global optima in the search space.
 
             For test input generation, the search space is the domain of the test inputs and the objective function is carefully constructed to reward interesting and relevant test inputs.  The nature of "interesting and relevant" depends on the <em>intent</em> of the testing exercise.  Consult the following section for the major intents, but suffice it to say that the biggest difficulty of SBST lies in the definition of the objective function. <!-- TODO: should probably cite a few papers that try to improve the fitness function for structural testing -->
 
@@ -241,22 +241,20 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
 
             An improvement to hill climbing was proposed in the "simulated annealing" heuristic whereby solutions with worse objective function values will be considered with a probability decreasing with the number of iterations, allowing more of the search space to be explored in the beginning and ending with a hill climber-like exploitation.
 
-            One of the better MST heuristics is "genetic algorithms (GA)", a class of "evolutionary algorithms".  It is designed to simulate the process of natural selection (i.e. "survival of the fittest") through modeling a <em>population</em> of solutions as chromosomes and providing ways for pairs of solutions to "breed" through recombination (splicing part of one parent with part of the other and repeating the process with the remaining two parts), providing the next generation of solutions.  The simulation is made more authentic through the use of mutations (random, low-probability alterations to the chromosome) and various reproduction selection mechanisms, such as fitness-proportional selection and tournament selection.  Through this simulation, solutions will appear to evolve across the generations and, given appropriately-tuned parameters, the population of solutions will be diverse and "fit", thus providing a good balance of exploration and exploitation of the search space.
+            One of the better MST heuristics is "genetic algorithms (GA)", a class of "evolutionary algorithms".  It is designed to simulate the process of natural selection (i.e. "survival of the fittest") through modeling a <em>population</em> of solutions as chromosomes and providing ways for pairs of solutions to "breed" through recombination (splicing part of one parent with part of the other and also combining the remaining two parts), providing the next generation of solutions.  The simulation is made more authentic through the use of mutations (random, low-probability alterations to the chromosome) and various reproduction selection mechanisms, such as fitness-proportional selection and tournament selection.  Through this simulation, solutions will appear to evolve across the generations and, given appropriately-tuned parameters, the population of solutions will be diverse and "fit", thus providing a good balance of exploration and exploitation of the search space.
           </command>
           <command name="subsection" param="Concolic Testing">
-            <!--
-            = Concrete + Symbolic = Concolic (a.k.a. dynamic symbolic execution)
-            = Constraint solvers
-            = Pex
-            = difficulties with concolic, esp. Pex
-            == fields of abstract type (i.e. System.IO.Stream)
-            == environment-related values (input domain is very constrained and specialized)
-            -->
+            Concolic testing (CT) is the combination of <em>conc</em>rete and symb<em>olic</em> execution applied to the problem of test data generation and is also known as dynamic symbolic execution <!-- TODO: ref "Search-based software test data generation - A survey" -->.
+
+            Symbolic execution (SE) is a simulated execution of a given path through the program using symbols in place of input values and keeping track of expressions instead of concrete values as assignments and operations take place <!-- TODO: ref "Symbolic Execution and Program Testing" -->.  For a program operating exclusively with integers, one could say SE is the algebraic equivalent of the arithmetic operations that would be evaluated with concrete execution.  The resulting output of SE is generally a system of constraints on the inputs for executing the given path.
+
+            Concrete execution - running an instrumented version of the program - can be combined with SE such that the two executions are correlated to verify the generated constraints against concrete values.  Often times, this correlation allows the simplification of these constraints, for example by removing non-linear sub-expressions <!-- TODO: ref "SBST data generation - a survey" -->.  A constraint solver can then be used to find test input values that cause the execution of specific paths through the IUT.
           </command>
         </command>
         <command name="section" param="Intents of Computer-Generated Tests">
-          There are four major uses of Computer-Generated Tests (CGT).  If Evolutionary Testing (ET) is used, the difference between them lies in the definition of the objective function.
+          There are four major uses for Computer-Generated Tests (CGT).  If Evolutionary Testing (ET) is used, the difference between them lies in the definition of the objective function.
           <command name="subsection" param="Structural Testing">
+
             Coupling an automated test generator with a code coverage tool makes it possible to not only discover which inputs can be used to reach hard-to-cover areas but also to discover areas of the code where no inputs can be found to reach them (within a pre-defined search time).  This could indicate the code is unreachable, because it contains, for example, conflicting pre-conditions.
           </command>
           <command name="subsection" param="Functional Testing">
@@ -523,6 +521,7 @@ references as well.
         <!-- TODO: do we need to turn this into a glossary with explanations? -->
         <block param="description">
           <command name="item" opt="API"> Application Programming Interface</command>
+          <command name="item" opt="CT"> Concolic Testing</command>
           <command name="item" opt="CGT"> Computer-Generated Tests</command>
           <command name="item" opt="CUT"> Class Under Test</command>
           <command name="item" opt="ET"> Evolutionary Testing</command>
@@ -534,6 +533,7 @@ references as well.
           <command name="item" opt="MUT"> Method Under Test</command>
           <command name="item" opt="RT"> Random Testing</command>
           <command name="item" opt="SBST"> Search-Based Software Testing</command>
+          <command name="item" opt="SE"> Symbolic Execution</command>
           <command name="item" opt="SME"> Stateless Method Extraction</command>
         </block>
       </command>
