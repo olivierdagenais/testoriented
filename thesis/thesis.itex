@@ -92,7 +92,7 @@
           -->
           Lest we could somehow perform the practically impossible "complete testing" (i.e. exhaustively trying all possible inputs), <!-- TODO: cite a source? --> testing can only prove the presence of defects and not their absence <!-- TODO: cite Dijkstra -->.  A good set of automated tests, on the other hand, can catch software regressions that may be introduced through the addition of a feature or the removal of a defect.  Finding regressions as early as possible ensures their fixing cost is minimized <!-- TOOD: source, probably Joel Spolsky -->.  A good set of automated tests is henceforth defined as one that can catch such software regressions.
 
-          A metric commonly used to represent confidence in a set of automated tests is code coverage percentage <!-- TODO: source -->, usually in the form of statement coverage <!-- TODO: source -->.  Code that is covered might be - but is not necessarily - tested, but uncovered code is definitely untested code.  Shipping software with untested code is like serving a dish that has not yet been tasted.
+          A metric commonly used to represent confidence in a set of automated tests is code coverage percentage <!-- TODO: source -->, usually in the form of statement coverage <!-- TODO: source -->.  Code that is covered might be - but is not necessarily - tested, but uncovered code is definitely untested code <!-- TODO: can cite Binder, page 358 -->.  Shipping software with untested code is like serving a dish that has not yet been tasted.
 
           Hidden mutable state (HMS) does not just present trouble to tests written by programmers (henceforth referred to as human-generated tests (HGT)), but also to computer-generated tests (CGT), such as those generated through Evolutionary Testing (ET), a form of Search Based Software Testing.  <!-- TODO: does Concolic Testing also suffer from the state problem? -->  Indeed, McMinn reported on the difficulty HMS brought to ET <command name="cite" param="Mcminn03thestate" />:
           <block param="quote">
@@ -252,16 +252,20 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
           </command>
         </command>
         <command name="section" param="Intents of Computer-Generated Tests">
-          There are four major uses for Computer-Generated Tests (CGT).  If Evolutionary Testing (ET) is used, the difference between them lies in the definition of the objective function.
+          There are four major uses for Computer-Generated Tests (CGT).  They differ mostly in the choice of executable statement(s) to target and are not usually specific to any approach in particular.  The exception is non-functional testing, which does not target any executable statement in particular and is more suited to an optimization approach (such as SBST).
           <command name="subsection" param="Structural Testing">
-
-            Coupling an automated test generator with a code coverage tool makes it possible to not only discover which inputs can be used to reach hard-to-cover areas but also to discover areas of the code where no inputs can be found to reach them (within a pre-defined search time).  This could indicate the code is unreachable, because it contains, for example, conflicting pre-conditions.
+            Coupling an automated test generator with a code coverage tool makes it possible to not only discover which inputs can be used to reach otherwise hard-to-cover areas but also to discover areas of the code where no inputs can be found to reach them (within a pre-defined search time).  This could indicate the code is unreachable because it contains, for example, conflicting pre-conditions.  Structural testing will generally attempt to execute all statements of an IUT at least once.
           </command>
           <command name="subsection" param="Functional Testing">
+            Functional testing is a form of verification that uses a machine-readable form of the specification.  One way of doing so is with a formal specification expressed as disjunctions that represent <em>routes</em> (or paths) through the program.  These routes can then be tested individually using structural testing.
+
+            A better approach is to automatically turn the specification into pre-conditions and post-conditions.  The objective is then to find test inputs that conform to all pre-conditions but that cause post-conditions to fail, in effect targetting the fault branch of the post-conditions.
           </command>
-          <command name="subsection" param="Grey Box Testing">
+          <command name="subsection" param="Grey-Box Testing">
+            The objectives of grey-box testing are to attempt to get assertions already embedded in a program to be violated and to trigger exception conditions.  Some of the work even temporarily turned specially-formatted comments into executable assertions for the purposes of targetting their fault branches for execution.
           </command>
-          <command name="subsection" param="Non-functional Testing">
+          <command name="subsection" param="Non-Functional Testing">
+            Non-functional testing concerns itself with verifying non-functional requirements, such as constraints on execution time, working memory, long-term storage and processor load, usually for embedded and real-time systems.  Test inputs are sought which cause the program to, for example, take longer than usual or consume more memory than expected, according to instrumentation external to the IUT such as the operating system's timers and counters.
           </command>
         </command>
         <command name="section" param="Related work">
