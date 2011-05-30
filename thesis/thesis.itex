@@ -45,10 +45,10 @@
     <command name="mainmatter">
       <command name="chapter" param="Introduction">
         <command name="section" param="Introduction">
-          This chapter introduces the problem and the motivation for solving it, as well as the overall goals and specific objectives covered by the present thesis.  It concludes with an overview of the rest of the document.
+          This chapter introduces the problem and the motivation for solving it, as well as the overall goals and specific objectives.  It concludes with an overview of the rest of the document.
         </command>
         <command name="section" param="Problem">
-          Software has advanced considerably in the last several years, but has software quality kept up?  We do not always know how good a program or component is or if it is free of defects, if only those defects that will affect us, directly or otherwise.  Software defects can range from the bening, such as incorrect colors and typographical errors in the interface or output, to very serious, such as causing the destruction of a rocket carrying four spacecraft <!-- TODO: cite "Ariane 5 Flight 501 Failure, Report by the Inquiry Board" --> or causing the death of several patients <!-- TODO: cite "Medical Devices: The Therac-25 Nancy Leveson, University of Washington" -->.
+          Software has advanced considerably in the last several years, but has software quality kept up?  We do not always know how good a program or component is or if it is free of defects, if only those defects that will affect us, directly or otherwise.  Software defects can range from the bening, such as incorrect colors and typographical errors in the interface or output, to very serious, such as causing the destruction of a rocket carrying four satellites <!-- TODO: cite "Ariane 5 Flight 501 Failure, Report by the Inquiry Board" --> or causing the death of several patients <!-- TODO: cite "Medical Devices: The Therac-25 Nancy Leveson, University of Washington" -->.
 
           Programming languages and compilers evolved to add features that make it easier to write code, although those features do not always make it easier to test the same code.  Object-oriented programming, for example, has introduced constructs and paradigms designed to make abstraction, inheritance and polymorphism easier, but at the same time introduced a feature that can make testing more difficult:  encapsulation (i.e. information hiding) in the form of instance state.  Encapsulation allows an object to hide its implementation details so as to present a simpler interface to callers.  Alan Kay wrote that object state was meant to be immutable <!-- TODO: reference --> but that intent is seldom enforced by programming languages, frameworks or toolkits.
 
@@ -94,9 +94,9 @@
 
           A metric commonly used to represent confidence in a set of automated tests is code coverage percentage <!-- TODO: source -->, usually in the form of statement coverage <!-- TODO: source -->.  Code that is covered might be - but is not necessarily - tested, but uncovered code is definitely untested code <!-- TODO: can cite Binder, page 358 -->.  Shipping software with untested code is like serving a dish that has not yet been tasted.
 
-          Hidden mutable state (HMS) does not just present trouble to tests written by programmers (henceforth referred to as human-generated tests (HGT)), but also to computer-generated tests (CGT), such as those generated through Evolutionary Testing (ET), a form of Search Based Software Testing.  <!-- TODO: does Concolic Testing also suffer from the state problem? -->  Indeed, McMinn reported on the difficulty HMS brought to ET <command name="cite" param="Mcminn03thestate" />:
+          HMS does not just present trouble to tests written by programmers - henceforth referred to as human-generated tests (HGT) - but also to computer-generated tests (CGT), such as those generated through Evolutionary Testing (ET), a form of Search Based Software Testing.  <!-- TODO: does Concolic Testing also suffer from the state problem? -->  Indeed, McMinn reported on the difficulty HMS brought to ET <command name="cite" param="Mcminn03thestate" />:
           <block param="quote">
-            States can cause a variety of problems for ET, since test goals involving states can be dependent on the entire history of input to the test object, as well as just the current input.
+            "States can cause a variety of problems for ET, since test goals involving states can be dependent on the entire history of input to the test object, as well as just the current input."
           </block>
 
           Although it is possible to work around some HMS with a noteworthy "arrange" phase, this is not always desirable as it can increase the maintenance overhead and costs to write the unit tests, both for human- and computer-generated tests.  There are other obvious options available, such as increasing the visiblity of the mutable state or converting the state from mutable to read-only, but both these options would likely change the public interface of the class under test to an unacceptable level (such as breaking encapsulation), not to mention the associated risk in performing non-trivial modifications (in the latter case) without the safety net of sufficient tests.
@@ -120,7 +120,7 @@
           <!-- Can address only part of the problem
           Something abstract/general, such as "world hunger", or a subset of it "hunger in Ottawa"
           Can be written retroactively, after the results have been written -->
-          If we are to defeat the difficulties of hidden mutable state (HMS), can we do so with minimal changes to the public interface and with minimal risk of introducing regressions?  Can the unit tests be kept parsimonious, yet cover all the important edge cases?  Is there something we can do to make code containing hidden mutable state more easily testable?
+          If we are to defeat the difficulties of HMS, can we do so with minimal changes to the public interface and with minimal risk of introducing regressions?  Can the unit tests be kept parsimonious, yet cover all the important edge cases?  Is there something we can do to make code containing hidden mutable state more easily testable?
 
           The goal of this thesis is to improve the testability of classes that suffer from the "state problem" -- because they contain HMS -- while minimally affecting functionality, maintainability and the public interface of the code under test.  The goal is to be validated according to the following metrics:
 
@@ -155,7 +155,7 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
         <command name="section" param="Objectives">
           <!-- (what you will produce to meet your goal)
           action items to address goal -->
-          To meet the goal, a testability refactoring <!-- TODO: cite "Refactoring as testability transformation" --> algorithm called "stateless method extraction" (SME) is proposed and explained/detailed.  The SME algorithm transforms the source code of the implementation under test (IUT) to introduce a functional (i.e. "externally state-free") software layer to specifically work around many of the testability problems of hidden mutable state (HMS) and to generally increase the testability of the code under test.  The SME algorithm's efficiency and effectiveness will be evaluted by comparing the results of the algorithm's application to other testing approaches.
+          To meet the goal, a testability refactoring <!-- TODO: cite "Refactoring as testability transformation" --> algorithm called "stateless method extraction" (SME) is proposed and explained/detailed.  The SME algorithm transforms the source code of the implementation under test (IUT) to introduce a functional (i.e. "externally state-free") software layer to specifically work around many of the testability problems of HMS and to generally increase the testability of the code under test.  The SME algorithm's efficiency and effectiveness will be evaluted by comparing the results of the algorithm's application to other testing approaches.
         </command>
         <command name="section" param="Outline">
           ...
@@ -171,7 +171,7 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
           This chapter presents an overview of the related concepts from object-oriented programming to automated testing to computer-generated tests, introduces related work, establishes context within that work and lastly defines the scope of the thesis.
         </command>
         <command name="section" param="Object oriented programming">
-          This thesis focuses on testing programs written with object-oriented (OO) languages, as opposed to procedural or functional languages because the intent is to solve a problem specific to OO languages:  hidden mutable state (HMS).  Although procedural languages (such as C) allow programs to have mutable state, the state is not hidden.  Functional languages (such as Lisp) on the other hand, allow programs to be written using immutable state through the use of set-once variables.
+          This thesis focuses on testing programs written with object-oriented (OO) languages, as opposed to procedural or functional languages because the intent is to solve a problem specific to OO languages:  hidden mutable state.  Although procedural languages (such as C) allow programs to have mutable state, the state is not hidden.  Functional languages (such as Lisp) on the other hand, allow programs to be written using immutable state through the use of set-once variables.
 
           <command name="subsection" param="Terminology">
             OO languages will generally have a basic set of features, the most important of which are described here for clarity.
@@ -217,7 +217,7 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
 
           Binder <!-- TODO: ref, page 812 --> writes:
           <block param="quote">
-            Automatic test generation can be used without having to pregenerate expected results.  Although generating input values automatically is easy, generating the corresponding expected results automatically is usually difficult.
+            "Automatic test generation can be used without having to pregenerate expected results.  Although generating input values automatically is easy, generating the corresponding expected results automatically is usually difficult."
           </block>
           Even if tests are automatically generated without the use of an oracle (human or otherwise), the generated test suite can still serve as a baseline and could be used to detect changes in the outputs as a result of adding features or fixing defects.  These changes in the outputs could indicate a regression, just as changes in the outputs of human-generated tests would.
 
