@@ -191,7 +191,7 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
           </command>
         </command>
         <command name="section" param="Automated testing">
-          A proper introduction to automated testing, especially as it pertains to object-oriented programs would fill a book and indeed it has.  The reader is encouraged to consult <em>Testing Object-Oriented Systems</em> by Robert V. Binder <!-- TODO: ref --> for  details beyond this quick overview.
+          A proper introduction to automated testing, especially as it pertains to object-oriented programs would fill a book and indeed it has.  The reader is encouraged to consult <em>Testing Object-Oriented Systems</em> by Robert V. Binder <!-- TODO: ref --> for  details beyond this chapter's overview.
 
           Generally, a test is said to be automated if there exists a program that can start the implementation under test (IUT) or a subset thereof, initialize some suitable inputs for the scenario to be verified, provide these inputs to the IUT and then verify the resulting output, without any intervening assistance.
           <command name="subsection" param="Testing frameworks">
