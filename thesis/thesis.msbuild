@@ -41,7 +41,7 @@ transformer.Transform(Source, Destination);
     </ItemGroup>
     <Copy SourceFiles="@(ExtraFiles)"
       DestinationFiles="@(ExtraFiles->'obj/%(RecursiveDir)%(Filename)%(Extension)')" />
-    
+
     <!-- http://www.latex-community.org/forum/viewtopic.php?f=5&t=2011&start=0 -->
     <!-- 1. Run LaTeX to generate the AUX file. It adds a line every time it finds a cite. -->
     <Exec WorkingDirectory="obj/" Command="latex thesis.tex" />
@@ -52,13 +52,12 @@ transformer.Transform(Source, Destination);
     <!-- 4. Then run LaTeX again to make any updates corresponding to including the possibly massive BBL -->
     <!-- (e.g., updating your final page count on each of your pages, updating your ToC, etc.). -->
     <Exec WorkingDirectory="obj/" Command="latex thesis.tex" />
-    <!-- Generating DVI then converting to PDF yields smaller files than the one-step pdflatex -->
-    <Exec WorkingDirectory="obj/" Command="dvipdfm -p letter thesis.dvi" />
+    <!-- 5. We're ready to generate the PDF! -->
+    <Exec WorkingDirectory="obj/" Command="pdflatex thesis.tex" />
 
-    <Delete Files="bin/thesis.pdf" ContinueOnError="true">
+    <Delete Files="bin/thesis.pdf">
       <Output TaskParameter="DeletedFiles" ItemName="DeletedPdf" />
     </Delete>
-    <!-- TODO: PDFXCView.exe /close bin/thesis.pdf Condition=" '' == '$(DeletedPdf)'" -->
     <Copy SourceFiles="obj/thesis.pdf" DestinationFiles="bin/thesis.pdf" />
   </Target>
 </Project>
