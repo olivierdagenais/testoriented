@@ -106,11 +106,11 @@
             <raw>\end{tabular}</raw>
           </region>
 
-          A metric commonly used to represent confidence in a set of automated tests is code coverage percentage <!-- TODO: source -->, usually in the form of statement coverage <!-- TODO: source -->.  Code that is covered might be - but is not necessarily - tested, but uncovered code is definitely untested code <!-- TODO: can cite Binder, page 358 -->.  Shipping software with untested code is like serving a dish that has not yet been tasted.
+          A metric commonly used to represent confidence in a set of automated tests is code coverage percentage, usually in the form of statement coverage <command name="cite" param="sink06advocatingcoverage" />.  Code that is covered might be - but is not necessarily - tested, but uncovered code is definitely untested code <command name="cite" param="binder00classes" />.  Shipping software with untested code is like serving a dish that has not yet been tasted.
 
           HMS does not just present trouble to tests written by programmers - henceforth referred to as human-generated tests (HGT) - but also to computer-generated tests (CGT), such as those generated through Evolutionary Testing (ET), a form of Search Based Software Testing.  <!-- TODO: does Concolic Testing also suffer from the state problem? -->  Indeed, McMinn reported on the difficulty HMS brought to ET:
           <block param="quote">
-            "States can cause a variety of problems for ET, since test goals involving states can be dependent on the entire history of input to the test object, as well as just the current input." <command name="cite" param="Mcminn03thestate" />
+            "States can cause a variety of problems for ET, since test goals involving states can be dependent on the entire history of input to the test object, as well as just the current input." <command name="cite" param="mcminn03thestate" />
           </block>
 
           Although it is possible to work around some HMS with a noteworthy "arrange" phase, this is not always desirable as it can increase the maintenance overhead and costs to write the unit tests, both for human- and computer-generated tests.  There are other obvious options available, such as increasing the visiblity of the mutable state or converting the state from mutable to read-only, but both these options would likely change the public interface of the class under test to an unacceptable level (such as breaking encapsulation), not to mention the associated risk in performing non-trivial modifications (in the latter case) without the safety net of sufficient tests.
@@ -139,9 +139,9 @@
           The goal of this thesis is to improve the testability of classes that suffer from the "state problem" -- because they contain HMS -- while minimally affecting functionality, maintainability and the public interface of the code under test.  The goal is to be validated according to the following metrics:
 
           <block param="enumerate">
-            <command name="item"> Cyclomatic complexity <!-- TODO: cite --> of the unit tests.</command>
+            <command name="item"> Cyclomatic complexity <command name="cite" param="mccabe76complexitymeasure" /> of the unit tests.</command>
             <command name="item"> Number of changes to class under test's public interface.</command>
-            <command name="item"> Percentage of branches covered using concolic testing <!-- TODO: source -->.
+            <command name="item"> Percentage of branches covered using concolic testing <command name="cite" param="lakhotia10empiricalinvestigation" />.
             <!-- TODO: can maintainability be measured? -->
             <!-- TODO:
             = can I measure the risk of introducing defects or regressions?
@@ -169,7 +169,7 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
         <command name="section" param="Objectives">
           <!-- (what you will produce to meet your goal)
           action items to address goal -->
-          To meet the goal, a testability refactoring <!-- TODO: cite "Refactoring as testability transformation" --> algorithm called "stateless method extraction" (SME) is proposed and explained/detailed.  The SME algorithm transforms the source code of the implementation under test (IUT) to introduce a functional (i.e. "externally state-free") software layer to specifically work around many of the testability problems of HMS and to generally increase the testability of the code under test.  The SME algorithm's efficiency and effectiveness will be evaluted by comparing the results of the algorithm's application to other testing approaches.
+          To meet the goal, a testability refactoring <command name="cite" param="harman11refactoringtestability" /> algorithm called "stateless method extraction" (SME) is proposed and explained/detailed.  The SME algorithm transforms the source code of the implementation under test (IUT) to introduce a functional (i.e. "externally state-free") software layer to specifically work around many of the testability problems of HMS and to generally increase the testability of the code under test.  The SME algorithm's efficiency and effectiveness will be evaluted by comparing the results of the algorithm's application to other testing approaches.
         </command>
         <command name="section" param="Outline">
           ...
@@ -205,13 +205,13 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
           </command>
         </command>
         <command name="section" param="Automated testing">
-          A proper introduction to automated testing, especially as it pertains to object-oriented programs would fill a book and indeed it has.  The reader is encouraged to consult <em>Testing Object-Oriented Systems</em> by Robert V. Binder <!-- TODO: ref --> for  details beyond this chapter's overview.
+          A proper introduction to automated testing, especially as it pertains to object-oriented programs would fill a book and indeed it has.  The reader is encouraged to consult <em>Testing Object-Oriented Systems</em> by Robert V. Binder <command name="cite" param="binder00testharness" /> for details beyond this chapter's overview.
 
           Generally, a test is said to be automated if there exists a program that can start the implementation under test (IUT) or a subset thereof, initialize some suitable inputs for the scenario to be verified, provide these inputs to the IUT and then verify the resulting output, without any intervening assistance.
           <command name="subsection" param="Testing frameworks">
             Automated testing frameworks provide developers the ability to write and organize test scenarios, execute them sequentially and independently from one another and finally report on their successes.
 
-            This thesis focuses on testing frameworks that allow the test development environment to be identical to the implementation development environment, collectively called xUnit <!-- TODO: ref -->.  A single test scenario can be implemented as a <em>test method</em> in a <em>test class</em>, exercising functionality in the method under test (MUT) in another class; the class under test (CUT).  A collection of test classes is known as a <em>test suite</em>.
+            This thesis focuses on testing frameworks <command name="cite" param="beck99simplesmalltalk" /> that allow the test development environment to be identical to the implementation development environment, collectively called XUnit <command name="cite" param="fowler06xunit" />.  A single test scenario can be implemented as a <em>test method</em> in a <em>test class</em>, exercising functionality in the method under test (MUT) in another class; the class under test (CUT).  A collection of test classes is known as a <em>test suite</em>.
 
             Test methods will generally have three phases - arrange, act and assert - although the functionality is not always separated as such and might be intermixed or even be located elsewhere in the test class.  The <em>arrange</em> phase concerns itself with preparing the CUT and/or the environment, effectively setting the indirect inputs for the MUT and optionally initializing complex direct inputs.  The <em>act</em> phase contains code that calls the MUT with its direct inputs and collects the direct outputs, if any.  The <em>assert</em> phase derives any indirect outputs, if any, and verifies the <em>actual</em> outputs against the <em>expected</em> outputs, cleaning up the environment afterward, as necessary.
 
@@ -221,13 +221,13 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
             As alluded to in the previous sub-section, this thesis concerns itself with automated testing at the lowest level by focusing the test scenarios on methods, which is also known as <em>unit testing</em>.  This is in contrast to <em>integration testing</em> which concerns itself with the interaction between a class and another class and/or some external environment such as a file system or a network, and <em>subsystem testing</em> which involves observing the interaction between a class and several other classes and/or external components such as a database or a web service.
           </command>
           <command name="subsection" param="Code coverage">
-            An IUT can be <em>instrumented</em> <!-- TODO: ref --> to record which statements and expressions are executed during an automated test run.  The resulting report is known as <em>statement coverage</em> and will usually correlate its results with the original source code by highlighting the statements and expressions that were executed.  This report will also include enough data to determine the coverage percentage - which is computed as the number of statements executed divided by the total number of statements - at the method, class, namespace and program levels.
+            An IUT can be automatically <em>instrumented</em> <!-- TODO: ref --> to record which statements and expressions are executed during an automated test run.  The resulting report is known as <em>statement coverage</em> and will usually correlate its results with the original source code by highlighting the statements and expressions that were executed  <command name="cite" param="binder00classes" />.  This report will also include enough data to determine the coverage percentage - which is computed as the number of statements executed divided by the total number of statements - at the method, class, namespace and program levels <command name="cite" param="sink06advocatingcoverage" />.
 
-            Code coverage can be used to determine the completeness of the test suite or, more precisely, to identify areas of the IUT that are untouched by the tests.  The presence of uncovered code can also reveal surprises in the implementation <!-- TODO: ref Binder, page 49 --> although its best (?) use remains the generation of missing test scenarios.
+            Code coverage can be used to determine the completeness of the test suite or, more precisely, to identify areas of the IUT that are untouched by the tests.  The presence of uncovered code can also reveal surprises in the implementation although its best use remains the identification of missing test scenarios.
           </command>
         </command>
         <command name="section" param="Motivation for Computer-Generated Tests">
-          It may not always be possible or feasible to have a programmer write automated tests for a component or an implementation.  Reasons provided by Bühler and Wegener <!-- TODO: "Evolutionary functional testing" paper --> include the simultaneous satisfaction of functional, real-time and safety requirements as well as the very large test space resulting from the interaction of 50-70 independently-developed embedded systems.  The nature of the assembled system - in this case a premium vehicle - also makes manual testing, such as driving the vehicle in an environment suitable for each scenario, prohibitively expensive.  Bühler and Wegener go on to suggest generating tests automatically to work around these obstacles and thus reduce costs.  Evolutionary testing (ET), "the application of evolutionary computation to test automation" <!-- TODO: ref same? -->, is therefore suggested to automatically and efficiently sample the test input space.  ET will usually be implemented using genetic algorithms (GA), which are well-suited to a mix of exploration and exploitation in the search space <!-- TODO: ref -->.
+          It may not always be possible or feasible to have a programmer write automated tests for a component or an implementation.  Reasons provided by Bühler and Wegener <command name="cite" param="buehler08evolutionaryfunctional" /> include the simultaneous satisfaction of functional, real-time and safety requirements as well as the very large test space resulting from the interaction of 50-70 independently-developed embedded systems.  The nature of the assembled system - in this case a premium vehicle - also makes manual testing, such as driving the vehicle in an environment suitable for each scenario, prohibitively expensive.  Bühler and Wegener go on to suggest generating tests automatically to work around these obstacles and thus reduce costs.  Evolutionary testing (ET), "the application of evolutionary computation to test automation" <command name="cite" param="buehler08evolutionaryfunctional" />, is therefore suggested to automatically and efficiently sample the test input space.  ET will usually be implemented using genetic algorithms (GA), which are well-suited to a mix of exploration and exploitation in the search space <command name="cite" param="mcminn04searchbased" />.
 
           Binder <!-- TODO: ref, page 812 --> writes:
           <block param="quote">
@@ -294,7 +294,7 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
           = FxCop/Code Analysis tools
           == "CA1502: Avoid excessive complexity" http://msdn.microsoft.com/en-us/library/ms182212.aspx
           === "A low cyclomatic complexity generally indicates a method that is easy to understand, test, and maintain."
-          = The same data dependency analysis used in Mcminn03thestate can also be used to determine the arguments to a stateless method
+          = The same data dependency analysis used in mcminn03thestate can also be used to determine the arguments to a stateless method
           = any SBST research that aims to work around state problems
           == GP then GA
           == Data Dependency Analysis
