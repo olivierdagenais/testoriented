@@ -285,24 +285,40 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
           </command>
         </command>
         <command name="section" param="Related work">
-          <!--
-          = Miško Hevery
-          == testability explorer
-          === Non-Mockable Total Recursive Cyclomatic Complexity
-          === Global Mutable State
-          === Law of Demeter
-          == "How to think about OO"
-          == "Static Methods are Death to Testability"
-          = FxCop/Code Analysis tools
-          == "CA1502: Avoid excessive complexity" http://msdn.microsoft.com/en-us/library/ms182212.aspx
-          === "A low cyclomatic complexity generally indicates a method that is easy to understand, test, and maintain."
-          = The same data dependency analysis used in mcminn03thestate can also be used to determine the arguments to a stateless method
-          = any SBST research that aims to work around state problems
-          == GP then GA
-          == Data Dependency Analysis
-          == temporary program transformations
-          -->
-          ...
+          <command name="subsection" param="The state problem">
+            <block param="quote">
+              "Side-effects, by which I mean changes to the values stored in fields of objects or elements of arrays, are clearly intended to be used frequently in Java. However, the presence of side-effects can make it harder to reason about a program, because there is invisble [sic] state to the side of computations which changes. That means a reader needs to keep track of both the visible aspects of a program and the hidden values off to the side that may change." <command name="cite" param="haahr99programmingstyle" />
+            </block>
+            McMinn identified the "State Problem" in the context of evolutionary testing and described a few possible solutions that enhanced the ET system to compensate for problems brought on by state <command name="cite" param="mcminn03thestate" />.  Difficulties with internal state are also mentioned by Bühler and Wegener <command name="cite" param="buehler08evolutionaryfunctional" />, Harman et al. <command name="cite" param="harman09aop" />, Tillman and de Halleux <command name="cite" param="tillman08pex" /> and Baresel et al. <command name="cite" param="baresel02fitnessfunction" />.
+
+            Difficulties associated with internal state can be reduced or worked around with better analysis, such as data dependency analysis <command name="cite" param="korel05datadependence" />.  Since said analysis can often be time-consuming, techniques, such as program slicing <command name="cite" param="tip95surveyslicing" /> were developed to help reduce the search space.  McMinn went on to develop a technique that enhances the search to look for method call sequences along with combining the chaining approach with evolutionary search <command name="cite" param="mcminn05evolutionarysearch" />.
+
+            Another approach to generate tests for programs with state - specifically those written in object-oriented programming languages - was proposed by Wappler and Wegener <command name="cite" param="wappler06evolutionaryunit" />.  Their two-phase technique is called "strongly-typed genetic programming" and consists of first using genetic programming to generate a sequence of methods to call (creating instances of classes as necessary), then using a genetic algorithm to find suitable values for the parameters of the generated method calls.
+          </command>
+          <command name="subsection" param="The case for functional programming">
+            <block param="quote">
+             "However, the functional style is also perfectly adapted to incremental testing:  programs written in this style can also be <em>tested</em> one function at a time.  When a function neither examines nor alters external state, any bugs will appear immediately. Such a function can affect the outside world only through its return values. Insofar as these are what you expected, you can trust the code which produced them." <command name="cite" param="graham93onlisp" />
+            </block>
+            "Imperative functional programming" is argued by Reddy <command name="cite" param="reddy96imperativefunctional" /> and appears to push the idea of a <em>public</em> functional programming interface built on top of imperative features, whereas the present thesis would see an <em>internal</em> functional programming interface (built on top of imperative features) as a building block for a possibly pre-existing object-oriented interface.
+
+            Hevery, on the other hand, appears to dissagree with the proposed approach <command name="cite" param="hevery08staticmethods" /> and argues for a pure object-oriented approach <command name="cite" param="hevery09thinkoo" />.  Haahr nevertheless argues for "referential transparency" <command name="cite" param="haahr99programmingstyle" /> to not only make computations easier to understand but also easier to parallelize.
+          </command>
+          <command name="subsection" param="The case for testability transformations">
+            <block param="quote">
+              "It could be said that the algorithm for side-effect removal creates an `almost functional' language, in which all state changes are expressed using the assignment statement. This would return the programming paradigm to that considered by the initial work on the Axiomatic Method, where axiomatic semantics is comparatively elegant and easy to define and use. This, perhaps, provides further additional anecdotal evidence that side-effects are hard to reason about and that their removal is worthwhile for comprehension." <command name="cite" param="harman01sideeffect" />
+            </block>
+            Because programs are not always easily testable as written, it has been suggested by Harman et al. to automatically create an alternate (and temporary) version of the program that is easier to analyze or test by applying some transformations <command name="cite" param="harman04testabilitytransformation" />, which can be as simple as "flag removal"; the inlining of a boolean variable with its underlying expression <command name="cite" param="harman02improvingevolutionary" />.  Another example would be the removal of expressions with side-effects <command name="cite" param="harman01sideeffect" />.
+
+            The general idea of testability transformation was further developed by Korel et al. <command name="cite" param="korel05datadependence" /> as well as McMinn et al. <command name="cite" param="mcminn08empiricalevaluation" />, among others.  Program slicing could also be considered a testability transformation <command name="cite" param="harman09aop" />.  Harman eventually goes one step further and suggests "testability refactoring": a permanent program transformation that has the simultaneous goals of making the program easier to test and better (or at least no worse) for the programmer <command name="cite" param="harman11refactoringtestability" />.
+          </command>
+          <command name="subsection" param="The case for simplicity">
+            <block param="quote">
+              "A low cyclomatic complexity generally indicates a method that is easy to understand, test, and maintain." <command name="cite" param="msdn10avoidcomplexity" />
+            </block>
+            McCabe introduced the concept of "cyclomatic complexity" with the intention of evaluating the difficulty involved when testing programs based on their structure <command name="cite" param="mccabe76complexitymeasure" />.  Indeed, McCabe even discussed the possibility of reducing a program's structure to reduce the testing effort, in an effort to make software that is both testable and maintainable.
+
+            Hevery created the Testability Explorer tool to compute the "Non-Mockable Total Recursive Cyclomatic Complexity" metric, compute the "Demeter" metric as well as count the number of global mutable fields in Java programs <command name="cite" param="hevery08testabilityexplorer" />.  The first metric is an evolution of McCabe's metric for object-oriented programs while the other two also help reduce testing effort through smaller call chains (Demeter) and less "spooky action at a distance" (surprise side-effects) by reducing the use of mutable global fields <command name="cite" param="hevery08flawbrittle" />.
+          </command>
         </command>
         <command name="section" param="Context">
           <!-- Show that I understand what everybody else has done ("master an area") -->
