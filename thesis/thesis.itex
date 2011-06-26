@@ -11,6 +11,8 @@
     <command name="usepackage" param="microtype" />
     <command name="DisableLigatures" param="encoding = *, family = *" />
 
+    <command name="usepackage" param="array" />
+
     <region comment="Make sure spaces before citations are non-breaking">
       <raw>\let\originalcite\cite</raw>
       <raw>\renewcommand{\cite}[1]{\unskip~\originalcite{#1}}</raw>
@@ -23,7 +25,7 @@
         param="basicstyle=\tiny\ttfamily,tabsize=2,numbers=left,numberstyle=\tiny\ttfamily" />
     </region>
 
-    <region comment="URLs are hyperlinked">
+    <region comment="URLs and references are hyperlinked">
       <command name="usepackage" param="url" />
       <command name="usepackage" param="hyperref" opt="pdftitle={Stateless Programming And Testing: Extracting a functional layer from object-oriented code},pdfauthor={Olivier Dagenais},colorlinks=true,linkcolor=black,anchorcolor=black,citecolor=black,citecolor=black,urlcolor=black,pdftex=true" />
     </region>
@@ -321,7 +323,40 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
           </command>
         </command>
         <command name="section" param="Scope">
-          <!-- End with feature matrix, comparing my solution to others -->
+          The present thesis focuses on addressing the glass-box unit testing difficulties introduced by hidden mutable state, in the context of object-oriented software, through the use of stateless method extraction.  In other words, the implementation under test is available for inspection as tests are written on a per-method basis for classes that contain private instance fields whose values are altered by calls to instance methods.
+
+          Considerations outside the scope of this thesis therefore include:
+          <block param="itemize">
+            <command name="item"> Opaque-box testing</command>
+            <command name="item"> Integration (or other high-level) testing</command>
+            <command name="item"> Non-object-oriented software</command>
+          </block>
+
+          Additional considerations outside the scope of this thesis include:
+          <block param="itemize">
+            <command name="item"> Testing of hidden state mutations.  These must still be tested, but those tests are not covered by this thesis.</command>
+            <command name="item"> Run-time performance of IUT or unit tests</command>
+            <command name="item"> Performance of SBST (such as ET) on IUT</command>
+            <!-- Is the last one really reasonable since the basis of this thesis was the ET-related "state problem"?  Shouldn't I be able to show some progress on that front? -->
+          </block>
+
+          Stateless method extraction is to be compared against other approaches for unit testing object-oriented software containing hidden mutable state;  see table <command name="ref" param="tbl:ScopeTable" />.
+
+          <block param="table" opt="htbp">
+            <raw>\begin{tabular}{l >{\centering}m{2cm} >{\centering}m{2cm} >{\centering}m{2cm} >{\centering}m{2cm} }</raw>
+              <raw>&amp; \multicolumn{4}{c}{Features}\tabularnewline</raw>
+              <raw>\multicolumn{1}{c}{Approach}</raw> <raw>&amp;</raw> Transforms IUT <raw>&amp;</raw> Transforms tests <raw>&amp;</raw> Affects public interface <raw>&amp;</raw> Requires tool <raw>\tabularnewline</raw>
+              <command name="hline" />
+              Stateless method extraction <raw>&amp;</raw> Y <raw>&amp;</raw> N <raw>&amp;</raw> N <raw>&amp;</raw> N <raw>\tabularnewline</raw>
+              Isolated test methods <raw>&amp;</raw> N <raw>&amp;</raw> N <raw>&amp;</raw> N <raw>&amp;</raw> N <raw>\tabularnewline</raw>
+              Test helper methods <raw>&amp;</raw> N <raw>&amp;</raw> Y <raw>&amp;</raw> N <raw>&amp;</raw> N <raw>\tabularnewline</raw>
+              Reflection-based helpers <raw>&amp;</raw> N <raw>&amp;</raw> Y <raw>&amp;</raw> N <raw>&amp;</raw> Y <raw>\tabularnewline</raw>
+              Making mutable state visible <raw>&amp;</raw> Y <raw>&amp;</raw> N <raw>&amp;</raw> Y <raw>&amp;</raw> N <raw>\tabularnewline</raw>
+              Making hidden state mutable <raw>&amp;</raw> Y <raw>&amp;</raw> N <raw>&amp;</raw> Y <raw>&amp;</raw> N <raw>\tabularnewline</raw>
+            <raw>\end{tabular}</raw>
+            <command name="caption" param="Approach vs. Features" />
+            <command name="label" param="tbl:ScopeTable" />
+          </block>
           <!--
           = contrast with isolated, stand-alone tests
           = contrast with test helper methods
@@ -339,33 +374,11 @@ the user may also provide factory methods, which could invoke a sequence of
 method calls to construct and configure a new object, possibly creating cyclic
 references as well.
           """ Pex, last paragraph of section 3.4
-          = contrast with better abstractions/use of interfaces
-          == virtual/in-memory file system
-          == operating on sequences instead of streams
-          == introducing a class for private methods that coordinate related pieces of data
-          == introducing a functor for methods that coordinate related pieces of data
-          == introducing a generic class to remove copy/pasted typed implementations (i.e. FooCollection, BarCollection replaced by Collection{Foo} and Collection{Bar})
-          == a regular expression toolkit or compiler that generates a model specific to the specified expression
           = contrast with visible, mutable state
           == changes current public interface
           = contrast with hidden, immutable state
           == changes current public interface
-          = contrast with no state whatsoever
-          == changes current public interface
-          = contrast with static code analysis
-          == contrast with code contracts
-          = contrast with code reviews
-          = contrast with dependency injection
-          = contrast with improving the tools (i.e. research in SBST and DSE)
-          = contrast with temporary program transformations (i.e. non-refactoring)
-
-          Not in scope:
-          = parallelization of tests (although probably easier with technique)
-          = difficult-to-test object state changes?
-          = should we assume no changes to IUT's public interface are allowed?
-          == the IUT's design suitability is out of scope, we could assume it's "perfect" for the needs of the user (or impossible to change due to implementing an interface)
           -->
-          ...
         </command>
         <command name="section" param="Summary">
           <!-- key points of what was presented and linkage to next chapter -->
