@@ -164,15 +164,13 @@
     </xsl:template>
     
     <xsl:template match="block">
-        <xsl:call-template name="command">
-            <xsl:with-param name="name" select="'begin'" />
-            <xsl:with-param name="opt" select="@opt" />
-            <xsl:with-param name="param" select="@param" />
-        </xsl:call-template>
+        <xsl:text>\begin{</xsl:text><xsl:value-of select="@param" /><xsl:text>}</xsl:text>
+        <xsl:if test="@opt">
+            <xsl:text>[</xsl:text><xsl:value-of select="@opt" /><xsl:text>]</xsl:text>
+        </xsl:if>
         <xsl:apply-templates select="* | node() | comment()" />
         <xsl:call-template name="command">
             <xsl:with-param name="name" select="'end'" />
-            <xsl:with-param name="opt" select="@opt" />
             <xsl:with-param name="param" select="@param" />
         </xsl:call-template>
     </xsl:template>
