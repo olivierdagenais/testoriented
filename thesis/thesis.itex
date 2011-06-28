@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <iTeX>
   <preamble><!-- !TEX TS-program = pdflatex -->
     <!-- !TEX encoding = UTF-8 Unicode -->
@@ -29,6 +29,15 @@
       <command name="usepackage" param="url" />
       <command name="usepackage" param="hyperref" opt="pdftitle={Stateless Programming And Testing: Extracting a functional layer from object-oriented code},pdfauthor={Olivier Dagenais},colorlinks=true,linkcolor=black,anchorcolor=black,citecolor=black,citecolor=black,urlcolor=black,pdftex=true" />
     </region>
+
+    <region comment="Make sure spaces before references are non-breaking">
+      <command name="usepackage" param="nameref" />
+      <raw>\let\originalref\ref</raw>
+      <raw>\renewcommand{\ref}[1]{\unskip~\originalref{#1}}</raw>
+
+      <raw>\let\originalnameref\nameref</raw>
+      <raw>\renewcommand{\nameref}[1]{\unskip~\originalnameref{#1}}</raw>
+    </region>
   </preamble>
   <document>
     <region name="Title page">
@@ -57,7 +66,7 @@
     <command name="mainmatter">
       <command name="chapter" param="Introduction">
         <command name="section" param="Introduction">
-          This chapter introduces the problem and the motivation for solving it, as well as the overall goals and specific objectives.  It concludes with an overview of the rest of the document.
+          This chapter introduces the problem and the motivation for solving it, as well as the overall goal and specific objectives.  It concludes with an overview of the rest of the document.
         </command>
         <command name="section" param="Problem">
           Software has advanced considerably in the last several years, but has software quality kept up?  We do not always know how good a program or component is or if it is free of defects, if only those defects that will affect us, directly or otherwise.  Software defects can range from the benign, such as incorrect colors and typographical errors in the interface or output, to very serious, such as causing the destruction of a rocket carrying four satellites <command name="cite" param="lions96ariane" /> <command name="cite" param="esa05clustermission" /> or causing the death of several patients <command name="cite" param="leveson95medicaldevices" />.
@@ -77,7 +86,7 @@
             In summary, a class with hidden mutable state has variables or fields that must be set or modified indirectly as a result of calling a method that, although not necessarily directly related, nonetheless modifies one or more variables or fields.
           </command>
 
-          The result of hidden mutable state is we end up with difficult-to-test code, which means it stays untested, even despite the many automated test frameworks and systems available <command name="cite" param="aberdour07dotnetunit" />.  This is likely due to a tradeoff between ease of maintenance and testability where testability was ultimately not favoured.
+          The result of hidden mutable state is we end up with difficult-to-test code, which means it stays untested, even despite the many automated test frameworks and systems available <command name="cite" param="aberdour07dotnetunit" />.  This is likely due to a trade-off between ease of maintenance and testability where testability was ultimately not favoured.
 
           We still want to test the code, but we must first surmount the difficult-to-test obstacle that hidden mutable state introduces:
           <block param="quote">
@@ -115,7 +124,7 @@
             "States can cause a variety of problems for ET, since test goals involving states can be dependent on the entire history of input to the test object, as well as just the current input." <command name="cite" param="mcminn03thestate" />
           </block>
 
-          Although it is possible to work around some HMS with a noteworthy "arrange" phase, this is not always desirable as it can increase the maintenance overhead and costs to write the unit tests, both for human- and computer-generated tests.  There are other obvious options available, such as increasing the visiblity of the mutable state or converting the state from mutable to read-only, but both these options would likely change the public interface of the class under test to an unacceptable level (such as breaking encapsulation), not to mention the associated risk in performing non-trivial modifications (in the latter case) without the safety net of sufficient tests.
+          Although it is possible to work around some HMS with a noteworthy "arrange" phase, this is not always desirable as it can increase the maintenance overhead and costs to write the unit tests, both for human- and computer-generated tests.  There are other obvious options available, such as increasing the visibility of the mutable state or converting the state from mutable to read-only, but both these options would likely change the public interface of the class under test to an unacceptable level (such as breaking encapsulation), not to mention the associated risk in performing non-trivial modifications (in the latter case) without the safety net of sufficient tests.
 
           One perhaps less obvious option is the extraction of a subset of the state<em>ful</em> functionality in the form of a state<em>less</em> method which has all its inputs and outputs available to the test driver, while sourcing those inputs and outputs from and to the very instance fields they represent within the implementation itself.  An example of this can be seen in listings <command name="ref" param="lst:StatelessSmokeDetector" /> and <command name="ref" param="lst:StatelessSmokeDetectorTest" />.  Notice how the original implementation of the <tt>Cycle()</tt> method has been trivially extracted into a static overload that accepts all its input and emits all its output through parameters and the method return value?  The <tt>AccumulateDetection()</tt> test method can then be written to supply values for all parameters, while keeping the fields that the parameters would be initialized from safe from modification.  Indeed, the previous test is still there, unchanged, since the <tt>SmokeDetector</tt>'s public interface did not change as a result of performing this transformation.
 
@@ -171,7 +180,7 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
         <command name="section" param="Objectives">
           <!-- (what you will produce to meet your goal)
           action items to address goal -->
-          To meet the goal, a testability refactoring <command name="cite" param="harman11refactoringtestability" /> algorithm called "stateless method extraction" (SME) is proposed and explained/detailed.  The SME algorithm transforms the source code of the implementation under test (IUT) to introduce a functional (i.e. "externally state-free") software layer to specifically work around many of the testability problems of HMS and to generally increase the testability of the code under test.  The SME algorithm's efficiency and effectiveness will be evaluted by comparing the results of the algorithm's application to other testing approaches.
+          To meet the goal, a testability refactoring <command name="cite" param="harman11refactoringtestability" /> algorithm called "stateless method extraction" (SME) is proposed and explained/detailed.  The SME algorithm transforms the source code of the implementation under test (IUT) to introduce a functional (i.e. "externally state-free") software layer to specifically work around many of the testability problems of HMS and to generally increase the testability of the code under test.  The SME algorithm's efficiency and effectiveness will be evaluated by comparing the results of the algorithm's application to other testing approaches.
         </command>
         <command name="section" param="Outline">
           ...
@@ -275,12 +284,12 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
           <command name="subsection" param="Functional Testing">
             Functional testing is a form of verification that uses a machine-readable form of the specification <command name="cite" param="mcminn04searchbased" />.  One way of doing so is with a formal specification expressed as disjunctions that represent <em>routes</em> (or paths) through the program.  These routes can then be tested individually using structural testing.
 
-            An easier approach is to automatically turn the specification into pre-conditions and post-conditions.  The objective is then to find test inputs that conform to all pre-conditions but that cause post-conditions to fail, in effect targetting the fault branch of the post-conditions.
+            An easier approach is to automatically turn the specification into pre-conditions and post-conditions.  The objective is then to find test inputs that conform to all pre-conditions but that cause post-conditions to fail, in effect targeting the fault branch of the post-conditions.
 
             A third approach is to encode the specification's requirements as a component of a simulator.  For example, Bühler and Wegener evaluated the functionality of a brake assist system using a simulator to find instances where the system either did not enhance the driver's brake torque in a critical situation or provided too much braking in a non-critical situation <command name="cite" param="buehler08evolutionaryfunctional" />.
           </command>
           <command name="subsection" param="Grey-Box Testing">
-            The objectives of grey-box testing are to attempt to get assertions already embedded in a program to be violated and to trigger exception conditions.  Some of the work even temporarily turned specially-formatted comments into executable assertions for the purposes of targetting their fault branches for execution <command name="cite" param="mcminn04searchbased" />.
+            The objectives of grey-box testing are to attempt to get assertions already embedded in a program to be violated and to trigger exception conditions.  Some of the work even temporarily turned specially-formatted comments into executable assertions for the purposes of targeting their fault branches for execution <command name="cite" param="mcminn04searchbased" />.
           </command>
           <command name="subsection" param="Non-Functional Testing">
             Non-functional testing concerns itself with verifying non-functional requirements, such as constraints on execution time, working memory, long-term storage and processor load, usually for embedded and real-time systems.  Test inputs are sought which cause the program to, for example, take longer than usual or consume more memory than expected, according to instrumentation external to the IUT such as the operating system's timers and counters, or the use of a simulator <command name="cite" param="sthamer02usingevolutionary" />.
@@ -309,7 +318,7 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
             <block param="quote">
               "It could be said that the algorithm for side-effect removal creates an `almost functional' language, in which all state changes are expressed using the assignment statement. This would return the programming paradigm to that considered by the initial work on the Axiomatic Method, where axiomatic semantics is comparatively elegant and easy to define and use. This, perhaps, provides further additional anecdotal evidence that side-effects are hard to reason about and that their removal is worthwhile for comprehension." <command name="cite" param="harman01sideeffect" />
             </block>
-            Because programs are not always easily testable as written, it has been suggested by Harman et al. to automatically create an alternate (and temporary) version of the program that is easier to analyze or test by applying some transformations <command name="cite" param="harman04testabilitytransformation" />, which can be as simple as "flag removal"; the inlining of a boolean variable with its underlying expression <command name="cite" param="harman02improvingevolutionary" />.  Another example would be the removal of expressions with side-effects <command name="cite" param="harman01sideeffect" />.
+            Because programs are not always easily testable as written, it has been suggested by Harman et al. to automatically create an alternate (and temporary) version of the program that is easier to analyze or test by applying some transformations <command name="cite" param="harman04testabilitytransformation" />, which can be as simple as "flag removal"; the inline expansion of a boolean variable with its underlying expression <command name="cite" param="harman02improvingevolutionary" />.  Another example would be the removal of expressions with side-effects <command name="cite" param="harman01sideeffect" />.
 
             The general idea of testability transformation was further developed by Korel et al. <command name="cite" param="korel05datadependence" /> as well as McMinn et al. <command name="cite" param="mcminn08empiricalevaluation" />, among others.  Program slicing could also be considered a testability transformation <command name="cite" param="harman09aop" />.  Harman eventually goes one step further and suggests "testability refactoring": a permanent program transformation that has the simultaneous goals of making the program easier to test and better (or at least no worse) for the programmer <command name="cite" param="harman11refactoringtestability" />.
           </command>
@@ -418,7 +427,7 @@ references as well.
           == differences between a constraint solver and evolutionary testing
           = manual application
           == manual test writing
-          == manual statelesss method extraction
+          == manual stateless method extraction
           == compare unit tests before and after
           -->
           <!--
