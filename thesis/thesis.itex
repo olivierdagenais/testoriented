@@ -400,8 +400,27 @@ references as well.
           ...
         </command>
         <command name="section" param="Design">
-          <!-- TODO: regarding the motivation for CGT in our case -->
+          Stateless method extraction's intent is to separate the interaction between the hidden mutable state in a class and said class' instance methods' inputs and outputs.
+
+          <command name="subsection" param="How stateless method extraction works">
+          TODO: a high-level walkthrough, probably copy/pasted from the "How to extract stateless methods" section of http://docs.codehaus.org/display/TESTORIENTED/Stateless+Programming+And+Testing+-+proposal and enhanced/updated accordingly.
+          </command>
+
+          <command name="subsection" param="Algorithm">
+          TODO: A more formal version of the content in the previous section, in pseudo-code and/or flow-chart form.  Bonus points for rules that describe what can be fiddled with (i.e. introducing variables) and what must remain an invariant (can't always just switch instance methods to static methods - there are interfaces to implement and we want to introduce a functional layer to make the OO layer easier).
+          </command>
+
+          <command name="subsection" param="Suitability">
+          TODO: What code does it just trivially work on?  What should we look for?  Is it a metric that can be automatically measured through something like code analysis? (for example, how many instance fields are being read from and written to)
+          </command>
+
+          <command name="subsection" param="Applicability">
+          TODO: What code can it almost work on and what needs to be done first (i.e. how to make it suitable).  This can augment the algorithm presented earlier with lots of special cases.
+          </command>
+
+          <!-- TODO: regarding the motivation for CGT in our case
           The better the statement coverage of the generated tests, the more testable the original source code under the transformation is considered.
+          -->
           <!--
           = discuss applicability/suitability (in 1 or 2 sections?)
           == existing/legacy systems with few tests (through acquisition, maintenance)
@@ -438,7 +457,6 @@ references as well.
           == reduce the number of methods called to extract interesting output (methods executed after - assert)
           = reduce the amount of clean-up done to compensate for "arrange" phase
           -->
-          ...
         </command>
         <command name="section" param="Decisions made">
           <!--
