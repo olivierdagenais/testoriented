@@ -21,8 +21,15 @@
     <region comment='the "listings" package is used for source code snippets'>
       <command name="usepackage" param="listings" />
       <command name="usepackage" param="courier" />
-      <command name="lstset"
-        param="basicstyle=\tiny\ttfamily,tabsize=2,numbers=left,numberstyle=\tiny\ttfamily" />
+      <command name="lstset" param="tabsize=2" />
+      <command name="lstdefinestyle" param="realCode}{basicstyle=\tiny\ttfamily, numbers=left, numberstyle=\tiny\ttfamily" />
+      <!-- Override the lstinputlisting command to surround it inside braces,
+      otherwise the style parameter does not work:
+        http://tex.stackexchange.com/q/21663/1892
+        http://stackoverflow.com/questions/2908908/#2909530
+      -->
+      <raw>\let\originallstinputlisting\lstinputlisting</raw>
+      <raw>\renewcommand{\lstinputlisting}[2][]{{\originallstinputlisting[{#1}]{#2}}}</raw>
     </region>
 
     <region comment="URLs and references are hyperlinked">
@@ -108,11 +115,11 @@
           <region name="table and two stateful code listings">
             <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
             <command name="lstinputlisting"
-              opt="label=lst:StatefulSmokeDetector,caption=SmokeDetector class with hidden mutable state"
+              opt="label=lst:StatefulSmokeDetector,caption=SmokeDetector class with hidden mutable state,style=realCode"
               param="Stateful/SmokeDetector.cs" />
             <raw>&amp;</raw>
             <command name="lstinputlisting"
-              opt="label=lst:StatefulSmokeDetectorTest,caption=Test class for the SmokeDetector"
+              opt="label=lst:StatefulSmokeDetectorTest,caption=Test class for the SmokeDetector,style=realCode"
               param="Stateful/SmokeDetectorTest.cs" />
             <raw>\end{tabular}</raw>
           </region>
@@ -132,11 +139,11 @@
           <region name="table and two stateless code listings">
             <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
             <command name="lstinputlisting"
-              opt="label=lst:StatelessSmokeDetector,caption=SmokeDetector class with a stateless method extracted"
+              opt="label=lst:StatelessSmokeDetector,caption=SmokeDetector class with a stateless method extracted,style=realCode"
               param="Stateless/SmokeDetector.cs" />
             <raw>&amp;</raw>
             <command name="lstinputlisting"
-              opt="label=lst:StatelessSmokeDetectorTest,caption=Test class for SmokeDetector exploiting the new Cycle() method overload"
+              opt="label=lst:StatelessSmokeDetectorTest,caption=Test class for SmokeDetector exploiting the new Cycle() method overload,style=realCode"
               param="Stateless/SmokeDetectorTest.cs" />
             <raw>\end{tabular}</raw>
           </region>
@@ -516,6 +523,8 @@ After
         </command>
         <command name="section" param="Decisions made">
           <!--
+          = number of inputs to include in a candidate block: 2 to 6 (because 1 should be an instance or extension method on the class/struct and 7 is getting complicated)
+          = number of outputs to include in a candidate block: 1 to 3 (must return something, otherwise not function; if more than 1, maybe use a call-back?)
           = {Project}.ManualTests created to avoid interference with Pex if had used {Project}.Tests
           -->
           ...
