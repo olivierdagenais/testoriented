@@ -400,10 +400,37 @@ references as well.
           ...
         </command>
         <command name="section" param="Design">
-          Stateless method extraction's intent is to separate the interaction between the hidden mutable state in a class and said class' instance methods' inputs and outputs.
+          Stateless method extraction's intent is to separate the interaction between the hidden mutable state in a class and the inputs and outputs of said class' instance methods.  This decoupling allows programmers to first focus their unit tests on the pure computation aspects, then on the object-oriented layer above the stateless methods.
 
-          <command name="subsection" param="How stateless method extraction works">
-          TODO: a high-level walkthrough, probably copy/pasted from the "How to extract stateless methods" section of http://docs.codehaus.org/display/TESTORIENTED/Stateless+Programming+And+Testing+-+proposal and enhanced/updated accordingly.
+          <command name="subsection" param="Overview of stateless method extraction">
+            Stateless method extraction is performed in five high-level steps:
+            <block param="enumerate">
+              <command name="item">
+                Identification of a candidate block.
+                <br />
+                A "candidate block" is a functionality subset of an instance method that looks promising to turn into a stateless method.
+              </command>
+              <command name="item">
+                Re-ordering of incidental operations.
+                <br />
+                On some occasions, it may be necessary to move some statements whose ordering isn't critical (such as logging) out of the candidate block.
+              </command>
+              <command name="item">
+                Assignment of inputs to local variables.
+                <br />
+                Identify the new method's input parameters and create local variables for them.
+              </command>
+              <command name="item">
+                Simplification of inputs.
+                <br />
+                Optimize the input parameters to be native or built-in types.
+              </command>
+              <command name="item">
+                Extraction of the candidate block into a method.
+                <br />
+                The candidate block should now be easily converted into a stateless method.
+              </command>
+            </block>
           </command>
 
           <command name="subsection" param="Algorithm">
