@@ -71,7 +71,7 @@
         <command name="section" param="Problem">
           Software has advanced considerably in the last several years, but has software quality kept up?  We do not always know how good a program or component is or if it is free of defects, if only those defects that will affect us, directly or otherwise.  Software defects can range from the benign, such as incorrect colors and typographical errors in the interface or output, to very serious, such as causing the destruction of a rocket carrying four satellites <command name="cite" param="lions96ariane" /> <command name="cite" param="esa05clustermission" /> or causing the death of several patients <command name="cite" param="leveson95medicaldevices" />.
 
-          Programming languages and compilers evolved to add features that make it easier to write code, although those features do not always make it easier to test the same code.  Object-oriented programming (OOP), for example, has introduced constructs and paradigms designed to make abstraction, inheritance and polymorphism easier, but at the same time introduced a feature that can make testing more difficult:  encapsulation (i.e. information hiding) in the form of instance state.  Encapsulation allows an object to hide its implementation details so as to present a simpler interface to callers.  Indeed, Alan Kay describes this simpler, higher-level interaction between objects as "goals", replacing low-level assignments: "Again, the whole point of OOP is <command name="underline" param="not" /> to have to worry about what is <em>inside</em> an object." <command name="cite" param="kay93earlyhistory" />
+          Programming languages and compilers evolved to add features that make it easier to write code, although those features do not always make it easier to test the same code.  Object-oriented programming (OOP), for example, has introduced constructs and paradigms designed to make abstraction, inheritance and polymorphism easier, but at the same time introduced a feature that can make testing more difficult:  encapsulation (information hiding) in the form of instance state.  Encapsulation allows an object to hide its implementation details so as to present a simpler interface to callers.  Indeed, Alan Kay describes this simpler, higher-level interaction between objects as "goals", replacing low-level assignments: "Again, the whole point of OOP is <command name="underline" param="not" /> to have to worry about what is <em>inside</em> an object." <command name="cite" param="kay93earlyhistory" />
 
           Hidden and mutable instance state poses a problem for automated unit testing because that instance state may come into play when exercising a specific scenario <command name="cite" param="binder00testharness" />.  Since the instance state is mutable, the values may not be initialized at instance construction or can change as instance methods are called.  Since the instance state is hidden, there exists, by definition, no way to manipulate this instance state directly.  Separately, hidden (but immutable) instance state or mutable (but visible) instance state do not provide too many difficulties for test writing.  It is the combination of the hidden and mutable properties that make it difficult to write tests.
 
@@ -102,7 +102,7 @@
           = should I motivate [unit] testing more, like I did in my paper?
           = how about talking about the applicability to code that is currently without tests or with insufficient tests
           -->
-          Lest we could somehow perform the practically impossible "complete testing" (i.e. exhaustively trying all possible inputs), testing can only show the presence of defects and not their absence <command name="cite" param="dijkstra69structuredprogramming" />.  A good set of automated tests, on the other hand, can catch software regressions that may be introduced through the addition of a feature or the removal of a defect.  Finding (and fixing) regressions as early as possible ensures their fixing cost is minimized <command name="cite" param="spolsky00joeltest" />.  A good set of automated tests is henceforth defined as one that can catch such software regressions.
+          Lest we could somehow perform the practically impossible "complete testing" (in other words, exhaustively trying all possible inputs), testing can only show the presence of defects and not their absence <command name="cite" param="dijkstra69structuredprogramming" />.  A good set of automated tests, on the other hand, can catch software regressions that may be introduced through the addition of a feature or the removal of a defect.  Finding (and fixing) regressions as early as possible ensures their fixing cost is minimized <command name="cite" param="spolsky00joeltest" />.  A good set of automated tests is henceforth defined as one that can catch such software regressions.
 
           <!-- TODO: should the listings use a figure with subfloats, instead? -->
           <region name="table and two stateful code listings">
@@ -180,7 +180,7 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
         <command name="section" param="Objectives">
           <!-- (what you will produce to meet your goal)
           action items to address goal -->
-          To meet the goal, a testability refactoring <command name="cite" param="harman11refactoringtestability" /> algorithm called "stateless method extraction" (SME) is proposed and explained/detailed.  The SME algorithm transforms the source code of the implementation under test (IUT) to introduce a functional (i.e. "externally state-free") software layer to specifically work around many of the testability problems of HMS and to generally increase the testability of the code under test.  The SME algorithm's efficiency and effectiveness will be evaluated by comparing the results of the algorithm's application to other testing approaches.
+          To meet the goal, a testability refactoring <command name="cite" param="harman11refactoringtestability" /> algorithm called "stateless method extraction" (SME) is proposed and explained/detailed.  The SME algorithm transforms the source code of the implementation under test (IUT) to introduce a functional or "externally state-free" software layer to specifically work around many of the testability problems of HMS and to generally increase the testability of the code under test.  The SME algorithm's efficiency and effectiveness will be evaluated by comparing the results of the algorithm's application to other testing approaches.
         </command>
         <command name="section" param="Outline">
           ...
@@ -266,7 +266,7 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
 
             An improvement to hill climbing was proposed in the "simulated annealing" heuristic whereby solutions with worse objective function values will be considered with a probability decreasing with the number of iterations, allowing more of the search space to be explored in the beginning and ending with a hill climber-like exploitation.
 
-            One of the better MST heuristics is "genetic algorithms (GA)", a class of "evolutionary algorithms".  It is designed to simulate the process of natural selection (i.e. "survival of the fittest") through modeling a <em>population</em> of solutions as chromosomes and providing ways for pairs of solutions to "breed" through recombination (splicing part of one parent with part of the other and also combining the remaining two parts), providing the next generation of solutions.  The simulation is made more authentic through the use of mutations (random, low-probability alterations to the chromosome) and various reproduction selection mechanisms, such as fitness-proportional selection and tournament selection.  Through this simulation, solutions will appear to evolve across the generations and, given appropriately-tuned parameters, the population of solutions will be diverse and "fit", thus providing a good balance of exploration and exploitation of the search space.
+            One of the better MST heuristics is "genetic algorithms (GA)", a class of "evolutionary algorithms".  It is designed to simulate the process of natural selection (sometimes known as "survival of the fittest") through modeling a <em>population</em> of solutions as chromosomes and providing ways for pairs of solutions to "breed" through recombination (splicing part of one parent with part of the other and also combining the remaining two parts), providing the next generation of solutions.  The simulation is made more authentic through the use of mutations (random, low-probability alterations to the chromosome) and various reproduction selection mechanisms, such as fitness-proportional selection and tournament selection.  Through this simulation, solutions will appear to evolve across the generations and, given appropriately-tuned parameters, the population of solutions will be diverse and "fit", thus providing a good balance of exploration and exploitation of the search space.
           </command>
           <command name="subsection" param="Concolic Testing">
             Concolic testing (CT) is the combination of <em>conc</em>rete and symb<em>olic</em> execution applied to the problem of test data generation and is also known as dynamic symbolic execution <command name="cite" param="mcminn04searchbased" />.
@@ -407,7 +407,7 @@ references as well.
           </command>
 
           <command name="subsection" param="Algorithm">
-          TODO: A more formal version of the content in the previous section, in pseudo-code and/or flow-chart form.  Bonus points for rules that describe what can be fiddled with (i.e. introducing variables) and what must remain an invariant (can't always just switch instance methods to static methods - there are interfaces to implement and we want to introduce a functional layer to make the OO layer easier).
+          TODO: A more formal version of the content in the previous section, in pseudo-code and/or flow-chart form.  Bonus points for rules that describe what can be fiddled with (such as introducing variables) and what must remain an invariant (can't always just switch instance methods to static methods - there are interfaces to implement and we want to introduce a functional layer to make the OO layer easier).
           </command>
 
           <command name="subsection" param="Suitability">
@@ -415,7 +415,7 @@ references as well.
           </command>
 
           <command name="subsection" param="Applicability">
-          TODO: What code can it almost work on and what needs to be done first (i.e. how to make it suitable).  This can augment the algorithm presented earlier with lots of special cases.
+          TODO: What code can it almost work on and what needs to be done first (in other words, how to make it suitable).  This can augment the algorithm presented earlier with lots of special cases.
           </command>
 
           <!-- TODO: regarding the motivation for CGT in our case
@@ -464,7 +464,7 @@ references as well.
           -->
           ...
         </command>
-        <command name="section" param="Reproducability">
+        <command name="section" param="Reproducibility">
           <!-- Enough for somebody to reproduce experiment -->
           ...
         </command>
