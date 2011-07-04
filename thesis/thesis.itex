@@ -439,10 +439,39 @@ references as well.
 
           <command name="subsection" param="Suitability">
           TODO: What code does it just trivially work on?  What should we look for?  Is it a metric that can be automatically measured through something like code analysis? (for example, how many instance fields are being read from and written to)
+          <!-- From Textile/States/FootNoteFormatterState.cs; see revision 99
+Before
+        protected override void OnContextAcquired()
+        {
+            Match m = Regex.Match(Tag, @"^fn(?<id>[0-9]+)");
+            m_noteID = Int32.Parse(m.Groups["id"].Value);
+        }
+
+During
+        protected override void OnContextAcquired()
+        {
+            string input = Tag;
+            Match m = Regex.Match(input, @"^fn(?<id>[0-9]+)");
+            string result = Int32.Parse(m.Groups["id"].Value);
+            m_noteID = result;
+        }
+
+After
+        protected override void OnContextAcquired()
+        {
+            m_noteID = ParseFootNoteId(Tag);
+        }
+
+        internal static int ParseFootNoteId(string input)
+        {
+            Match m = Regex.Match(input, @"^fn(?<id>[0-9]+)");
+            return Int32.Parse(m.Groups["id"].Value);
+        }
+          -->
           </command>
 
           <command name="subsection" param="Applicability">
-          TODO: What code can it almost work on and what needs to be done first (in other words, how to make it suitable).  This can augment the algorithm presented earlier with lots of special cases.
+          TODO: What code can it almost work on and what needs to be done first (in other words, how to make it suitable).  This can augment the algorithm presented earlier with lots of special cases.  For example, the use of a call-back for incidental operations that can not be re-ordered, multiple return values, etc.
           </command>
 
           <!-- TODO: regarding the motivation for CGT in our case
