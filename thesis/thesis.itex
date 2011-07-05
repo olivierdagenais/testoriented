@@ -23,6 +23,7 @@
       <command name="usepackage" param="courier" />
       <command name="lstset" param="tabsize=2" />
       <command name="lstdefinestyle" param="realCode}{basicstyle=\tiny\ttfamily, numbers=left, numberstyle=\tiny\ttfamily" />
+      <command name="lstdefinestyle" param="pseudoCode}{basicstyle=\small, numbers=none" />
       <!-- Override the lstinputlisting command to surround it inside braces,
       otherwise the style parameter does not work:
         http://tex.stackexchange.com/q/21663/1892
@@ -409,118 +410,133 @@ references as well.
         <command name="section" param="Design">
           Stateless method extraction's intent is to separate the interaction between the hidden mutable state in a class and the inputs and outputs of said class' instance methods.  This decoupling allows programmers to first focus their unit tests on the pure computation aspects, then on the object-oriented layer above the stateless methods.
 
-          <command name="subsection" param="Overview of stateless method extraction">
+          <command name="subsection" param="Overview">
             Stateless method extraction is performed in five high-level steps:
             <block param="enumerate">
-              <command name="item">
-                Identification of a candidate block.
+              <command name="item"> Identification of a candidate block.
                 <br />
                 A "candidate block" is a functionality subset of an instance method that looks promising to turn into a stateless method.
               </command>
-              <command name="item">
-                Re-ordering of incidental operations.
+              <command name="item"> Re-ordering of incidental operations.
                 <br />
                 On some occasions, it may be necessary to move some statements whose ordering isn't critical (such as logging) out of the candidate block.
               </command>
-              <command name="item">
-                Assignment of inputs to local variables.
+              <command name="item"> Assignment of inputs to local variables.
                 <br />
                 Identify the new method's input parameters and create local variables for them.
               </command>
-              <command name="item">
-                Simplification of inputs.
+              <command name="item"> Simplification of inputs.
                 <br />
                 Optimize the input parameters to be native or built-in types.
               </command>
-              <command name="item">
-                Extraction of the candidate block into a method.
+              <command name="item"> Extraction of the candidate block into a method.
                 <br />
                 The candidate block should now be easily converted into a stateless method.
               </command>
             </block>
+            Refer to listing <command name="ref" param="lst:Procedure" /> for a pseudo-code version of the stateless method extraction procedure.  The following sub-sections will cover the individual steps in greater detail.
+            <!-- TODO: should this be an "algorithmic" block, instead? -->
+            <command name="lstinputlisting"
+              opt="label=lst:Procedure,caption=General procedure for extracting stateless methods,style=pseudoCode"
+              param="Procedure.pc" />
           </command>
 
-          <command name="subsection" param="Algorithm">
-          TODO: A more formal version of the content in the previous section, in pseudo-code and/or flow-chart form.  Bonus points for rules that describe what can be fiddled with (such as introducing variables) and what must remain an invariant (can't always just switch instance methods to static methods - there are interfaces to implement and we want to introduce a functional layer to make the OO layer easier).
-          </command>
+          <command name="subsection" param="Identification of a candidate block">
+            The first step of SME consists of identifying, in an instance method, one or more functionality subsets that would be good candidates for extraction and subsequent unit testing.  That is to say it is not necessary to extract the entire body of an instance method if there are parts of the original method that would be more suitable to extract and unit test individually and separately.
 
-          <command name="subsection" param="Suitability">
-          TODO: What code does it just trivially work on?  What should we look for?  Is it a metric that can be automatically measured through something like code analysis? (for example, how many instance fields are being read from and written to)
-          <!-- From Textile/States/FootNoteFormatterState.cs; see revision 99
+            The criteria for establishing candidacy of a block consist of:
+            <block param="enumerate">
+              <command name="item"> A continuous set of statements.</command>
+              <command name="item"> Inputs (local variables, fields and/or method parameters): at least 2 but no more than 6.</command>
+              <command name="item"> Outputs (local variables, fields and/or return values): at least 1 but no more than 3.
+                <br />
+                At least one non-trivial result must be produced by processing the inputs together.
+              </command>
+              <command name="item"> Contains no calls to instance methods on self.
+                <br />
+                If the instance method calls are not sensitive to ordering, it may be possible to move them out of the candidate block.
+              </command>
+            </block>
+          </command>
+        </command>
+
+        <command name="section" param="Suitability">
+        TODO: What code does it just trivially work on?  What should we look for?  Is it a metric that can be automatically measured through something like code analysis? (for example, how many instance fields are being read from and written to)
+        <!-- It is trivial to extract a stateless method when all the inputs come from the method's parameters and the only output is the method's return value.  If the method wasn't an override or an interface implementation, it could simply be turned into a static method, but we don't do public interface changes -->
+        <!-- From Textile/States/FootNoteFormatterState.cs; see revision 99
 Before
-        protected override void OnContextAcquired()
-        {
-            Match m = Regex.Match(Tag, @"^fn(?<id>[0-9]+)");
-            m_noteID = Int32.Parse(m.Groups["id"].Value);
-        }
+      protected override void OnContextAcquired()
+      {
+          Match m = Regex.Match(Tag, @"^fn(?<id>[0-9]+)");
+          m_noteID = Int32.Parse(m.Groups["id"].Value);
+      }
 
 During
-        protected override void OnContextAcquired()
-        {
-            string input = Tag;
-            Match m = Regex.Match(input, @"^fn(?<id>[0-9]+)");
-            string result = Int32.Parse(m.Groups["id"].Value);
-            m_noteID = result;
-        }
+      protected override void OnContextAcquired()
+      {
+          string input = Tag;
+          Match m = Regex.Match(input, @"^fn(?<id>[0-9]+)");
+          string result = Int32.Parse(m.Groups["id"].Value);
+          m_noteID = result;
+      }
 
 After
-        protected override void OnContextAcquired()
-        {
-            m_noteID = ParseFootNoteId(Tag);
-        }
+      protected override void OnContextAcquired()
+      {
+          m_noteID = ParseFootNoteId(Tag);
+      }
 
-        internal static int ParseFootNoteId(string input)
-        {
-            Match m = Regex.Match(input, @"^fn(?<id>[0-9]+)");
-            return Int32.Parse(m.Groups["id"].Value);
-        }
-          -->
-          </command>
-
-          <command name="subsection" param="Applicability">
-          TODO: What code can it almost work on and what needs to be done first (in other words, how to make it suitable).  This can augment the algorithm presented earlier with lots of special cases.  For example, the use of a call-back for incidental operations that can not be re-ordered, multiple return values, etc.
-          </command>
-
-          <!-- TODO: regarding the motivation for CGT in our case
-          The better the statement coverage of the generated tests, the more testable the original source code under the transformation is considered.
-          -->
-          <!--
-          = discuss applicability/suitability (in 1 or 2 sections?)
-          == existing/legacy systems with few tests (through acquisition, maintenance)
-          == technology constraints (i.e. class must have default public constructor, such as IHttpModule implementations in ASP.NET)
-          == programming language with visibility controls for methods such that the extracted methods are visible to tests but not necessarily all users
-          = discuss theoretical trade-offs and suitability towards goal
-          == forces number of arguments of stateless method to remain small, to avoid Misko's splippery slope
-          == MUST be a pure refactor, i.e. callers are/will be none the wiser
-          === no bugs added
-          === no bugs fixed during this step, always expose and fix bug separately from extraction
-          === no performance differences (extracted method could always be inlined by the compiler for release)
-          == MUST preserve seams, in case code is already partially tested
-          => work around reachability barriers
-          = discuss scope of technique (i.e. on which code should it be applied)
-          == what to extract, what not to extract
-          == what can be re-ordered because its exact "timing" is not terribly important
-          == how many [static/instance] fields read
-          == how many [static/instance] fields modified
-          == how many parameters needed
-          == what happens when environment-modifying operations are used
-          = discuss experiments with Pex (if only to introduce for another section)
-          == trade-offs of automatic test generation based on code coverage
-          == differences between a constraint solver and evolutionary testing
-          = manual application
-          == manual test writing
-          == manual stateless method extraction
-          == compare unit tests before and after
-          -->
-          <!--
-          = reduce the number of inputs participating in the test
-          == reduce the number of methods called to bring object under test into appropriate state (methods executed before - arrange)
-          == reduce the number of instances created to support test scenario
-          = reduce the number of outputs produced by the test
-          == reduce the number of methods called to extract interesting output (methods executed after - assert)
-          = reduce the amount of clean-up done to compensate for "arrange" phase
-          -->
+      internal static int ParseFootNoteId(string input)
+      {
+          Match m = Regex.Match(input, @"^fn(?<id>[0-9]+)");
+          return Int32.Parse(m.Groups["id"].Value);
+      }
+        -->
         </command>
+
+        <command name="section" param="Applicability">
+        TODO: What code can it almost work on and what needs to be done first (in other words, how to make it suitable).  This can augment the algorithm presented earlier with lots of special cases.  For example, the use of a call-back for incidental operations that can not be re-ordered, multiple return values, etc.
+        </command>
+
+        <!-- TODO: regarding the motivation for CGT in our case
+        The better the statement coverage of the generated tests, the more testable the original source code under the transformation is considered.
+        -->
+        <!--
+        = discuss applicability/suitability (in 1 or 2 sections?)
+        == existing/legacy systems with few tests (through acquisition, maintenance)
+        == technology constraints (i.e. class must have default public constructor, such as IHttpModule implementations in ASP.NET)
+        == programming language with visibility controls for methods such that the extracted methods are visible to tests but not necessarily all users
+        = discuss theoretical trade-offs and suitability towards goal
+        == forces number of arguments of stateless method to remain small, to avoid Misko's splippery slope
+        == MUST be a pure refactor, i.e. callers are/will be none the wiser
+        === no bugs added
+        === no bugs fixed during this step, always expose and fix bug separately from extraction
+        === no performance differences (extracted method could always be inlined by the compiler for release)
+        == MUST preserve seams, in case code is already partially tested
+        => work around reachability barriers
+        = discuss scope of technique (i.e. on which code should it be applied)
+        == what to extract, what not to extract
+        == what can be re-ordered because its exact "timing" is not terribly important
+        == how many [static/instance] fields read
+        == how many [static/instance] fields modified
+        == how many parameters needed
+        == what happens when environment-modifying operations are used
+        = discuss experiments with Pex (if only to introduce for another section)
+        == trade-offs of automatic test generation based on code coverage
+        == differences between a constraint solver and evolutionary testing
+        = manual application
+        == manual test writing
+        == manual stateless method extraction
+        == compare unit tests before and after
+        -->
+        <!--
+        = reduce the number of inputs participating in the test
+        == reduce the number of methods called to bring object under test into appropriate state (methods executed before - arrange)
+        == reduce the number of instances created to support test scenario
+        = reduce the number of outputs produced by the test
+        == reduce the number of methods called to extract interesting output (methods executed after - assert)
+        = reduce the amount of clean-up done to compensate for "arrange" phase
+        -->
         <command name="section" param="Decisions made">
           <!--
           = number of inputs to include in a candidate block: 2 to 6 (because 1 should be an instance or extension method on the class/struct and 7 is getting complicated)

@@ -1,0 +1,19 @@
+Procedure extract_stateless_method(instance_method)
+  Let blocks = find_candidate_blocks(instance_method)
+  For Each block In blocks
+    If contains_incidental_operations(block)
+      If incidental_operations_can_be_re-ordered(block)
+        re-order_incidental_operations(block)
+      Else
+        # TODO: split block?
+        Continue
+      End If
+    End If
+    introduce_local_variables_for_parameters_and_return_values(block)
+    Until method_parameters_and_return_values_are_simple_types(block)
+      shrink_candidate_block(block)
+      introduce_local_variables_for_parameters_and_return_values(block)
+    Repeat
+    extract_candidate_block(block)
+  Next block
+End Procedure
