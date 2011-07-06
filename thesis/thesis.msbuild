@@ -27,7 +27,18 @@ transformer.Transform(Source, Destination);
     <RemoveDir Directories="obj" />
   </Target>
   <Target Name="samples">
-    <!-- TODO: invoke <MSBuild Projects="" /> with samples/*.sln -->
+    <ItemGroup>
+      <SampleProjects Include="Samples/**/*.sln" />
+    </ItemGroup>
+    <MSBuild
+      BuildInParallel="true"
+      Projects="@(SampleProjects)"
+      Properties="Configuration=Debug"
+      Targets="Build"
+    >
+      <Output TaskParameter="TargetOutputs" ItemName="SampleAssemblies" />
+    </MSBuild>
+    <Exec Command="Samples\nunit-console-x86.exe /nologo /nodots /noshadow &quot;%(SampleAssemblies.FullPath)&quot;" />
   </Target>
   <Target Name="compile" DependsOnTargets="clean;samples">
     <MakeDir Directories="obj;bin" />
