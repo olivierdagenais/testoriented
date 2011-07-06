@@ -313,6 +313,7 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
             Difficulties associated with internal state can be reduced or worked around with better analysis, such as data dependency analysis <command name="cite" param="korel05datadependence" />.  Since said analysis can often be time-consuming, techniques, such as program slicing <command name="cite" param="tip95surveyslicing" /> were developed to help reduce the search space.  McMinn went on to develop a technique that enhances the search to look for method call sequences along with combining the chaining approach with evolutionary search <command name="cite" param="mcminn05evolutionarysearch" />.
 
             Another approach to generate tests for programs with state - specifically those written in object-oriented programming languages - was proposed by Wappler and Wegener <command name="cite" param="wappler06evolutionaryunit" />.  Their two-phase technique is called "strongly-typed genetic programming" and consists of first using genetic programming to generate a sequence of methods to call (creating instances of classes as necessary), then using a genetic algorithm to find suitable values for the parameters of the generated method calls.
+            <!-- TODO: discuss Microsoft's PrivateObject -->
           </command>
           <command name="subsection" param="The case for functional programming">
             <block param="quote">
@@ -454,9 +455,37 @@ references as well.
               </command>
               <command name="item"> Contains no calls to instance methods on self.
                 <br />
-                If the instance method calls are not sensitive to ordering, it may be possible to move them out of the candidate block.
+                If the instance method calls are not sensitive to ordering, it may be possible to move them out of the candidate block, otherwise it may be useful to create two candidate blocks, one on either side of the instance method call.
               </command>
             </block>
+            Categories of interesting candidate blocks include:
+            <block param="itemize">
+              <command name="item"> Processing of a single element where such processing currently takes place while looping through a sequence of elements.  For a before-after example, refer to listings <command name="ref" param="lst:StatefulGenerateXml" /> and <command name="ref" param="lst:StatelessGenerateXml" />.
+              </command>
+            </block>
+            <region name="table and two code listings">
+              <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
+              <command name="lstinputlisting"
+                opt="label=lst:StatefulGenerateXml,caption=GenerateXml() method with a candidate block between lines 18-30,style=realCode,linerange=40-81"
+                param="Stateful/ImageCollection.cs" />
+              <raw>&amp;</raw>
+              <command name="lstinputlisting"
+                opt="label=lst:StatelessGenerateXml,caption=GenerateXml() method with the candidate block extracted as the GenerateItemNode() method,style=realCode,linerange=40-91"
+                param="Stateless/ImageCollection.cs" />
+              <raw>\end{tabular}</raw>
+            </region>
+            <!-- examples
+very suitable blocks:
+- regular expression matching/extraction (put that processing into its own method)
+- filling in a template (the reverse of regular expression matching)
+
+unsuitable blocks:
+- trivial state changes (i.e. Reset() method, increment a counter)
+- no outputs
+- too many outputs
+- too many inputs
+-
+            -->
           </command>
         </command>
 
@@ -496,6 +525,7 @@ After
 
         <command name="section" param="Applicability">
         TODO: What code can it almost work on and what needs to be done first (in other words, how to make it suitable).  This can augment the algorithm presented earlier with lots of special cases.  For example, the use of a call-back for incidental operations that can not be re-ordered, multiple return values, etc.
+        <!-- Loop item processing is difficult when there are operations other than per-item processing, such as stats and loop invariants -->
         </command>
 
         <!-- TODO: regarding the motivation for CGT in our case
