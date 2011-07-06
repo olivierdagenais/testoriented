@@ -33,10 +33,15 @@ namespace Textile.States
         public override void Enter()
         {
             Formatter.Output.Write(
-                string.Format("<p id=\"fn{0}\"{1}><sup>{2}</sup> ",
-                    m_noteID,
-                    FormattedStylesAndAlignment(),
-                    m_noteID));
+                FormatFootNote(m_noteID, FormattedStylesAndAlignment()));
+        }
+
+        internal static string FormatFootNote(int noteId, string formattedStylesAndAlignment)
+        {
+            return string.Format("<p id=\"fn{0}\"{1}><sup>{2}</sup> ",
+                noteId,
+                formattedStylesAndAlignment,
+                noteId);
         }
 
         public override void Exit()
