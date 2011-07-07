@@ -43,10 +43,10 @@ public class FlyingSalespersonProblem
       int j = (i + 1) % _numberOfCities;
       var from = _cities[_visitingOrder[i]];
       var to = _cities[_visitingOrder[j]];
-      var delta1 = Math.PI * from.Lat / 180.0;
-      var lambda1 = Math.PI * from.Lon / 180.0;
-      var delta2 = Math.PI * to.Lat / 180.0;
-      var lambda2 = Math.PI * to.Lon / 180.0;
+      var delta1 = ToRadians(from.Lat);
+      var lambda1 = ToRadians(from.Lon);
+      var delta2 = ToRadians(to.Lat);
+      var lambda2 = ToRadians(to.Lon);
 
       tourLength += AverageEarthRadius
         * Math.Acos(
@@ -57,5 +57,10 @@ public class FlyingSalespersonProblem
         );
     }
     return tourLength;
+  }
+
+  internal static double ToRadians(double degrees)
+  {
+    return Math.PI * degrees / 180.0;
   }
 }
