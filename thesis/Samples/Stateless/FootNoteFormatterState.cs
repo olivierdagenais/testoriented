@@ -52,11 +52,18 @@ public class FootNoteFormatterState
   public override void Enter()
   {
     Writer.Write(
-      string.Format(
-        "<p id=\"fn{0}\"{1}><sup>{2}</sup> ",
-        m_noteID,
-        FormattedStylesAndAlignment(),
-        m_noteID));
+      FormatFootNote(m_noteID,
+        FormattedStylesAndAlignment()));
+  }
+
+  internal static string FormatFootNote
+    (int noteId, string formattedStylesAndAlignment)
+  {
+    return string.Format(
+      "<p id=\"fn{0}\"{1}><sup>{2}</sup> ",
+      noteId,
+      formattedStylesAndAlignment,
+      noteId);
   }
 
   public override void Exit()
@@ -71,7 +78,12 @@ public class FootNoteFormatterState
 
   protected override void OnContextAcquired()
   {
-    Match m = Regex.Match(Tag, @"^fn(?<id>[0-9]+)");
-    m_noteID = Int32.Parse(m.Groups["id"].Value);
+    m_noteID = ParseFootNoteId(Tag);
+  }
+
+  internal static int ParseFootNoteId(string input)
+  {
+    Match m = Regex.Match(input, @"^fn(?<id>[0-9]+)");
+    return Int32.Parse(m.Groups["id"].Value);
   }
 }
