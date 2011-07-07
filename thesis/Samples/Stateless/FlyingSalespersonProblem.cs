@@ -47,21 +47,30 @@ public class FlyingSalespersonProblem
       var fromLon = from.Lon;
       var toLat = to.Lat;
       var toLon = to.Lon;
-      var delta1 = ToRadians(fromLat);
-      var lambda1 = ToRadians(fromLon);
-      var delta2 = ToRadians(toLat);
-      var lambda2 = ToRadians(toLon);
-
-      var greatCircleDistance = Math.Acos(
-        Math.Cos(delta1)
-        * Math.Cos(delta2)
-        * Math.Cos(lambda1 - lambda2)
-        + Math.Sin(delta1) * Math.Sin(delta2)
-        );
+      double greatCircleDistance =
+        CalculateGreatCircleDistance(
+          fromLat, fromLon, toLat, toLon);
       tourLength += AverageEarthRadius
         * greatCircleDistance;
     }
     return tourLength;
+  }
+
+  internal static double CalculateGreatCircleDistance
+    (double fromLat, double fromLon,
+    double toLat, double toLon)
+  {
+    var delta1 = ToRadians(fromLat);
+    var lambda1 = ToRadians(fromLon);
+    var delta2 = ToRadians(toLat);
+    var lambda2 = ToRadians(toLon);
+
+    return Math.Acos(
+      Math.Cos(delta1)
+      * Math.Cos(delta2)
+      * Math.Cos(lambda1 - lambda2)
+      + Math.Sin(delta1) * Math.Sin(delta2)
+      );
   }
 
   internal static double ToRadians(double degrees)
