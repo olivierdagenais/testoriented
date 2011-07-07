@@ -412,7 +412,7 @@ references as well.
           Stateless method extraction's intent is to separate the interaction between the hidden mutable state in a class and the inputs and outputs of said class' instance methods.  This decoupling allows programmers to first focus their unit tests on the pure computation aspects, then on the object-oriented layer above the stateless methods.
 
           <command name="subsection" param="Overview">
-            Stateless method extraction is performed in five high-level steps:
+            Stateless method extraction is performed in six high-level steps:
             <block param="enumerate">
               <command name="item"> Identification of a candidate block.
                 <br />
@@ -422,9 +422,9 @@ references as well.
                 <br />
                 On some occasions, it may be necessary to move some statements whose ordering isn't critical (such as logging) out of the candidate block.
               </command>
-              <command name="item"> Assignment of inputs to local variables.
+              <command name="item"> Assignment of inputs and outputs to local variables.
                 <br />
-                Identify the new method's input parameters and create local variables for them.
+                Identify the new method's input and output parameters then create local variables for them.  This will facilitate the method extraction and provides useful names for the parameters of the to-be-extracted method.
               </command>
               <command name="item"> Simplification of inputs.
                 <br />
@@ -434,6 +434,10 @@ references as well.
                 <br />
                 The candidate block should now be easily converted into a stateless method.
               </command>
+              <command name="item"> Re-inline any variables created to facilitate a refactor.
+                <br />
+                This reverses the actions of step #3 so the refactor has as little impact on the original code as possible and only contains the necessary changes.
+              </command>
             </block>
             Refer to listing <command name="ref" param="lst:Procedure" /> for a pseudo-code version of the stateless method extraction procedure.  The following sub-sections will cover the individual steps in greater detail.
             <!-- TODO: should this be an "algorithmic" block, instead? -->
@@ -442,16 +446,16 @@ references as well.
               param="Procedure.pc" />
           </command>
 
-          <command name="subsection" param="Identification of a candidate block">
+          <command name="subsection" param="Step 1: Identification of a candidate block">
             The first step of SME consists of identifying, in an instance method, one or more functionality subsets that would be good candidates for extraction and subsequent unit testing.  That is to say it is not necessary to extract the entire body of an instance method if there are parts of the original method that would be more suitable to extract and unit test individually and separately.
 
             The criteria for establishing candidacy of a block consist of:
             <block param="enumerate">
               <command name="item"> A continuous set of statements.</command>
-              <command name="item"> Inputs (local variables, fields and/or method parameters): at least 2 but no more than 6.</command>
+              <command name="item"> Inputs (local variables, fields and/or method parameters): at least 1 but no more than 6.</command>
               <command name="item"> Outputs (local variables, fields and/or return values): at least 1 but no more than 3.
                 <br />
-                At least one non-trivial result must be produced by processing the inputs together.
+                At least one non-trivial result must be produced by processing the input(s).
               </command>
               <command name="item"> Contains no calls to instance methods on self.
                 <br />
@@ -460,10 +464,32 @@ references as well.
             </block>
             Categories of interesting candidate blocks include:
             <block param="itemize">
-              <command name="item"> Processing of a single element where such processing currently takes place while looping through a sequence of elements.  For a before-after example, refer to listings <command name="ref" param="lst:StatefulGenerateXml" /> and <command name="ref" param="lst:StatelessGenerateXml" />.
+              <command name="item"> Implementations of mathematical formulas.
+                For example, converting from degrees to radians or computing the great circle distance (the shortest path between two points on a sphere), both of which are shown being performed inline in listing <command name="ref" param="lst:StatefulComputeTourLength" />.
+              </command>
+              <command name="item"> Processing of a single element where such processing currently takes place while looping through a sequence of elements.
+                For a before-after example, refer to listings <command name="ref" param="lst:StatefulGenerateXml" /> and <command name="ref" param="lst:StatelessGenerateXml" />.
+              </command>
+              <command name="item"> String parsing, especially when using a regular expression.
+              </command>
+              <command name="item"> Filling in of templates.
+                This can be considered the reverse of string parsing and usually involves combining a few inputs to yield a meaninful string representation.
               </command>
             </block>
-            <region name="table and two code listings">
+            It follows that there are uninteresting categories of blocks, such as:
+            <block param="itemize">
+              <command name="item"> Trivial state changes, such as a Reset() method that sets a number of instance fields to a specific set of values.</command>
+              <command name="item"> Too many inputs and/or outputs.
+                This could be considered a more general case than the previous category but there are instances where it may not make sense to break up some processing for either readability or performance reasons.
+              </command>
+              <command name="item"> Not enough outputs.
+                For example, an instance method may be calling instance methods on its fields in such a way that there are no observable changes to the fields' own hidden mutable state.
+              </command>
+            </block>
+            <command name="lstinputlisting"
+              opt="caption=ComputeTourLength() method with some inlined mathematical formulas,label=lst:StatefulComputeTourLength,style=realCode,linerange=38-60"
+              param="Stateful/FlyingSalespersonProblem.cs" />
+            <region name="table and two code listings for partial loop block extraction">
               <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
               <command name="lstinputlisting"
                 opt="label=lst:StatefulGenerateXml,caption=GenerateXml() method with a candidate block between lines 18-30,style=realCode,linerange=40-81"
@@ -475,16 +501,34 @@ references as well.
               <raw>\end{tabular}</raw>
             </region>
             <!-- examples
-very suitable blocks:
-- regular expression matching/extraction (put that processing into its own method)
-- filling in a template (the reverse of regular expression matching)
+[re: formulas]
+Notice how the SME refactoring not only makes testing trivial but also makes the processing in the original method a lot more obvious and transparent:  once ToRadians() and CalculateGreatCircleDistance() are tested the implementation of ComputeTourLength() is easier to read and it becomes easier to re-use these two methods elsewhere.
 
-unsuitable blocks:
-- trivial state changes (i.e. Reset() method, increment a counter)
-- no outputs
-- too many outputs
-- too many inputs
--
+[re: string parsing]
+= FootNoteFormatterState is perfect because it is impossible to test [the parsing or the formatting] in isolation because:
+  = m_tag is only assignable in SimpleBlockFormatterState
+  = by a method (Consume) that accepts an instance of Match (Match can't be directly created)
+    = it might be easiest to stop here and create the Match from a Regex on input
+  = which is called from a private method
+  = which is called from TextileFormatter.Format(string)
+  = which must be constructed with an instance of IOutputter
+  => see revision 202 for what a "test" looks like vs. what it looks like with a small stateless method extraction
+For example, consider the following <tt>OnContextAcquired()</tt> method in a class that reads from the <tt>Tag</tt> property defined in a parent class and writes to the <tt>m\_noteID</tt> field.  This method is very difficult to test because it requires considerable work to get the read-only <tt>Tag</tt> property to have a specific value and considerable work to be able to observe the result of the <tt>m\_noteID</tt> field, since it is private.  See Appendix <command name="ref" param="chapter:FootNoteFormatterState" /> for a more thorough treatment.
+                <block param="itemize">
+                  <command name="item"> Original method:
+                    <br />
+                    <command name="lstinputlisting"
+                      opt="label=lst:StatefulOnContextAcquired,style=realCode,linerange=72-76"
+                      param="Stateful/FootNoteFormatterState.cs" />
+                  </command>
+                  <command name="item"> After SME:
+                    <br />
+                    <command name="lstinputlisting"
+                      opt="label=lst:StatefulOnContextAcquired,style=realCode,linerange=79-88"
+                      param="Stateless/FootNoteFormatterState.cs" />
+                    Notice that the <tt>ParseFootNoteId()</tt> method can be unit tested by calling it directly and asserting on its output directly.
+                  </command>
+                </block>
             -->
           </command>
         </command>
@@ -492,35 +536,6 @@ unsuitable blocks:
         <command name="section" param="Suitability">
         TODO: What code does it just trivially work on?  What should we look for?  Is it a metric that can be automatically measured through something like code analysis? (for example, how many instance fields are being read from and written to)
         <!-- It is trivial to extract a stateless method when all the inputs come from the method's parameters and the only output is the method's return value.  If the method wasn't an override or an interface implementation, it could simply be turned into a static method, but we don't do public interface changes -->
-        <!-- From Textile/States/FootNoteFormatterState.cs; see revision 99
-Before
-      protected override void OnContextAcquired()
-      {
-          Match m = Regex.Match(Tag, @"^fn(?<id>[0-9]+)");
-          m_noteID = Int32.Parse(m.Groups["id"].Value);
-      }
-
-During
-      protected override void OnContextAcquired()
-      {
-          string input = Tag;
-          Match m = Regex.Match(input, @"^fn(?<id>[0-9]+)");
-          string result = Int32.Parse(m.Groups["id"].Value);
-          m_noteID = result;
-      }
-
-After
-      protected override void OnContextAcquired()
-      {
-          m_noteID = ParseFootNoteId(Tag);
-      }
-
-      internal static int ParseFootNoteId(string input)
-      {
-          Match m = Regex.Match(input, @"^fn(?<id>[0-9]+)");
-          return Int32.Parse(m.Groups["id"].Value);
-      }
-        -->
         </command>
 
         <command name="section" param="Applicability">
@@ -569,7 +584,7 @@ After
         -->
         <command name="section" param="Decisions made">
           <!--
-          = number of inputs to include in a candidate block: 2 to 6 (because 1 should be an instance or extension method on the class/struct and 7 is getting complicated)
+          = number of inputs to include in a candidate block: 1 to 6 (although 1 should probably be an instance or extension method on the class/struct and 7 is getting complicated)
           = number of outputs to include in a candidate block: 1 to 3 (must return something, otherwise not function; if more than 1, maybe use a call-back?)
           = {Project}.ManualTests created to avoid interference with Pex if had used {Project}.Tests
           -->
@@ -720,6 +735,81 @@ After
           <command name="item" opt="SE"> Symbolic Execution</command>
           <command name="item" opt="SME"> Stateless Method Extraction</command>
         </block>
+      </command>
+      <command name="chapter" param="Simple parsing and templating made trivial to test">
+        <command name="label" param="chapter:FootNoteFormatterState" />
+        TODO: tell the sad tale of untestability in FootNoteFormatterState and show the unit tests before and after SME using content from revision 99, 202 and whatever revision will add a test for OnContextAcquired to prove the point.
+<!--
+From Textile/States/FootNoteFormatterState.cs;
+
+Revision 99:
+Before
+protected override void OnContextAcquired()
+{
+  Match m = Regex.Match(Tag, @"^fn(?<id>[0-9]+)");
+  m_noteID = Int32.Parse(m.Groups["id"].Value);
+}
+
+During
+protected override void OnContextAcquired()
+{
+  string input = Tag;
+  Match m = Regex.Match(input, @"^fn(?<id>[0-9]+)");
+  string result = Int32.Parse(m.Groups["id"].Value);
+  m_noteID = result;
+}
+
+After
+protected override void OnContextAcquired()
+{
+  m_noteID = ParseFootNoteId(Tag);
+}
+
+internal static int ParseFootNoteId(string input)
+{
+  Match m = Regex.Match(input, @"^fn(?<id>[0-9]+)");
+  return Int32.Parse(m.Groups["id"].Value);
+}
+
+Revision 202:
+Before
+public override void Enter()
+{
+  Formatter.Output.Write(
+    string.Format("<p id=\"fn{0}\"{1}><sup>{2}</sup> ",
+      m_noteID,
+      FormattedStylesAndAlignment(),
+      m_noteID));
+}
+
+During
+public override void Enter()
+{
+  var noteID = m_noteID;
+  var formattedStylesAndAlignment = FormattedStylesAndAlignment();
+  var result = string.Format("<p id=\"fn{0}\"{1}><sup>{2}</sup> ",
+    noteID,
+    formattedStylesAndAlignment,
+    noteID);
+  Formatter.Output.Write(result);
+}
+
+After
+public override void Enter()
+{
+  Formatter.Output.Write(
+    FormatFootNote(m_noteID, FormattedStylesAndAlignment()));
+}
+
+internal static string FormatFootNote(int noteId, string formattedStylesAndAlignment)
+{
+  return string.Format("<p id=\"fn{0}\"{1}><sup>{2}</sup> ",
+    noteID,
+    formattedStylesAndAlignment,
+    noteID));
+}
+
+-->
       </command>
     </command>
     <command name="bibliographystyle" param="abbrv" />
