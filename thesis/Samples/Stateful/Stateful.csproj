@@ -45,6 +45,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FootNoteFormatterState.cs" />
     <Compile Include="ImageCollection.cs" />
     <Compile Include="ImageCollectionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
