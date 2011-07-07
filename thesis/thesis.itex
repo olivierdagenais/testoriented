@@ -445,7 +445,6 @@ references as well.
               opt="label=lst:Procedure,caption=General procedure for extracting stateless methods,style=pseudoCode"
               param="Procedure.pc" />
           </command>
-
           <command name="subsection" param="Step 1: Identification of a candidate block">
             The first step of SME consists of identifying, in an instance method, one or more functionality subsets that would be good candidates for extraction and subsequent unit testing.  That is to say it is not necessary to extract the entire body of an instance method if there are parts of the original method that would be more suitable to extract and unit test individually and separately.
 
@@ -500,6 +499,22 @@ references as well.
                 param="Stateless/ImageCollection.cs" />
               <raw>\end{tabular}</raw>
             </region>
+          </command>
+          <command name="subsection" param="Step 2: Re-ordering of incidental operations">
+            TODO
+          </command>
+          <command name="subsection" param="Step 3: Assignment of inputs and outputs to local variables">
+            TODO
+          </command>
+          <command name="subsection" param="Step 4: Simplification of inputs">
+            TODO
+          </command>
+          <command name="subsection" param="Step 5: Extraction of the candidate block into a method">
+            TODO
+          </command>
+          <command name="subsection" param="Step 6: Re-inline any variables created to facilitate a refactor">
+            TODO
+          </command>
             <!-- examples
 [re: formulas]
 Notice how the SME refactoring not only makes testing trivial but also makes the processing in the original method a lot more obvious and transparent:  once ToRadians() and CalculateGreatCircleDistance() are tested the implementation of ComputeTourLength() is easier to read and it becomes easier to re-use these two methods elsewhere.
@@ -530,9 +545,7 @@ For example, consider the following <tt>OnContextAcquired()</tt> method in a cla
                   </command>
                 </block>
             -->
-          </command>
         </command>
-
         <command name="section" param="Suitability">
         TODO: What code does it just trivially work on?  What should we look for?  Is it a metric that can be automatically measured through something like code analysis? (for example, how many instance fields are being read from and written to)
         <!-- It is trivial to extract a stateless method when all the inputs come from the method's parameters and the only output is the method's return value.  If the method wasn't an override or an interface implementation, it could simply be turned into a static method, but we don't do public interface changes -->
