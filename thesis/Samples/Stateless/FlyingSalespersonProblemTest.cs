@@ -45,4 +45,19 @@ public class FlyingSalespersonProblemTest
       0.0001);
   }
 
+  /// <summary>
+  /// Based on the "Worked example" in Wikipedia's
+  /// article on "Great-circle distance",
+  /// confirmed with the "Great Circle Calculator" at
+  /// http://williams.best.vwh.net/gccalc.htm
+  /// </summary>
+  [Test]
+  public void CalculateGreatCircleDistance_BnaToLax()
+  {
+    var actual = FlyingSalespersonProblem.
+      CalculateGreatCircleDistance
+        (36.12, -86.67, 33.94, -118.40);
+    Assert.AreEqual(2887.26, actual, 0.01);
+  }
+
 }
