@@ -43,15 +43,9 @@ public class FlyingSalespersonProblem
       int j = (i + 1) % _numberOfCities;
       var from = _cities[_visitingOrder[i]];
       var to = _cities[_visitingOrder[j]];
-      var fromLat = from.Lat;
-      var fromLon = from.Lon;
-      var toLat = to.Lat;
-      var toLon = to.Lon;
-      double greatCircleDistance =
-        CalculateGreatCircleDistance(
-          fromLat, fromLon, toLat, toLon);
       tourLength += AverageEarthRadius
-        * greatCircleDistance;
+        * CalculateGreatCircleDistance(
+          from.Lat, from.Lon, to.Lat, to.Lon);
     }
     return tourLength;
   }
