@@ -43,8 +43,7 @@ public class FlyingSalespersonProblem
       int j = (i + 1) % _numberOfCities;
       var from = _cities[_visitingOrder[i]];
       var to = _cities[_visitingOrder[j]];
-      tourLength += AverageEarthRadius
-        * CalculateGreatCircleDistance(
+      tourLength += CalculateGreatCircleDistance(
           from.Lat, from.Lon, to.Lat, to.Lon);
     }
     return tourLength;
@@ -59,11 +58,12 @@ public class FlyingSalespersonProblem
     var delta2 = ToRadians(toLat);
     var lambda2 = ToRadians(toLon);
 
-    return Math.Acos(
-      Math.Cos(delta1)
-      * Math.Cos(delta2)
-      * Math.Cos(lambda1 - lambda2)
-      + Math.Sin(delta1) * Math.Sin(delta2)
+    return AverageEarthRadius
+      * Math.Acos(
+        Math.Cos(delta1)
+        * Math.Cos(delta2)
+        * Math.Cos(lambda1 - lambda2)
+        + Math.Sin(delta1) * Math.Sin(delta2)
       );
   }
 
