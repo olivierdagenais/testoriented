@@ -420,7 +420,7 @@ references as well.
               </command>
               <command name="item"> Re-ordering of incidental operations.
                 <br />
-                On some occasions, it may be necessary to move some statements whose ordering isn't critical (such as logging) out of the candidate block.
+                On some occasions, it may be necessary to move some statements whose ordering is not critical (such as logging) out of the candidate block.
               </command>
               <command name="item"> Assignment of inputs and outputs to local variables.
                 <br />
@@ -450,39 +450,31 @@ references as well.
 
             The criteria for establishing candidacy of a block consist of:
             <block param="enumerate">
-              <command name="item"> A continuous set of statements.</command>
+              <command name="item"> A continuous set of stateless statements.
+                <br />
+                Stateless statements are defined as depending directly on their explicit inputs and without side-effects.  Statements that interpret input parameters to interact with the environment (such as reading/writing files and sending/receiving network traffic) are not considered stateless.  Statements may produce effects (such as assignment and return values) but may not cause other values to change as a result of execution (such as modifying HMS), as this would defeat the purpose.  Section <command name="ref" param="subsec:Step2" /> describes how to deal with non-stateless statements.
+              </command>
               <command name="item"> Inputs (local variables, fields and/or method parameters): at least 1 but no more than 6.</command>
               <command name="item"> Outputs (local variables, fields and/or return values): at least 1 but no more than 3.
                 <br />
                 At least one non-trivial result must be produced by processing the input(s).
               </command>
-              <command name="item"> Contains no calls to instance methods on self.
-                <br />
-                If the instance method calls are not sensitive to ordering, it may be possible to move them out of the candidate block, otherwise it may be useful to create two candidate blocks, one on either side of the instance method call.
-              </command>
             </block>
             Categories of interesting candidate blocks include:
             <block param="itemize">
               <command name="item"> Implementations of mathematical formulas.
+                <br />
                 For example, converting from degrees to radians or computing the great circle distance (the shortest path between two points on a sphere), both of which are shown being performed inline in listing <command name="ref" param="lst:StatefulComputeTourLength" />.
               </command>
               <command name="item"> Processing of a single element where such processing currently takes place while looping through a sequence of elements.
+                <br />
                 For a before-after example, refer to listings <command name="ref" param="lst:StatefulGenerateXml" /> and <command name="ref" param="lst:StatelessGenerateXml" />.
               </command>
               <command name="item"> String parsing, especially when using a regular expression.
               </command>
               <command name="item"> Filling in of templates.
-                This can be considered the reverse of string parsing and usually involves combining a few inputs to yield a meaninful string representation.
-              </command>
-            </block>
-            It follows that there are uninteresting categories of blocks, such as:
-            <block param="itemize">
-              <command name="item"> Trivial state changes, such as a Reset() method that sets a number of instance fields to a specific set of values.</command>
-              <command name="item"> Too many inputs and/or outputs.
-                This could be considered a more general case than the previous category but there are instances where it may not make sense to break up some processing for either readability or performance reasons.
-              </command>
-              <command name="item"> Not enough outputs.
-                For example, an instance method may be calling instance methods on its fields in such a way that there are no observable changes to the fields' own hidden mutable state.
+                <br />
+                This can be considered the reverse of string parsing and usually involves combining a few inputs to yield a meaninful string representation.  An example of this category can be found in the <tt>GenerateItemNode()</tt> method extracted in listing <command name="ref" param="lst:StatelessGenerateXml" />.
               </command>
             </block>
             <command name="lstinputlisting"
@@ -499,9 +491,33 @@ references as well.
                 param="Stateless/ImageCollection.cs" />
               <raw>\end{tabular}</raw>
             </region>
+            It follows that there are uninteresting categories of blocks, such as:
+            <block param="itemize">
+              <command name="item"> Trivial state changes.
+                <br />
+                A good example is a Reset() method that sets a number of instance fields to a specific set of values.
+              </command>
+              <command name="item"> Too many inputs and/or outputs.
+                <br />
+                This could be considered a more general case than the previous category but there are instances where it may not make sense to break up some processing for readability, maintenance or performance reasons.
+              </command>
+              <command name="item"> Not enough outputs.
+                <br />
+                For example, an instance method may be calling instance methods on its fields in such a way that there are no observable changes to the fields' own hidden mutable state.
+              </command>
+              <command name="item"> Too many interactions with the environment.
+                <br />
+                If an instance method consists mostly of, say, I/O or database processing, there may be very little functionality left that is stateless and would benefit from extraction and isolated unit testing.
+              </command>
+            </block>
           </command>
           <command name="subsection" param="Step 2: Re-ordering of incidental operations">
-            TODO
+            <command name="label" param="subsec:Step2" />
+            The second SME step is about finding and, if necessary, moving statements that are not stateless (such as those that cause side-effects) out of the candidate block, but only if the original instance method's functionality will not be adversely affected.  If the functionality would indeed be adversely affected by the re-ordering of non-stateless statements, the candidate block should be split such that its new endpoint is just before said non-stateless statement, and a subsequent candidate block could be attempted just after.
+
+            A statement is said to be non-stateless if values or data not explicitly specified by parameters or the return value are modified as a result of execution.  This can be as simple as an instance method modifying hidden mutable state, a method modifying global state or a method interpreting its parameters for interaction with the environment, such as using a string parameter as the name of a file to create or delete or the name of a database table to read from or write to.
+
+            It could also be the case that the original instance method is computing several outputs simultaneously and such statements are intermixed.  If the outputs are independently-computed (or their computations share some intermediate results, then diverge), it may be worth investigating separating their computations by re-ordering statements such that they can then be extracted, and subsequently unit tested, independently.
           </command>
           <command name="subsection" param="Step 3: Assignment of inputs and outputs to local variables">
             TODO
@@ -516,8 +532,13 @@ references as well.
             TODO
           </command>
             <!-- examples
+sum-of-squares is an excellent example of statlessness that can be exploited for parallel processing after seperating the computation from the looping
+
 [re: formulas]
 Notice how the SME refactoring not only makes testing trivial but also makes the processing in the original method a lot more obvious and transparent:  once ToRadians() and CalculateGreatCircleDistance() are tested the implementation of ComputeTourLength() is easier to read and it becomes easier to re-use these two methods elsewhere.
+
+[re: loop processing]
+Notice how it is now possible to test a single instance of the <I /> element, as opposed to needing to provide a sequence of inputs (which may have restrictions of their own) and asserting/testing surrounding output (or, worse yet, if there is lots of surrounding output, it may lead to some lazy "find an instance of this in all of that" testing)
 
 [re: string parsing]
 = FootNoteFormatterState is perfect because it is impossible to test [the parsing or the formatting] in isolation because:
@@ -553,7 +574,9 @@ For example, consider the following <tt>OnContextAcquired()</tt> method in a cla
 
         <command name="section" param="Applicability">
         TODO: What code can it almost work on and what needs to be done first (in other words, how to make it suitable).  This can augment the algorithm presented earlier with lots of special cases.  For example, the use of a call-back for incidental operations that can not be re-ordered, multiple return values, etc.
-        <!-- Loop item processing is difficult when there are operations other than per-item processing, such as stats and loop invariants -->
+        <!-- Loop item processing is difficult when there are operations other than per-item processing, such as stats and loop invariants
+        File processing could be abstracted to stream or sequence processing, which is more testable through MemoryStream and IEnumerable.
+        -->
         </command>
 
         <!-- TODO: regarding the motivation for CGT in our case
