@@ -376,6 +376,8 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
             <command name="label" param="tbl:ScopeTable" />
           </block>
           <!--
+TODO: what about simply refactoring so that processing is taking place closer to the objects involved?  For example, instead of computing the great-circle distance in a method of the FlyingSalespersonProblem class, have it be an instance method on LatLon: GreatCircleDistance(LatLon destination), which might also allow LatLon to keep a cache of the Sin() and Cos() of the radian version of Lat (as well as the radian version of Lon) for further performance.  There probably is more risk involved when moving the functionality like that, although the risk would most likely be proportional to the test coverage (as it would be in general).
+
           = contrast with isolated, stand-alone tests
           = contrast with test helper methods
           == For example, DeepZoomImageTest.TestComputeLevelSize() that creates two instances per call:
@@ -420,11 +422,11 @@ references as well.
               </command>
               <command name="item"> Re-ordering of incidental operations.
                 <br />
-                On some occasions, it may be necessary to move some statements whose ordering is not critical (such as logging) out of the candidate block.
+                On some occasions, it may be necessary to move out of the candidate block some statements that are not relevant to the functionality subset and/or whose ordering is not critical (such as logging).
               </command>
               <command name="item"> Assignment of inputs and outputs to local variables.
                 <br />
-                Identify the new method's input and output parameters then create local variables for them.  This will facilitate the method extraction and provides useful names for the parameters of the to-be-extracted method.
+                Identify the new method's input and output parameters then create local variables for them.
               </command>
               <command name="item"> Simplification of inputs.
                 <br />
@@ -446,6 +448,7 @@ references as well.
               param="Procedure.pc" />
           </command>
           <command name="subsection" param="Step 1: Identification of a candidate block">
+            <command name="label" param="subsec:Step1" />
             The first step of SME consists of identifying, in an instance method, one or more functionality subsets that would be good candidates for extraction and subsequent unit testing.  That is to say it is not necessary to extract the entire body of an instance method if there are parts of the original method that would be more suitable to extract and unit test individually and separately.
 
             The criteria for establishing candidacy of a block consist of:
@@ -503,7 +506,7 @@ references as well.
               </command>
               <command name="item"> Not enough outputs.
                 <br />
-                For example, an instance method may be calling instance methods on its fields in such a way that there are no observable changes to the fields' own hidden mutable state.
+                For example, an instance method may be calling instance methods on its fields in such a way that there are no observable changes to the fields' own hidden mutable state.  Extracting that block would likely provide no unit testing advantage and is thus uninteresting.
               </command>
               <command name="item"> Too many interactions with the environment.
                 <br />
@@ -513,22 +516,30 @@ references as well.
           </command>
           <command name="subsection" param="Step 2: Re-ordering of incidental operations">
             <command name="label" param="subsec:Step2" />
-            The second SME step is about finding and, if necessary, moving statements that are not stateless (such as those that cause side-effects) out of the candidate block, but only if the original instance method's functionality will not be adversely affected.  If the functionality would indeed be adversely affected by the re-ordering of non-stateless statements, the candidate block should be split such that its new endpoint is just before said non-stateless statement, and a subsequent candidate block could be attempted just after.
+            The second SME step is about finding and, if necessary, moving statements that are either unrelated to a computation or statements that are not stateless (such as those that cause side-effects) out of the candidate block, but only if the original instance method's functionality will not be adversely affected by the move.  If the functionality would indeed be adversely affected by the re-ordering of unrelated or non-stateless statements, the candidate block should be split such that its new endpoint is just before said unrelated or non-stateless statement, and a subsequent candidate block could be attempted just after.
 
             A statement is said to be non-stateless if values or data not explicitly specified by parameters or the return value are modified as a result of execution.  This can be as simple as an instance method modifying hidden mutable state, a method modifying global state or a method interpreting its parameters for interaction with the environment, such as using a string parameter as the name of a file to create or delete or the name of a database table to read from or write to.
 
             It could also be the case that the original instance method is computing several outputs simultaneously and such statements are intermixed.  If the outputs are independently-computed (or their computations share some intermediate results, then diverge), it may be worth investigating separating their computations by re-ordering statements such that they can then be extracted, and subsequently unit tested, independently.
+
+            TODO: should examples be provided?
           </command>
           <command name="subsection" param="Step 3: Assignment of inputs and outputs to local variables">
-            TODO
+            <command name="label" param="subsec:Step3" />
+            The third step concerns the [temporary] introduction of local variables for each of the input and output parameters.  This makes the upcoming stateless method parameters and return value(s) explicit so that it is easier to provide them with suitable names, easier to evaluate their simplicity (consult Section <command name="ref" param="subsec:Step4" /> for details) and to more clearly delineate the candidate block so that it is easier to extract it using existing "extract method" refactoring tools.
+
+            The local variables introduced during this step should be remembered to allow their re-inlining to be performed again at the end of the current iteration, as described in Section <command name="ref" param="subsec:Step6" />.
           </command>
           <command name="subsection" param="Step 4: Simplification of inputs">
+            <command name="label" param="subsec:Step4" />
             TODO
           </command>
           <command name="subsection" param="Step 5: Extraction of the candidate block into a method">
+            <command name="label" param="subsec:Step5" />
             TODO
           </command>
           <command name="subsection" param="Step 6: Re-inline any variables created to facilitate a refactor">
+            <command name="label" param="subsec:Step6" />
             TODO
           </command>
             <!-- examples
@@ -536,6 +547,22 @@ sum-of-squares is an excellent example of statlessness that can be exploited for
 
 [re: formulas]
 Notice how the SME refactoring not only makes testing trivial but also makes the processing in the original method a lot more obvious and transparent:  once ToRadians() and CalculateGreatCircleDistance() are tested the implementation of ComputeTourLength() is easier to read and it becomes easier to re-use these two methods elsewhere.
+
+The candidate block selection in this one could be debatable:  do we include the ToRadians() calls?  If we don't, we still need to provide the method 4 doubles as input (no change there) and the radian versions of the angles are therefore only used to call CalculateGreatCircleDistance (which suggests they should follow the rest of the math).  Also, from a testing perspective, it will be more intuitive to provide the CalculateGreatCircleDistance() method angles in degrees rather than in radians.
+
+At the same time, we don't want to have the parameters be _cities, _visitingOrder, i and j (no change in number) since the first two aren't the simplest types because they require non-trivial construction.  Indeed, those are the parameters that are set-up and provided in the stateful version, so we would not be gaining very much (we trade the division by two and the creation of FSP by the creation of those two arrays).
+
+We *could* get the parameters to CalculateGreatCircleDistance to be two LatLon instances (from and to, only 2) because we know we can create those in one step, but that might not always be the case.  The tests would now look like:
+
+    var actual = FlyingSalespersonProblem.
+      CalculateGreatCircleDistance(
+        new LatLon(36.12, -86.67),
+        new LatLon(33.94, -118.40)
+      );
+    Assert.AreEqual(2887.26, actual, 0.01);
+
+The algorithm/procedure favours the simplest types because it doesn't need knowledge of construction complexity and it would make the job of SBST/constraint solvers easiest.  There's no accounting for taste, so if a programmer decides it's better for them to use LatLon instances, then so be it.
+
 
 [re: loop processing]
 Notice how it is now possible to test a single instance of the <I /> element, as opposed to needing to provide a sequence of inputs (which may have restrictions of their own) and asserting/testing surrounding output (or, worse yet, if there is lots of surrounding output, it may lead to some lazy "find an instance of this in all of that" testing)
