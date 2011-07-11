@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Text.RegularExpressions;
+using NUnit.Framework;
 
 [TestFixture]
 public class CodeBlockModifierTest
@@ -30,5 +31,22 @@ public class CodeBlockModifierTest
       "Call the <code language=\"ruby\">r_tohtml();"
       + "</code> method";
     Assert.AreEqual(expected, actual);
+  }
+
+  [Test]
+  public void ParseZone ()
+  {
+    const string input =
+      "Call the [@|ruby|r_tohtml();@] method";
+    var re = new Regex(CodeBlockModifier.Pattern);
+    var actual = re.Match(input);
+    Assert.AreEqual("[",
+      actual.Groups["before"].Value);
+    Assert.AreEqual("ruby",
+      actual.Groups["lang"].Value);
+    Assert.AreEqual("r_tohtml();",
+      actual.Groups["code"].Value);
+    Assert.AreEqual("]",
+      actual.Groups["after"].Value);
   }
 }
