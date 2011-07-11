@@ -34,7 +34,7 @@ public class BlockModifier
 
 public class CodeBlockModifier : BlockModifier
 {
-  internal const string Pattern =
+  private const string Pattern =
       @"(?<before>^|([\s\([{]))" + // before
        "@" +
       @"(\|(?<lang>\w+)\|)?" +    // lang
@@ -43,12 +43,13 @@ public class CodeBlockModifier : BlockModifier
       @"(?<after>$|([\]}])|(?=" +
         Globals.PunctuationPattern +
         @"{1,2}|\s|$))";  // after
+  internal static readonly Regex CodeBlockRegex =
+    new Regex(Pattern);
 
   public override string ModifyLine(string line)
   {
     // Replace "@...@" zones with "<code>" tags.
-    line = Regex.Replace(line,
-      Pattern,
+    line = CodeBlockRegex.Replace(line,
       CodeFormatMatchEvaluator);
     return line;
   }
