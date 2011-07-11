@@ -1,5 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 [TestFixture]
 public class CodeBlockModifierTest
@@ -38,8 +37,8 @@ public class CodeBlockModifierTest
   {
     const string input =
       "Call the [@|ruby|r_tohtml();@] method";
-    var re = new Regex(CodeBlockModifier.Pattern);
-    var actual = re.Match(input);
+    var actual =
+      CodeBlockModifier.CodeBlockRegex.Match(input);
     Assert.AreEqual("[",
       actual.Groups["before"].Value);
     Assert.AreEqual("ruby",
