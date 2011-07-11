@@ -45,6 +45,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeBlockModifier.cs" />
+    <Compile Include="CodeBlockModifierTest.cs" />
     <Compile Include="FlyingSalespersonProblem.cs" />
     <Compile Include="FlyingSalespersonProblemTest.cs" />
     <Compile Include="FootNoteFormatterState.cs" />
