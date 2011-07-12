@@ -23,4 +23,16 @@ public class PlaneTest
     );
     Assert.AreEqual(168, actual);
   }
+
+  [Test]
+  public void CrossProduct()
+  {
+    var actual = Plane.CrossProduct(
+      new Vector(3, -3, 1),
+      new Vector(4, 9, 2)
+    );
+    Assert.AreEqual(-15, actual.X);
+    Assert.AreEqual( -2, actual.Y);
+    Assert.AreEqual( 39, actual.Z);
+  }
 }

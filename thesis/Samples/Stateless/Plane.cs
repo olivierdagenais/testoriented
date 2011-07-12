@@ -21,11 +21,7 @@ public class Plane
       (_p2.X - _p1.X, _p2.Y - _p1.Y, _p2.Z - _p1.Z);
     var b = new Vector
       (_p3.X - _p1.X, _p3.Y - _p1.Y, _p3.Z - _p1.Z);
-    var n = new Vector(
-      a.Y * b.Z - a.Z * b.Y,
-      a.Z * b.X - a.X * b.Z,
-      a.X * b.Y - a.Y * b.X
-    );
+    var n = CrossProduct(a, b);
     var length =
       Math.Sqrt(n.X * n.X + n.Y * n.Y + n.Z * n.Z);
     var normal =
@@ -35,6 +31,10 @@ public class Plane
     var distance = DotProduct(v, normal);
     return distance;
   }
+  internal static Vector CrossProduct
+    (Vector a, Vector b)
+  { return new Vector(a.Y * b.Z - a.Z * b.Y,
+      a.Z * b.X - a.X * b.Z, a.X * b.Y - a.Y * b.X);}
   internal static double DotProduct
     (Vector a, Vector b)
   { return a.X * b.X + a.Y * b.Y + a.Z * b.Z; }
