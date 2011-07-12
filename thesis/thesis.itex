@@ -449,6 +449,8 @@ references as well.
           </command>
           <command name="subsection" param="Step 1: Identification of a candidate block">
             <command name="label" param="subsec:Step1" />
+            TODO: throughout this chapter, I said to extract from "instance methods", but hard-to-test static methods are also eligible for a form of SME where it may not be a state problem we're addressing (although still possible with global mutable state) but just a testability problem.  Should I talk about this now or in a subsequent section about special cases or applicability?
+
             The first step of SME consists of identifying, in an instance method, one or more functionality subsets that would be good candidates for extraction and subsequent unit testing.  That is to say it is not necessary to extract the entire body of an instance method if there are parts of the original method that would be more suitable to extract and unit test individually and separately.
 
             The criteria for establishing candidacy of a block consist of:
@@ -498,7 +500,7 @@ references as well.
             <block param="itemize">
               <command name="item"> Trivial state changes.
                 <br />
-                A good example is a Reset() method that sets a number of instance fields to a specific set of values.
+                A good example is a Reset() method that sets a number of instance fields to a specific set of values, such as constants.
               </command>
               <command name="item"> Too many inputs and/or outputs.
                 <br />
@@ -526,21 +528,65 @@ references as well.
           </command>
           <command name="subsection" param="Step 3: Assignment of inputs and outputs to local variables">
             <command name="label" param="subsec:Step3" />
-            The third step concerns the [temporary] introduction of local variables for each of the input and output parameters.  This makes the upcoming stateless method parameters and return value(s) explicit so that it is easier to provide them with suitable names, easier to evaluate their simplicity (consult Section <command name="ref" param="subsec:Step4" /> for details) and to more clearly delineate the candidate block so that it is easier to extract it using existing "extract method" refactoring tools.
+            The third step concerns the [temporary] introduction of local variables for each of the input and output parameters.  This makes the upcoming stateless method parameters and return values explicit so that it is easier to provide them with suitable names, easier to evaluate their simplicity (consult Section <command name="ref" param="subsec:Step4" /> for details) and to more clearly delineate the candidate block so that it is easier to extract it using existing "extract method" refactoring tools.
 
             The local variables introduced during this step should be remembered to allow their re-inlining to be performed again at the end of the current iteration, as described in Section <command name="ref" param="subsec:Step6" />.
           </command>
           <command name="subsection" param="Step 4: Simplification of inputs">
             <command name="label" param="subsec:Step4" />
-            TODO
+            Stateless method extraction's fourth step deals with minimizing the amount of knowledge the stateless method will need to perform its processing or computation.  This entails finding the simplest types that can be used for the parameters and return values without causing an undue increase in their numbers.  The overall intent is to optimize the inputs and outputs such that the unit tests exercising the to-be-extracted method have a minimal number of statements, while balancing the readability and maintainability of both the stateless method and of said unit tests.  The last reason for favoring "simple" types - usually the language's built-in base types, such as strings, integers and floating-point numbers - is that they are immutable and/or passed by value, meaning their use when calling a stateless method will not result in side-effects.  As such, any type with an easy construction and without side-effects while reading values is considered "simple" for the purpose of SME.
+
+            <region name="table and two code listings for Vector math">
+              <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
+              <command name="lstinputlisting"
+                opt="label=lst:StatefulVector,caption=The original Vector and Plane classes,style=realCode,linerange=3-39"
+                param="Stateful/Plane.cs" />
+              <raw>&amp;</raw>
+              <command name="lstinputlisting"
+                opt="label=lst:StatelessVector,caption=The Plane class had two stateless methods extracted from it,style=realCode,linerange=3-41"
+                param="Stateless/Plane.cs" />
+              <raw>\end{tabular}</raw>
+            </region>
+
+            As a first example of possible input simplification, suppose the candidate block's purpose is to compute the dot product of two 3D vectors and the parameters are currently two instances of a Vector type (refer to listings <command name="ref" param="lst:StatefulVector" /> and <command name="ref" param="lst:StatelessVector" />).  The stateless method could also be written to accept 6 parameters representing both triplets of the vectors' values.  Assuming a Vector instance can be created in one statement (a call to its constructor or a factory method) and reading its component values can cause no side-effects, it may be worth keeping the input parameters as two Vector instances for readability reasons, although an argument could also be made to make the new <tt>DotProduct()</tt> method accept the 6 component values so that the method could be subsequently re-used to calculate dot products of vectors not expressed using instances of Vector.
+
+            <region name="table and two code listings for Match-based formatting">
+              <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
+              <command name="lstinputlisting"
+                opt="label=lst:StatefulCodeFormatMatchEvaluator,caption=The original CodeBlockModifier class,style=realCode,linerange=35-64"
+                param="Stateful/CodeBlockModifier.cs" />
+              <raw>&amp;</raw>
+              <command name="lstinputlisting"
+                opt="label=lst:StatelessCodeFormatMatchEvaluator,caption=The CodeBlockModifier class with testability extractions,style=realCode,linerange=35-78"
+                param="Stateless/CodeBlockModifier.cs" />
+              <raw>\end{tabular}</raw>
+            </region>
+
+            On the other hand, suppose the candidate block's purpose is to reformat text based on the results of a regular expression match, as shown in listings <command name="ref" param="lst:StatefulCodeFormatMatchEvaluator" /> and <command name="ref" param="lst:StatelessCodeFormatMatchEvaluator" />.  In this case, because the input parameter is of a type that is difficult to create (the <tt>Match</tt> class has no visible constructors - the only way to create an instance is through the return value of the <tt>Match()</tt> method overloads on the <tt>Regex</tt> class), it is easy to argue that the method's parameters should be four strings instead of one <tt>Match</tt> instance given how trivial strings are to create vs. the complexity involved in creating said <tt>Match</tt> instance.  Indeed, as listings <command name="ref" param="lst:StatefulCodeFormatMatchEvaluatorTest" /> and <command name="ref" param="lst:StatelessCodeFormatMatchEvaluatorTest" /> show, the original method must either be tested indirectly (through calling the <tt>ModifyLine()</tt> method) or by creating a <tt>Match</tt> instance (in a rather pathological way, lest the original regular expression pattern is refactored for re-use), while the extracted stateless <tt>BuildCodeElementString()</tt> method can be tested directly.
+
+            <region name="table and two code listings for Match-based formatting tests">
+              <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
+              <command name="lstinputlisting"
+                opt="label=lst:StatefulCodeFormatMatchEvaluatorTest,caption=Two ways to test the original CodeFormatMatchEvaluator() method,style=realCode,linerange=7-36"
+                param="Stateful/CodeBlockModifierTest.cs" />
+              <raw>&amp;</raw>
+              <command name="lstinputlisting"
+                opt="label=lst:StatelessCodeFormatMatchEvaluatorTest,caption=The extracted BuildCodeElementString() method can be tested directly,style=realCode,linerange=19-33"
+                param="Stateless/CodeBlockModifierTest.cs" />
+              <raw>\end{tabular}</raw>
+            </region>
           </command>
           <command name="subsection" param="Step 5: Extraction of the candidate block into a method">
             <command name="label" param="subsec:Step5" />
-            TODO
+            The fifth step consists of replacing the candidate block with a call to a new method into which the contents of the candidate block was moved.  The names and types of the parameters will come from the local variables introduced in step 3, as would the names and types of the new method's local variables representing the return values.  The name of the extracted method should describe how the parameters are processed to produce the return values, although the new method could become an overload of the original method.
+
+            The newly-extracted method, by virtue of the candidate block processing in the previous steps, should read and write only from and to its input parameters and return values, otherwise it would not qualify as [externally] "stateless".  To help prevent the accidental interaction with any instance fields, the method should be marked as being scoped to the class (as opposed to being scoped to instances), which is done in many programming languages by decorating the method with the <tt>static</tt> keyword.
+
+            Many modern development environments have built-in refactoring tools that include an "extract method" action, which makes this step almost trivial.
           </command>
           <command name="subsection" param="Step 6: Re-inline any variables created to facilitate a refactor">
             <command name="label" param="subsec:Step6" />
-            TODO
+            The SME technique's sixth and final step cleans up the temporary refactoring performed as part of step 3.  This is done by performing an inline expansion of the local variables introduced to represent the new method's input parameters and return values.
           </command>
             <!-- examples
 sum-of-squares is an excellent example of statlessness that can be exploited for parallel processing after seperating the computation from the looping
@@ -552,7 +598,7 @@ The candidate block selection in this one could be debatable:  do we include the
 
 At the same time, we don't want to have the parameters be _cities, _visitingOrder, i and j (no change in number) since the first two aren't the simplest types because they require non-trivial construction.  Indeed, those are the parameters that are set-up and provided in the stateful version, so we would not be gaining very much (we trade the division by two and the creation of FSP by the creation of those two arrays).
 
-We *could* get the parameters to CalculateGreatCircleDistance to be two LatLon instances (from and to, only 2) because we know we can create those in one step, but that might not always be the case.  The tests would now look like:
+We *could* get the parameters to CalculateGreatCircleDistance to be two LatLon instances (from and to, only 2) because we know we can create those in one step (and there are no side-effects from reading their Lat and Lon properties), but that might not always be the case.  The tests would now look like:
 
     var actual = FlyingSalespersonProblem.
       CalculateGreatCircleDistance(
@@ -592,6 +638,20 @@ For example, consider the following <tt>OnContextAcquired()</tt> method in a cla
                     Notice that the <tt>ParseFootNoteId()</tt> method can be unit tested by calling it directly and asserting on its output directly.
                   </command>
                 </block>
+
+[re: trivial visibility change]
+        private string FixEntities(string text)
+        {
+            // de-entify any remaining angle brackets or ampersands
+            text = text.Replace("&", "&amp;");
+            text = text.Replace(">", "&gt;");
+            text = text.Replace("<", "&lt;");
+            //Regex.Replace(text, @"\b&([#a-z0-9]+;)", "x%x%");
+            return text;
+        }
+
+[re: non-SME extraction, but still testability-related]
+Extracted the regular expression pattern string in revision 220 (and a Regex instance itself in revision 221), which allowed the parsing to be tested independently of the formatting.
             -->
         </command>
         <command name="section" param="Suitability">
@@ -603,6 +663,7 @@ For example, consider the following <tt>OnContextAcquired()</tt> method in a cla
         TODO: What code can it almost work on and what needs to be done first (in other words, how to make it suitable).  This can augment the algorithm presented earlier with lots of special cases.  For example, the use of a call-back for incidental operations that can not be re-ordered, multiple return values, etc.
         <!-- Loop item processing is difficult when there are operations other than per-item processing, such as stats and loop invariants
         File processing could be abstracted to stream or sequence processing, which is more testable through MemoryStream and IEnumerable.
+        Would this be a good time to talk about threats and difficulties or should there be a separate section for this?  For example, making the method "static" might prevent access to instance fields (but not necessarily if someone provides "this" or any instance as one of the parameters), but it will not prevent reading/writing to static fields.
         -->
         </command>
 
