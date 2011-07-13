@@ -449,8 +449,6 @@ references as well.
           </command>
           <command name="subsection" param="Step 1: Identification of a candidate block">
             <command name="label" param="subsec:Step1" />
-            TODO: throughout this chapter, I said to extract from "instance methods", but hard-to-test static methods are also eligible for a form of SME where it may not be a state problem we're addressing (although still possible with global mutable state) but just a testability problem.  Should I talk about this now or in a subsequent section about special cases or applicability?
-
             The first step of SME consists of identifying, in an instance method, one or more functionality subsets that would be good candidates for extraction and subsequent unit testing.  That is to say it is not necessary to extract the entire body of an instance method if there are parts of the original method that would be more suitable to extract and unit test individually and separately.
 
             The criteria for establishing candidacy of a block consist of:
@@ -476,6 +474,7 @@ references as well.
                 For a before-after example, refer to listings <command name="ref" param="lst:StatefulGenerateXml" /> and <command name="ref" param="lst:StatelessGenerateXml" />.
               </command>
               <command name="item"> String parsing, especially when using a regular expression.
+                This allows the parsing to be separated from the use of its results, so that the parsing and the subsequent computations can be tested separately.
               </command>
               <command name="item"> Filling in of templates.
                 <br />
@@ -500,11 +499,11 @@ references as well.
             <block param="itemize">
               <command name="item"> Trivial state changes.
                 <br />
-                A good example is a Reset() method that sets a number of instance fields to a specific set of values, such as constants.
+                A good example is a Reset() method that sets a number of instance fields to a specific set of values, such as constants.  The whole point of such a method is to mutate hidden state and thus there would likely be very little functionality that could be tested in isolation.
               </command>
               <command name="item"> Too many inputs and/or outputs.
                 <br />
-                This could be considered a more general case than the previous category but there are instances where it may not make sense to break up some processing for readability, maintenance or performance reasons.
+                This could be considered a more general case of the previous category but there are instances where it may not make sense to break up some processing for readability, maintenance or performance reasons.
               </command>
               <command name="item"> Not enough outputs.
                 <br />
@@ -567,11 +566,11 @@ references as well.
             <region name="table and two code listings for Match-based formatting tests">
               <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
               <command name="lstinputlisting"
-                opt="label=lst:StatefulCodeFormatMatchEvaluatorTest,caption=Two ways to test the original CodeFormatMatchEvaluator() method,style=realCode,linerange=7-36"
+                opt="label=lst:StatefulCodeFormatMatchEvaluatorTest,caption=Two ways to test the CodeFormatMatchEvaluator() method,style=realCode,linerange=7-36"
                 param="Stateful/CodeBlockModifierTest.cs" />
               <raw>&amp;</raw>
               <command name="lstinputlisting"
-                opt="label=lst:StatelessCodeFormatMatchEvaluatorTest,caption=The extracted BuildCodeElementString() method can be tested directly,style=realCode,linerange=19-33"
+                opt="label=lst:StatelessCodeFormatMatchEvaluatorTest,caption=Parsing and formatting can be tested directly and separately,style=realCode,linerange=19-50"
                 param="Stateless/CodeBlockModifierTest.cs" />
               <raw>\end{tabular}</raw>
             </region>
@@ -655,8 +654,42 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             -->
         </command>
         <command name="section" param="Suitability">
-        TODO: What code does it just trivially work on?  What should we look for?  Is it a metric that can be automatically measured through something like code analysis? (for example, how many instance fields are being read from and written to)
-        <!-- It is trivial to extract a stateless method when all the inputs come from the method's parameters and the only output is the method's return value.  If the method wasn't an override or an interface implementation, it could simply be turned into a static method, but we don't do public interface changes -->
+          Although designed to work around the difficulties introduced by HMS, SME is suitable for methods that are difficult to test, even in the absence of HMS, due to unwieldy arrange phases, parameter types that are difficult to create, large number of parameters, computation coupling, the presence of side-effects and/or restrictions of visibility.  These additional suitabilities will be addressed in the following sub-sections.
+
+          <command name="subsection" param="Unwieldy arrange phase">
+            If a unit test method has an <em>arrange</em> phase that is longer than 50% of the test method, it is probably an indication that there are too many parameters, the parameters are too difficult to create and/or the functionality under test is buried too deep.  SME would help isolate the functionality that is intended to be tested and thus reduce the number of parameters (candidate blocks are selected to use between 1 and 6 parameters), reduce the complexity of the parameters (the input simplification step takes care of this) and expose the computation as a single, direct method call.  The arrange phase would then be shrunk considerably, if not entirely removed, leading to simpler unit tests.
+          </command>
+
+          <command name="subsection" param="Computation coupling">
+            A method may be performing several computations in such a way to make it difficult to unit test any such computation on an individual basis, usually due to [simultaneous] operations that make it difficult to observe intermediate results.  We call this <em>computation coupling</em>.  For example, the <tt>ModifyLine()</tt> method in listing <command name="ref" param="lst:StatefulCodeFormatMatchEvaluator" /> combines parsing and formatting in a single operation (the <tt>Replace()</tt> method will call the <tt>CodeFormatMatchEvaluator()</tt> method to re-format every match) while listing <command name="ref" param="lst:StatelessCodeFormatMatchEvaluator" /> shows how exposing the <tt>CodeBlockRegex</tt> object and the <tt>BuildCodeElementString()</tt> method enable the unit testing of the parsing and the formatting, seen in the <tt>ParseZone()</tt> and <tt>BuildCodeElementString()</tt> test methods, respectively, without needing to always perform both at once.  Consult listing <command name="ref" param="lst:StatefulCodeFormatMatchEvaluatorTest" /> to see how the <tt>ModifyLine()</tt> test method is exercising the parsing and formatting simultaneously, contrasted to the two separate test methods in listing <command name="ref" param="lst:StatelessCodeFormatMatchEvaluatorTest" />.
+
+            In this particular case, the SME technique was extended to include the extraction of the compile-time <tt>Pattern</tt> string constant representing the regular expression pattern and the extraction of the <tt>CodeBlockRegex</tt> run-time constant representing the compiled regular expression, thereby providing the unit tests with access to the same functionality used for performing the work, thereby enhancing the unit tests' realism and relevance.  Finally, SME's candidate block identification enabled the separation of parsing and formatting allowing both to be tested separately as units but also still together since the public-facing functionality did not change as a result of the refactorings.
+
+            Computation de-coupling might not always be addressable through SME as there could be computations that are tightly-coupled for performance reasons and separating them would lead to a performance loss.  TODO: find an example of this, probably in PivotStack.
+          </command>
+
+          <command name="subsection" param="The presence of side-effects">
+            A method may not suffer from the state problem (it neither reads from nor writes to instance fields), but nevertheless has side-effects that increase the difficulty when writing unit tests, such as the modification of input parameters or interactions with the environment.  Stateless method extraction could potentially still take place, provided some candidate blocks can be identified from the processing around the code causing said side-effects.  This would allow some simple unit tests to be written against the simple stateless methods extracted, while still allowing more involved integration tests against the original method.
+
+            <command name="lstinputlisting"
+              opt="label=lst:StatefulMutableVector,caption=The CalculateAngle() method causes side-effects on its parameters,style=realCode,linerange=3-32"
+              param="Stateful/MutableVector.cs" />
+
+            An example of a method producing a result and causing side-effects can be seen in listing <command name="ref" param="lst:StatefulMutableVector" />.  The <tt>CalculateAngle()</tt> method calls the <tt>Normalize()</tt> method on <tt>MutableVector</tt>, which irreversibly scales the parameters to be unit vectors.  SME's candidate block identification would exclude both calls to <tt>Normalize()</tt> and would allow a version of the <tt>CalculateAngle()</tt> method to be created that had no side-effects but assumed both parameters were of unit length.
+          </command>
+
+          <command name="subsection" param="Visibility or access restrictions">
+            An instance method may already be stateless, but because of its nature, be difficult to reach with unit tests.  This situation can manifest itself when the class under test subclasses another class to override some of its methods, but said methods are only visible to the superclass and subclasses thereof, which is usually known as a visibility or accessibility of <tt>protected</tt>.  This can also happen when the class under test explicitly implements an interface (as in C#): the explicitly-implemented interface members will not be visible from the class' default interface.
+
+            In both cases, SME can help extract one or more stateless methods that will not require an instance of the class to be created and can be directly unit tested, while keeping the original methods with the visibility and accessibility they require.
+          </command>
+
+          <!-- TODO:
+          Talk about file stream processing if we're starting to run out of content
+          -->
+          <command name="subsection" param="Unsuitability">
+            TODO: There exist cases that even SME has difficulty helping; is it worth expanding upon the "uninteresting categories" given in Step 1?  What about for stuff not mentioned there, such as calls to base class methods as in KeePassLib's BinaryReaderEx.ReadBytes(int) that calls BinaryReader.ReadBytes(int) through base?
+          </command>
         </command>
 
         <command name="section" param="Applicability">
@@ -711,6 +744,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           = number of inputs to include in a candidate block: 1 to 6 (although 1 should probably be an instance or extension method on the class/struct and 7 is getting complicated)
           = number of outputs to include in a candidate block: 1 to 3 (must return something, otherwise not function; if more than 1, maybe use a call-back?)
           = {Project}.ManualTests created to avoid interference with Pex if had used {Project}.Tests
+          = arrange phase greater than 50% of test method is because we want to minimize the size of the unit tests and the more code there is in the arrange phase, the more it is looking like an integration test, which is more brittle and harder to understand
           -->
           ...
         </command>
