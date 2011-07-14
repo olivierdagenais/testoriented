@@ -682,7 +682,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           </command>
 
           <command name="subsection" param="Visibility or access restrictions">
-            An instance method may already be stateless, but because of its nature, be difficult to reach with unit tests.  This situation can manifest itself when the class under test subclasses another class to override some of its methods, but said methods are only visible to the superclass and subclasses thereof, which is usually known as a visibility or accessibility of <tt>protected</tt>.  This can also happen when the class under test explicitly implements an interface (as in C#): the explicitly-implemented interface members will not be visible from the class' default interface.
+            An instance method may already be stateless, but because of its nature, be difficult to reach with unit tests.  This situation can manifest itself when the class under test subclasses another class to override some of its methods, but said methods are only visible to the superclass and subclasses thereof, which is usually known as a visibility or accessibility of <tt>protected</tt>.  This can also happen when the class under test explicitly implements an interface (when using C#): the explicitly-implemented interface members will not be visible from the class' default interface <command name="cite" param="msdn10explicitinterface" />.
 
             In both cases, SME can help extract one or more stateless methods that will not require an instance of the class to be created and can be directly unit tested, while keeping the original methods with the visibility and accessibility they require.
           </command>
