@@ -54,7 +54,8 @@ public XElement GenerateXml
   var maxPostId = 0;
   foreach (var postId in _postIds)
   {
-    #region <I N="0" Id="351" Source="../0351.dzi"/>
+    maxPostId = Math.Max(maxPostId, postId);
+    // <I N="0" Id="351" Source="../0351.dzi"/>
     var itemNode = new XElement(ItemNodeName);
     itemNode.SetAttributeValue("N", mortonNumber);
     itemNode.SetAttributeValue("Id", postId);
@@ -66,13 +67,49 @@ public XElement GenerateXml
       relativePathToRoot, relativeDziSubPath);
     itemNode.SetAttributeValue("Source", 
       relativeDziPath);
-    #endregion
-
     itemNode.Add(_sizeNode);
     itemsNode.Add(itemNode);
-
     mortonNumber++;
+  }
+
+  collectionNode.SetAttributeValue("NextItemId",
+    maxPostId + 1);
+  return collectionNode;
+}
+
+public XElement GenerateXmlIntermixed
+  (string relativePathToRoot)
+{
+  var itemsNode =
+    new XElement(DeepZoom2008 + "Items");
+  var collectionNode =
+    new XElement(DeepZoom2008 + "Collection",
+    new XAttribute("MaxLevel", 7),
+    new XAttribute("TileSize", 256),
+    new XAttribute("Format", _imageFormatName),
+    itemsNode
+  );
+
+  var mortonNumber = 0;
+  var maxPostId = 0;
+  foreach (var postId in _postIds)
+  {
+    // <I N="0" Id="351" Source="../0351.dzi"/>
+    var itemNode = new XElement(ItemNodeName);
+    itemNode.Add(_sizeNode);
+    itemsNode.Add(itemNode);
+    itemNode.SetAttributeValue("N", mortonNumber);
+    mortonNumber++;
+    itemNode.SetAttributeValue("Id", postId);
     maxPostId = Math.Max(maxPostId, postId);
+    var fileName =
+      postId.ToString(_fileNameIdFormat);
+    var relativeDziSubPath =
+      Path.ChangeExtension(fileName, "dzi");
+    var relativeDziPath = Path.Combine(
+      relativePathToRoot, relativeDziSubPath);
+    itemNode.SetAttributeValue("Source",
+      relativeDziPath);
   }
 
   collectionNode.SetAttributeValue("NextItemId",
