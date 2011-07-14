@@ -1,4 +1,6 @@
-﻿public class QuadraticEquation
+﻿using System;
+
+public class QuadraticEquation
 {
   private readonly double _a, _b, _c;
   public QuadraticEquation
@@ -21,8 +23,8 @@
     {
       result = new[]
       {
-        (-_b + discriminant) / (2 * _a),
-        (-_b - discriminant) / (2 * _a),
+        (-_b + Math.Sqrt(discriminant)) / (2 * _a),
+        (-_b - Math.Sqrt(discriminant)) / (2 * _a),
       };
     }
     return result;
