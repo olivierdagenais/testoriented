@@ -413,6 +413,8 @@ references as well.
         <command name="section" param="Design">
           Stateless method extraction's intent is to separate the interaction between the hidden mutable state in a class and the inputs and outputs of said class' instance methods.  This decoupling allows programmers to first focus their unit tests on the pure computation aspects, then on the object-oriented layer above the stateless methods.
 
+          It is important to note that SME relies on all its steps applying modifications to the source code that will not alter any of the behaviours and functionality present before SME was performed.  That is to say, all the operations performed should be pure refactorings <command name="cite" param="fowler00refactoring" /> and no functional changes are to be performed during the process.  These rules help ensure the use of SME is invisible to end-users and has the least chance of breaking the affected methods.
+
           <command name="subsection" param="Overview">
             Stateless method extraction is performed in six high-level steps:
             <block param="enumerate">
@@ -654,6 +656,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             -->
         </command>
         <command name="section" param="Suitability">
+          <command name="label" param="sec:Suitability" />
           Although designed to work around the difficulties introduced by HMS, SME is suitable for methods that are difficult to test, even in the absence of HMS, due to unwieldy arrange phases, parameter types that are difficult to create, large number of parameters, computation coupling, the presence of side-effects and/or restrictions of visibility.  These additional suitabilities will be addressed in the following sub-sections.
 
           <command name="subsection" param="Unwieldy arrange phase">
@@ -689,14 +692,52 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           -->
           <command name="subsection" param="Unsuitability">
             TODO: There exist cases that even SME has difficulty helping; is it worth expanding upon the "uninteresting categories" given in Step 1?  What about for stuff not mentioned there, such as calls to base class methods as in KeePassLib's BinaryReaderEx.ReadBytes(int) that calls BinaryReader.ReadBytes(int) through base?
+          "Applying SME with parameterizable side-effects"
+          TODO: talk about using call-backs/function pointers
           </command>
         </command>
 
         <command name="section" param="Applicability">
-        TODO: What code can it almost work on and what needs to be done first (in other words, how to make it suitable).  This can augment the algorithm presented earlier with lots of special cases.  For example, the use of a call-back for incidental operations that can not be re-ordered, multiple return values, etc.
+          In general, SME is most applicable to existing or legacy projects that were built with few or no unit tests and, as a result, their source code was not written with testability in mind nor is it possible (for various reasons) to make large, sweeping testability-related changes.  The prospect of fixing defects or adding features to such a project without sufficient tests to catch regressions would seem risky, but SME could be used to introduce easily-testable methods - along with some unit tests - to the affected source code before making each fix or adding each new feature, thereby establishing a functionality baseline, if only a partial one.
+
+          As noted in section <command name="ref" param="sec:Suitability" />, SME is suitable for more than HMS and, by the same token, can also be applied to more than legacy projects.  For example, sometimes there are technological reasons that impede the testability of a class or method, such as frameworks that force the introduction of a parameterless constructor to be able to create an instance of a class for the purposes of serialization.  Such a framework may introduce mutable state where none would be present otherwise and SME can then be used to help keep the unit tests simple.
+
+          It would seem any software project with insufficient testing coverage is fair game, although as the following sub-sections discuss, there are conditions under which SME could deliver more value than others.
+
+          <command name="subsection" param="Identifying stateless methods">
+            <command name="label" param="subsec:IdentifyStateless" />
+            SME will work best if the programming language or toolkit used has a concept of a <em>stateless</em> method, to make sure a method marked as such only reads from its input parameters, only writes to its return values, does not read from or write to any instance or static fields (reading from constants is acceptable, as long as they represent immutable instances), does not interact with the environment (such as reading a file, sending data across a network or updating a database) and only calls methods similarly identified as stateless.
+
+            <region name="table and two code listings for the proposed attributes">
+              <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
+              <command name="lstinputlisting"
+                opt="label=lst:StatelessStatelessAttribute,caption=A proposed Stateless attribute with a sample of its use,style=realCode,linerange=3-24"
+                param="Stateless/StatelessAttribute.cs" />
+              <raw>&amp;</raw>
+              <command name="lstinputlisting"
+                opt="label=lst:StatelessImmutableAttribute,caption=A proposed Immutable attribute with a sample of its use,style=realCode,linerange=3-24"
+                param="Stateless/ImmutableAttribute.cs" />
+              <raw>\end{tabular}</raw>
+            </region>
+
+            Such a concept need not be implemented at the language level and could instead be implemented by a static code analysis (SCA) tool with the help of a designated decoration implemented, say, as an attribute in .NET or as an annotation in Java.  Listing <command name="ref" param="lst:StatelessStatelessAttribute" /> shows a C# implementation of the proposed <tt>Stateless</tt> attribute and a sample of its use.
+
+            In the absence of programming language features to definitely identify and enforce a method as stateless, the <tt>static</tt> keyword is used to at least make it more difficult to access or manipulate HMS (it is not always possible to restrict the use of HMS from a static method) and to make the method callable without first having to create an instance of a class, although at the same time the <tt>static</tt> keyword does not prevent manipulation of static fields nor does it enforce that all method calls therein are also stateless.
+          </command>
+          <command name="subsection" param="Identifying immutable instances">
+            A type which contains no mutable state is said to be <em>immutable</em>.  Any state an immutable type has can only be set during construction through the parameters of constructors or factory methods and all its instance methods either return that state directly or perform computations with it (and possibly some input parameters), in a manner not unlike stateless methods.  Immutable types can make SME better because there exists, by definition, no sequence of method calls on their instances that can modify their state and therefore there can be no side-effects as a result of using immutable types as inputs to stateless methods.  As discussed in section <command name="ref" param="subsec:Step4" />, immutable types are considered "simple" and can therefore provide stateless methods convenient groupings of related input parameters, instead of specifying them separately, which provides additional readability in unit tests at the expense of a constructor call.
+
+            Similar to the <tt>Stateless</tt> decoration suggested in sub-section <command name="ref" param="subsec:IdentifyStateless" />, a decoration could be defined to identify types that are immutable and thus are safe to use as constants or input parameters.  Listing <command name="ref" param="lst:StatelessImmutableAttribute" /> shows a C# implementation of the proposed <tt>Immutable</tt> attribute and a sample of its use.
+
+            These proposed <tt>stateless</tt> and <tt>immutable</tt> decorations have the additional benefit that they could also be exploited by an optimizing compiler to inline the stateless methods (and other such performance improvements) in release mode due to the new guarantees of immutability and invariance they provide by being enforced by the compiler and/or SCA.
+          </command>
+          <command name="subsection" param="Controlling visibility">
+            The SME technique will work best if the programming language has features to control the visibility of methods to ensure that the newly-introduced stateless methods do not pollute the public interface of the affected classes.  C# has the <tt>internal</tt> access modifier <command name="cite" param="msdn10internal" />, which, when combined with the <tt>InternalsVisibleTo</tt> attribute <command name="cite" param="msdn10internalsvisible" />, can expose the stateless methods to a unit test project but not to consumers of the API, which, in effect, hides the results of SME from end-users.  Java has a similar concept with its packages <command name="cite" param="java96packages" />.  Indeed, unless the <tt>public</tt> or <tt>private</tt> access modifiers are used, a method will be visible from within the package it was defined <command name="cite" param="java96names" />, which means unit tests in the same package will have access to the newly-extracted stateless methods but consumers of the API will not.
+
+            An alternative to visibility controls or access modifiers - especially for programming languages without such features - is to place the extracted methods in a separate class (possibly named after the original class, but suffixed with <tt>Stateless</tt>) or even not attached to any class, provided the language makes this possible.  It may even be the case that, upon further consideration, a newly-extracted method should really belong in the class of one of its parameters.  For example, the <tt>CrossProduct()</tt> and <tt>DotProduct()</tt> methods extracted from the <tt>Plane</tt> class in listing <command name="ref" param="lst:StatelessVector" /> would probably be best located in the <tt>Vector</tt> class.
+          </command>
         <!-- Loop item processing is difficult when there are operations other than per-item processing, such as stats and loop invariants
         File processing could be abstracted to stream or sequence processing, which is more testable through MemoryStream and IEnumerable.
-        Would this be a good time to talk about threats and difficulties or should there be a separate section for this?  For example, making the method "static" might prevent access to instance fields (but not necessarily if someone provides "this" or any instance as one of the parameters), but it will not prevent reading/writing to static fields.
         -->
         </command>
 
@@ -704,10 +745,6 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
         The better the statement coverage of the generated tests, the more testable the original source code under the transformation is considered.
         -->
         <!--
-        = discuss applicability/suitability (in 1 or 2 sections?)
-        == existing/legacy systems with few tests (through acquisition, maintenance)
-        == technology constraints (i.e. class must have default public constructor, such as IHttpModule implementations in ASP.NET)
-        == programming language with visibility controls for methods such that the extracted methods are visible to tests but not necessarily all users
         = discuss theoretical trade-offs and suitability towards goal
         == forces number of arguments of stateless method to remain small, to avoid Misko's splippery slope
         == MUST be a pure refactor, i.e. callers are/will be none the wiser
@@ -726,18 +763,6 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
         = discuss experiments with Pex (if only to introduce for another section)
         == trade-offs of automatic test generation based on code coverage
         == differences between a constraint solver and evolutionary testing
-        = manual application
-        == manual test writing
-        == manual stateless method extraction
-        == compare unit tests before and after
-        -->
-        <!--
-        = reduce the number of inputs participating in the test
-        == reduce the number of methods called to bring object under test into appropriate state (methods executed before - arrange)
-        == reduce the number of instances created to support test scenario
-        = reduce the number of outputs produced by the test
-        == reduce the number of methods called to extract interesting output (methods executed after - assert)
-        = reduce the amount of clean-up done to compensate for "arrange" phase
         -->
         <command name="section" param="Decisions made">
           <!--
@@ -890,6 +915,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           <command name="item" opt="OOP"> Object-Oriented Programming</command>
           <command name="item" opt="RT"> Random Testing</command>
           <command name="item" opt="SBST"> Search-Based Software Testing</command>
+          <command name="item" opt="SCA"> Static Code Analysis</command>
           <command name="item" opt="SE"> Symbolic Execution</command>
           <command name="item" opt="SME"> Stateless Method Extraction</command>
         </block>
