@@ -45,6 +45,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CartesianCoordinate.cs" />
     <Compile Include="CodeBlockModifier.cs" />
     <Compile Include="CodeBlockModifierTest.cs" />
     <Compile Include="DateFormatterTest.cs" />
