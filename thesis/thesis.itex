@@ -489,11 +489,11 @@ references as well.
             <region name="table and two code listings for partial loop block extraction">
               <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
               <command name="lstinputlisting"
-                opt="label=lst:StatefulGenerateXml,caption=GenerateXml() method with a candidate block between lines 18-30,style=realCode,linerange=40-81"
+                opt="label=lst:StatefulGenerateXml,caption=GenerateXml() method with a candidate block between lines 19-30,style=realCode,linerange=40-78"
                 param="Stateful/ImageCollection.cs" />
               <raw>&amp;</raw>
               <command name="lstinputlisting"
-                opt="label=lst:StatelessGenerateXml,caption=GenerateXml() method with the candidate block extracted as the GenerateItemNode() method,style=realCode,linerange=40-91"
+                opt="label=lst:StatelessGenerateXml,caption=GenerateXml() method with the candidate block extracted as the GenerateItemNode() method,style=realCode,linerange=40-87"
                 param="Stateless/ImageCollection.cs" />
               <raw>\end{tabular}</raw>
             </region>
@@ -505,11 +505,11 @@ references as well.
               </command>
               <command name="item"> Too many inputs and/or outputs.
                 <br />
-                This could be considered a more general case of the previous category but there are instances where it may not make sense to break up some processing for readability, maintenance or performance reasons.
+                This category could be considered a more general case of the previous category but there are instances where it may not make sense to break up some processing for readability, maintenance or performance reasons.
               </command>
               <command name="item"> Not enough outputs.
                 <br />
-                For example, an instance method may be calling instance methods on its fields in such a way that there are no observable changes to the fields' own hidden mutable state.  Extracting that block would likely provide no unit testing advantage and is thus uninteresting.
+                An example of a block in this category would be an instance method calling instance methods on its fields in such a way that there are no observable changes to the fields' own hidden mutable state.  Extracting that block would likely provide no unit testing advantage and is thus uninteresting.
               </command>
               <command name="item"> Too many interactions with the environment.
                 <br />
@@ -521,11 +521,27 @@ references as well.
             <command name="label" param="subsec:Step2" />
             The second SME step is about finding and, if necessary, moving statements that are either unrelated to a computation or statements that are not stateless (such as those that cause side-effects) out of the candidate block, but only if the original instance method's functionality will not be adversely affected by the move.  If the functionality would indeed be adversely affected by the re-ordering of unrelated or non-stateless statements, the candidate block should be split such that its new endpoint is just before said unrelated or non-stateless statement, and a subsequent candidate block could be attempted just after.
 
+            <region name="table and two code listings for operation re-ordering">
+              <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
+              <command name="lstinputlisting"
+                opt="label=lst:StatefulGenerateXmlIntermixed,caption=GenerateXmlIntermixed() method with a candidate block between lines 18-33,style=realCode,linerange=80-118"
+                param="Stateful/ImageCollection.cs" />
+              <raw>&amp;</raw>
+              <command name="lstinputlisting"
+                opt="label=lst:StatefulGenerateXmlUnmixed,caption=GenerateXml() method with a shorter candidate block between lines 19-30,style=realCode,linerange=40-78"
+                param="Stateful/ImageCollection.cs" />
+              <raw>\end{tabular}</raw>
+            </region>
+
+            An example of unrelated statements can be seen in listing <command name="ref" param="lst:StatefulGenerateXmlIntermixed" />, specifically in the candidate block identified between lines 18 and 33.  The majority of the operations in the block concern themselves with the creation and configuration of the <tt>itemNode</tt> instance while at least 3 of them perform tasks incidental to the <tt>itemNode</tt> configuration:  lines 21, 23 and 25.  Line 20 does augment <tt>itemNode</tt>, but does so with a trivial operation (the <tt>Add()</tt> method call) and so its inclusion in the candidate block could be argued either way.  For the purposes of this example, line 20 will be considered incidental.  The candidate block could be shrunk by re-ordering all the operations identified as incidental without affecting the functionality.  In particular, the <tt>mortonNumber++;</tt> operation on line 23 is only sensitive to ordering insofar as <tt>itemNode.SetAttributeValue("N", mortonNumber);</tt> on line 22 is concerned and thus could be moved down and out of the candidate block.  Lines 20 and 21 depend on one another as well as line 19 (the creation of the <tt>itemNode</tt> instance), but the behaviour would be the same if they appeared at the end of the block (the XML API used in the example guarantees this) and therefore, because they have no advantage being located immediately after the creation of <tt>itemNode</tt>, they can be safely moved out of the candidate block.  The last incidental operation is <tt>maxPostId = Math.Max(maxPostId, postId);</tt> on line 25.  Its only dependency is the <tt>postId</tt> loop variable and thus could be moved up to be the very first operation in the loop.  Listing <command name="ref" param="lst:StatefulGenerateXmlUnmixed" /> illustrates the result of re-ordering the lines containing incidental operations and the smaller, simpler candidate block obtained.
+
             A statement is said to be non-stateless if values or data not explicitly specified by parameters or the return value are modified as a result of execution.  This can be as simple as an instance method modifying hidden mutable state, a method modifying global state or a method interpreting its parameters for interaction with the environment, such as using a string parameter as the name of a file to create or delete or the name of a database table to read from or write to.
+
+            TODO: find an example of a method that performs some computations, does something non-stateless that cannot be moved (I/O, DB, etc), then performs some more computations.  Something like formatting some parameters to create a command-line, executing a sub-process and parsing its results again (such as svn info?)
 
             It could also be the case that the original instance method is computing several outputs simultaneously and such statements are intermixed.  If the outputs are independently-computed (or their computations share some intermediate results, then diverge), it may be worth investigating separating their computations by re-ordering statements such that they can then be extracted, and subsequently unit tested, independently.
 
-            TODO: should examples be provided?
+            TODO: find an example of a method that computes two (or more) results that could have the computations separated
           </command>
           <command name="subsection" param="Step 3: Assignment of inputs and outputs to local variables">
             <command name="label" param="subsec:Step3" />
@@ -657,7 +673,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
         </command>
         <command name="section" param="Suitability">
           <command name="label" param="sec:Suitability" />
-          Although designed to work around the difficulties introduced by HMS, SME is suitable for methods that are difficult to test, even in the absence of HMS, due to unwieldy arrange phases, parameter types that are difficult to create, large number of parameters, computation coupling, the presence of side-effects and/or restrictions of visibility.  These additional suitabilities will be addressed in the following sub-sections.
+          Although designed to work around the difficulties introduced by HMS, SME is suitable for methods that are difficult to test, even in the absence of HMS, due to unwieldy arrange phases, parameter types that are difficult to create, large number of parameters, computation coupling, the presence of side-effects and/or restrictions of visibility.  These additional suitabilities are addressed in the following sub-sections.
 
           <command name="subsection" param="Unwieldy arrange phase">
             If a unit test method has an <em>arrange</em> phase that is longer than 50% of the test method, it is probably an indication that there are too many parameters, the parameters are too difficult to create and/or the functionality under test is buried too deep.  SME would help isolate the functionality that is intended to be tested and thus reduce the number of parameters (candidate blocks are selected to use between 1 and 6 parameters), reduce the complexity of the parameters (the input simplification step takes care of this) and expose the computation as a single, direct method call.  The arrange phase would then be shrunk considerably, if not entirely removed, leading to simpler unit tests.

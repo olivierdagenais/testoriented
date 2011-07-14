@@ -54,14 +54,12 @@ public XElement GenerateXml
   var maxPostId = 0;
   foreach (var postId in _postIds)
   {
+    maxPostId = Math.Max(maxPostId, postId);
     var itemNode = GenerateItemNode(mortonNumber,
       postId, _fileNameIdFormat, relativePathToRoot);
-
     itemNode.Add(_sizeNode);
     itemsNode.Add(itemNode);
-
     mortonNumber++;
-    maxPostId = Math.Max(maxPostId, postId);
   }
 
   collectionNode.SetAttributeValue("NextItemId",
@@ -73,7 +71,7 @@ internal static XElement GenerateItemNode
   (int mortonNumber, int postId,
   string fileNameIdFormat, string relativePathToRoot)
 {
-  #region <I N="0" Id="351" Source="../0351.dzi"/>
+  // <I N="0" Id="351" Source="../0351.dzi"/>
   var itemNode = new XElement(ItemNodeName);
   itemNode.SetAttributeValue("N", mortonNumber);
   itemNode.SetAttributeValue("Id", postId);
@@ -85,8 +83,6 @@ internal static XElement GenerateItemNode
     relativePathToRoot, relativeDziSubPath);
   itemNode.SetAttributeValue("Source",
     relativeDziPath);
-  #endregion
-
   return itemNode;
 }
 }
