@@ -537,7 +537,20 @@ references as well.
 
             A statement is said to be non-stateless if values or data not explicitly specified by parameters or the return value are modified as a result of execution.  This can be as simple as an instance method modifying hidden mutable state, a method modifying global state or a method interpreting its parameters for interaction with the environment, such as using a string parameter as the name of a file to create or delete or the name of a database table to read from or write to.
 
-            TODO: find an example of a method that performs some computations, does something non-stateless that cannot be moved (I/O, DB, etc), then performs some more computations.  Something like formatting some parameters to create a command-line, executing a sub-process and parsing its results again (such as svn info?)
+            An example of a non-stateless method in the middle of a candidate block can be seen at line 24 of listing <command name="ref" param="lst:StatefulSubversionClient" />.  The <tt>ExecuteSvn()</tt> method, defined at line 50, starts a sub-process and returns the contents of <tt>StandardOutput</tt> and thus is said to interact with the environment, making it definitely non-stateless.  In this particular case, because the <tt>ExecuteSvn()</tt> method depends on the computations immediately above it and provides input needed by the computations immediately below it, it can not be moved before or after the candidate block (lines 14-44).  This causes the original candidate block to be split into parts excluding the immovable, non-stateless method with the first half being lines 14-22 and the second half lines 26-44.  Listing  <command name="ref" param="lst:StatelessSubversionClient" /> shows the two stateless methods that were extracted from the split candidate block: <tt>CreateInfoArguments()</tt> and <tt>ParseInfoFromXml()</tt>.
+
+            <region name="table and two code listings for candidate block splitting">
+              <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
+              <command name="lstinputlisting"
+                opt="label=lst:StatefulSubversionClient,caption=The Info() method has a candidate block between lines 14-44,style=realCode,linerange=6-68"
+                param="Stateful/SubversionClient.cs" />
+              <raw>&amp;</raw>
+              <command name="lstinputlisting"
+                opt="label=lst:StatelessSubversionClient,caption=Two stateless methods were extracted from the Info() method,style=realCode,linerange=6-64"
+                param="Stateless/SubversionClient.cs" />
+              <raw>\end{tabular}</raw>
+            </region>
+
 
             It could also be the case that the original instance method is computing several outputs simultaneously and such statements are intermixed.  If the outputs are independently-computed (or their computations share some intermediate results, then diverge), it may be worth investigating separating their computations by re-ordering statements such that they can then be extracted, and subsequently unit tested, independently.
 
