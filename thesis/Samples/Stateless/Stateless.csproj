@@ -60,6 +60,8 @@
     <Compile Include="SmokeDetector.cs" />
     <Compile Include="SmokeDetectorTest.cs" />
     <Compile Include="StatelessAttribute.cs" />
+    <Compile Include="SubversionClient.cs" />
+    <Compile Include="SubversionClientTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
