@@ -551,10 +551,20 @@ references as well.
               <raw>\end{tabular}</raw>
             </region>
 
+            It could also be the case that the original instance method is computing several outputs simultaneously and such statements are intermixed.  If the outputs are independently-computed (or their computations share some intermediate results, then diverge), it may be worth investigating separating their computations by re-ordering statements such that they can then be extracted, and subsequently unit tested, independently.  An example of intermixed computations can be seen in listing <command name="ref" param="lst:StatefulCartesianCoordinate" /> between lines 20 and 24, while another version of the method with the computations separated through re-ordering can be seen in listing <command name="ref" param="lst:StatelessCartesianCoordinate" />.
 
-            It could also be the case that the original instance method is computing several outputs simultaneously and such statements are intermixed.  If the outputs are independently-computed (or their computations share some intermediate results, then diverge), it may be worth investigating separating their computations by re-ordering statements such that they can then be extracted, and subsequently unit tested, independently.
+            <region name="table and two code listings for math re-ordering">
+              <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
+              <command name="lstinputlisting"
+                opt="label=lst:StatefulCartesianCoordinate,caption=The ToPolar() method interleaves computations for r and theta,style=realCode,linerange=3-27"
+                param="Stateful/CartesianCoordinate.cs" />
+              <raw>&amp;</raw>
+              <command name="lstinputlisting"
+                opt="label=lst:StatelessCartesianCoordinate,caption=The ToPolar() method with the computations separated,style=realCode,linerange=3-27"
+                param="Stateless/CartesianCoordinate.cs" />
+              <raw>\end{tabular}</raw>
+            </region>
 
-            TODO: find an example of a method that computes two (or more) results that could have the computations separated
           </command>
           <command name="subsection" param="Step 3: Assignment of inputs and outputs to local variables">
             <command name="label" param="subsec:Step3" />
