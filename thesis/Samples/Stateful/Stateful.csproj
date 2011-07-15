@@ -54,6 +54,7 @@
     <Compile Include="ImageCollection.cs" />
     <Compile Include="ImageCollectionTest.cs" />
     <Compile Include="MortonLayout.cs" />
+    <Compile Include="MortonLayoutTest.cs" />
     <Compile Include="MutableVector.cs" />
     <Compile Include="CartesianCoordinate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
