@@ -623,7 +623,7 @@ references as well.
 
             The newly-extracted method, by virtue of the candidate block processing in the previous steps, should read and write only from and to its input parameters and return values, otherwise it would not qualify as [externally] "stateless".  To help prevent the accidental interaction with any instance fields, the method should be marked as being scoped to the class (as opposed to being scoped to instances), which is done in many programming languages by decorating the method with the <tt>static</tt> keyword.
 
-            Many modern development environments have built-in refactoring tools that include an "extract method" action, which makes this step almost trivial.
+            Many modern development environments have built-in refactoring tools that include an "extract method" action <command name="cite" param="msdn05extractmethod" /> <command name="cite" param="eclipse08extractmethod" />, which makes this step almost trivial.
           </command>
           <command name="subsection" param="Step 6: Re-inline any variables created to facilitate a refactor">
             <command name="label" param="subsec:Step6" />
