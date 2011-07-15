@@ -708,7 +708,19 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
 
             In this particular case, the SME technique was extended to include the extraction of the compile-time <tt>Pattern</tt> string constant representing the regular expression pattern and the extraction of the <tt>CodeBlockRegex</tt> run-time constant representing the compiled regular expression, thereby providing the unit tests with access to the same functionality used for performing the work, thereby enhancing the unit tests' realism and relevance.  Finally, SME's candidate block identification enabled the separation of parsing and formatting allowing both to be tested separately as units but also still together since the public-facing functionality did not change as a result of the refactorings.
 
-            Computation de-coupling might not always be addressable through SME as there could be computations that are tightly-coupled for performance reasons and separating them would lead to a performance loss.  TODO: find an example of this, probably in PivotStack.
+            <region name="table and two code listings for computation coupling">
+              <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
+              <command name="lstinputlisting"
+                opt="label=lst:StatefulMortonLayout,caption=The original Decode() method computes the values of x and y simultaneously,style=realCode,linerange=4-27"
+                param="Stateful/MortonLayout.cs" />
+              <raw>&amp;</raw>
+              <command name="lstinputlisting"
+                opt="label=lst:StatelessMortonLayout,caption=The Decode() method with the DecodeAxis() method extracted out of it,style=realCode,linerange=4-31"
+                param="Stateless/MortonLayout.cs" />
+              <raw>\end{tabular}</raw>
+            </region>
+
+            Computation de-coupling might not always be addressable through SME as there could be computations that are tightly-coupled for readability or performance reasons and separating them would lead to a readability or performance loss.  An example of two computations that would be worse if separated can be seen in listing <command name="ref" param="lst:StatefulMortonLayout" />.  We can see that <tt>x</tt> and <tt>y</tt> are computed simultaneously, as opposed to listing <command name="ref" param="lst:StatelessMortonLayout" /> where <tt>x</tt> and <tt>y</tt> are computed separately, meaning two runs through the loop on <tt>bits</tt> instead of one.  It is also less obvious, in the second case, that the values of <tt>x</tt> and <tt>y</tt> were obtained by interpreting interleaved bits of the Morton Layout's <tt>index</tt> <command name="cite" param="msdn08deepzoom" />.
           </command>
 
           <command name="subsection" param="The presence of side-effects">
