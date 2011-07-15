@@ -39,6 +39,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -55,6 +56,8 @@
     <Compile Include="ImageCollection.cs" />
     <Compile Include="ImageCollectionTest.cs" />
     <Compile Include="ImmutableAttribute.cs" />
+    <Compile Include="MortonLayout.cs" />
+    <Compile Include="MortonLayoutTest.cs" />
     <Compile Include="Plane.cs" />
     <Compile Include="PlaneTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
