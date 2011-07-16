@@ -451,13 +451,13 @@ references as well.
           </command>
           <command name="subsection" param="Step 1: Identification of a candidate block">
             <command name="label" param="subsec:Step1" />
-            The first step of SME consists of identifying, in an instance method, one or more functionality subsets that would be good candidates for extraction and subsequent unit testing.  That is to say it is not necessary to extract the entire body of an instance method if there are parts of the original method that would be more suitable to extract and unit test individually and separately.
+            The first step of SME consists of identifying, in an instance method, one or more functionality subsets that would be good candidates for extraction and subsequent unit testing.  That is to say it is not necessary to extract the entire body of an instance method if there are parts of the original method that would be more suitable to extract and unit test individually and separately.  It is also possible a method will contain no candidate blocks to extract; the technique need not be forcibly applied if no unit testing advantages can be realized.
 
             The criteria for establishing candidacy of a block consist of:
             <block param="enumerate">
               <command name="item"> A continuous set of stateless statements.
                 <br />
-                Stateless statements are defined as depending directly on their explicit inputs and without side-effects.  Statements that interpret input parameters to interact with the environment (such as reading/writing files and sending/receiving network traffic) are not considered stateless.  Statements may produce effects (such as assignment and return values) but may not cause other values to change as a result of execution (such as modifying HMS), as this would defeat the purpose.  Section <command name="ref" param="subsec:Step2" /> describes how to deal with non-stateless statements.
+                Stateless statements are defined as depending directly on their inputs and without side-effects.  Statements that interpret input parameters to interact with the environment (such as reading/writing files and sending/receiving network traffic) are not considered stateless.  Statements may produce effects (such as assignment and return values) but may not cause other values to change as a result of execution (such as modifying HMS), as this would defeat the purpose.  Section <command name="ref" param="subsec:Step2" /> describes how to deal with non-stateless statements.
               </command>
               <command name="item"> Inputs (local variables, fields and/or method parameters): at least 1 but no more than 6.</command>
               <command name="item"> Outputs (local variables, fields and/or return values): at least 1 but no more than 3.
@@ -576,7 +576,7 @@ references as well.
           </command>
           <command name="subsection" param="Step 4: Simplification of inputs">
             <command name="label" param="subsec:Step4" />
-            Stateless method extraction's fourth step deals with minimizing the amount of knowledge the stateless method will need to perform its processing or computation.  This entails finding the simplest types that can be used for the parameters and return values without causing an undue increase in their numbers.  The overall intent is to optimize the inputs and outputs such that the unit tests exercising the to-be-extracted method have a minimal number of statements, while balancing the readability and maintainability of both the stateless method and of said unit tests.  The last reason for favoring "simple" types - usually the language's built-in base types, such as strings, integers and floating-point numbers - is that they are immutable and/or passed by value, meaning their use when calling a stateless method will not result in side-effects.  As such, any type with an easy construction and without side-effects while reading values is considered "simple" for the purpose of SME.
+            Stateless method extraction's fourth step entails finding the simplest types that can be used for the parameters and return values without causing an undue increase in their numbers.  Any type with an easy construction (a single call to a constructor or a factory method) and without side-effects while reading its component values (typical of an immutable instance) is considered "simple" for the purpose of SME.
 
             <region name="table and two code listings for Vector math">
               <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
@@ -590,7 +590,7 @@ references as well.
               <raw>\end{tabular}</raw>
             </region>
 
-            As a first example of possible input simplification, suppose the candidate block's purpose is to compute the dot product of two 3D vectors and the parameters are currently two instances of a Vector type (refer to listings <command name="ref" param="lst:StatefulVector" /> and <command name="ref" param="lst:StatelessVector" />).  The stateless method could also be written to accept 6 parameters representing both triplets of the vectors' values.  Assuming a Vector instance can be created in one statement (a call to its constructor or a factory method) and reading its component values can cause no side-effects, it may be worth keeping the input parameters as two Vector instances for readability reasons, although an argument could also be made to make the new <tt>DotProduct()</tt> method accept the 6 component values so that the method could be subsequently re-used to calculate dot products of vectors not expressed using instances of Vector.
+            As a first example of possible input simplification, suppose the candidate block's purpose is to compute the dot product of two 3D vectors and the parameters are currently two instances of a <tt>Vector</tt> type (refer to listings <command name="ref" param="lst:StatefulVector" /> and <command name="ref" param="lst:StatelessVector" />).  The stateless method could also be written to accept 6 parameters representing both triplets of the vectors' values.  Assuming a <tt>Vector</tt> instance can be created in one statement (a call to its constructor or a factory method) and reading its component values can cause no side-effects, it may be worth keeping the input parameters as two <tt>Vector</tt> instances for readability reasons, although an argument could also be made to make the new <tt>DotProduct()</tt> method accept the 6 component values so that the method could be subsequently re-used to calculate dot products of vectors not expressed using instances of <tt>Vector</tt>.
 
             <region name="table and two code listings for Match-based formatting">
               <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
@@ -604,7 +604,7 @@ references as well.
               <raw>\end{tabular}</raw>
             </region>
 
-            On the other hand, suppose the candidate block's purpose is to reformat text based on the results of a regular expression match, as shown in listings <command name="ref" param="lst:StatefulCodeFormatMatchEvaluator" /> and <command name="ref" param="lst:StatelessCodeFormatMatchEvaluator" />.  In this case, because the input parameter is of a type that is difficult to create (the <tt>Match</tt> class has no visible constructors - the only way to create an instance is through the return value of the <tt>Match()</tt> method overloads on the <tt>Regex</tt> class), it is easy to argue that the method's parameters should be four strings instead of one <tt>Match</tt> instance given how trivial strings are to create vs. the complexity involved in creating said <tt>Match</tt> instance.  Indeed, as listings <command name="ref" param="lst:StatefulCodeFormatMatchEvaluatorTest" /> and <command name="ref" param="lst:StatelessCodeFormatMatchEvaluatorTest" /> show, the original method must either be tested indirectly (through calling the <tt>ModifyLine()</tt> method) or by creating a <tt>Match</tt> instance (in a rather pathological way, lest the original regular expression pattern is refactored for re-use), while the extracted stateless <tt>BuildCodeElementString()</tt> method can be tested directly.
+            On the other hand, suppose the candidate block's purpose is to reformat text based on the results of a regular expression match, as shown in listings <command name="ref" param="lst:StatefulCodeFormatMatchEvaluator" /> and <command name="ref" param="lst:StatelessCodeFormatMatchEvaluator" />.  In this case, because the input parameter is of a type that is difficult to create (the <tt>Match</tt> class has no visible constructors - the only way to create an instance is through the return value of the <tt>Match()</tt> method overloads on the <tt>Regex</tt> class), it is easy to argue that the method's parameters should be four strings instead of one <tt>Match</tt> instance given how trivial strings are to create vs. the complexity involved in creating said <tt>Match</tt> instance.  Indeed, as listings <command name="ref" param="lst:StatefulCodeFormatMatchEvaluatorTest" /> and <command name="ref" param="lst:StatelessCodeFormatMatchEvaluatorTest" /> show, the original method must either be tested indirectly (through calling the <tt>ModifyLine()</tt> method) or by creating a <tt>Match</tt> instance (in a rather pathological way, lest the original regular expression pattern is refactored for re-use as in listing <command name="ref" param="lst:StatelessCodeFormatMatchEvaluator" />), while the extracted stateless <tt>BuildCodeElementString()</tt> method can be tested directly.
 
             <region name="table and two code listings for Match-based formatting tests">
               <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
@@ -701,6 +701,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           Although designed to work around the difficulties introduced by HMS, SME is suitable for methods that are difficult to test, even in the absence of HMS, due to unwieldy arrange phases, parameter types that are difficult to create, large number of parameters, computation coupling, the presence of side-effects and/or restrictions of visibility.  These additional suitabilities are addressed in the following sub-sections.
 
           <command name="subsection" param="Unwieldy arrange phase">
+            <command name="label" param="subsec:UnwieldyArrangePhase" />
             If a unit test method has an <em>arrange</em> phase that is longer than 50% of the test method, it is probably an indication that there are too many parameters, the parameters are too difficult to create and/or the functionality under test is buried too deep.  SME would help isolate the functionality that is intended to be tested and thus reduce the number of parameters (candidate blocks are selected to use between 1 and 6 parameters), reduce the complexity of the parameters (the input simplification step takes care of this) and expose the computation as a single, direct method call.  The arrange phase would then be shrunk considerably, if not entirely removed, leading to simpler unit tests.
           </command>
 
@@ -774,8 +775,6 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             </region>
 
             Such a concept need not be implemented at the language level and could instead be implemented by a static code analysis (SCA) tool with the help of a designated decoration implemented, say, as an attribute in .NET or as an annotation in Java.  Listing <command name="ref" param="lst:StatelessStatelessAttribute" /> shows a C# implementation of the proposed <tt>Stateless</tt> attribute and a sample of its use.
-
-            In the absence of programming language features to definitely identify and enforce a method as stateless, the <tt>static</tt> keyword is used to at least make it more difficult to access or manipulate HMS (it is not always possible to restrict the use of HMS from a static method) and to make the method callable without first having to create an instance of a class, although at the same time the <tt>static</tt> keyword does not prevent manipulation of static fields nor does it enforce that all method calls therein are also stateless.
           </command>
           <command name="subsection" param="Identifying immutable instances">
             A type which contains no mutable state is said to be <em>immutable</em>.  Any state an immutable type has can only be set during construction through the parameters of constructors or factory methods and all its instance methods either return that state directly or perform computations with it (and possibly some input parameters), in a manner not unlike stateless methods.  Immutable types can make SME better because there exists, by definition, no sequence of method calls on their instances that can modify their state and therefore there can be no side-effects as a result of using immutable types as inputs to stateless methods.  As discussed in section <command name="ref" param="subsec:Step4" />, immutable types are considered "simple" and can therefore provide stateless methods convenient groupings of related input parameters, instead of specifying them separately, which provides additional readability in unit tests at the expense of a constructor call.
@@ -794,41 +793,26 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
         -->
         </command>
 
-        <!-- TODO: regarding the motivation for CGT in our case
-        The better the statement coverage of the generated tests, the more testable the original source code under the transformation is considered.
-        -->
-        <!--
-        = discuss theoretical trade-offs and suitability towards goal
-        == forces number of arguments of stateless method to remain small, to avoid Misko's splippery slope
-        == MUST be a pure refactor, i.e. callers are/will be none the wiser
-        === no bugs added
-        === no bugs fixed during this step, always expose and fix bug separately from extraction
-        === no performance differences (extracted method could always be inlined by the compiler for release)
-        == MUST preserve seams, in case code is already partially tested
-        => work around reachability barriers
-        = discuss scope of technique (i.e. on which code should it be applied)
-        == what to extract, what not to extract
-        == what can be re-ordered because its exact "timing" is not terribly important
-        == how many [static/instance] fields read
-        == how many [static/instance] fields modified
-        == how many parameters needed
-        == what happens when environment-modifying operations are used
-        = discuss experiments with Pex (if only to introduce for another section)
-        == trade-offs of automatic test generation based on code coverage
-        == differences between a constraint solver and evolutionary testing
-        -->
         <command name="section" param="Decisions made">
-          <!--
-          = number of inputs to include in a candidate block: 1 to 6 (although 1 should probably be an instance or extension method on the class/struct and 7 is getting complicated)
-          = number of outputs to include in a candidate block: 1 to 3 (must return something, otherwise not function; if more than 1, maybe use a call-back?)
-          = {Project}.ManualTests created to avoid interference with Pex if had used {Project}.Tests
-          = arrange phase greater than 50% of test method is because we want to minimize the size of the unit tests and the more code there is in the arrange phase, the more it is looking like an integration test, which is more brittle and harder to understand
-          -->
-          ...
-        </command>
-        <command name="section" param="Reproducibility">
-          <!-- Enough for somebody to reproduce experiment -->
-          ...
+          <region name="Candidate block identification">
+          The candidate block identification step in section <command name="ref" param="subsec:Step1" /> requires that blocks contain only stateless statements, because statelessness is a transitive property and the presence of any operation that causes side-effects in a method will disqualify all methods that call such a method from claiming statelessness.  A stateless method must therefore only call stateless methods, otherwise the effort is defeated.
+
+          The candidate block identification also calls for selecting computations that use 1 to 6 inputs because a method that accepts no parameters would have to return a constant (otherwise it could not be considered stateless) while 6 was selected as a suggested maximum number of inputs as a matter of experience, since too many inputs might make it difficult to write tests, defeating the goal of this thesis.  <!-- TODO: a stateless method with a single parameter could be implemented as an extension method or hanging off that class, as mentioned with Vector's [Dot|Cross]Product -->
+
+          The last criterion in block candidacy is selecting computations that produce 1 to 3 outputs because a method that does not return any results likely causes side-effects (and thus can not be considered stateless) and side-effects are not trivial to observe during unit testing.  The suggested maximum number of outputs was also selected from experience and is again intended to keep unit tests simple, mostly because very few programming languages support returning more than one value at once.  Returning multiple values at once is often emulated by using a container for the values, either through a specialized type (such as <tt>Point</tt> or <tt>Vector</tt>) or an anonymous one, such as a tuple <command name="cite" param="msdn10tupleclass" /> <command name="cite" param="python08datastructures" />.  <!-- TODO: talk about experimental tuple unpacking in Mono: http://tirania.org/blog/archive/2009/Dec-23.html --> <!-- TODO: "returning" more than one value can be done with a call-back/functor -->
+          </region>
+
+          The intent of incidental operation re-ordering is to maximize the number of operations in a candidate block while minimizing the number of inputs and outputs.  This is done to avoid extracting stateless methods that perform too few operations, which would cause unit testing to become a high-work and low-return activity. <!-- TODO: if an example is warranted, the best one is probably cartesian to polar coordinates: it makes no sense to extract (_x * _x) or (_y * _y) or (xSquared + ySquared) individually, but collectively, yes.  Similar for the computation of theta, especially if Math.Atan(y, x) wasn't available. -->  Although this incidental operation re-ordering step is automatable through data dependency analysis and program slicing, a programmer will likely be the best judge of which operations are considered related and if these operations collectively have a recognized or standard meaning, the same way <tt>new Vector(a.Y * b.Z - a.Z * b.Y, a.Z * b.X - a.X * b.Z, a.X * b.Y - a.Y * b.X);</tt> is better identified as a <tt>CrossProduct()</tt> method that accepts two <tt>Vector</tt> instances <tt>a</tt> and <tt>b</tt>.
+
+          Input simplification's intent is to minimize the amount of knowledge the stateless method will need to perform its processing or computation.  It does this by optimizing the inputs and outputs such that the unit tests (exercising the to-be-extracted stateless method) contain a minimal number of statements, while balancing the readability and maintainability of both the stateless method and of said unit tests.  Another reason for favoring "simple" types - usually the language's built-in base types, such as strings, integers and floating-point numbers - is that they are immutable and/or passed by value, meaning their use from within a stateless method will not result in side-effects.  Obviously, any type with instance fields that are all set at construction time and are read-only thereafter is acceptable as an input parameter, although readability and maintainability should be considered if less than the majority of its instance fields are used by the method under test.  For example, the use of a <tt>DateTime</tt> struct as a parameter when only its <tt>Year</tt> and <tt>Month</tt> properties are needed might suggest that two integer parameters for <tt>year</tt> and <tt>month</tt> would make for a better choice.
+
+          In the absence of programming language features to definitely identify and enforce a method as stateless, the <tt>static</tt> keyword is used to at least make it more difficult to access or manipulate HMS (it is not always possible to restrict the use of HMS from a static method) and to make the method callable without first having to create an instance of a class, although at the same time the <tt>static</tt> keyword does not prevent manipulation of static fields nor does it enforce that all method calls therein are also stateless.
+
+          The stateless methods' visibility of <tt>package</tt> or <tt>internal</tt> was selected to make the use of SME invisible to end-users.  Indeed, having the test fixture in the same package as the class under test is the convention for JUnit <command name="cite" param="vogel07junittutorial" /> whereas using MSTest to test methods marked as internal in another project is not only documented but also assisted by Visual Studio <command name="cite" param="msdn10settinginternals" />.
+
+          Sub-section <command name="ref" param="subsec:UnwieldyArrangePhase" /> argues for a threshold on the size of a unit test's <em>arrange</em> phase that should trigger an investigation into the content of said arrange phase, to see if simplification through SME or other means is possible.  The intent here is to minimize the size of unit tests to encourage their use.  Tests with long arrange phases are still valid but beyond a certain size might be considered <em>integration</em> tests more than <em>unit</em> tests.
+
+          The set of transformations performed during SME were designed to be low-impact in order to encourage their use and reduce the risk of breaking the very code that is to have unit tests added to.  Indeed, "altering internal structure without changing external behaviour" is the very definition of refactoring <command name="cite" param="fowler00refactoring" /> and, as such, care should be taken to <em>only</em> perform the SME steps during the process and to resist the temptation to fix defects or add features at the same time.  Once SME has been performed, unit tests are written against the new method to establish a functionality baseline and both sets of changes are committed to source control.  Only then will it be safe to add unit tests to expose any potential defects or missing features encountered during SME and then fix the defects or add the features in the presence of the safety net added in the previous step.
         </command>
         <command name="section" param="Summary">
           <!-- key points of what was presented and linkage to next chapter -->
@@ -841,6 +825,14 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           ...
         </command>
         <command name="section" param="Evaluation/experiment design">
+        <!--
+        = TODO: regarding the motivation for CGT in our case
+        == The better the statement coverage of the generated tests, the more testable the original source code under the transformation is considered.
+        = {Project}.ManualTests created to avoid interference with Pex if had used {Project}.Tests
+        = discuss experiments with Pex (if only to introduce for another section)
+        == trade-offs of automatic test generation based on code coverage
+        == differences between a constraint solver and evolutionary testing
+          -->
           To verify the proposed stateless method extraction (SME) algorithm's efficiency and validate its effectiveness, it is to be compared to (against?) the following strategies (should we bother with "visibility increase" and "mutation removal"?  they both alter the implementation under test (IUT)'s public interface):
           <block param="enumerate">
             <command name="item"> No modifications to the code under test</command>
