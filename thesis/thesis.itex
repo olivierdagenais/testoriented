@@ -307,6 +307,8 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
           <command name="subsection" param="The state problem">
             <block param="quote">
               "Side-effects, by which I mean changes to the values stored in fields of objects or elements of arrays, are clearly intended to be used frequently in Java. However, the presence of side-effects can make it harder to reason about a program, because there is invisble [sic] state to the side of computations which changes. That means a reader needs to keep track of both the visible aspects of a program and the hidden values off to the side that may change." <command name="cite" param="haahr99programmingstyle" />
+
+              "Although encapsulation does not directly contribute to the occurrence of bugs, it can present an obstacle to testing.  Testing requires accurate reporting of the concrete and abstract states of an object and the ability to set state easily.  Object-oriented languages make it difficult--if not impossible--to directly set or get the concrete state." <command name="cite" param="binder00withnecessary" />
             </block>
             McMinn identified the "State Problem" in the context of evolutionary testing and described a few possible solutions that enhanced the ET system to compensate for problems brought on by state <command name="cite" param="mcminn03thestate" />.  Difficulties with internal state are also mentioned by Bühler and Wegener <command name="cite" param="buehler08evolutionaryfunctional" />, Harman et al. <command name="cite" param="harman09aop" />, Tillman and de Halleux <command name="cite" param="tillman08pex" /> and Baresel et al. <command name="cite" param="baresel02fitnessfunction" />.
 
