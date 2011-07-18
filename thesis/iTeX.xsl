@@ -29,10 +29,18 @@
             } => \}
             ^ => \^{}
             ~ => \~{}
+            Also converts ' "' into ' ``' (opening quotes)
         -->
-        <xsl:variable name="escapedBackslash">
+        <xsl:variable name="openingQuotes">
             <xsl:call-template name="replaceCharsInString">
                 <xsl:with-param name="stringIn" select="." />
+                <xsl:with-param name="charsIn" select="' &quot;'" />
+                <xsl:with-param name="charsOut" select="' ``'" />
+            </xsl:call-template>
+        </xsl:variable>
+        <xsl:variable name="escapedBackslash">
+            <xsl:call-template name="replaceCharsInString">
+                <xsl:with-param name="stringIn" select="$openingQuotes" />
                 <xsl:with-param name="charsIn" select="'\'" />
                 <xsl:with-param name="charsOut" select="'\textbackslash'" />
             </xsl:call-template>
