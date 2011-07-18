@@ -5,11 +5,11 @@
 
     <command name="documentclass" opt="12pt" param="dalthesis" />
 
-    <command name="usepackage" opt="utf8" param="inputenc" /> <!-- set input encoding (not needed with XeLaTeX) -->
-
-    <!-- disable turning "fi", "ff", etc. into one character: http://www.latex-community.org/forum/viewtopic.php?f=5&t=953  -->
-    <command name="usepackage" param="microtype" />
-    <command name="DisableLigatures" param="encoding = *, family = *" />
+    <region comment='disable turning "fi", "ff", etc. into one character'>
+      <command name="usepackage" param="fontspec" />
+      <command name="setmonofont" param="Courier New" />
+      <command name="setmainfont" opt="Mapping=tex-text,Ligatures={NoCommon,NoRare}" param="Latin Modern Roman" />
+    </region>
 
     <command name="usepackage" param="array" />
 
@@ -20,7 +20,6 @@
 
     <region comment='the "listings" package is used for source code snippets'>
       <command name="usepackage" param="listings" />
-      <command name="usepackage" param="courier" />
       <command name="lstset" param="tabsize=2" />
       <command name="lstdefinestyle" param="realCode}{basicstyle=\tiny\ttfamily, numbers=left, numberstyle=\tiny\ttfamily" />
       <command name="lstdefinestyle" param="pseudoCode}{basicstyle=\small, numbers=none" />
