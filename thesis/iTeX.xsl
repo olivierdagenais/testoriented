@@ -196,6 +196,9 @@
     <xsl:template match="em">
         <xsl:text>\emph{</xsl:text><xsl:value-of select="." /><xsl:text>}</xsl:text>
     </xsl:template>
+    <xsl:template match="u">
+        <xsl:text>\underline{</xsl:text><xsl:value-of select="." /><xsl:text>}</xsl:text>
+    </xsl:template>
 
     <!-- Pass-through (identity transform) template -->
     <xsl:template match="* | @*">
