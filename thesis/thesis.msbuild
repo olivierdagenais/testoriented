@@ -24,7 +24,7 @@ transformer.Transform(Source, Destination);
   </UsingTask>
 
   <Target Name="clean">
-    <RemoveDir Directories="obj" />
+    <RemoveDir Directories="obj;bin" />
   </Target>
   <Target Name="samples">
     <ItemGroup>
