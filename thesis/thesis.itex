@@ -76,9 +76,9 @@
           This chapter introduces the problem and the motivation for solving it, as well as the overall goal and specific objectives.  It concludes with an overview of the rest of the document.
         </command>
         <command name="section" param="Problem">
-          Software has advanced considerably in the last several years, but has software quality kept up?  We do not always know how good a program or component is or if it is free of defects, if only those defects that will affect us, directly or otherwise.  Software defects can range from the benign, such as incorrect colors and typographical errors in the interface or output, to very serious, such as causing the destruction of a rocket carrying four satellites <command name="cite" param="lions96ariane" /> <command name="cite" param="esa05clustermission" /> or causing the death of several patients <command name="cite" param="leveson95medicaldevices" />.
+          Software has advanced considerably in the last several years, but has software quality kept up?  We do not always know how good a program or component is or if it is free of defects, if only those defects that will affect us, directly or otherwise.  Software defects can range from the benign, such as incorrect colors and typographical errors in the interface or output, to very serious, such as causing the destruction of a rocket carrying four satellites <command name="cite" param="lions96ariane, esa05clustermission" /> or causing the death of several patients <command name="cite" param="leveson95medicaldevices" />.
 
-          Programming languages and compilers evolved to add features that make it easier to write code, although those features do not always make it easier to test the same code.  Object-oriented programming (OOP), for example, has introduced constructs and paradigms designed to make abstraction, inheritance and polymorphism easier, but at the same time introduced a feature that can make testing more difficult:  encapsulation (information hiding) in the form of instance state.  Encapsulation allows an object to hide its implementation details so as to present a simpler interface to callers.  Indeed, Alan Kay describes this simpler, higher-level interaction between objects as "goals", replacing low-level assignments: "Again, the whole point of OOP is <command name="underline" param="not" /> to have to worry about what is <em>inside</em> an object." <command name="cite" param="kay93earlyhistory" />
+          Programming languages and compilers evolved to add features that make it easier to write code, although those features do not always make it easier to test the same code.  Object-oriented programming (OOP), for example, has introduced constructs and paradigms designed to make abstraction, inheritance and polymorphism easier, but at the same time introduced a feature that can make testing more difficult:  encapsulation (information hiding) in the form of instance state.  Encapsulation allows an object to hide its implementation details so as to present a simpler interface to callers.  Indeed, Alan Kay describes this simpler, higher-level interaction between objects as "goals", replacing low-level assignments: "Again, the whole point of OOP is <u>not</u> to have to worry about what is <em>inside</em> an object." <command name="cite" param="kay93earlyhistory" />
 
           Hidden and mutable instance state poses a problem for automated unit testing because that instance state may come into play when exercising a specific scenario <command name="cite" param="binder00testharness" />.  Since the instance state is mutable, the values may not be initialized at instance construction or can change as instance methods are called.  Because the instance state is hidden, there exists, by definition, no way to manipulate this instance state directly.  Separately, hidden (but immutable) instance state or mutable (but visible) instance state do not provide too many difficulties for test writing.  It is the combination of the hidden and mutable properties that makes it difficult to write tests.
 
@@ -109,7 +109,7 @@
           = should I motivate [unit] testing more, like I did in my paper?
           = how about talking about the applicability to code that is currently without tests or with insufficient tests
           -->
-          Lest we could somehow perform the practically impossible "complete testing" (in other words, exhaustively trying all possible inputs), testing can only show the presence of defects and not their absence <command name="cite" param="dijkstra69structuredprogramming" />.  A good set of automated tests, on the other hand, can catch software regressions that may be introduced through the addition of a feature or the removal of a defect.  Finding--and fixing--regressions as early as possible ensures the fixing cost is minimized <command name="cite" param="spolsky00joeltest" />.  A good set of automated tests is henceforth defined as one that can catch such software regressions.
+          Lest we could somehow perform the practically impossible "complete testing" (in other words, exhaustively trying all possible inputs), testing can only show the presence of defects and not their absence <command name="cite" param="dijkstra69structuredprogramming" />.  A good set of automated tests, on the other hand, can catch software regressions that may be introduced through the addition of a feature or the removal of a defect.  Finding--and fixing--regressions as early as possible ensures the fixing cost is minimized <command name="cite" param="spolsky00joeltest, patton05softwaretesting" />.  A good set of automated tests is henceforth defined as one that can catch such software regressions.
 
           <!-- TODO: should the listings use a figure with subfloats, instead? -->
           <region name="table and two stateful code listings">
@@ -124,7 +124,7 @@
             <raw>\end{tabular}</raw>
           </region>
 
-          A metric commonly used to represent confidence in a set of automated tests is code coverage percentage, usually in the form of statement coverage <command name="cite" param="sink06advocatingcoverage" />.  Code that is covered might be - but is not necessarily - tested, but uncovered code is definitely untested code <command name="cite" param="binder00classes" />.  Shipping software with untested code is like serving a dish that has not yet been tasted.
+          A metric commonly used to represent confidence in a set of automated tests is code coverage percentage, usually in the form of statement coverage <command name="cite" param="sink06advocatingcoverage" />.  Code that is covered might be - but is not necessarily - tested, but uncovered code is definitely untested code <command name="cite" param="binder00classes" />.  Shipping software with untested code is like serving a dish that has not yet been tasted. <!-- can quote [Rapps+85, 367], which is reprinted in Binder, page 67 -->
 
           HMS does not just present trouble to tests written by programmers - henceforth referred to as human-generated tests (HGT) - but also to computer-generated tests (CGT), such as those generated through Evolutionary Testing (ET), a form of Search Based Software Testing.  <!-- TODO: does Concolic Testing also suffer from the state problem? -->  Indeed, McMinn reported on the difficulty HMS brought to ET:
           <block param="quote">
@@ -157,7 +157,22 @@
           The goal of this thesis is to improve the testability of classes that suffer from the "state problem" -- because they contain HMS -- while minimally affecting functionality, maintainability and the public interface of the code under test.  The goal is to be validated according to the following metrics:
 
           <block param="enumerate">
-            <command name="item"> Cyclomatic complexity <command name="cite" param="mccabe76complexitymeasure" /> of the unit tests.</command>
+            <command name="item"> Complexity of the unit tests.
+            <!--
+- Applying the Single Responsibility Principle (from SOLID) leads to extracting small methods
+- stateless methods are referentially transparent
+- "Why Functional Programming Matters" argues "We conclude that since modularity is the key to successful programming, functional programming offers important advantages for software development."
+- what if I show there are no changes to any of the common metrics when SME is used?  That would count as "no worse than before"
+- if the MUT is "testable", the test will be small (low number of statements)
+- LOC seems to be bad when evaluating benchmarks and baselines and comparing against other languages (i.e. Jones' business), but otherwise OK
+- I could present the results with the appropriate caveats (i.e. less logical SLOC per unit test method means simpler tests, but it also means entirely different tests; tests that simply were not possible before.  For example, before, the test would have been monolithic, whereas now there could be three small, focused tests that perform the same work)
+- unless I have a source that says smaller methods are better/make better tests, etc., I don't have much to go by for size of unit tests
+- many of my examples have been too conveniently transformable; there's lots of code I encounter that would be more difficult to test and SME wouldn't help - there's something more complicated needed, such as extracting a new class (single responsibility principle)
+- Binder, chapter 13, talks about "Bottom-up Integration" which reads "Components with the least number of dependencies are tested first.  When these components pass, their drivers are replaced with their clients; another round of testing then begins."
+- Binder, chapter 19 has "Test Case/Test Suite Method" which describes a lot of xUnit.
+- Binder page 69 talks about defect density relative to number of code changes
+            -->
+            </command>
             <command name="item"> Number of changes to the public interface of the class under test.</command>
             <command name="item"> Percentage of branches covered using concolic testing <command name="cite" param="lakhotia10empiricalinvestigation" />.
             <!-- TODO: can maintainability be measured? -->
@@ -625,7 +640,7 @@ references as well.
 
             The newly-extracted method, by virtue of the candidate block processing in the previous steps, should read and write only from and to its input parameters and return values, otherwise it would not qualify as [externally] "stateless".  To help prevent the accidental interaction with any instance fields, the method should be marked as being scoped to the class (as opposed to being scoped to instances), which is done in many programming languages by decorating the method with the <tt>static</tt> keyword.
 
-            Many modern development environments have built-in refactoring tools that include an "extract method" action <command name="cite" param="msdn05extractmethod" /> <command name="cite" param="eclipse08extractmethod" />, which makes this step almost trivial.
+            Many modern development environments have built-in refactoring tools that include an "extract method" action <command name="cite" param="msdn05extractmethod, eclipse08extractmethod" />, which makes this step almost trivial.
           </command>
           <command name="subsection" param="Step 6: Re-inline any variables created to facilitate a refactor">
             <command name="label" param="subsec:Step6" />
@@ -798,9 +813,9 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           <region name="Candidate block identification">
           The candidate block identification step in section <command name="ref" param="subsec:Step1" /> requires that blocks contain only stateless statements, because statelessness is a transitive property and the presence of any operation that causes side-effects in a method will disqualify all methods that call such a method from claiming statelessness.  A stateless method must therefore only call stateless methods, otherwise the effort is defeated.
 
-          The candidate block identification also calls for selecting computations that use 1 to 6 inputs because a method that accepts no parameters would have to return a constant (otherwise it could not be considered stateless) while 6 was selected as a suggested maximum number of inputs as a matter of experience, since too many inputs might make it difficult to write tests, defeating the goal of this thesis.  <!-- TODO: a stateless method with a single parameter could be implemented as an extension method or hanging off that class, as mentioned with Vector's [Dot|Cross]Product -->
+          The candidate block identification also calls for selecting computations that use 1 to 6 inputs because a method that accepts no parameters would have to return a constant (otherwise it could not be considered stateless) while 6 was selected as a suggested maximum number of inputs as a matter of experience, since too many inputs might make it difficult to write tests, defeating the goal of this thesis.  <!-- TODO: a stateless method with a single parameter could be implemented as an extension method or hanging off that class, as mentioned with Vector's [Dot|Cross]Product --> <!-- TODO: Binder p.172 "Suppose a small function has 6 or fewer variables.", p. 389 "It is effective for small methods: roughly [cyclomatic complexity] of 10 or less, six or fewer instance variables." -->
 
-          The last criterion in block candidacy is selecting computations that produce 1 to 3 outputs because a method that does not return any results likely causes side-effects (and thus can not be considered stateless) and side-effects are not trivial to observe during unit testing.  The suggested maximum number of outputs was also selected from experience and is again intended to keep unit tests simple, mostly because very few programming languages support returning more than one value at once.  Returning multiple values at once is often emulated by using a container for the values, either through a specialized type (such as <tt>Point</tt> or <tt>Vector</tt>) or an anonymous one, such as a tuple <command name="cite" param="msdn10tupleclass" /> <command name="cite" param="python08datastructures" />.  <!-- TODO: talk about experimental tuple unpacking in Mono: http://tirania.org/blog/archive/2009/Dec-23.html --> <!-- TODO: "returning" more than one value can be done with a call-back/functor -->
+          The last criterion in block candidacy is selecting computations that produce 1 to 3 outputs because a method that does not return any results likely causes side-effects (and thus can not be considered stateless) and side-effects are not trivial to observe during unit testing.  The suggested maximum number of outputs was also selected from experience and is again intended to keep unit tests simple, mostly because very few programming languages support returning more than one value at once.  Returning multiple values at once is often emulated by using a container for the values, either through a specialized type (such as <tt>Point</tt> or <tt>Vector</tt>) or an anonymous one, such as a tuple <command name="cite" param="msdn10tupleclass, python08datastructures" />.  <!-- TODO: talk about experimental tuple unpacking in Mono: http://tirania.org/blog/archive/2009/Dec-23.html --> <!-- TODO: "returning" more than one value can be done with a call-back/functor -->
           </region>
 
           The intent of incidental operation re-ordering is to maximize the number of operations in a candidate block while minimizing the number of inputs and outputs.  This is done to avoid extracting stateless methods that perform too few operations, which would cause unit testing to become a high-work and low-return activity. <!-- TODO: if an example is warranted, the best one is probably cartesian to polar coordinates: it makes no sense to extract (_x * _x) or (_y * _y) or (xSquared + ySquared) individually, but collectively, yes.  Similar for the computation of theta, especially if Math.Atan(y, x) wasn't available. -->  Although this incidental operation re-ordering step is automatable through data dependency analysis and program slicing, a programmer will likely be the best judge of which operations are considered related and if these operations collectively have a recognized or standard meaning, the same way <tt>new Vector(a.Y * b.Z - a.Z * b.Y, a.Z * b.X - a.X * b.Z, a.X * b.Y - a.Y * b.X);</tt> is better identified as a <tt>CrossProduct()</tt> method that accepts two <tt>Vector</tt> instances <tt>a</tt> and <tt>b</tt>.
@@ -813,7 +828,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
 
           Sub-section <command name="ref" param="subsec:UnwieldyArrangePhase" /> argues for a threshold on the size of a unit test's <em>arrange</em> phase that should trigger an investigation into the content of said arrange phase, to see if simplification through SME or other means is possible.  The intent here is to minimize the size of unit tests to encourage their use.  Tests with long arrange phases are still valid but beyond a certain size might be considered <em>integration</em> tests more than <em>unit</em> tests.
 
-          The set of transformations performed during SME were designed to be low-impact in order to encourage their use and reduce the risk of breaking the very code that is to have unit tests added to.  Indeed, "altering internal structure without changing external behaviour" is the very definition of refactoring <command name="cite" param="fowler00refactoring" /> and, as such, care should be taken to <em>only</em> perform the SME steps during the process and to resist the temptation to fix defects or add features at the same time.  Once SME has been performed, unit tests are written against the new method to establish a functionality baseline and both sets of changes are committed to source control.  Only then will it be safe to add unit tests to expose any potential defects or missing features encountered during SME and then fix the defects or add the features in the presence of the safety net added in the previous step.
+          The set of transformations performed during SME were designed to be low-impact in order to encourage their use and reduce the risk of breaking the very code that is to have unit tests added to.  Indeed, "altering internal structure without changing external behaviour" is the very definition of refactoring <command name="cite" param="fowler00refactoring" /> and, as such, care should be taken to <em>only</em> perform the SME steps during the process and to resist the temptation to fix defects or add features at the same time.  Once SME has been performed, unit tests are written against the new method to establish a functionality baseline and both sets of changes are committed to source control.  Only then will it be safe to add unit tests to expose any potential defects or missing features encountered during SME and then fix the defects or add the features in the presence of the safety net added in the previous step.  Binder calls this approach <em>Incremental Testing</em> <command name="cite" param="binder00classes, binder00testharness" />.
         </command>
         <command name="section" param="Summary">
           <!-- key points of what was presented and linkage to next chapter -->
@@ -825,7 +840,8 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           <!-- what the chapter is about -->
           ...
         </command>
-        <command name="section" param="Evaluation/experiment design">
+        <command name="section" param="Evaluation design">
+          <!-- TODO: should we move a few words from the overview section up here? -->
         <!--
         = TODO: regarding the motivation for CGT in our case
         == The better the statement coverage of the generated tests, the more testable the original source code under the transformation is considered.
@@ -834,47 +850,76 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
         == trade-offs of automatic test generation based on code coverage
         == differences between a constraint solver and evolutionary testing
           -->
-          To verify the proposed stateless method extraction (SME) algorithm's efficiency and validate its effectiveness, it is to be compared to (against?) the following strategies (should we bother with "visibility increase" and "mutation removal"?  they both alter the implementation under test (IUT)'s public interface):
-          <block param="enumerate">
-            <command name="item"> No modifications to the code under test</command>
-            <command name="item"> Visibility increases</command>
-            <command name="item"> Mutation removal</command>
-            <command name="item"> Private accessors</command>
-            <command name="item"> Test helper methods</command>
-          </block>
-
-          Verification and validation will take place on interesting and/or difficult-to-test methods from the source code of the following 4 select open-source projects:
-          <block param="enumerate">
-            <command name="item"> AtomicCms</command>
-            <command name="item"> KeePassLib</command>
-            <command name="item"> PivotStack</command>
-            <command name="item"> Textile</command>
-          </block>
-
-          The following evaluations will be made against the results of writing tests using each of the 6 strategies on each of the 4 projects:
-          <block param="enumerate">
-            <command name="item"> Cyclomatic complexity of the unit tests.</command>
-            <command name="item"> Number of changes to the class under test's public interface.</command>
-            <command name="item"> Percentage of branches covered using concolic testing.</command>
-          </block>
-
-          The 3 metrics are now explained in further detail.
-          <command name="subsection" param="Cyclomatic complexity of the unit tests">
-            Cyclomatic complexity was selected as a metric since it essentially measures the simplicity of a method, in this case unit test methods.  The more simple the unit test methods are, the easier they are to maintain <!-- TODO: cite -->.  Should a regression be introduced in the future, it would be more desirable to have many small test methods instead of a few large test methods, to make it easier to discover exactly what is broken and what is not <!-- TODO: cite -->.
-
-            <!-- TODO: talk about which variant of the metric is used, what counts toward the score and what does not, which tool was used and how the results were extracted -->
-          </command>
-          <command name="subsection" param="Number of changes to the class under test's public interface">
-            It could be undesirable to make changes to the class under test (CUT)'s public interface simply to increase its testability.  Reasons for not wanting any such changes include:
+          <command name="subsection" param="Overview">
+            The goal of stateless method extraction is to improve the testability of source code, especially that of classes with hidden mutable state.  To measure SME's efficiency and validate its effectiveness, it is compared to the following strategies:
             <block param="enumerate">
-              <command name="item"> Textile</command>
-              <command name="item"> The class is part of an API with pre-existing releases. Changes to the API would break third-party applications consuming it.</command>
-              <command name="item"> The class must implement a specific interface.  This is a technological variation of the previous reason.</command>
-              <command name="item"> Exposing instance state as directly mutable might allow callers to violate some constraints or invariants previously handled by the instance state-altering methods.</command>
+              <command name="item"> Do nothing</command>
+              <command name="item"> TODO: other strategies have been commented out, but can be added if we think there is insufficient data</command>
+              <!-- TODO: we can add more strategies later
+              <command name="item"> Write test helper methods</command>
+              <command name="item"> Increase visibility of mutable state</command>
+              <command name="item"> Replace mutable state with immutable state</command>
+              <command name="item"> Use private accessors</command>
+              -->
+              <!-- a.k.a. "Private Access Driver" [Binder, chapter 19].  TOOD: mention in the detailed results that this won't help peek at local variables that would be turned into return values by SME -->
+              <!-- There are other strategies, such as "Built-in Test Driver" (an inner class of the CUT has access to the CUT's private members), "Drone" (using multiple inheritance to with Eiffel to get at private members -->
             </block>
 
+            The evaluation uses select interesting and/or difficult-to-test methods from the source code of the following open-source projects:
+            <block param="enumerate">
+              <command name="item"> AtomicCms</command>
+              <command name="item"> KeePassLib</command>
+              <!-- TODO: is PivotStack good enough? <command name="item"> PivotStack</command> -->
+              <command name="item"> Textile</command>
+            </block>
+
+            The following evaluations are performed for each of the competing strategies on each of the open-source projects:
+            <block param="enumerate">
+              <command name="item"> Complexity of the unit tests.</command>
+              <command name="item"> Number of changes to the class under test's public interface.</command>
+              <command name="item"> Percentage of branches covered using concolic testing.</command>
+            </block>
+
+            The evaluations are now explained in further detail, followed by the strategies, the selected methods from the open-source projects and finally how the evaluations were conducted.
           </command>
-          <command name="subsection" param="Percentage of branches covered using concolic testing">
+          <command name="subsection" param="Evaluations">
+            <command name="subsubsection" param="Complexity of the unit tests">
+              <block param="quote">
+                "If the effort to produce and run tests is high, however, less testing will be done." <command name="cite" param="binder00testharness" /> <!-- page 1043 -->
+              </block>
+              There appears to be consensus regarding the minimization of unit tests' sizes <command name="cite" param="feathers05unittesting, osherove06writemaintainable, stewart10testsizes" />.  Keeping unit tests small is generally with the intention of reducing the friction related to writing said unit tests (as noted above) as well as increasing the readability and maintainability of the source code <command name="cite" param="graham93onlisp" />.
+
+              The tool used for evaluating the complexity of unit tests is the <em>Visual Studio Code Metrics PowerTool 10.0</em> <command name="cite" param="ms11codemetrics" />.  It can compute, among others, a <em>Maintainability Index</em> that is derived and adapted <command name="cite" param="morrison07maintainabilityindex" /> from the Carnegie Mellon University's Software Engineering Institute metric of the same name <command name="cite" param="vandoren97maintainabilityindex" />.  In short, the tool combines a few metrics obtained by scanning the MSIL (object code) and scales the result between 0 and 100.  Higher values are better.
+              <!-- TODO: talk about which variant of the metric is used, what counts toward the score and what does not, which tool was used and how the results were extracted -->
+            </command>
+            <command name="subsubsection" param="Number of changes to the class under test's public interface">
+              It could be undesirable to make changes to the CUT's public interface simply to increase its testability.  Reasons for not wanting any such changes include:
+              <block param="enumerate">
+                <command name="item"> The class is part of an API with pre-existing releases. Changes to the API could break third-party applications consuming it.</command>
+                <command name="item"> The class must implement a specific interface; a technological variation of the previous reason.</command>
+                <command name="item"> Exposing instance state as directly mutable might allow callers to violate some constraints or invariants.</command>
+              </block>
+              This second evaluation, therefore, counts how often each strategy causes a change to the public interface of the class under test, compared to the original version.  Lower values are better.
+            </command>
+            <command name="subsubsection" param="Percentage of branches covered using concolic testing">
+              The Pex tool <command name="cite" param="tillman08pex" /> can be used to analyze a specified project and generate unit tests to exercise as much of that project's source code as it can.  Pex's ability to exercise the CUT's methods in an automated and unattended fashion provides a very good objective evaluation of testability.  This ability is measured by the code coverage reported by executing the generated unit tests with a code coverage tool.
+            </command>
+          </command>
+          <command name="subsection" param="Strategies">
+            <command name="subsubsection" param="Do nothing">
+              No transformations are to be performed to the IUT, the source code will be used as-is to establish a baseline.
+            </command>
+            <command name="subsubsection" param="Extract stateless methods">
+              The very approach proposed by this thesis; stateless methods are extracted where good candidate blocks are identified.
+            </command>
+          </command>
+          <command name="subsection" param="Selected methods">
+            Table <command name="ref" param="tbl:InterestingMethods" /> lists the methods that have been selected because they represent testability challenges (difficulties?).
+            <block param="table" opt="htbp">
+              <!-- TODO: add table -->
+              <command name="caption" param="Selected interesting methods" />
+              <command name="label" param="tbl:InterestingMethods" />
+            </block>
           </command>
         </command>
         <command name="section" param="Results">
@@ -905,6 +950,13 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           === HttpWebRequest (System.Net) does not have a public constructor; the Remarks of the class say to call WebRequest.Create() (which is not instrumented)
           === Neither does Match (System.Text.RegularExpressions) and it is not instrumented anyway.
           = evaluating with metrics (cyclomatic complexity)
+          -->
+          <!--
+          TODO:
+          = number of stateless methods extracted per project
+          = number of tests generated by Pex
+          = number of tests written by hand
+          = observations about difficulties, suitabilities, etc.
           -->
           ...
         </command>
