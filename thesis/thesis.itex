@@ -865,7 +865,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               <!-- There are other strategies, such as "Built-in Test Driver" (an inner class of the CUT has access to the CUT's private members), "Drone" (using multiple inheritance to with Eiffel to get at private members -->
             </block>
 
-            The evaluation uses select interesting and/or difficult-to-test methods from the source code of the following open-source projects:
+            The evaluation uses select interesting and/or difficult-to-test methods from the source code of the following C# open-source projects (TODO: provide links/citations, plus version numbers?):
             <block param="enumerate">
               <command name="item"> AtomicCms</command>
               <command name="item"> KeePassLib</command>
@@ -902,7 +902,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               This second evaluation, therefore, counts how often each strategy causes a change to the public interface of the class under test, compared to the original version.  Lower values are better.
             </command>
             <command name="subsubsection" param="Percentage of branches covered using concolic testing">
-              The Pex tool <command name="cite" param="tillman08pex" /> can be used to analyze a specified project and generate unit tests to exercise as much of that project's source code as it can.  Pex's ability to exercise the CUT's methods in an automated and unattended fashion provides a very good objective evaluation of testability.  This ability is measured by the code coverage reported by executing the generated unit tests with a code coverage tool.
+              The Pex tool <command name="cite" param="tillman08pex" /> can be used to analyze a specified project and generate unit tests to exercise as much of that project's source code as it can.  Pex's ability to exercise the CUT's methods in an automated and unattended fashion provides a very good objective evaluation of testability.  This ability is measured by the code coverage reported when executing the generated unit tests with a code coverage tool.  Higher values are better.  Version 0.91.50418.0 of Pex is used, along with NUnit version 2.4.8 for the unit tests and NCover version 1.5.8 to measure the code coverage.
             </command>
           </command>
           <command name="subsection" param="Strategies">
@@ -914,12 +914,73 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             </command>
           </command>
           <command name="subsection" param="Selected methods">
-            Table <command name="ref" param="tbl:InterestingMethods" /> lists the methods that have been selected because they represent testability challenges (difficulties?).
+            Table <command name="ref" param="tbl:InterestingMethods" /> lists the methods that have been selected because they represent testability challenges (difficulties?). (TODO: add more methods)
             <block param="table" opt="htbp">
-              <!-- TODO: add table -->
+              <raw>\begin{tabular}{l l l l}</raw>
+                Project <raw>&amp;</raw> Namespace <raw>&amp;</raw> Class <raw>&amp;</raw> Method <raw>\tabularnewline</raw>
+                <command name="hline" />
+                <raw>\multicolumn{4}{l}{Textile}</raw> <raw>\tabularnewline</raw>
+                <raw>&amp;</raw> <raw>\multicolumn{3}{l}{Textile.States}</raw> <raw>\tabularnewline</raw>
+                <raw>&amp;</raw> <raw>&amp;</raw> <raw>\multicolumn{2}{l}{FootNoteFormatterState}</raw> <raw>\tabularnewline</raw>
+                <raw>&amp;</raw> <raw>&amp;</raw> <raw>&amp;</raw> void Enter() <raw>\tabularnewline</raw>
+                <raw>&amp;</raw> <raw>&amp;</raw> <raw>&amp;</raw> void OnContextAcquired() <raw>\tabularnewline</raw>
+
+                <raw>&amp;</raw> <raw>\multicolumn{3}{l}{Textile.Blocks}</raw> <raw>\tabularnewline</raw>
+                <raw>&amp;</raw> <raw>&amp;</raw> <raw>\multicolumn{2}{l}{CodeBlockModifier}</raw> <raw>\tabularnewline</raw>
+                <raw>&amp;</raw> <raw>&amp;</raw> <raw>&amp;</raw> string ModifyLine(string) <raw>\tabularnewline</raw>
+                <raw>&amp;</raw> <raw>&amp;</raw> <raw>&amp;</raw> string CodeFormatMatchEvaluator(Match) <raw>\tabularnewline</raw>
+
+                <raw>\multicolumn{4}{l}{KeePassLib}</raw> <raw>\tabularnewline</raw>
+                <raw>&amp;</raw> <raw>\multicolumn{3}{l}{KeePassLib.Cryptography.PasswordGenerator}</raw> <raw>\tabularnewline</raw>
+                <raw>&amp;</raw> <raw>&amp;</raw> <raw>\multicolumn{2}{l}{PatternBasedGenerator}</raw> <raw>\tabularnewline</raw>
+              <raw>&amp;</raw> <raw>&amp;</raw> <raw>&amp;</raw> string ExpandPattern(string) <raw>\tabularnewline</raw>
+              <raw>\end{tabular}</raw>
               <command name="caption" param="Selected interesting methods" />
               <command name="label" param="tbl:InterestingMethods" />
             </block>
+          </command>
+          <command name="subsection" param="How it works">
+            The source code to the projects was imported into a source control repository<command name="footnote" param="The Subversion repository used for the evaluation of this thesis is available at \\ \url{https://testoriented.googlecode.com/svn/suitability/trunk}." />.  Each project gets its own folder and the imported version (which serves as a baseline) is placed in a sub-folder called <tt>base</tt>.  Some slight modifications were made to the source code to simplify the evaluation, detailed as follows:
+            <command name="subsubsection" param="Consolidate projects">
+              If a project consisted of many sub-projects, the source files for those sub-projects were combined into a single project, to simplify the configuration of Pex.
+            </command>
+            <command name="subsubsection" param="Remove tests">
+              Any existing automated tests were removed, otherwise Pex would be able to trivially reach areas of the CUTs through their tests, defeating the purpose of that part of the evaluation.
+            </command>
+            <command name="subsubsection" param="Add a blank test project">
+              TODO
+            </command>
+            <command name="subsubsection" param="Expose internal members to Pex">
+              Configure projects to make any methods marked as <tt>internal</tt> visible to both the blank test project and to Pex itself.
+            </command>
+            <command name="subsubsection" param="Disable functionality that interferes with the evaluation">
+              The KeePassLib project contains code to show a modal message box dialog that must be dismissed by an end-user.  This is undesirable for an unattended evaluation and so the body of the <tt>SafeShowMessageBox()</tt> method in the <tt>MessageService</tt> class was removed.  Also, to prevent assertions in the projects from interrupting the automated evaluation in the same way, the compilation options were modified to use the <em>Release</em> configuration with optimizations disabled and full debug symbols enabled<command name="footnote" param="Assertions are disabled in the Release configuration.  Disabling optimizations and enabling debug symbols is to help keep the static code analysis as representative to the original source code as possible." />.
+            </command>
+
+            TODO: talk about the variations, at least "manual" (i.e. SME)
+
+            Phases (TODO: could include Suitability.build in appendix, otherwise provide a link here):
+            <command name="subsubsection" param="Create a working copy">
+              TODO
+            </command>
+            <command name="subsubsection" param="Compile">
+              TODO
+            </command>
+            <command name="subsubsection" param="Run manual tests">
+              TODO: Also run code metrics
+            </command>
+            <command name="subsubsection" param="Invoke Pex Wizard">
+              TODO: Also fix and compile
+            </command>
+            <command name="subsubsection" param="Invoke Pex Generator">
+              TODO: Also fix and compile
+            </command>
+            <command name="subsubsection" param="Test with coverage">
+              TODO: Do not care if tests pass or fail
+            </command>
+            <command name="subsubsection" param="Record results">
+              TODO
+            </command>
           </command>
         </command>
         <command name="section" param="Results">
