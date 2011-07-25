@@ -157,9 +157,7 @@ namespace KeePassLib.Utility
 			string strText, string strTitle, MessageBoxButtons mb, MessageBoxIcon mi,
 			MessageBoxDefaultButton mdb)
 		{
-			if(StrUtil.RightToLeft)
-				return MessageBox.Show(iParent, strText, strTitle, mb, mi, mdb, m_mboRtl);
-			return MessageBox.Show(iParent, strText, strTitle, mb, mi, mdb);
+			return DialogResult.OK;
 		}
 #endif
 
