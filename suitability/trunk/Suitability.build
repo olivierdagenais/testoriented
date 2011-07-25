@@ -9,11 +9,10 @@
 
     <property name="configuration" value="Release" overwrite="false" />
 
-    <property name="baseVariation" value="base" />
-    <property name="manualVariation" value="manual" />
-    <property name="toddVariation" value="testoriented" />
-    <!-- TODO: add manualVariation once there is at least one and toddVariation once we have a testoriented build ready -->
-    <property name="variations" value="${baseVariation}" />
+    <property name="baseStrategy" value="base" />
+    <property name="manualSmeStrategy" value="manual" />
+    <property name="automaticSmeStrategy" value="testoriented" />
+    <property name="strategies" value="${baseStrategy},${manualSmeStrategy}" />
 
     <property name="projects" value="AtomicCms,KeePassLib,StringExtensions,Textile" />
     
@@ -46,12 +45,12 @@
     <target name="clean">
         <foreach item="String" in="${projects}" delim="," property="project">
             <echo message="Project: ${project}..." />
-            <property name="toddDestinationDir" value="Projects/${project}/${toddVariation}" />
+            <property name="toddDestinationDir" value="Projects/${project}/${automaticSmeStrategy}" />
             <if test="${directory::exists(toddDestinationDir)}">
                 <delete dir="${toddDestinationDir}" failonerror="false" />
             </if>
-            <foreach item="String" in="${variations}" delim="," property="variation">
-                <property name="destinationDir" value="Projects/${project}/working-${variation}" />
+            <foreach item="String" in="${strategies}" delim="," property="strategy">
+                <property name="destinationDir" value="Projects/${project}/working-${strategy}" />
                 <if test="${directory::exists(destinationDir)}">
                     <delete dir="${destinationDir}" failonerror="false" />
                 </if>
@@ -62,17 +61,17 @@
     <target name="compile">
         <foreach item="String" in="${projects}" delim="," property="project">
             <echo message="Project: ${project}..." />
-            <foreach item="String" in="${variations}" delim="," property="variation">
+            <foreach item="String" in="${strategies}" delim="," property="strategy">
                 <clean
                     configuration="${configuration}"
                     projects="${project},${project}.Tests"
-                    basedir="Projects/${project}/working-${variation}"/>
+                    basedir="Projects/${project}/working-${strategy}"/>
             </foreach>
         </foreach>
         <foreach item="String" in="${projects}" delim="," property="project">
             <echo message="Project: ${project}..." />
-            <foreach item="String" in="${variations}" delim="," property="variation">
-                <msbuild project="Projects/${project}/working-${variation}/${project}.sln">
+            <foreach item="String" in="${strategies}" delim="," property="strategy">
+                <msbuild project="Projects/${project}/working-${strategy}/${project}.sln">
                     <arg value="/property:Configuration=${configuration}" />
                     <arg value="/verbosity:minimal" />
                 </msbuild>
@@ -80,15 +79,15 @@
         </foreach>
     </target>
 
-    <target name="createToddVariation">
+    <target name="createautomaticSmeStrategy">
         <foreach item="String" in="${projects}" delim="," property="project">
             <echo message="Project: ${project}..." />
-            <property name="destinationDir" value="Projects/${project}/${toddVariation}" />
+            <property name="destinationDir" value="Projects/${project}/${automaticSmeStrategy}" />
             <if test="${directory::exists(destinationDir)}">
                 <delete dir="${destinationDir}" failonerror="false" />
             </if>
             <copy todir="${destinationDir}">
-                <fileset basedir="Projects/${project}/${baseVariation}">
+                <fileset basedir="Projects/${project}/${baseStrategy}">
                     <include name="**" />
                 </fileset>
             </copy>
@@ -99,13 +98,13 @@
     <target name="createWorkingCopies">
         <foreach item="String" in="${projects}" delim="," property="project">
             <echo message="Project: ${project}..." />
-            <foreach item="String" in="${variations}" delim="," property="variation">
-                <property name="destinationDir" value="Projects/${project}/working-${variation}" />
+            <foreach item="String" in="${strategies}" delim="," property="strategy">
+                <property name="destinationDir" value="Projects/${project}/working-${strategy}" />
                 <if test="${directory::exists(destinationDir)}">
                     <delete dir="${destinationDir}" failonerror="false" />
                 </if>
                 <copy todir="${destinationDir}">
-                    <fileset basedir="Projects/${project}/${variation}">
+                    <fileset basedir="Projects/${project}/${strategy}">
                         <include name="**" />
                     </fileset>
                 </copy>
@@ -116,8 +115,8 @@
     <target name="invokePexWizard">
         <foreach item="String" in="${projects}" delim="," property="project">
             <echo message="Project: ${project}..." />
-            <foreach item="String" in="${variations}" delim="," property="variation">
-                <property name="projectFolder" value="Projects/${project}/working-${variation}" />
+            <foreach item="String" in="${strategies}" delim="," property="strategy">
+                <property name="projectFolder" value="Projects/${project}/working-${strategy}" />
                 <exec program="${pexFolder}/pexwizard.exe">
                     <environment>
                         <variable name="moles_appdir" dir="${pexFolder}" />
@@ -136,8 +135,8 @@
     <target name="fixPexWizardResults">
         <foreach item="String" in="${projects}" delim="," property="project">
             <echo message="Project: ${project}..." />
-            <foreach item="String" in="${variations}" delim="," property="variation">
-                <property name="projectFolder" value="Projects/${project}/working-${variation}" />
+            <foreach item="String" in="${strategies}" delim="," property="strategy">
+                <property name="projectFolder" value="Projects/${project}/working-${strategy}" />
                 <property name="testProjectFile" value="${projectFolder}/${project}.Tests/${project}.Tests.csproj" />
 
                 <delete file="${testProjectFile}.bak" failonerror="false" />
@@ -162,8 +161,8 @@
     <target name="invokePexGenerator">
         <foreach item="String" in="${projects}" delim="," property="project">
             <echo message="Project: ${project}..." />
-            <foreach item="String" in="${variations}" delim="," property="variation">
-                <property name="projectFolder" value="Projects/${project}/working-${variation}" />
+            <foreach item="String" in="${strategies}" delim="," property="strategy">
+                <property name="projectFolder" value="Projects/${project}/working-${strategy}" />
                 <property name="testProjectFile" value="${projectFolder}/${project}.Tests/${project}.Tests.csproj" />
                 <exec program="${pexFolder}/pex.x86.exe">
                     <environment>
@@ -186,8 +185,8 @@
     <target name="fixPexGeneratorResults">
         <foreach item="String" in="${projects}" delim="," property="project">
             <echo message="Project: ${project}..." />
-            <foreach item="String" in="${variations}" delim="," property="variation">
-                <property name="projectFolder" value="Projects/${project}/working-${variation}" />
+            <foreach item="String" in="${strategies}" delim="," property="strategy">
+                <property name="projectFolder" value="Projects/${project}/working-${strategy}" />
                 <property name="testProjectFile" value="${projectFolder}/${project}.Tests/${project}.Tests.csproj" />
 
                 <delete file="${testProjectFile}.bak" failonerror="false" />
@@ -209,8 +208,8 @@
     <target name="testWithCoverage">
         <foreach item="String" in="${projects}" delim="," property="project">
             <echo message="Project: ${project}..." />
-            <foreach item="String" in="${variations}" delim="," property="variation">
-                <property name="projectFolder" value="Projects\${project}\working-${variation}" />
+            <foreach item="String" in="${strategies}" delim="," property="strategy">
+                <property name="projectFolder" value="Projects\${project}\working-${strategy}" />
                 <property name="coverageFile" value="${projectFolder}\coverage.xml" />
                 <delete file="${coverageFile}" failonerror="false" />
                 <exec program="Tools/NCover-1.5.8/NCover.Console.exe" failonerror="false">
@@ -242,8 +241,8 @@
         <property name="toddVersion" value="n/a" />
         <foreach item="String" in="${projects}" delim="," property="project">
             <echo message="Project: ${project}..." />
-            <foreach item="String" in="${variations}" delim="," property="variation">
-                <property name="projectFolder" value="Projects/${project}/working-${variation}" />
+            <foreach item="String" in="${strategies}" delim="," property="strategy">
+                <property name="projectFolder" value="Projects/${project}/working-${strategy}" />
                 <property name="testProjectFile" value="${projectFolder}/${project}.Tests/${project}.Tests.csproj" />
                 <property name="coverageFile" value="${projectFolder}/coverage.xml" />
                 <xpath file="${coverageFile}" property="tsp" query="count(//seqpnt)" />
@@ -251,7 +250,7 @@
                 <post action="https://spreadsheets0.google.com/formResponse?formkey=dG9zQnFtTlQ0Z1dGUjI5TUlFMnpFWWc6MQ&amp;ifq">
                     <!-- Batch # -->        <input name="entry.1.single" value="${svnRevision}" />
                     <!-- Project -->        <input name="entry.2.single" value="${project}" />
-                    <!-- Variation -->      <input name="entry.3.single" value="${variation}" />
+                    <!-- Strategy -->       <input name="entry.3.single" value="${strategy}" />
                     <!-- TODD version -->   <input name="entry.4.single" value="${toddVersion}" />
                     <!-- TSP -->            <input name="entry.5.single" value="${tsp}" />
                     <!-- VSP -->            <input name="entry.6.single" value="${vsp}" />
@@ -267,9 +266,9 @@
         <!-- Step 0: clean all working copies -->
         <call target="clean" />
         
-        <!-- Step 1: copy baseVariation to toddVariation and apply TODD on it -->
+        <!-- Step 1: copy baseStrategy to automaticSmeStrategy and apply TODD on it -->
         <!-- TODO: uncomment when ready:
-        <call target="createToddVariation" />
+        <call target="createAutomaticSmeStrategy" />
         -->
 
         <!-- Step 2: create working copies -->
