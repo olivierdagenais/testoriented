@@ -899,10 +899,10 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                 <command name="item"> The class must implement a specific interface; a technological variation of the previous reason.</command>
                 <command name="item"> Exposing instance state as directly mutable might allow callers to violate some constraints or invariants.</command>
               </block>
-              This second evaluation, therefore, counts how often each strategy causes a change to the public interface of the class under test, compared to the original version.  Lower values are better.
+              This second evaluation, therefore, counts how often each strategy causes a change to the public interface of the class under test, compared to the original version.  Lower values are better.  TODO: talk about the tool used
             </command>
             <command name="subsubsection" param="Percentage of branches covered using concolic testing">
-              The Pex tool <command name="cite" param="tillman08pex" /> can be used to analyze a specified project and generate unit tests to exercise as much of that project's source code as it can.  Pex's ability to exercise the CUT's methods in an automated and unattended fashion provides a very good objective evaluation of testability.  This ability is measured by the code coverage reported when executing the generated unit tests with a code coverage tool.  Higher values are better.  Version 0.91.50418.0 of Pex is used, along with NUnit version 2.4.8 for the unit tests and NCover version 1.5.8 to measure the code coverage.
+              The Pex tool <command name="cite" param="tillman08pex" /> can be used to analyze a specified project and generate unit tests to exercise as much of that project's source code as it can.  Pex's ability to exercise the CUT's methods in an automated and unattended fashion provides a very good objective evaluation of testability.  This ability is measured by the code coverage reported when executing the generated unit tests with a code coverage tool.  Higher values are better.  Version 0.91.50418.0 of Pex is used, along with NUnit version 2.4.8 to run the unit tests and NCover version 1.5.8 to measure the code coverage.
             </command>
           </command>
           <command name="subsection" param="Strategies">
@@ -940,26 +940,28 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             </block>
           </command>
           <command name="subsection" param="How it works">
+            <region comment="Intro">
             The source code to the projects was imported into a source control repository<command name="footnote" param="The Subversion repository used for the evaluation of this thesis is available at \\ \url{https://testoriented.googlecode.com/svn/suitability/trunk}." />.  Each project gets its own folder and the imported version (which serves as a baseline) is placed in a sub-folder called <tt>base</tt>.  Some slight modifications were made to the source code to simplify the evaluation, detailed as follows:
+            </region>
             <command name="subsubsection" param="Consolidate projects">
               If a project consisted of many sub-projects, the source files for those sub-projects were combined into a single project, to simplify the configuration of Pex.
             </command>
             <command name="subsubsection" param="Remove tests">
               Any existing automated tests were removed, otherwise Pex would be able to trivially reach areas of the CUTs through their tests, defeating the purpose of that part of the evaluation.
             </command>
-            <command name="subsubsection" param="Add a blank test project">
-              TODO
+            <command name="subsubsection" param="Add an empty test project">
+              To help Pex generate unit tests, a corresponding empty test project was created for each project.  Each empty test project was configured to reference its associated project.  The test projects are ready to have test classes added to them and Pex will be configured to do just that.
             </command>
             <command name="subsubsection" param="Expose internal members to Pex">
-              Configure projects to make any methods marked as <tt>internal</tt> visible to both the blank test project and to Pex itself.
+              Each project was configured to make any methods marked as <tt>internal</tt> visible to both the empty test project and to Pex itself, using the <tt>InternalsVisibleTo</tt> attribute.
             </command>
             <command name="subsubsection" param="Disable functionality that interferes with the evaluation">
-              The KeePassLib project contains code to show a modal message box dialog that must be dismissed by an end-user.  This is undesirable for an unattended evaluation and so the body of the <tt>SafeShowMessageBox()</tt> method in the <tt>MessageService</tt> class was removed.  Also, to prevent assertions in the projects from interrupting the automated evaluation in the same way, the compilation options were modified to use the <em>Release</em> configuration with optimizations disabled and full debug symbols enabled<command name="footnote" param="Assertions are disabled in the Release configuration.  Disabling optimizations and enabling debug symbols is to help keep the static code analysis as representative to the original source code as possible." />.
+              The KeePassLib project contains code to show a modal message box dialog that must be dismissed by an end-user.  This is undesirable for an unattended evaluation and so the body of the <tt>SafeShowMessageBox()</tt> method in the <tt>MessageService</tt> class was removed, as was that of the <tt>SafeShowMessageBoxInternal()</tt> method in the <tt>MessageService</tt> class.  Also, to prevent assertions in the projects from interrupting the automated evaluation in the same way, the compilation options were modified to use the <em>Release</em> configuration with optimizations disabled and full debug symbols enabled<command name="footnote" param="Assertions will only display a dialog if the \texttt{DEBUG} constant is defined and it is not defined when using the Release configuration.  Disabling optimizations and enabling debug symbols is to help keep the static code analysis as representative to the original source code as possible." />.
             </command>
 
-            TODO: talk about the variations, at least "manual" (i.e. SME)
+            Now that we have a baseline for each project, we can create a copy of the <tt>base</tt> folder for each strategy we wish to compare against.  As such, the following folders were created:  <tt>manual</tt> (manual application of SME), TODO.
 
-            Phases (TODO: could include Suitability.build in appendix, otherwise provide a link here):
+            The evaluation is conducted automatically using a small program written with NAnt <command name="cite" param="shaw06nant" />.  The major steps are as follows:
             <command name="subsubsection" param="Create a working copy">
               TODO
             </command>
@@ -977,6 +979,12 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             </command>
             <command name="subsubsection" param="Test with coverage">
               TODO: Do not care if tests pass or fail
+            </command>
+            <command name="subsubsection" param="Run code metrics">
+              TODO
+            </command>
+            <command name="subsubsection" param="Determine public interface differences">
+              TODO
             </command>
             <command name="subsubsection" param="Record results">
               TODO
