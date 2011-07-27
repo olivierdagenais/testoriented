@@ -13,7 +13,7 @@ namespace Textile.Blocks
 
         internal static string InnerModifyLine (string line)
         {
-            return PhraseModifierFormat(line, @"\*", "strong");
+            return InternalPhraseModifierFormat(line, @"\*", "strong");
         }
     }
 }

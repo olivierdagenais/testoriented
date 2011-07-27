@@ -13,28 +13,28 @@ namespace Textile.ManualTests.Blocks
         [Test]
         public void PhraseModifierFormat ()
         {
-            var actual = PhraseBlockModifier.PhraseModifierFormat ("/WARNING/", "/", "marquee");
+            var actual = PhraseBlockModifier.InternalPhraseModifierFormat ("/WARNING/", "/", "marquee");
             Assert.AreEqual ("<marquee>WARNING</marquee>", actual);
         }
 
         [Test]
         public void PhraseModifierFormat_ContentLooksLikeCss ()
         {
-            var actual = PhraseBlockModifier.PhraseModifierFormat ("*(blah)*", "\\*", "strong");
+            var actual = PhraseBlockModifier.InternalPhraseModifierFormat ("*(blah)*", "\\*", "strong");
             Assert.AreEqual ("<strong>(blah)</strong>", actual);
         }
 
         [Test]
         public void PhraseModifierFormat_WithCss ()
         {
-            var actual = PhraseBlockModifier.PhraseModifierFormat ("/(annoying)WARNING/", "/", "marquee");
+            var actual = PhraseBlockModifier.InternalPhraseModifierFormat ("/(annoying)WARNING/", "/", "marquee");
             Assert.AreEqual ("<marquee class=\"annoying\">WARNING</marquee>", actual);
         }
 
         [Test]
         public void PhraseModifierFormat_WithCitation ()
         {
-            var actual = PhraseBlockModifier.PhraseModifierFormat ("/:cited WARNING/", "/", "marquee");
+            var actual = PhraseBlockModifier.InternalPhraseModifierFormat ("/:cited WARNING/", "/", "marquee");
             Assert.AreEqual ("<marquee cite=\"cited\"> WARNING</marquee>", actual);
         }
 

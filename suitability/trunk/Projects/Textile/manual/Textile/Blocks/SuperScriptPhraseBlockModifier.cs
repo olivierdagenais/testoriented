@@ -8,7 +8,7 @@ namespace Textile.Blocks
     {
         public override string ModifyLine(string line)
         {
-            return PhraseModifierFormat(line, @"\^", "sup");
+            return InternalPhraseModifierFormat(line, @"\^", "sup");
         }
     }
 }
