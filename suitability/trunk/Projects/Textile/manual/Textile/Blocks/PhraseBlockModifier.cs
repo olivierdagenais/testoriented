@@ -26,7 +26,12 @@ namespace Textile.Blocks
         {
         }
 
-        internal static string PhraseModifierFormat(string input, string modifier, string tag)
+        protected string PhraseModifierFormat(string input, string modifier, string tag)
+        {
+            return InternalPhraseModifierFormat(input, modifier, tag);
+        }
+
+        internal static string InternalPhraseModifierFormat(string input, string modifier, string tag)
         {
             // All phrase modifiers are one character, or a double character. Sometimes,
             // there's an additional escape character for the regex ('\').
