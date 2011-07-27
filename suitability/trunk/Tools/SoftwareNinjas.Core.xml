@@ -683,6 +683,23 @@
             separated by spaces.
             </returns>
         </member>
+        <member name="M:SoftwareNinjas.Core.EnumerableExtensions.ToList``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Converts a sequence of <typeparamref name="T"/> to a <see cref="T:System.Collections.Generic.IList`1"/>.
+            </summary>
+            
+            <typeparam name="T">
+            The type of elements in the <paramref name="sequence"/>.
+            </typeparam>
+            
+            <param name="sequence">
+            The sequence to convert to a <see cref="T:System.Collections.Generic.IList`1"/>.
+            </param>
+            
+            <returns>
+            A read-only <see cref="T:System.Collections.Generic.IList`1"/> representing the elements in the <paramref name="sequence"/>.
+            </returns>
+        </member>
         <member name="T:SoftwareNinjas.Core.EnumExtensions">
             <summary>
             Extension methods to augment implementations of <see cref="T:System.Enum"/>.
@@ -799,11 +816,11 @@
             Provides a basic utility class that is used to store two related items.
             </summary>
             
-            <typeparam name="F">
+            <typeparam name="TFirst">
             The type of the first item.
             </typeparam>
             
-            <typeparam name="S">
+            <typeparam name="TSecond">
             The type of the second item.
             </typeparam>
             
@@ -821,6 +838,40 @@
             <param name="second">
             The second item to set.
             </param>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Pair`2.Equals(System.Object)">
+            <summary>
+            Returns a value indicating whether this instance is equal to a specified <paramref name="object"/>.
+            </summary>
+            
+            <param name="object">
+            An object to compare to this instance.
+            </param>
+            
+            <returns>
+            <see langword="true"/> if <paramref name="object"/> is a <see cref="T:SoftwareNinjas.Core.Pair`2"/> and contains the
+            same <see cref="P:SoftwareNinjas.Core.Pair`2.First"/> and <see cref="P:SoftwareNinjas.Core.Pair`2.Second"/> values as this <see cref="T:SoftwareNinjas.Core.Pair`2"/>;
+            otherwise <see langword="false"/>.
+            </returns>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Pair`2.GetHashCode">
+            <summary>
+            Returns the hash code for this <see cref="T:SoftwareNinjas.Core.Pair`2"/>.
+            </summary>
+            
+            <returns>
+            The hash code for this <see cref="T:SoftwareNinjas.Core.Pair`2"/> instance.
+            </returns>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Pair`2.ToString">
+            <summary>
+            Creates a <see cref="T:System.String"/> representation of this <see cref="T:SoftwareNinjas.Core.Pair`2"/>.
+            </summary>
+            
+            <returns>
+            A <see cref="T:System.String"/> containing the <see cref="P:SoftwareNinjas.Core.Pair`2.First"/> and <see cref="P:SoftwareNinjas.Core.Pair`2.Second"/> values of this
+            <see cref="T:SoftwareNinjas.Core.Pair`2"/> instance.
+            </returns>
         </member>
         <member name="P:SoftwareNinjas.Core.Pair`2.First">
             <summary>
@@ -1073,6 +1124,24 @@
             <see cref="M:SoftwareNinjas.Core.Process.ICapturedProcessFactory.Create(System.String,System.Collections.Generic.IEnumerable{System.Object},System.Action{System.String},System.Action{System.String})"/>.
             </param>
         </member>
+        <member name="T:SoftwareNinjas.Core.StreamExtensions">
+            <summary>
+            Provides extension methods for <see cref="T:System.IO.Stream"/>.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.StreamExtensions.EnumerateBytes(System.IO.Stream)">
+            <summary>
+            Enumerates the bytes in the provided <paramref name="stream"/>.
+            </summary>
+            
+            <param name="stream">
+            The <see cref="T:System.IO.Stream"/> to read, one byte at a time.
+            </param>
+            
+            <returns>
+            A <see cref="T:System.Byte"/> sequence originating from the specified <paramref name="stream"/>.
+            </returns>
+        </member>
         <member name="T:SoftwareNinjas.Core.StringExtensions">
             <summary>
             Extension methods to augment implementations of <see cref="T:System.String"/>.
@@ -1240,6 +1309,30 @@
             <returns>
             An enumeration of the lines contained in <paramref name="input"/>.
             </returns>
+        </member>
+        <member name="M:SoftwareNinjas.Core.StringExtensions.UnformatInvariant(System.String,System.String)">
+            <summary>
+            Performs the reverse of <see cref="M:SoftwareNinjas.Core.StringExtensions.FormatInvariant(System.String,System.Object[])"/> by trying to determine what the
+            string representations of the objects were when they were formatted into <paramref name="format"/> to yield
+            <paramref name="formatted"/>.
+            </summary>
+            
+            <param name="formatted">
+            The result of formatting <paramref name="format"/> with zero or more objects.
+            </param>
+            
+            <param name="format">
+            A composite format string.
+            </param>
+            
+            <returns>
+            An <see cref="T:System.Collections.Generic.IList`1"/> representing the string representations of the objects formatted into
+            <paramref name="format"/>.
+            </returns>
+            
+            <remarks>
+            An extension method version of <see cref="M:SoftwareNinjas.Core.Unformatter.UnformatInvariant(System.String,System.String)"/>.
+            </remarks>
         </member>
         <member name="M:SoftwareNinjas.Core.StringExtensions.CombinePath(System.String,System.String[])">
             <summary>
@@ -1792,6 +1885,24 @@
             Tests <see cref="M:SoftwareNinjas.Core.EnumerableExtensions.QuoteForShell``1(System.Collections.Generic.IEnumerable{``0})"/>
             </summary>
         </member>
+        <member name="M:SoftwareNinjas.Core.Test.EnumerableExtensions.ToList_EmptyEnumerableOfInt">
+            <summary>
+            Tests <see cref="M:SoftwareNinjas.Core.EnumerableExtensions.ToList``1(System.Collections.Generic.IEnumerable{``0})"/>
+            with an empty sequence.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.EnumerableExtensions.ToList_ListIsReadOnly">
+            <summary>
+            Tests <see cref="M:SoftwareNinjas.Core.EnumerableExtensions.ToList``1(System.Collections.Generic.IEnumerable{``0})"/>
+            to make sure we can't add to the list.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.EnumerableExtensions.ToList_StringGenerator">
+            <summary>
+            Tests <see cref="M:SoftwareNinjas.Core.EnumerableExtensions.ToList``1(System.Collections.Generic.IEnumerable{``0})"/>
+            with a generator/iterator (i.e. a method that yields a sequence of items).
+            </summary>
+        </member>
         <member name="T:SoftwareNinjas.Core.Test.EnumExtensions">
             <summary>
             A class to test <see cref="T:SoftwareNinjas.Core.EnumExtensions"/>
@@ -1825,6 +1936,140 @@
             <summary>
             Tests <see cref="M:SoftwareNinjas.Core.EnumExtensions.HasFlag``1(``0,``0)"/> with
             the even less likely (but still possible!) case of strings representing integers.
+            </summary>
+        </member>
+        <member name="T:SoftwareNinjas.Core.Test.EqualsTester`1">
+            <summary>
+            A class to help test implementations of <see cref="M:System.Object.Equals(System.Object)"/>
+            and <see cref="M:System.Object.GetHashCode"/> for the type <typeparamref name="T"/>.
+            </summary>
+            
+            <typeparam name="T">
+            A type that overrides  <see cref="M:System.Object.Equals(System.Object)"/> and <see cref="M:System.Object.GetHashCode"/>.
+            </typeparam>
+            
+            <remarks>
+            <see cref="T:SoftwareNinjas.Core.Test.EqualsTester`1"/> can be used as a super-class for a test fixture or invoked manually.
+            </remarks>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.EqualsTester`1.#ctor(`0,`0,`0,`0)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SoftwareNinjas.Core.Test.EqualsTester`1"/> with the provided samples of
+            <typeparamref name="T"/> where <paramref name="x"/>, <paramref name="y"/> and <paramref name="z"/> are
+            expected to be equal to one another and <paramref name="a"/> is expected to be not equal to any of the
+            others.
+            </summary>
+            
+            <param name="x">
+            A sample of <typeparamref name="T"/> equal to <paramref name="y"/> and <paramref name="z"/>.
+            </param>
+            
+            <param name="y">
+            A sample of <typeparamref name="T"/> equal to <paramref name="x"/> and <paramref name="z"/>.
+            </param>
+            
+            <param name="z">
+            A sample of <typeparamref name="T"/> equal to <paramref name="x"/> and <paramref name="y"/>.
+            </param>
+            
+            <param name="a">
+            A sample of <typeparamref name="T"/> equal to none of <paramref name="x"/>, <paramref name="y"/> and
+            <paramref name="z"/>.
+            </param>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.EqualsTester`1.Run">
+            <summary>
+            Runs all tests.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.EqualsTester`1.AssertAssumptions">
+            <summary>
+            Confirms that <c>x</c>, <c>y</c> and <c>z</c> are all equal to each other and that <c>a</c> is different
+            from all of them.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.EqualsTester`1.AssertReflexivity">
+            <summary>
+            Confirms that <c>x.Equals(x)</c> returns <see langword="true"/> for any <c>x</c>.
+            </summary>
+            
+            <seealso href="http://en.wikipedia.org/wiki/Reflexive_relation">
+            Reflexive relation
+            </seealso>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.EqualsTester`1.AssertSymmetry">
+            <summary>
+            Confirms that <c>x.Equals(y)</c> returns the same value as <c>y.Equals(x)</c>.
+            </summary>
+            
+            <seealso href="http://en.wikipedia.org/wiki/Symmetric_relation">
+            Symmetric relation
+            </seealso>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.EqualsTester`1.AssertTransitivity">
+            <summary>
+            Confirms that <c>(x.Equals(y) &amp;&amp; y.Equals(z))</c> returns <see langword="true"/> if and only if
+            <c>x.Equals(z)</c> returns <see langword="true"/>.
+            </summary>
+            
+            <seealso href="http://en.wikipedia.org/wiki/Transitive_relation">
+            Transitive relation
+            </seealso>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.EqualsTester`1.AssertNotEqualToNull">
+            <summary>
+            Confirms that <c>x.Equals(null)</c> returns <see langword="false"/>.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.EqualsTester`1.AssertConsistentWithHashCode">
+            <summary>
+            Confirms that if two instances of <typeparamref name="T"/> compare as equal, the
+            <see cref="M:System.Object.GetHashCode"/> method for each object returns the same value.
+            </summary>
+        </member>
+        <member name="T:SoftwareNinjas.Core.Test.EqualsTesterTest">
+            <summary>
+            A class to test <see cref="T:SoftwareNinjas.Core.Test.EqualsTester`1"/>.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.EqualsTesterTest.Run_InvalidAssumptions_FirstThreeNotEqual">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.Core.Test.EqualsTester`1.Run"/> method with
+            x, y and z that aren't all equal to one another.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.EqualsTesterTest.Run_InvalidAssumptions_LastOneNotDifferent">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.Core.Test.EqualsTester`1.Run"/> method with
+            a equal to x, y and z.
+            </summary>
+        </member>
+        <member name="T:SoftwareNinjas.Core.Test.PairTest">
+            <summary>
+            A class to test <see cref="T:SoftwareNinjas.Core.Pair`2"/>.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.PairTest.#ctor">
+            <summary>
+            Initializes the <see cref="T:SoftwareNinjas.Core.Test.EqualsTester`1"/> super-class with four instances of
+            <see cref="T:SoftwareNinjas.Core.Pair`2"/>.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.PairTest.ToString_UsingSamples">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.Core.Pair`2.ToString"/> method with
+            the samples used for equality testing.
+            </summary>
+        </member>
+        <member name="T:SoftwareNinjas.Core.Test.StreamExtensions">
+            <summary>
+            A class to test <see cref="T:SoftwareNinjas.Core.StreamExtensions"/>.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.StreamExtensions.EnumerateBytes_MemoryStreamFromByteArray">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.Core.StreamExtensions.EnumerateBytes(System.IO.Stream)"/> method with
+            a memory stream that was initialized from a byte array.
             </summary>
         </member>
         <member name="T:SoftwareNinjas.Core.Test.StringExtensions">
@@ -1931,6 +2176,29 @@
             <summary>
             Tests the <see cref="M:SoftwareNinjas.Core.TreeExtensions.PreOrder``1(``0,System.Func{``0,System.Collections.Generic.IEnumerable{``0}})"/> method with
             what a high-level parse tree of a code file might look like.
+            </summary>
+        </member>
+        <member name="T:SoftwareNinjas.Core.Test.Unformatter">
+            <summary>
+            A class to test <see cref="T:SoftwareNinjas.Core.Unformatter"/>.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.Unformatter.UnformatInvariant_Typical">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.Core.Unformatter.UnformatInvariant(System.String,System.String)"/> method with
+            a typical use case.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.Unformatter.UnformatInvariant_ReversedSpecifiers">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.Core.Unformatter.UnformatInvariant(System.String,System.String)"/> method with
+            a format string where the format placeholders are not in order.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Test.Unformatter.UnformatInvariant_UnusedFormatPlaceholders">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.Core.Unformatter.UnformatInvariant(System.String,System.String)"/> method with
+            a format string where one of the format placeholders was not in the string.
             </summary>
         </member>
         <member name="T:SoftwareNinjas.Core.TextReaderExtensions">
@@ -2174,6 +2442,70 @@
             <returns>
             A sequence of the nodes in the tree.
             </returns>
+        </member>
+        <member name="T:SoftwareNinjas.Core.Unformatter">
+            <summary>
+            A class to parse format strings and decode formatted versions back into component strings.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Unformatter.#ctor(System.String,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SoftwareNinjas.Core.Unformatter"/> class with the specified
+            <paramref name="format"/>, indicating whether to compile the resulting <see cref="T:System.Text.RegularExpressions.Regex"/> or not.
+            </summary>
+            
+            <param name="format">
+            A composite format string.
+            </param>
+            
+            <param name="compileRegex">
+            <see langword="true"/> if the resulting <see cref="T:System.Text.RegularExpressions.Regex"/> should include the option
+            <see cref="F:System.Text.RegularExpressions.RegexOptions.Compiled"/>; <see langword="false"/> otherwise. There is a slight performance
+            penalty for compiling a <see cref="T:System.Text.RegularExpressions.Regex"/>, but then subsequent matching is much more performant.
+            In other words, set to <see langword="true"/> if lots of formatted strings will be unformatted with this
+            instance.
+            </param>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Unformatter.Unformat(System.String)">
+            <summary>
+            Performs the reverse of <see cref="M:SoftwareNinjas.Core.StringExtensions.FormatInvariant(System.String,System.Object[])"/> by trying to
+            determine what the string representations of the objects were when they were formatted into
+            <see cref="P:SoftwareNinjas.Core.Unformatter.Format"/> to yield <paramref name="formatted"/>.
+            </summary>
+            
+            <param name="formatted">
+            The result of formatting <see cref="P:SoftwareNinjas.Core.Unformatter.Format"/> with zero or more objects.
+            </param>
+            
+            <returns>
+            An <see cref="T:System.Collections.Generic.IList`1"/> representing the string representations of the objects formatted into
+            <see cref="P:SoftwareNinjas.Core.Unformatter.Format"/>.
+            </returns>
+        </member>
+        <member name="M:SoftwareNinjas.Core.Unformatter.UnformatInvariant(System.String,System.String)">
+            <summary>
+            Performs the reverse of <see cref="M:SoftwareNinjas.Core.StringExtensions.FormatInvariant(System.String,System.Object[])"/> by trying to
+            determine what the string representations of the objects were when they were formatted into
+            <paramref name="format"/> to yield <paramref name="formatted"/>.
+            </summary>
+            
+            <param name="formatted">
+            The result of formatting <paramref name="format"/> with zero or more objects.
+            </param>
+            
+            <param name="format">
+            A composite format string.
+            </param>
+            
+            <returns>
+            An <see cref="T:System.Collections.Generic.IList`1"/> representing the string representations of the objects formatted into
+            <paramref name="format"/>.
+            </returns>
+        </member>
+        <member name="P:SoftwareNinjas.Core.Unformatter.Format">
+            <summary>
+            The composite format string represented by this instance of <see cref="T:SoftwareNinjas.Core.Unformatter"/>.
+            </summary>
         </member>
     </members>
 </doc>

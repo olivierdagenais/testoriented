@@ -427,6 +427,50 @@
             </param>
             <returns></returns>
         </member>
+        <member name="T:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask">
+            <summary>
+            Compares the public interface of two <see cref="T:System.Reflection.Assembly"/> instances.
+            </summary>
+            <example>
+              <para>
+              The example will count the <c>seqpnt</c> elements that have been visited at least once.
+              </para>
+              <code>
+                <![CDATA[
+            <publicInterfaceComparer
+                baseline="base/MyProject/bin/Debug/MyProject.dll"
+                challenger="challenger/MyProject/bin/Debug/MyProject.dll"
+                property="numberOfDifferences"
+            />
+                ]]>
+              </code>
+            </example>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.#ctor">
+            <summary>
+            Default constructor for NAnt itself.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.ExecuteTask">
+            <summary>
+            Runs the public interface comparison task.
+            </summary>
+        </member>
+        <member name="P:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.BaselineFile">
+            <summary>
+            The path to the baseline <see cref="T:System.Reflection.Assembly"/>.
+            </summary>
+        </member>
+        <member name="P:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.ChallengerFile">
+            <summary>
+            The path to the "challenger" <see cref="T:System.Reflection.Assembly"/>, against which to compare the "baseline".
+            </summary>
+        </member>
+        <member name="P:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.Property">
+            <summary>
+            The name of the property that receives number of public interface differences.
+            </summary>
+        </member>
         <member name="T:SoftwareNinjas.NAnt.Tasks.SupportedLanguage">
             <summary>
             The programming languages that are supported for projects.
@@ -600,6 +644,130 @@
         <member name="M:SoftwareNinjas.NAnt.Tasks.Test.ProjectLoader.LoadOutputName_JavaLibrary">
             <summary>
             Tests <see cref="M:SoftwareNinjas.NAnt.Tasks.ProjectLoader.LoadOutputName(System.Xml.XmlDocument,SoftwareNinjas.NAnt.Tasks.SupportedLanguage)"/> for a Java project.
+            </summary>
+        </member>
+        <member name="T:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask">
+            <summary>
+            A class to test <see cref="T:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask"/>.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.#ctor">
+            <summary>
+            Initializes the fields used for testing.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.Compare_SameAssembly">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.Compare(System.Reflection.Assembly,System.Reflection.Assembly)"/> method with
+            two references to the same assembly.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.Compare_DifferentButIdenticalAssembly">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.Compare(System.Reflection.Assembly,System.Reflection.Assembly)"/> method with
+            two assemblies that have no differences.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.Compare_DifferentAssemblies">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.Compare(System.Reflection.Assembly,System.Reflection.Assembly)"/> method with
+            two assemblies that have lots of differences.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.AreEqual_SameMethodInfoInstances">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.AreEqual(System.Reflection.MethodBase,System.Reflection.MethodBase)"/> method with
+            two references to the same method.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.AreEqual_IdenticalMethodInfoInstances">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.AreEqual(System.Reflection.MethodBase,System.Reflection.MethodBase)"/> method with
+            two identical methods.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.AreEqual_MethodInfoInstancesFromDifferentClasses">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.AreEqual(System.Reflection.MethodBase,System.Reflection.MethodBase)"/> method with
+            methods of the same name, but from different classes.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.AreEqual_MethodInfoInstancesFromOverloadsWithDifferentNumberOfParameters">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.AreEqual(System.Reflection.MethodBase,System.Reflection.MethodBase)"/> method with
+            two overloads of the same method that have a different number of parameters.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.AreEqual_MethodInfoInstancesFromOverloadsWithDifferentTypesOfParameters">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.AreEqual(System.Reflection.MethodBase,System.Reflection.MethodBase)"/> method with
+            two overloads of the same method that have the same number of parameters.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.AreEqual_SameTypeInstance">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.AreEqual(System.Type,System.Type)"/> method with
+            two references to the same type.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.AreEqual_IdenticalTypeInstances">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.AreEqual(System.Type,System.Type)"/> method with
+            two identical types.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.AreEqual_DifferentTypeInstances">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.AreEqual(System.Type,System.Type)"/> method with
+            two different types.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.Compare_SameTypeInstance">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.Compare(System.Type,System.Type)"/> method with
+            two references to the same type.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.Compare_IdenticalTypeInstances">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.Compare(System.Type,System.Type)"/> method with
+            two identical types.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.Compare_TypeInstancesWithDifferentMethods">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.Compare(System.Type,System.Type)"/> method with
+            types that don't have the same methods.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.Compare_TypeInstancesWithDifferentFields">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.Compare(System.Type,System.Type)"/> method with
+            types that don't have the same fields and methods.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.Compare_TypeInstancesWithDifferentFieldsReversed">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.Compare(System.Type,System.Type)"/> method with
+            types that don't have the same fields and methods, but the baseline and challenger are swapped.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.Compare_TypeInstancesWithFields">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.Compare(System.Type,System.Type)"/> method with
+            two references to the same type that contains a field.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.Compare_TypeInstancesWithDifferentProperties">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.Compare(System.Type,System.Type)"/> method with
+            types that have differences in their properties.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.Compare_TypeInstancesWithDifferentEvents">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.Compare(System.Type,System.Type)"/> method with
+            types that have different events and methods.
             </summary>
         </member>
         <member name="T:SoftwareNinjas.NAnt.Tasks.Test.TestTask">
