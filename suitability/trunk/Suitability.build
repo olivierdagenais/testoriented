@@ -15,10 +15,11 @@
     <property name="strategies" value="${baseStrategy},${manualSmeStrategy}" />
 
     <property name="projects" value="AtomicCms,KeePassLib,StringExtensions,Textile" />
-    
+
     <property name="pexFolder" value="Tools/Pex-0.91.50418.0" />
     <property name="ncoverFolder" value="Tools/NCover-1.5.8" />
     <property name="nunitFolder" value="Tools/NUnit-2.4.8" />
+    <property name="codeMetricsFolder" value="Tools/CodeMetrics-10.0" />
 
     <target name="schema">
         <nantschema output="Tools/NAnt.xsd" target-ns="http://testoriented.googlecode.com/schemas/nant.xsd"/>
@@ -212,7 +213,7 @@
                 <property name="projectFolder" value="Projects\${project}\working-${strategy}" />
                 <property name="coverageFile" value="${projectFolder}\coverage.xml" />
                 <delete file="${coverageFile}" failonerror="false" />
-                <exec program="Tools/NCover-1.5.8/NCover.Console.exe" failonerror="false">
+                <exec program="${ncoverFolder}/NCover.Console.exe" failonerror="false">
                     <arg value="//w" />
                     <arg value="${projectFolder}\${project}.Tests\bin\${configuration}" />
                     <arg value="//a" />
@@ -228,6 +229,46 @@
                     <arg value="${project}.Tests.dll" />
                 </exec>
             </foreach>
+        </foreach>
+    </target>
+
+    <target name="calculateCodeMetrics">
+        <foreach item="String" in="${projects}" delim="," property="project">
+            <echo message="Project: ${project}..." />
+            <foreach item="String" in="${strategies}" delim="," property="strategy">
+                <property name="projectFolder" value="Projects/${project}/working-${strategy}" />
+                <property name="reportFile" value="${projectFolder}/CodeMetrics.xml" />
+                <delete file="${reportFile}" failonerror="false" />
+                <exec program="${codeMetricsFolder}/Metrics.exe">
+                    <arg value="/file:${projectFolder}/${project}/bin/${configuration}/${project}.dll" />
+                    <arg value="/out:${reportFile}" />
+                    <arg value="/ignoregeneratedcode" />
+                </exec>
+            </foreach>
+        </foreach>
+    </target>
+
+    <target name="postStringExtensions">
+        <property name="project" value="StringExtensions" />
+        <if test="${environment::variable-exists('SVN_REVISION')}">
+            <property name="svnRevision" value="${environment::get-variable('SVN_REVISION')}"/>
+        </if>
+        <if test="${not environment::variable-exists('SVN_REVISION')}">
+            <property name="svnRevision" value="private"/>
+        </if>
+        <foreach item="String" in="${strategies}" delim="," property="strategy">
+            <property name="projectFolder" value="Projects/${project}/working-${strategy}" />
+            <property name="reportFile" value="${projectFolder}/CodeMetrics.xml" />
+            <xpath file="${reportFile}" property="capitalizeMI"
+                query="//Member[@Name='Capitalize(string) : string']/Metrics/Metric[@Name='MaintainabilityIndex']/@Value" />
+            <post action="https://spreadsheets0.google.com/formResponse?formkey=dGNZalMxMk1ySVhQV2x0RGFjdGt4WHc6MQ&amp;ifq">
+                <!-- Batch # -->                    <input name="entry.0.single" value="${svnRevision}" />
+                <!-- Strategy -->                   <input name="entry.1.single" value="${project}" />
+                <!-- string Capitalize(string) -->  <input name="entry.2.single" value="${capitalizeMI}" />
+                <!-- Google -->                     <input name="pageNumber" value="0" />
+                <!-- Google -->                     <input name="backupCache" value="" />
+                <!-- Google -->                     <input name="submit" value="Submit" />
+            </post>
         </foreach>
     </target>
 
@@ -247,6 +288,20 @@
                 <property name="coverageFile" value="${projectFolder}/coverage.xml" />
                 <xpath file="${coverageFile}" property="tsp" query="count(//seqpnt)" />
                 <xpath file="${coverageFile}" property="vsp" query="count(//seqpnt[not(@visitcount='0')])" />
+                <if test="${strategy == 'base'}">
+                    <property name="dpi" value="0" />
+                </if>
+                <if test="${strategy != 'base'}">
+                    <msbuild project="Projects/${project}/base/${project}.sln">
+                        <arg value="/property:Configuration=${configuration}" />
+                        <arg value="/verbosity:minimal" />
+                    </msbuild>
+                    <publicInterfaceComparer
+                        baseline="Projects/${project}/base/${project}/bin/${configuration}/${project}.dll"
+                        challenger="Projects/${project}/working-${strategy}/${project}/bin/${configuration}/${project}.dll"
+                        property="dpi"
+                    />
+                </if>
                 <post action="https://spreadsheets0.google.com/formResponse?formkey=dG9zQnFtTlQ0Z1dGUjI5TUlFMnpFWWc6MQ&amp;ifq">
                     <!-- Batch # -->        <input name="entry.1.single" value="${svnRevision}" />
                     <!-- Project -->        <input name="entry.2.single" value="${project}" />
@@ -254,10 +309,12 @@
                     <!-- TODD version -->   <input name="entry.4.single" value="${toddVersion}" />
                     <!-- TSP -->            <input name="entry.5.single" value="${tsp}" />
                     <!-- VSP -->            <input name="entry.6.single" value="${vsp}" />
+                    <!-- DPI -->            <input name="entry.7.single" value="${dpi}" />
                     <!-- Google -->         <input name="pageNumber" value="0" />
                     <!-- Google -->         <input name="backupCache" value="" />
                     <!-- Google -->         <input name="submit" value="Submit" />
                 </post>
+                <!-- TODO: <call target="post${project}" /> -->
             </foreach>
         </foreach>
     </target>
@@ -265,7 +322,7 @@
     <target name="suitability">
         <!-- Step 0: clean all working copies -->
         <call target="clean" />
-        
+
         <!-- Step 1: copy baseStrategy to automaticSmeStrategy and apply TODD on it -->
         <!-- TODO: uncomment when ready:
         <call target="createAutomaticSmeStrategy" />
@@ -298,7 +355,10 @@
         <!-- Step 10: run tests with code coverage -->
         <call target="testWithCoverage" />
 
-        <!-- Step 11: interpret coverage report -->
+        <!-- Step 11: determine the Maintainability Index, etc. -->
+        <call target="calculateCodeMetrics" />
+
+        <!-- Step 12: interpret coverage report -->
         <call target="postResults" />
     </target>
 
