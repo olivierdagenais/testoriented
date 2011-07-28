@@ -86,26 +86,7 @@ namespace KeePassLib.Cryptography
 
 			if(genAlgorithm == CrsAlgorithm.ArcFourVariant)
 			{
-				// Fill the state linearly
-				m_pbState = new byte[256];
-				for(uint w = 0; w < 256; ++w) m_pbState[w] = (byte)w;
-
-				unchecked
-				{
-					byte j = 0, t;
-					uint inxKey = 0;
-					for(uint w = 0; w < 256; ++w) // Key setup
-					{
-						j += (byte)(m_pbState[w] + pbKey[inxKey]);
-
-						t = m_pbState[0]; // Swap entries
-						m_pbState[0] = m_pbState[j];
-						m_pbState[j] = t;
-
-						++inxKey;
-						if(inxKey >= uKeyLen) inxKey = 0;
-					}
-				}
+				m_pbState = ComputeArcFourState(pbKey, uKeyLen);
 
 				GetRandomBytes(512); // Increases security, see cryptanalysis
 			}
@@ -123,6 +104,31 @@ namespace KeePassLib.Cryptography
 				Debug.Assert(false);
 				throw new ArgumentException();
 			}
+		}
+
+		internal static byte[] ComputeArcFourState(byte[] pbKey, uint uKeyLen)
+		{
+			// Fill the state linearly
+			var state = new byte[256];
+			for(uint w = 0; w < 256; ++w) state[w] = (byte)w;
+
+			unchecked
+			{
+				byte j = 0, t;
+				uint inxKey = 0;
+				for(uint w = 0; w < 256; ++w) // Key setup
+				{
+					j += (byte)(state[w] + pbKey[inxKey]);
+
+					t = state[0]; // Swap entries
+					state[0] = state[j];
+					state[j] = t;
+
+					++inxKey;
+					if(inxKey >= uKeyLen) inxKey = 0;
+				}
+			}
+			return state;
 		}
 
 		/// <summary>
