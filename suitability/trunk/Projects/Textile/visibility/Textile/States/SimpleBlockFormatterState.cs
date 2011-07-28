@@ -28,7 +28,7 @@ namespace Textile.States
             get { return m_attNfo; }
         }
 
-        internal SimpleBlockFormatterState(TextileFormatter formatter)
+        protected internal SimpleBlockFormatterState(TextileFormatter formatter)
             : base(formatter)
         {
         }
@@ -55,7 +55,7 @@ namespace Textile.States
                     blockFormatterState.m_attNfo != m_attNfo);
         }
 
-        internal virtual void OnContextAcquired()
+        protected internal virtual void OnContextAcquired()
         {
         }
 
@@ -63,17 +63,17 @@ namespace Textile.States
         /// 
         /// </summary>
         /// <returns></returns>
-        internal string FormattedAlignment()
+        protected internal string FormattedAlignment()
         {
             return Blocks.BlockAttributesParser.ParseBlockAttributes(m_alignNfo);
         }
 
-        internal string FormattedStyles()
+        protected internal string FormattedStyles()
         {
             return Blocks.BlockAttributesParser.ParseBlockAttributes(m_attNfo);
         }
 
-        internal string FormattedStylesAndAlignment()
+        protected internal string FormattedStylesAndAlignment()
         {
             return Blocks.BlockAttributesParser.ParseBlockAttributes(m_alignNfo + m_attNfo);
         }

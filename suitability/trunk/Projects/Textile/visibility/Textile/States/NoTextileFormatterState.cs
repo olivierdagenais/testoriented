@@ -8,7 +8,7 @@ namespace Textile.States
     [FormatterState(@"^\s*((?<tag><notextile>)\s*$|(?<tag>(notextile.))\s*)")]
     public class NoTextileFormatterState : FormatterState
     {
-        bool m_shouldExitNextTime = false;
+        internal bool m_shouldExitNextTime = false;
 
         public NoTextileFormatterState(TextileFormatter f)
             : base(f)

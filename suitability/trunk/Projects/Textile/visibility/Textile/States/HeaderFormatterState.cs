@@ -26,7 +26,7 @@ namespace Textile.States
     [FormatterState(SimpleBlockFormatterState.PatternBegin + @"h[0-9]+" + SimpleBlockFormatterState.PatternEnd)]
     public class HeaderFormatterState : SimpleBlockFormatterState
     {
-        int m_headerLevel = 0;
+        internal int m_headerLevel = 0;
         public int HeaderLevel
         {
             get { return m_headerLevel; }
@@ -47,7 +47,7 @@ namespace Textile.States
             Formatter.Output.WriteLine(string.Format("</h{0}>", HeaderLevel.ToString()));
         }
 
-        internal override void OnContextAcquired()
+        protected internal override void OnContextAcquired()
         {
             Match m = Regex.Match(Tag, @"^h(?<lvl>[0-9]+)");
             m_headerLevel = Int32.Parse(m.Groups["lvl"].Value);

@@ -39,7 +39,7 @@ namespace Textile.Blocks
             return line;
         }
 
-        static string ImageFormatMatchEvaluator(Match m)
+        internal static string ImageFormatMatchEvaluator(Match m)
         {
             string atts = BlockAttributesParser.ParseBlockAttributes(m.Groups["atts"].Value, "");
             if (m.Groups["algn"].Length > 0)

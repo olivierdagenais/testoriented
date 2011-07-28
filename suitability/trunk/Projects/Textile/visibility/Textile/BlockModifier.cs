@@ -6,7 +6,7 @@ namespace Textile
 {
     public class BlockModifier
     {
-        internal BlockModifier()
+        protected internal BlockModifier()
         {
         }
 

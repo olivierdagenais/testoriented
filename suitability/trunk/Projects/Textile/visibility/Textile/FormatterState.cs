@@ -29,7 +29,7 @@ namespace Textile
     /// each line of text it receives.
     public abstract class FormatterState
     {
-        TextileFormatter m_formatter;
+        internal TextileFormatter m_formatter;
         /// <summary>
         /// The formatter this state belongs to.
         /// </summary>
@@ -134,12 +134,12 @@ namespace Textile
             }
         }
 
-        internal FormatterState CurrentFormatterState
+        protected internal FormatterState CurrentFormatterState
         {
             get { return this.Formatter.CurrentState; }
         }
 
-        internal void ChangeFormatterState(FormatterState formatterState)
+        protected internal void ChangeFormatterState(FormatterState formatterState)
         {
             this.Formatter.ChangeState(formatterState);
         }

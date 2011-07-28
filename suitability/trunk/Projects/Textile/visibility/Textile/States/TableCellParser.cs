@@ -8,7 +8,7 @@ namespace Textile.States
 {
 	public class TableCellParser
 	{
-		string m_lineFragment;
+        internal string m_lineFragment;
 
 		public TableCellParser(string input)
 		{

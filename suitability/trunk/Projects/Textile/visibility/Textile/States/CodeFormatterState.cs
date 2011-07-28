@@ -8,8 +8,8 @@ namespace Textile.States
     [FormatterState(@"^\s*<code" + Globals.HtmlAttributesPattern + ">")]
     public class CodeFormatterState : FormatterState
     {
-        bool m_shouldExitNextTime = false;
-        bool m_shouldFixHtmlEntities = false;
+        internal bool m_shouldExitNextTime = false;
+        internal bool m_shouldFixHtmlEntities = false;
 
         public CodeFormatterState(TextileFormatter f)
             : base(f)
