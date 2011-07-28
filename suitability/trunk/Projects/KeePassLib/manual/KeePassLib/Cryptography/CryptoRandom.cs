@@ -104,11 +104,11 @@ namespace KeePassLib.Cryptography
 
 			lock(m_oSyncRoot)
 			{
-				m_pbEntropyPool = CombineEntropy(m_pbEntropyPool, pbNewData);
+				m_pbEntropyPool = CombineAndNormalizeEntropy(m_pbEntropyPool, pbNewData);
 			}
 		}
 
-		internal static byte[] CombineEntropy(byte[] entropyPool, byte[] pbNewData)
+		internal static byte[] CombineAndNormalizeEntropy(byte[] entropyPool, byte[] pbNewData)
 		{
 			MemoryStream ms = new MemoryStream();
 			ms.Write(entropyPool, 0, entropyPool.Length);
@@ -231,19 +231,26 @@ namespace KeePassLib.Cryptography
 
 				byte[] pbCspRandom = GetCspData();
 
-				MemoryStream ms = new MemoryStream();
-				ms.Write(m_pbEntropyPool, 0, m_pbEntropyPool.Length);
-				ms.Write(pbCounter, 0, pbCounter.Length);
-				ms.Write(pbCspRandom, 0, pbCspRandom.Length);
-				pbFinal = ms.ToArray();
-				Debug.Assert(pbFinal.Length == (m_pbEntropyPool.Length +
-					pbCounter.Length + pbCspRandom.Length));
+				pbFinal = CombineEntropy(m_pbEntropyPool, pbCounter, pbCspRandom);
 
 				m_uGeneratedBytesCount += 32;
 			}
 
 			SHA256Managed sha256 = new SHA256Managed();
 			return sha256.ComputeHash(pbFinal);
+		}
+
+		internal static byte[] CombineEntropy(byte[] entropyPool, byte[] pbCounter, byte[] pbCspRandom)
+		{
+			byte[] pbFinal;
+			MemoryStream ms = new MemoryStream();
+			ms.Write(entropyPool, 0, entropyPool.Length);
+			ms.Write(pbCounter, 0, pbCounter.Length);
+			ms.Write(pbCspRandom, 0, pbCspRandom.Length);
+			pbFinal = ms.ToArray();
+			Debug.Assert(pbFinal.Length == (entropyPool.Length +
+				pbCounter.Length + pbCspRandom.Length));
+			return pbFinal;
 		}
 
 		/// <summary>
