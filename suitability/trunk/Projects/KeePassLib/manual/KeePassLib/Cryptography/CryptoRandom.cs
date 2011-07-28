@@ -99,12 +99,7 @@ namespace KeePassLib.Cryptography
 			byte[] pbNewData = pbEntropy;
 			if(pbEntropy.Length >= 64)
 			{
-#if !KeePassLibSD
-				SHA512Managed shaNew = new SHA512Managed();
-#else
-				SHA256Managed shaNew = new SHA256Managed();
-#endif
-				pbNewData = shaNew.ComputeHash(pbEntropy);
+				pbNewData = NormalizeEntropy(pbEntropy);
 			}
 
 			MemoryStream ms = new MemoryStream();
@@ -114,14 +109,19 @@ namespace KeePassLib.Cryptography
 				ms.Write(pbNewData, 0, pbNewData.Length);
 
 				byte[] pbFinal = ms.ToArray();
-#if !KeePassLibSD
 				Debug.Assert(pbFinal.Length == (64 + pbNewData.Length));
-				SHA512Managed shaPool = new SHA512Managed();
-#else
-				SHA256Managed shaPool = new SHA256Managed();
-#endif
-				m_pbEntropyPool = shaPool.ComputeHash(pbFinal);
+				m_pbEntropyPool = NormalizeEntropy(pbFinal);
 			}
+		}
+
+		internal static byte[] NormalizeEntropy(byte[] pbEntropy)
+		{
+#if !KeePassLibSD
+			SHA512Managed shaNew = new SHA512Managed();
+#else
+			SHA256Managed shaNew = new SHA256Managed();
+#endif
+			return shaNew.ComputeHash(pbEntropy);
 		}
 
 		private static byte[] GetSystemData()
