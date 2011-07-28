@@ -82,7 +82,7 @@ namespace KeePassLib.Keys
 			}
 		}
 
-		internal static byte[] LoadKeyFile(string strKeyFilePath)
+		private static byte[] LoadKeyFile(string strKeyFilePath)
 		{
 			FileStream fs;
 
@@ -95,6 +95,13 @@ namespace KeePassLib.Keys
 			br.Close();
 			fs.Close();
 
+			byte[] pbKey = LoadKey(lLength, pbFileData);
+
+			return pbKey;
+		}
+
+		internal static byte[] LoadKey(long lLength, byte[] pbFileData)
+		{
 			byte[] pbKey = null;
 
 			if(lLength == 32) pbKey = LoadBinaryKey32(pbFileData);
