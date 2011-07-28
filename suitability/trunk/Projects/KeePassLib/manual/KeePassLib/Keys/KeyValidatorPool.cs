@@ -60,9 +60,14 @@ namespace KeePassLib.Keys
 
 		public string Validate(string strKey, KeyValidationType t)
 		{
+			return Validate(strKey, m_vValidators, t);
+		}
+
+		internal static string Validate(string strKey, List<KeyValidator> validators, KeyValidationType t)
+		{
 			Debug.Assert(strKey != null); if(strKey == null) throw new ArgumentNullException("strKey");
 
-			foreach(KeyValidator v in m_vValidators)
+			foreach(KeyValidator v in validators)
 			{
 				string strResult = v.Validate(strKey, t);
 				if(strResult != null) return strResult;
