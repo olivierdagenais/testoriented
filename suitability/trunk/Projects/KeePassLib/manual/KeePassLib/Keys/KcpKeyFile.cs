@@ -207,35 +207,40 @@ namespace KeePassLib.Keys
 		{
 			Debug.Assert(strFile != null); if(strFile == null) throw new ArgumentNullException("strFile");
 
-			byte[] pbKeyData = null;
-
 			try
 			{
 				XmlDocument doc = new XmlDocument();
 				doc.Load(strFile);
 
-				XmlElement el = doc.DocumentElement;
-				if((el == null) || !el.Name.Equals(RootElementName)) return null;
-				if(el.ChildNodes.Count < 2) return null;
+				return LoadXmlKey(doc);
+			}
+			catch(Exception) { return null; }
 
-				foreach(XmlNode xmlChild in el.ChildNodes)
+		}
+
+		internal static byte[] LoadXmlKey(XmlDocument doc)
+		{
+			byte[] pbKeyData = null;
+
+			XmlElement el = doc.DocumentElement;
+			if((el == null) || !el.Name.Equals(RootElementName)) return null;
+			if(el.ChildNodes.Count < 2) return null;
+
+			foreach(XmlNode xmlChild in el.ChildNodes)
+			{
+				if(xmlChild.Name.Equals(MetaElementName)) { } // Ignore Meta
+				else if(xmlChild.Name == KeyElementName)
 				{
-					if(xmlChild.Name.Equals(MetaElementName)) { } // Ignore Meta
-					else if(xmlChild.Name == KeyElementName)
+					foreach(XmlNode xmlKeyChild in xmlChild.ChildNodes)
 					{
-						foreach(XmlNode xmlKeyChild in xmlChild.ChildNodes)
+						if(xmlKeyChild.Name == KeyDataElementName)
 						{
-							if(xmlKeyChild.Name == KeyDataElementName)
-							{
-								if(pbKeyData == null)
-									pbKeyData = Convert.FromBase64String(xmlKeyChild.InnerText);
-							}
+							if(pbKeyData == null)
+								pbKeyData = Convert.FromBase64String(xmlKeyChild.InnerText);
 						}
 					}
 				}
 			}
-			catch(Exception) { return null; }
-
 			return pbKeyData;
 		}
 
