@@ -89,51 +89,46 @@ namespace KeePassLib.Serialization
 
 		private void CommitWriteTransaction()
 		{
-		    CommitWriteTransaction(m_iocBase, m_iocTemp);
+			bool bMadeUnhidden = UrlUtil.UnhideFile(m_iocBase.Path);
+
+#if !KeePassLibSD
+			FileSecurity bkSecurity = null;
+#endif
+
+			if(IOConnection.FileExists(m_iocBase))
+			{
+#if !KeePassLibSD
+				if(m_iocBase.IsLocalFile())
+				{
+					try
+					{
+						DateTime tCreation = File.GetCreationTime(m_iocBase.Path);
+						bkSecurity = File.GetAccessControl(m_iocBase.Path);
+
+						File.SetCreationTime(m_iocTemp.Path, tCreation);
+					}
+					catch(Exception) { Debug.Assert(false); }
+				}
+#endif
+
+				IOConnection.DeleteFile(m_iocBase);
+			}
+
+			IOConnection.RenameFile(m_iocTemp, m_iocBase);
+
+#if !KeePassLibSD
+			if(m_iocBase.IsLocalFile())
+			{
+				try
+				{
+					if(bkSecurity != null)
+						File.SetAccessControl(m_iocBase.Path, bkSecurity);
+				}
+				catch(Exception) { Debug.Assert(false); }
+			}
+#endif
+
+			if(bMadeUnhidden) UrlUtil.HideFile(m_iocBase.Path, true); // Hide again
 		}
-
-	    internal static void CommitWriteTransaction(IOConnectionInfo iocBase, IOConnectionInfo iocTemp)
-	    {
-	        bool bMadeUnhidden = UrlUtil.UnhideFile(iocBase.Path);
-
-#if !KeePassLibSD
-	        FileSecurity bkSecurity = null;
-#endif
-
-	        if(IOConnection.FileExists(iocBase))
-	        {
-#if !KeePassLibSD
-	            if(iocBase.IsLocalFile())
-	            {
-	                try
-	                {
-	                    DateTime tCreation = File.GetCreationTime(iocBase.Path);
-	                    bkSecurity = File.GetAccessControl(iocBase.Path);
-
-	                    File.SetCreationTime(iocTemp.Path, tCreation);
-	                }
-	                catch(Exception) { Debug.Assert(false); }
-	            }
-#endif
-
-	            IOConnection.DeleteFile(iocBase);
-	        }
-
-	        IOConnection.RenameFile(iocTemp, iocBase);
-
-#if !KeePassLibSD
-	        if(iocBase.IsLocalFile())
-	        {
-	            try
-	            {
-	                if(bkSecurity != null)
-	                    File.SetAccessControl(iocBase.Path, bkSecurity);
-	            }
-	            catch(Exception) { Debug.Assert(false); }
-            }
-#endif
-
-            if (bMadeUnhidden) UrlUtil.HideFile(iocBase.Path, true); // Hide again
-	    }
 	}
 }
