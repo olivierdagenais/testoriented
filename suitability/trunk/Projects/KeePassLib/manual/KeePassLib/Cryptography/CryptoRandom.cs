@@ -102,16 +102,21 @@ namespace KeePassLib.Cryptography
 				pbNewData = NormalizeEntropy(pbEntropy);
 			}
 
-			MemoryStream ms = new MemoryStream();
 			lock(m_oSyncRoot)
 			{
-				ms.Write(m_pbEntropyPool, 0, m_pbEntropyPool.Length);
-				ms.Write(pbNewData, 0, pbNewData.Length);
-
-				byte[] pbFinal = ms.ToArray();
-				Debug.Assert(pbFinal.Length == (64 + pbNewData.Length));
-				m_pbEntropyPool = NormalizeEntropy(pbFinal);
+				m_pbEntropyPool = CombineEntropy(m_pbEntropyPool, pbNewData);
 			}
+		}
+
+		internal static byte[] CombineEntropy(byte[] entropyPool, byte[] pbNewData)
+		{
+			MemoryStream ms = new MemoryStream();
+			ms.Write(entropyPool, 0, entropyPool.Length);
+			ms.Write(pbNewData, 0, pbNewData.Length);
+
+			byte[] pbFinal = ms.ToArray();
+			Debug.Assert(pbFinal.Length == (64 + pbNewData.Length));
+			return NormalizeEntropy(pbFinal);
 		}
 
 		internal static byte[] NormalizeEntropy(byte[] pbEntropy)
