@@ -86,11 +86,16 @@ namespace KeePassLib.Cryptography.PasswordGenerator
 
 		private int FindIndex(PwUuid uuid)
 		{
+			return FindIndex(uuid, m_vGens);
+		}
+
+		internal static int FindIndex(PwUuid uuid, List<CustomPwGenerator> customPwGenerators)
+		{
 			if(uuid == null) throw new ArgumentNullException("uuid");
 
-			for(int i = 0; i < m_vGens.Count; ++i)
+			for(int i = 0; i < customPwGenerators.Count; ++i)
 			{
-				if(uuid.EqualsValue(m_vGens[i].Uuid)) return i;
+				if(uuid.EqualsValue(customPwGenerators[i].Uuid)) return i;
 			}
 
 			return -1;

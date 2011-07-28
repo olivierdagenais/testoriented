@@ -132,7 +132,12 @@ namespace KeePassLib.Cryptography.PasswordGenerator
 
 		public bool Contains(char ch)
 		{
-			return (((m_vTab[ch / 8] >> (ch % 8)) & 1) != char.MinValue);
+			return Contains(m_vTab, ch);
+		}
+
+		internal static bool Contains(byte[] vTab, char ch)
+		{
+			return (((vTab[ch / 8] >> (ch % 8)) & 1) != char.MinValue);
 		}
 
 		public bool Contains(string strCharacters)
