@@ -212,11 +212,7 @@ namespace KeePassLib.Serialization
 
 			if(nBufferSize == 0)
 			{
-				for(int iHash = 0; iHash < 32; ++iHash)
-				{
-					if(pbStoredHash[iHash] != 0)
-						throw new InvalidDataException();
-				}
+				VerifyZeroHash(pbStoredHash);
 
 				m_bEos = true;
 				m_pbBuffer = new byte[0];
@@ -233,6 +229,15 @@ namespace KeePassLib.Serialization
 			}
 
 			return true;
+		}
+
+		internal static void VerifyZeroHash(byte[] pbStoredHash)
+		{
+			for(int iHash = 0; iHash < 32; ++iHash)
+			{
+				if(pbStoredHash[iHash] != 0)
+					throw new InvalidDataException();
+			}
 		}
 
 		internal static void VerifyBuffer(byte[] pbBuffer, byte[] pbStoredHash)
