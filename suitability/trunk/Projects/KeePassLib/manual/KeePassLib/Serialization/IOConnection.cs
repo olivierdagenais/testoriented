@@ -79,13 +79,13 @@ namespace KeePassLib.Serialization
 			// }
 		}
 
-		internal static void PrepareWebAccess()
+		private static void PrepareWebAccess()
 		{
 			ServicePointManager.ServerCertificateValidationCallback =
 				ValidateServerCertificate;
 		}
 
-		internal static IOWebClient CreateWebClient(IOConnectionInfo ioc)
+		private static IOWebClient CreateWebClient(IOConnectionInfo ioc)
 		{
 			PrepareWebAccess();
 
@@ -98,7 +98,7 @@ namespace KeePassLib.Serialization
 			return wc;
 		}
 
-		internal static WebRequest CreateWebRequest(IOConnectionInfo ioc)
+		private static WebRequest CreateWebRequest(IOConnectionInfo ioc)
 		{
 			PrepareWebAccess();
 
@@ -125,7 +125,7 @@ namespace KeePassLib.Serialization
 		}
 #endif
 
-		internal static Stream OpenReadLocal(IOConnectionInfo ioc)
+		private static Stream OpenReadLocal(IOConnectionInfo ioc)
 		{
 			return new FileStream(ioc.Path, FileMode.Open, FileAccess.Read,
 				FileShare.Read);
@@ -145,7 +145,7 @@ namespace KeePassLib.Serialization
 		}
 #endif
 
-		internal static Stream OpenWriteLocal(IOConnectionInfo ioc)
+		private static Stream OpenWriteLocal(IOConnectionInfo ioc)
 		{
 			return new FileStream(ioc.Path, FileMode.Create, FileAccess.Write,
 				FileShare.None);
