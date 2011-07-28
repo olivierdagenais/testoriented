@@ -65,14 +65,20 @@ namespace KeePassLib.Keys
 
 		private void SetKey(byte[] pbPasswordUtf8)
 		{
+			m_psPassword = GetKeyParts(pbPasswordUtf8, out m_pbKeyData);
+		}
+
+		internal static ProtectedString GetKeyParts(byte[] pbPasswordUtf8, out ProtectedBinary pbKeyData)
+		{
 			Debug.Assert(pbPasswordUtf8 != null);
 			if(pbPasswordUtf8 == null) throw new ArgumentNullException("pbPasswordUtf8");
 
 			SHA256Managed sha256 = new SHA256Managed();
 			byte[] pbRaw = sha256.ComputeHash(pbPasswordUtf8);
 
-			m_psPassword = new ProtectedString(true, pbPasswordUtf8);
-			m_pbKeyData = new ProtectedBinary(true, pbRaw);
+			var psPassword = new ProtectedString(true, pbPasswordUtf8);
+			pbKeyData = new ProtectedBinary(true, pbRaw);
+			return psPassword;
 		}
 
 		/// <summary>
