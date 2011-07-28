@@ -229,19 +229,24 @@ namespace KeePassLib.Serialization
 
 			if(m_bVerify)
 			{
-				SHA256Managed sha256 = new SHA256Managed();
-				byte[] pbComputedHash = sha256.ComputeHash(m_pbBuffer);
-				if((pbComputedHash == null) || (pbComputedHash.Length != 32))
-					throw new InvalidOperationException();
-
-				for(int iHashPos = 0; iHashPos < 32; ++iHashPos)
-				{
-					if(pbStoredHash[iHashPos] != pbComputedHash[iHashPos])
-						throw new InvalidDataException();
-				}
+				VerifyBuffer(m_pbBuffer, pbStoredHash);
 			}
 
 			return true;
+		}
+
+		internal static void VerifyBuffer(byte[] pbBuffer, byte[] pbStoredHash)
+		{
+			SHA256Managed sha256 = new SHA256Managed();
+			byte[] pbComputedHash = sha256.ComputeHash(pbBuffer);
+			if((pbComputedHash == null) || (pbComputedHash.Length != 32))
+				throw new InvalidOperationException();
+
+			for(int iHashPos = 0; iHashPos < 32; ++iHashPos)
+			{
+				if(pbStoredHash[iHashPos] != pbComputedHash[iHashPos])
+					throw new InvalidDataException();
+			}
 		}
 
 		public override void Write(byte[] pbBuffer, int nOffset, int nCount)
