@@ -203,7 +203,7 @@ namespace KeePassLib.Keys
 		private const string KeyElementName = "Key";
 		private const string KeyDataElementName = "Data";
 
-		internal static byte[] LoadXmlKeyFile(string strFile)
+		private static byte[] LoadXmlKeyFile(string strFile)
 		{
 			Debug.Assert(strFile != null); if(strFile == null) throw new ArgumentNullException("strFile");
 
@@ -239,7 +239,7 @@ namespace KeePassLib.Keys
 			return pbKeyData;
 		}
 
-		internal static void CreateXmlKeyFile(string strFile, byte[] pbKeyData)
+		private static void CreateXmlKeyFile(string strFile, byte[] pbKeyData)
 		{
 			Debug.Assert(strFile != null);
 			if(strFile == null) throw new ArgumentNullException("strFile");
