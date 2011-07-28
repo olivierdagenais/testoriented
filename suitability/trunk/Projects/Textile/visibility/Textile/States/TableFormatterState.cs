@@ -63,7 +63,7 @@ namespace Textile.States
 			return( m.Success == false );
 		}
 
-        internal string FormattedStylesAndAlignment()
+        protected internal string FormattedStylesAndAlignment()
         {
             return Blocks.BlockAttributesParser.ParseBlockAttributes(m_alignInfo + m_attsInfo);
         }

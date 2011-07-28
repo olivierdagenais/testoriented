@@ -704,6 +704,24 @@
             two overloads of the same method that have the same number of parameters.
             </summary>
         </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.AreEqual_MethodInfoInstancesWithDifferentVisibility">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.AreEqual(System.Reflection.MethodBase,System.Reflection.MethodBase)"/> method with
+            two methods that have different visibility (protected vs. internal).
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.AreEqual_MethodInfoInstancesWithProtectedInternalVisibility">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.AreEqual(System.Reflection.MethodBase,System.Reflection.MethodBase)"/> method with
+            two methods that have technically the same visibility (protected vs. protected internal).
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.AreEqual_MethodInfoInstancesWithDifferentInstanceness">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.AreEqual(System.Reflection.MethodBase,System.Reflection.MethodBase)"/> method with
+            two methods that have different "instance-ness" (static vs. instance).
+            </summary>
+        </member>
         <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.AreEqual_SameTypeInstance">
             <summary>
             Tests the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.AreEqual(System.Type,System.Type)"/> method with
@@ -738,6 +756,48 @@
             <summary>
             Tests the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.Compare(System.Type,System.Type)"/> method with
             types that don't have the same methods.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.Compare_TypeInstanceWithProtectedMethod">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.Compare(System.Type,System.Type)"/> method with
+            a type that had protected methods in the baseline, but now they are internal.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.Compare_TypeInstanceWithStaticMethod">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.Compare(System.Type,System.Type)"/> method with
+            a type that had a static method in the baseline, but now it is an instance method.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.IsVisibleMethodBase_Public">
+            <summary>
+            Test the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.IsVisible(System.Reflection.MethodBase)"/> method
+            with a method marked public.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.IsVisibleMethodBase_Protected">
+            <summary>
+            Test the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.IsVisible(System.Reflection.MethodBase)"/> method
+            with a method marked protected.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.IsVisibleMethodBase_ProtectedInternal">
+            <summary>
+            Test the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.IsVisible(System.Reflection.MethodBase)"/> method
+            with a method marked protected internal.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.IsVisibleMethodBase_Internal">
+            <summary>
+            Test the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.IsVisible(System.Reflection.MethodBase)"/> method
+            with a method marked internal.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.IsVisibleMethodBase_Private">
+            <summary>
+            Test the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.IsVisible(System.Reflection.MethodBase)"/> method
+            with a method marked private.
             </summary>
         </member>
         <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.Compare_TypeInstancesWithDifferentFields">

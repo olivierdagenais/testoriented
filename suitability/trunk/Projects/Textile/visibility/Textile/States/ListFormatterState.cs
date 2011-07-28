@@ -34,7 +34,7 @@ namespace Textile.States
         internal string m_attsInfo;
         internal string m_alignInfo;
 
-        internal int NestingDepth
+        protected internal int NestingDepth
         {
             get { return m_tag.Length; }
         }
@@ -131,12 +131,12 @@ namespace Textile.States
             return false;
         }
 
-        internal abstract void WriteIndent();
-        internal abstract void WriteOutdent();
-        internal abstract bool IsMatchForMe(string input, int minNestingDepth, int maxNestingDepth);
-        internal abstract bool IsMatchForOthers(string input, int minNestingDepth, int maxNestingDepth);
+        protected internal abstract void WriteIndent();
+        protected internal abstract void WriteOutdent();
+        protected internal abstract bool IsMatchForMe(string input, int minNestingDepth, int maxNestingDepth);
+        protected internal abstract bool IsMatchForOthers(string input, int minNestingDepth, int maxNestingDepth);
 
-        internal string FormattedStylesAndAlignment()
+        protected internal string FormattedStylesAndAlignment()
         {
             return Blocks.BlockAttributesParser.ParseBlockAttributes(m_alignInfo + m_attsInfo);
         }

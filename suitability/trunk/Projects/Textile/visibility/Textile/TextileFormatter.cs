@@ -147,7 +147,7 @@ namespace Textile
             }
         }
 
-        string m_rel = string.Empty;
+        internal string m_rel = string.Empty;
 		/// <summary>
 		/// Attribute to add to all links.
 		/// </summary>

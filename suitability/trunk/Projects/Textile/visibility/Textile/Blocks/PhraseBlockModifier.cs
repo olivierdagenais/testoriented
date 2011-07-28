@@ -22,11 +22,11 @@ namespace Textile.Blocks
 {
     public abstract class PhraseBlockModifier : BlockModifier
     {
-        internal PhraseBlockModifier()
+        protected internal PhraseBlockModifier()
         {
         }
 
-        internal string PhraseModifierFormat(string input, string modifier, string tag)
+        protected internal string PhraseModifierFormat(string input, string modifier, string tag)
         {
             // All phrase modifiers are one character, or a double character. Sometimes,
             // there's an additional escape character for the regex ('\').

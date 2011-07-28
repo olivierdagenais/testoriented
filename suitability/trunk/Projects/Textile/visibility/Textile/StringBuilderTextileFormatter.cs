@@ -20,7 +20,7 @@ namespace Textile
 {
     public class StringBuilderTextileFormatter : IOutputter
     {
-        StringBuilder m_stringBuilder = null;
+        internal StringBuilder m_stringBuilder = null;
 
         public StringBuilderTextileFormatter()
         {

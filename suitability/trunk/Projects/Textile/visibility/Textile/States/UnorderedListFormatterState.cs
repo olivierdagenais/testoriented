@@ -31,22 +31,22 @@ namespace Textile.States
 		{
 		}
 
-		internal override void WriteIndent()
+		protected internal override void WriteIndent()
 		{
 			Formatter.Output.WriteLine("<ul" + FormattedStylesAndAlignment() + ">");
 		}
 
-        internal override void WriteOutdent()
+        protected internal override void WriteOutdent()
 		{
 			Formatter.Output.WriteLine("</ul>");
 		}
 
-        internal override bool IsMatchForMe(string input, int minNestingDepth, int maxNestingDepth)
+        protected internal override bool IsMatchForMe(string input, int minNestingDepth, int maxNestingDepth)
         {
             return Regex.IsMatch(input, @"^\s*[\*]{" + minNestingDepth + @"," + maxNestingDepth + @"}" + Globals.BlockModifiersPattern + @"\s");
         }
 
-        internal override bool IsMatchForOthers(string input, int minNestingDepth, int maxNestingDepth)
+        protected internal override bool IsMatchForOthers(string input, int minNestingDepth, int maxNestingDepth)
         {
             return Regex.IsMatch(input, @"^\s*[#]{" + minNestingDepth + @"," + maxNestingDepth + @"}" + Globals.BlockModifiersPattern + @"\s");
         }
