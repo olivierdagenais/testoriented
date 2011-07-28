@@ -674,6 +674,36 @@
             two assemblies that have lots of differences.
             </summary>
         </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.Describe_MethodInfo">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.Describe(System.Reflection.MemberInfo)"/> method with
+            a method.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.Describe_Type">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.Describe(System.Reflection.MemberInfo)"/> method with
+            a type.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.Describe_Constructor">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.Describe(System.Reflection.MemberInfo)"/> method with
+            a constructor.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.Describe_Field">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.Describe(System.Reflection.MemberInfo)"/> method with
+            a field.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.Describe_Event">
+            <summary>
+            Tests the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.Describe(System.Reflection.MemberInfo)"/> method with
+            an event.
+            </summary>
+        </member>
         <member name="M:SoftwareNinjas.NAnt.Tasks.Test.PublicInterfaceComparerTask.AreEqual_SameMethodInfoInstances">
             <summary>
             Tests the <see cref="M:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.AreEqual(System.Reflection.MethodBase,System.Reflection.MethodBase)"/> method with
