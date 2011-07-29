@@ -523,22 +523,17 @@ namespace KeePassLib.Serialization
 		private void WriteObject(string name, string value,
 			bool bFilterValueXmlChars)
 		{
-		    WriteObject(name, value, bFilterValueXmlChars, m_xmlWriter);
+			Debug.Assert(name != null);
+			Debug.Assert(value != null);
+
+			m_xmlWriter.WriteStartElement(name);
+
+			if(bFilterValueXmlChars)
+				m_xmlWriter.WriteString(StrUtil.SafeXmlString(value));
+			else m_xmlWriter.WriteString(value);
+
+			m_xmlWriter.WriteEndElement();
 		}
-
-        internal static void WriteObject(string name, string value, bool bFilterValueXmlChars, XmlTextWriter xmlWriter)
-        {
-            Debug.Assert(name != null);
-            Debug.Assert(value != null);
-
-            xmlWriter.WriteStartElement(name);
-
-            if (bFilterValueXmlChars)
-                xmlWriter.WriteString(StrUtil.SafeXmlString(value));
-            else xmlWriter.WriteString(value);
-
-            xmlWriter.WriteEndElement();
-        }
 
 	    private void WriteObject(string name, bool value)
 		{
@@ -557,31 +552,21 @@ namespace KeePassLib.Serialization
 
 		private void WriteObject(string name, uint value)
 		{
-		    WriteObject(name, value, m_xmlWriter);
+			Debug.Assert(name != null);
+
+			m_xmlWriter.WriteStartElement(name);
+			m_xmlWriter.WriteString(value.ToString());
+			m_xmlWriter.WriteEndElement();
 		}
 
-        internal static void WriteObject(string name, uint value, XmlTextWriter xmlWriter)
-        {
-            Debug.Assert(name != null);
-
-            xmlWriter.WriteStartElement(name);
-            xmlWriter.WriteString(value.ToString());
-            xmlWriter.WriteEndElement();
-        }
-
-	    private void WriteObject(string name, ulong value)
+		private void WriteObject(string name, ulong value)
 		{
-            WriteObject(name, value, m_xmlWriter);
+			Debug.Assert(name != null);
+
+			m_xmlWriter.WriteStartElement(name);
+			m_xmlWriter.WriteString(value.ToString());
+			m_xmlWriter.WriteEndElement();
 		}
-
-        internal static void WriteObject(string name, ulong value, XmlTextWriter xmlWriter)
-        {
-            Debug.Assert(name != null);
-
-            xmlWriter.WriteStartElement(name);
-            xmlWriter.WriteString(value.ToString());
-            xmlWriter.WriteEndElement();
-        }
 
 		private void WriteObject(string name, DateTime value)
 		{
@@ -593,23 +578,17 @@ namespace KeePassLib.Serialization
 		private void WriteObject(string name, string strKeyName,
 			string strValueName, KeyValuePair<string, string> kvp)
 		{
-		    XmlTextWriter xmlWriter = m_xmlWriter;
-		    WriteObject(name, strKeyName, kvp, strValueName, xmlWriter);
+			m_xmlWriter.WriteStartElement(name);
+
+			m_xmlWriter.WriteStartElement(strKeyName);
+			m_xmlWriter.WriteString(StrUtil.SafeXmlString(kvp.Key));
+			m_xmlWriter.WriteEndElement();
+			m_xmlWriter.WriteStartElement(strValueName);
+			m_xmlWriter.WriteString(StrUtil.SafeXmlString(kvp.Value));
+			m_xmlWriter.WriteEndElement();
+
+			m_xmlWriter.WriteEndElement();
 		}
-
-        internal static void WriteObject(string name, string strKeyName, KeyValuePair<string, string> kvp, string strValueName, XmlTextWriter xmlWriter)
-        {
-            xmlWriter.WriteStartElement(name);
-
-            xmlWriter.WriteStartElement(strKeyName);
-            xmlWriter.WriteString(StrUtil.SafeXmlString(kvp.Key));
-            xmlWriter.WriteEndElement();
-            xmlWriter.WriteStartElement(strValueName);
-            xmlWriter.WriteString(StrUtil.SafeXmlString(kvp.Value));
-            xmlWriter.WriteEndElement();
-
-            xmlWriter.WriteEndElement();
-        }
 
 	    private void WriteObject(string name, ProtectedString value, bool bIsEntryString)
 		{
