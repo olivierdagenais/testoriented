@@ -270,28 +270,43 @@ namespace KeePassLib.Serialization
 
 		private void SetCipher(byte[] pbID)
 		{
+			m_pwDatabase.DataCipherUuid = CreateCipher(pbID);
+		}
+
+		internal static PwUuid CreateCipher(byte[] pbID)
+		{
 			if((pbID == null) || (pbID.Length != 16))
 				throw new FormatException(KLRes.FileUnknownCipher);
 
-			m_pwDatabase.DataCipherUuid = new PwUuid(pbID);
+			return new PwUuid(pbID);
 		}
 
 		private void SetCompressionFlags(byte[] pbFlags)
+		{
+			m_pwDatabase.Compression = DecodeCompressionFlags(pbFlags);
+		}
+
+		internal static PwCompressionAlgorithm DecodeCompressionFlags(byte[] pbFlags)
 		{
 			uint uID = MemUtil.BytesToUInt32(pbFlags);
 			if(uID >= (uint)PwCompressionAlgorithm.Count)
 				throw new FormatException(KLRes.FileUnknownCompression);
 
-			m_pwDatabase.Compression = (PwCompressionAlgorithm)uID;
+			return (PwCompressionAlgorithm)uID;
 		}
 
 		private void SetInnerRandomStreamID(byte[] pbID)
+		{
+			m_craInnerRandomStream = DecodeCrsAlgorithm(pbID);
+		}
+
+		internal static CrsAlgorithm DecodeCrsAlgorithm(byte[] pbID)
 		{
 			uint uID = MemUtil.BytesToUInt32(pbID);
 			if(uID >= (uint)CrsAlgorithm.Count)
 				throw new FormatException(KLRes.FileUnknownCipher);
 
-			m_craInnerRandomStream = (CrsAlgorithm)uID;
+			return (CrsAlgorithm)uID;
 		}
 
 		private Stream AttachStreamDecryptor(Stream s)
