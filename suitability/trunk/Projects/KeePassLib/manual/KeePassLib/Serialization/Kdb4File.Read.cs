@@ -159,14 +159,7 @@ namespace KeePassLib.Serialization
 			byte[] pbSig2 = br.ReadBytes(4);
 			uint uSig2 = MemUtil.BytesToUInt32(pbSig2);
 
-			if((uSig1 == FileSignatureOld1) && (uSig2 == FileSignatureOld2))
-				throw new OldFormatException(PwDefs.ShortProductName + @" 1.x",
-					OldFormatException.OldFormatType.KeePass1x);
-
-			if((uSig1 == FileSignature1) && (uSig2 == FileSignature2)) { }
-			else if((uSig1 == FileSignaturePreRelease1) && (uSig2 ==
-				FileSignaturePreRelease2)) { }
-			else throw new FormatException(KLRes.FileSigInvalid);
+			ValidateFileFormat(uSig1, uSig2);
 
 			byte[] pb = br.ReadBytes(4);
 			uint uVersion = MemUtil.BytesToUInt32(pb);
@@ -179,7 +172,19 @@ namespace KeePassLib.Serialization
 			}
 		}
 
-        internal static void ValidateVersion(uint uVersion)
+		internal static void ValidateFileFormat(uint uSig1, uint uSig2)
+		{
+			if((uSig1 == FileSignatureOld1) && (uSig2 == FileSignatureOld2))
+				throw new OldFormatException(PwDefs.ShortProductName + @" 1.x",
+				                             OldFormatException.OldFormatType.KeePass1x);
+
+			if((uSig1 == FileSignature1) && (uSig2 == FileSignature2)) { }
+			else if((uSig1 == FileSignaturePreRelease1) && (uSig2 ==
+			                                                FileSignaturePreRelease2)) { }
+			else throw new FormatException(KLRes.FileSigInvalid);
+		}
+
+		internal static void ValidateVersion(uint uVersion)
         {
             if (( uVersion & FileVersionCriticalMask ) > ( FileVersion32 & FileVersionCriticalMask ))
                 throw new FormatException(KLRes.FileVersionUnsupported +
