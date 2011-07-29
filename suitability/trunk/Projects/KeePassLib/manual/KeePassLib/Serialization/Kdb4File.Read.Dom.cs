@@ -79,38 +79,32 @@ namespace KeePassLib.Serialization
 
 		private XorredBuffer ProcessNode(XmlNode xmlNode)
 		{
-		    CryptoRandomStream randomStream = m_randomStream;
-		    return ProcessNode(xmlNode, randomStream);
-		}
-
-        internal static XorredBuffer ProcessNode(XmlNode xmlNode, CryptoRandomStream randomStream)
-        {
-            Debug.Assert(xmlNode != null);
+			Debug.Assert(xmlNode != null);
 			if(xmlNode == null) throw new ArgumentNullException("xmlNode");
 
-            XmlAttributeCollection xac = xmlNode.Attributes;
+			XmlAttributeCollection xac = xmlNode.Attributes;
 			if(xac == null) return null;
 
-            XmlNode xmlProtected = xac.GetNamedItem(AttrProtected);
-            if (xmlProtected != null)
-            {
-                if (xmlProtected.Value == ValTrue)
-                {
-                    string strInner = xmlNode.InnerText;
+			XmlNode xmlProtected = xac.GetNamedItem(AttrProtected);
+			if(xmlProtected != null)
+			{
+				if(xmlProtected.Value == ValTrue)
+				{
+					string strInner = xmlNode.InnerText;
 
-                    byte[] pbEncrypted;
-                    if (strInner.Length > 0)
-                        pbEncrypted = Convert.FromBase64String(strInner);
+					byte[] pbEncrypted;
+					if(strInner.Length > 0)
+						pbEncrypted = Convert.FromBase64String(strInner);
 					else pbEncrypted = new byte[0];
 
-					byte[] pbPad = randomStream.GetRandomBytes((uint)pbEncrypted.Length);
+					byte[] pbPad = m_randomStream.GetRandomBytes((uint)pbEncrypted.Length);
 
-                    return new XorredBuffer(pbEncrypted, pbPad);
-                }
-            }
+					return new XorredBuffer(pbEncrypted, pbPad);
+				}
+			}
 
-            return null;
-        }
+			return null;
+		}
 
 	    /*
 		private void ReadMeta(XmlNode xmlNode)
