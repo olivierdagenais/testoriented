@@ -896,7 +896,7 @@
 	- mentions "OCaml" as "a hybrid object-functional language"
 	
 	"It is harder to understand and exhaustively test code with mutable
-	values, particularly if mutations aren’t localized to one place.
+	values, particularly if mutations aren't localized to one place.
 	Some of the most difficult bugs to find in large systems occur when
 	state is modified non-locally, by client code that is located elsewhere
 	in the program."
@@ -906,7 +906,7 @@
 	of our code."
 	
 	"Another source of complexity, which leads to bugs, are functions
-	that mutate state, e.g., setting values of an object’s field or global
+	that mutate state, e.g., setting values of an object's field or global
 	variables."
 	
 	"In mathematics, functions never have side effects, meaning they are
@@ -914,12 +914,12 @@
 	to do, its entire result is returned to the caller. No external state
 	is changed. Note that a real implementation might cache previously
 	calculated values, for efficiency, which would require changing the
-	state of a cache. It’s up to the implementer to preserve the side-effect-free
+	state of a cache. It's up to the implementer to preserve the side-effect-free
 	external behavior (including thread safety), as seen by users of
 	the function"
 	
 	"Side-effect-free functions make excellent building blocks for reuse,
-	since they don’t depend on the context in which they run. Compared
+	since they don't depend on the context in which they run. Compared
 	to functions with side effects, they are also easier to design, comprehend,
 	optimize, and test. Hence, they are less likely to have bugs."
 	
@@ -931,7 +931,7 @@
 	explicit object representations under this surface. We can have a
 	DSL that says, for example groupUsersByDomain  in emailAddresses,
 	but implement it with List<EmailAddresses>. foldLeft(new HashMap<…>(),
-	groupingFunction) ;, where groupingFunction does the “group by” magic
+	groupingFunction) ;, where groupingFunction does the "group by" magic
 	on the users and domains."
 	
 	
@@ -956,8 +956,8 @@
 	of functional code is usually better than similar object-oriented
 	code. Because objects are so free to expose abstractions any way
 	they want, they are less reusable and composable, which is a paradox."
-	
-	"Functional programming isn’t simple, but it represents a return to
+
+	"Functional programming isn't simple, but it represents a return to
 	simplicity: the goal of minimizing implementation size and complexity
 	by rethinking our ideas of appropriate design patterns and implementation
 	idioms."},
