@@ -866,6 +866,104 @@
   url = {http://www.vogella.de/articles/JUnit/article.html}
 }
 
+@BOOK{wampler11functionalprogramming,
+  title = {Functional Programming for Java Developers},
+  publisher = {O'Reilly Media},
+  year = {2011},
+  editor = {Mike Loukides and Shawn Wallace},
+  author = {Dean Wampler},
+  pages = {88},
+  month = {July},
+  isbn = {978-1-4493-1103-2},
+  review = {General:
+	
+	There's a recurring theme that functions not have this benefit for
+	re-use and clean code, but also for concurrency, with Chapter 4 dedicated
+	to concurrency.
+	
+	
+	Preface:
+	
+	"Scala is a JVM language, a potential successor to Java, with the
+	goal of bringing object-oriented and functional programming into
+	one coherent whole. Clojure is the other well-known functional language
+	on the JVM. It is a Lisp dialect that minimizes the use of OOP in
+	favor of functional programming."
+	
+	
+	Chapter 2
+	
+	- mentions "OCaml" as "a hybrid object-functional language"
+	
+	"It is harder to understand and exhaustively test code with mutable
+	values, particularly if mutations aren’t localized to one place.
+	Some of the most difficult bugs to find in large systems occur when
+	state is modified non-locally, by client code that is located elsewhere
+	in the program."
+	
+	"If we encapsulate mutations in well-defined areas and keep the rest
+	of the code free of mutation, we improve the robustness and modularity
+	of our code."
+	
+	"Another source of complexity, which leads to bugs, are functions
+	that mutate state, e.g., setting values of an object’s field or global
+	variables."
+	
+	"In mathematics, functions never have side effects, meaning they are
+	side-effect-free. For example, no matter how much work sin(x) has
+	to do, its entire result is returned to the caller. No external state
+	is changed. Note that a real implementation might cache previously
+	calculated values, for efficiency, which would require changing the
+	state of a cache. It’s up to the implementer to preserve the side-effect-free
+	external behavior (including thread safety), as seen by users of
+	the function"
+	
+	"Side-effect-free functions make excellent building blocks for reuse,
+	since they don’t depend on the context in which they run. Compared
+	to functions with side effects, they are also easier to design, comprehend,
+	optimize, and test. Hence, they are less likely to have bugs."
+	
+	
+	Chapter 3
+	
+	"Back to our example, it can be useful to represent a domain with
+	a DSL at the upper levels of abstraction, but questionable to create
+	explicit object representations under this surface. We can have a
+	DSL that says, for example groupUsersByDomain  in emailAddresses,
+	but implement it with List<EmailAddresses>. foldLeft(new HashMap<…>(),
+	groupingFunction) ;, where groupingFunction does the “group by” magic
+	on the users and domains."
+	
+	
+	Chapter 5
+	
+	"Make your objects behave to the outside world as if they are side-effect-free
+	and immutable." 
+	
+	"Pattern matching gives us a new tool for modularity, where we can
+	do data extraction in a way that is controlled by the types themselves.
+	We can use pattern matching to implement new features, yet never
+	pollute the original types with those features. We can localize feature
+	development in one place, rather than spreading it over all the files
+	for a type hierarchy."
+	
+	
+	Chapter 6
+	
+	"Functional programming moves the abstraction layers lower, to core
+	data structures and combinator functions. Combined with immutable
+	values and side-effect-free functions, the modularity and reusability
+	of functional code is usually better than similar object-oriented
+	code. Because objects are so free to expose abstractions any way
+	they want, they are less reusable and composable, which is a paradox."
+	
+	"Functional programming isn’t simple, but it represents a return to
+	simplicity: the goal of minimizing implementation size and complexity
+	by rethinking our ideas of appropriate design patterns and implementation
+	idioms."},
+  url = {http://oreilly.com/catalog/9781449311032/}
+}
+
 @INPROCEEDINGS{wappler06evolutionaryunit,
   author = {Stefan Wappler and Joachim Wegener},
   title = {Evolutionary Unit Testing of Object-Oriented Software using Strongly-Typed
