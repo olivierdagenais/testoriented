@@ -29,7 +29,9 @@
             } => \}
             ^ => \^{}
             ~ => \~{}
-            Also converts ' "' into ' ``' (opening quotes)
+            Also converts:
+            ' "' => ' ``' (opening quotes)
+            space dash space => dash dash (mid-sentence interruption)
         -->
         <xsl:variable name="openingQuotes">
             <xsl:call-template name="replaceCharsInString">
@@ -38,9 +40,16 @@
                 <xsl:with-param name="charsOut" select="' ``'" />
             </xsl:call-template>
         </xsl:variable>
-        <xsl:variable name="escapedBackslash">
+        <xsl:variable name="midSentenceInterruption">
             <xsl:call-template name="replaceCharsInString">
                 <xsl:with-param name="stringIn" select="$openingQuotes" />
+                <xsl:with-param name="charsIn" select="' - '" />
+                <xsl:with-param name="charsOut" select="'--'" />
+            </xsl:call-template>
+        </xsl:variable>
+        <xsl:variable name="escapedBackslash">
+            <xsl:call-template name="replaceCharsInString">
+                <xsl:with-param name="stringIn" select="$midSentenceInterruption" />
                 <xsl:with-param name="charsIn" select="'\'" />
                 <xsl:with-param name="charsOut" select="'\textbackslash'" />
             </xsl:call-template>
@@ -143,7 +152,7 @@
         <xsl:text>%</xsl:text><xsl:value-of select="$escapedCr" /><xsl:text>
 </xsl:text>
     </xsl:template>
-    
+
     <xsl:template match="raw">
         <xsl:if test="@begin">
             <xsl:call-template name="command">
@@ -170,7 +179,7 @@
         </xsl:call-template>
         <xsl:apply-templates select="* | node() | comment()" />
     </xsl:template>
-    
+
     <xsl:template match="block">
         <xsl:text>\begin{</xsl:text><xsl:value-of select="@param" /><xsl:text>}</xsl:text>
         <xsl:if test="@opt">
