@@ -381,7 +381,8 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
           <block param="table" opt="htbp">
             <raw>\begin{tabular}{l >{\centering}m{2cm} >{\centering}m{2cm} >{\centering}m{2cm} >{\centering}m{2cm} }</raw>
               <raw>&amp; \multicolumn{4}{c}{Features}\tabularnewline</raw>
-              <raw>\multicolumn{1}{c}{Approach}</raw> <raw>&amp;</raw> Transforms IUT <raw>&amp;</raw> Transforms tests <raw>&amp;</raw> Affects public interface <raw>&amp;</raw> Requires tool <raw>\tabularnewline</raw>
+              <!-- TODO: should we consider/measure the effect on the arrange phase? -->
+              <raw>\multicolumn{1}{c}{Approach}</raw> <raw>&amp;</raw> Transforms IUT <raw>&amp;</raw> Transforms (Affects?) tests <raw>&amp;</raw> Affects public interface <raw>&amp;</raw> Requires tool <raw>\tabularnewline</raw>
               <command name="hline" />
               Stateless method extraction <raw>&amp;</raw> Y <raw>&amp;</raw> N <raw>&amp;</raw> N <raw>&amp;</raw> N <raw>\tabularnewline</raw>
               Isolated test methods <raw>&amp;</raw> N <raw>&amp;</raw> N <raw>&amp;</raw> N <raw>&amp;</raw> N <raw>\tabularnewline</raw>
