@@ -21,7 +21,7 @@ public class CartesianCoordinate
     var ySquared = _y * _y;
     var r = Math.Sqrt(xSquared + ySquared);
     var radians = Math.Atan2(_y, _x);
-    var theta = radians * ( 180 / Math.PI );
+    var theta = radians * (180 / Math.PI);
     return new PolarCoordinate(r, theta);
   }
 }
