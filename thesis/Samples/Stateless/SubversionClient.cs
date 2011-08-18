@@ -18,12 +18,10 @@ public partial class SubversionClient {
   internal static string CreateInfoArguments
     (string pathToWorkingCopy) {
     var sb = new StringBuilder();
-    sb.Append("info");
-    sb.Append(' ');
+    sb.Append("info").Append(' ');
     sb.Append('"');
     sb.Append(pathToWorkingCopy);
-    sb.Append('"');
-    sb.Append(' ');
+    sb.Append('"').Append(' ');
     sb.Append("--xml");
     return sb.ToString();
   }

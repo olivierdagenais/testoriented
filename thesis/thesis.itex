@@ -470,7 +470,7 @@ references as well.
           </command>
           <command name="subsection" param="Step 1: Identification of a candidate block">
             <command name="label" param="subsec:Step1" />
-            The first step of SME consists of identifying, in an instance method, one or more functionality subsets that would be good candidates for extraction and subsequent unit testing.  That is to say it is not necessary to extract the entire body of an instance method if there are parts of the original method that would be more suitable to extract and unit test individually and separately.  It is also possible a method will contain no candidate blocks to extract; the technique need not be forcibly applied if no unit testing advantages can be realized.
+            The first step of SME consists of identifying, in an instance method, one or more functionality subsets that would be good candidates for extraction and subsequent unit testing.  That is to say it is not necessary to extract the entire body of an instance method if there are parts of the method that would be more suitable to extract and unit test separately.  It is also possible a method will contain no candidate blocks to extract; the technique need not be forcibly applied if no unit testing advantages can be realized.
 
             The criteria for establishing candidacy of a block consist of:
             <block param="enumerate">
@@ -532,7 +532,7 @@ references as well.
               </command>
               <command name="item"> Too many interactions with the environment.
                 <br />
-                If an instance method consists mostly of, say, I/O or database processing, there may be very little functionality left that is stateless and would benefit from extraction and isolated unit testing.
+                If an instance method consists mostly of, say, file system or database processing, there may be very little functionality left that is stateless and would benefit from extraction and isolated unit testing.
               </command>
             </block>
           </command>
@@ -562,16 +562,16 @@ references as well.
             <region name="table and two code listings for candidate block splitting">
               <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
               <command name="lstinputlisting"
-                opt="label=lst:StatefulSubversionClient,caption=The Info() method has a candidate block between lines 14-44,style=realCode,linerange=6-68"
+                opt="label=lst:StatefulSubversionClient,caption=The Info() method has a candidate block between lines 14-42,style=realCode,linerange=6-66"
                 param="Stateful/SubversionClient.cs" />
               <raw>&amp;</raw>
               <command name="lstinputlisting"
-                opt="label=lst:StatelessSubversionClient,caption=Two stateless methods were extracted from the Info() method,style=realCode,linerange=6-64"
+                opt="label=lst:StatelessSubversionClient,caption=Two stateless methods were extracted from the Info() method,style=realCode,linerange=6-62"
                 param="Stateless/SubversionClient.cs" />
               <raw>\end{tabular}</raw>
             </region>
 
-            It could also be the case that the original instance method is computing several outputs simultaneously and such statements are intermixed.  If the outputs are independently-computed (or their computations share some intermediate results, then diverge), it may be worth investigating separating their computations by re-ordering statements such that they can then be extracted, and subsequently unit tested, independently.  An example of intermixed computations can be seen in listing <command name="ref" param="lst:StatefulCartesianCoordinate" /> between lines 20 and 24, while another version of the method with the computations separated through re-ordering can be seen in listing <command name="ref" param="lst:StatelessCartesianCoordinate" />.
+            It could also be the case that the original instance method is computing several outputs simultaneously and such statements are intermixed.  If the outputs are independently-computed (or their computations share some intermediate results, then diverge), it may be worth investigating the separation of their computations by re-ordering statements such that they can then be extracted, and subsequently unit tested, independently.  An example of intermixed computations can be seen in listing <command name="ref" param="lst:StatefulCartesianCoordinate" /> between lines 20 and 24, while another version of the method with the computations separated through re-ordering can be seen in listing <command name="ref" param="lst:StatelessCartesianCoordinate" />.
 
             <region name="table and two code listings for math re-ordering">
               <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
