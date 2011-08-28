@@ -306,6 +306,44 @@
             The value of the field.
             </summary>
         </member>
+        <member name="T:SoftwareNinjas.NAnt.Tasks.LineCountTask">
+            <summary>
+            Counts the number of lines in a text file.
+            </summary>
+            <example>
+              <para>
+              The example will count the number of lines in the <c>ReadMe.txt</c> file.
+              </para>
+              <code>
+                <![CDATA[
+            <lineCount
+                file="ReadMe.txt"
+                property="numberOfDifferences"
+            />
+                ]]>
+              </code>
+            </example>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.LineCountTask.#ctor">
+            <summary>
+            Default constructor for NAnt itself.
+            </summary>
+        </member>
+        <member name="M:SoftwareNinjas.NAnt.Tasks.LineCountTask.ExecuteTask">
+            <summary>
+            Runs the line count task.
+            </summary>
+        </member>
+        <member name="P:SoftwareNinjas.NAnt.Tasks.LineCountTask.SourceFile">
+            <summary>
+            The path to the text file to read from.
+            </summary>
+        </member>
+        <member name="P:SoftwareNinjas.NAnt.Tasks.LineCountTask.Property">
+            <summary>
+            The name of the property that receives number of lines.
+            </summary>
+        </member>
         <member name="T:SoftwareNinjas.NAnt.Tasks.PostTask">
             <summary>
             Submits HTML forms by HTTP using the POST method.
@@ -433,7 +471,8 @@
             </summary>
             <example>
               <para>
-              The example will count the <c>seqpnt</c> elements that have been visited at least once.
+              The example will set the <c>numberOfDifferences</c> property to the result of comparing both versions of
+              the <c>MyProject.dll</c> assembly.
               </para>
               <code>
                 <![CDATA[
@@ -469,6 +508,11 @@
         <member name="P:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.Property">
             <summary>
             The name of the property that receives number of public interface differences.
+            </summary>
+        </member>
+        <member name="P:SoftwareNinjas.NAnt.Tasks.PublicInterfaceComparerTask.ReportFile">
+            <summary>
+            The path to the report file to write.
             </summary>
         </member>
         <member name="T:SoftwareNinjas.NAnt.Tasks.SupportedLanguage">

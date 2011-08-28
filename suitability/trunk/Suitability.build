@@ -296,9 +296,13 @@
                         <arg value="/property:Configuration=${configuration}" />
                         <arg value="/verbosity:minimal" />
                     </msbuild>
-                    <publicInterfaceComparer
-                        baseline="Projects/${project}/base/${project}/bin/${configuration}/${project}.dll"
-                        challenger="Projects/${project}/working-${strategy}/${project}/bin/${configuration}/${project}.dll"
+                    <exec program="Tools/SoftwareNinjas.PublicInterfaceComparer.exe">
+                        <arg file="Projects/${project}/base/${project}/bin/${configuration}/${project}.dll" />
+                        <arg file="Projects/${project}/working-${strategy}/${project}/bin/${configuration}/${project}.dll" />
+                        <arg file="Projects/${project}/working-${strategy}/PublicInterfaceDifferences.txt" />
+                    </exec>
+                    <lineCount
+                        file="Projects/${project}/working-${strategy}/PublicInterfaceDifferences.txt"
                         property="dpi"
                     />
                 </if>
