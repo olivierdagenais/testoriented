@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeePassLib", "KeePassLib\Ke
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeePassLib.Tests", "KeePassLib.Tests\KeePassLib.Tests.csproj", "{4F25CC39-B5B6-4AF0-A739-A97F817D48B7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeePassLib.ManualTests", "KeePassLib.ManualTests\KeePassLib.ManualTests.csproj", "{B2AAB687-2B39-400E-A86F-5C7D16CF1423}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{4F25CC39-B5B6-4AF0-A739-A97F817D48B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F25CC39-B5B6-4AF0-A739-A97F817D48B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F25CC39-B5B6-4AF0-A739-A97F817D48B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2AAB687-2B39-400E-A86F-5C7D16CF1423}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2AAB687-2B39-400E-A86F-5C7D16CF1423}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2AAB687-2B39-400E-A86F-5C7D16CF1423}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2AAB687-2B39-400E-A86F-5C7D16CF1423}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

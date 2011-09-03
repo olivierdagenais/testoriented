@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtomicCms", "AtomicCms\Atom
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtomicCms.Tests", "AtomicCms.Tests\AtomicCms.Tests.csproj", "{C39B3D5D-0FD1-431B-A05F-768AD08BF0E8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtomicCms.ManualTests", "AtomicCms.ManualTests\AtomicCms.ManualTests.csproj", "{0C8A865E-5089-4DB5-A55C-AD58FA3D759D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{C39B3D5D-0FD1-431B-A05F-768AD08BF0E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C39B3D5D-0FD1-431B-A05F-768AD08BF0E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C39B3D5D-0FD1-431B-A05F-768AD08BF0E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C8A865E-5089-4DB5-A55C-AD58FA3D759D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C8A865E-5089-4DB5-A55C-AD58FA3D759D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C8A865E-5089-4DB5-A55C-AD58FA3D759D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C8A865E-5089-4DB5-A55C-AD58FA3D759D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
