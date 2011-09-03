@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringExtensions", "StringExtensions\StringExtensions.csproj", "{041289C8-21F7-4705-83FC-35FB7648E562}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringExtensions.Tests", "StringExtensions.Tests\StringExtensions.Tests.csproj", "{A1DA84F6-7C03-4CD6-9A68-48AFE0D9C405}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringExtensions.ManualTests", "StringExtensions.ManualTests\StringExtensions.ManualTests.csproj", "{F27E5AD6-7382-49AC-8EBC-4FA1A8AF7C0D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{041289C8-21F7-4705-83FC-35FB7648E562}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{041289C8-21F7-4705-83FC-35FB7648E562}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{041289C8-21F7-4705-83FC-35FB7648E562}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{041289C8-21F7-4705-83FC-35FB7648E562}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1DA84F6-7C03-4CD6-9A68-48AFE0D9C405}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1DA84F6-7C03-4CD6-9A68-48AFE0D9C405}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1DA84F6-7C03-4CD6-9A68-48AFE0D9C405}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1DA84F6-7C03-4CD6-9A68-48AFE0D9C405}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F27E5AD6-7382-49AC-8EBC-4FA1A8AF7C0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F27E5AD6-7382-49AC-8EBC-4FA1A8AF7C0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F27E5AD6-7382-49AC-8EBC-4FA1A8AF7C0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F27E5AD6-7382-49AC-8EBC-4FA1A8AF7C0D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
