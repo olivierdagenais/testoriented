@@ -59,13 +59,13 @@
         </foreach>
     </target>
 
-    <target name="compile">
+    <target name="compile" depends="createWorkingCopies">
         <foreach item="String" in="${projects}" delim="," property="project">
             <echo message="Project: ${project}..." />
             <foreach item="String" in="${strategies}" delim="," property="strategy">
                 <clean
                     configuration="${configuration}"
-                    projects="${project},${project}.Tests"
+                    projects="${project},${project}.Tests,${project}.ManualTests"
                     basedir="Projects/${project}/working-${strategy}"/>
             </foreach>
         </foreach>
@@ -206,6 +206,21 @@
         </foreach>
     </target>
 
+    <target name="runManualTests" depends="compile">
+        <foreach item="String" in="${projects}" delim="," property="project">
+            <echo message="Project: ${project}..." />
+            <foreach item="String" in="${strategies}" delim="," property="strategy">
+                <property name="projectFolder" value="Projects\${project}\working-${strategy}" />
+                <exec program="${nunitFolder}/nunit-console-x86.exe">
+                    <arg value="/nologo" />
+                    <arg value="/nodots" />
+                    <arg value="/noshadow" />
+                    <arg file="${projectFolder}/${project}.ManualTests/bin/${configuration}/${project}.ManualTests.dll" />
+                </exec>
+            </foreach>
+        </foreach>
+    </target>
+
     <target name="runGeneratedTestsWithCoverage">
         <foreach item="String" in="${projects}" delim="," property="project">
             <echo message="Project: ${project}..." />
@@ -232,7 +247,7 @@
         </foreach>
     </target>
 
-    <target name="calculateCodeMetrics">
+    <target name="calculateCodeMetrics" depends="compile">
         <foreach item="String" in="${projects}" delim="," property="project">
             <echo message="Project: ${project}..." />
             <foreach item="String" in="${strategies}" delim="," property="strategy">
@@ -337,6 +352,9 @@
 
         <!-- compile -->
         <call target="compile" />
+
+        <!-- run manually-written tests -->
+        <call target="runManualTests" />
 
         <!-- determine the Maintainability Index, etc. -->
         <call target="calculateCodeMetrics" />
