@@ -324,45 +324,45 @@
     </target>
 
     <target name="suitability">
-        <!-- Step 0: clean all working copies -->
+        <!-- clean all working copies -->
         <call target="clean" />
 
-        <!-- Step 1: copy baseStrategy to automaticSmeStrategy and apply TODD on it -->
+        <!-- copy baseStrategy to automaticSmeStrategy and apply TODD on it -->
         <!-- TODO: uncomment when ready:
         <call target="createAutomaticSmeStrategy" />
         -->
 
-        <!-- Step 2: create working copies -->
+        <!-- create working copies -->
         <call target="createWorkingCopies" />
 
-        <!-- Step 3: compile -->
+        <!-- compile -->
         <call target="compile" />
 
-        <!-- Step 4: invoke Pex wizard -->
+        <!-- invoke Pex wizard -->
         <call target="invokePexWizard" />
 
-        <!-- Step 5: fix test projects -->
+        <!-- fix test projects -->
         <call target="fixPexWizardResults" />
 
-        <!-- Step 6: compile -->
+        <!-- compile -->
         <call target="compile" />
 
-        <!-- Step 7: invoke Pex generator -->
+        <!-- invoke Pex generator -->
         <call target="invokePexGenerator" />
 
-        <!-- Step 8: fix test projects -->
+        <!-- fix test projects -->
         <call target="fixPexGeneratorResults" />
 
-        <!-- Step 9: compile -->
+        <!-- compile -->
         <call target="compile" />
 
-        <!-- Step 10: run tests with code coverage -->
+        <!-- run tests with code coverage -->
         <call target="testWithCoverage" />
 
-        <!-- Step 11: determine the Maintainability Index, etc. -->
+        <!-- determine the Maintainability Index, etc. -->
         <call target="calculateCodeMetrics" />
 
-        <!-- Step 12: interpret coverage report -->
+        <!-- interpret coverage report -->
         <call target="postResults" />
     </target>
 
