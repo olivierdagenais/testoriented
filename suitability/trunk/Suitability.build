@@ -338,6 +338,9 @@
         <!-- compile -->
         <call target="compile" />
 
+        <!-- determine the Maintainability Index, etc. -->
+        <call target="calculateCodeMetrics" />
+
         <!-- invoke Pex wizard -->
         <call target="invokePexWizard" />
 
@@ -358,9 +361,6 @@
 
         <!-- run tests with code coverage -->
         <call target="testWithCoverage" />
-
-        <!-- determine the Maintainability Index, etc. -->
-        <call target="calculateCodeMetrics" />
 
         <!-- interpret coverage report -->
         <call target="postResults" />
