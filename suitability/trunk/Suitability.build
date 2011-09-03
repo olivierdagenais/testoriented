@@ -206,7 +206,7 @@
         </foreach>
     </target>
 
-    <target name="testWithCoverage">
+    <target name="runGeneratedTestsWithCoverage">
         <foreach item="String" in="${projects}" delim="," property="project">
             <echo message="Project: ${project}..." />
             <foreach item="String" in="${strategies}" delim="," property="strategy">
@@ -360,7 +360,7 @@
         <call target="compile" />
 
         <!-- run tests with code coverage -->
-        <call target="testWithCoverage" />
+        <call target="runGeneratedTestsWithCoverage" />
 
         <!-- interpret coverage report -->
         <call target="postResults" />
