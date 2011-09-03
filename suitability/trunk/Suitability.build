@@ -59,7 +59,7 @@
         </foreach>
     </target>
 
-    <target name="compile" depends="createWorkingCopies">
+    <target name="compile">
         <foreach item="String" in="${projects}" delim="," property="project">
             <echo message="Project: ${project}..." />
             <foreach item="String" in="${strategies}" delim="," property="strategy">
@@ -206,7 +206,7 @@
         </foreach>
     </target>
 
-    <target name="runManualTests" depends="compile">
+    <target name="runManualTests">
         <foreach item="String" in="${projects}" delim="," property="project">
             <echo message="Project: ${project}..." />
             <foreach item="String" in="${strategies}" delim="," property="strategy">
@@ -247,7 +247,7 @@
         </foreach>
     </target>
 
-    <target name="calculateCodeMetrics" depends="compile">
+    <target name="calculateCodeMetrics">
         <foreach item="String" in="${projects}" delim="," property="project">
             <echo message="Project: ${project}..." />
             <foreach item="String" in="${strategies}" delim="," property="strategy">
