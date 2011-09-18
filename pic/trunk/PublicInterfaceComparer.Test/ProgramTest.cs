@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using NUnit.Framework;
-using SoftwareNinjas.Core.Test;
+using SoftwareNinjas.Core;
+using EnumerableExtensions = SoftwareNinjas.Core.Test.EnumerableExtensions;
 
 namespace SoftwareNinjas.PublicInterfaceComparer.Test
 {
@@ -13,6 +15,55 @@ namespace SoftwareNinjas.PublicInterfaceComparer.Test
     public class ProgramTest
     {
         private static readonly IEnumerable<string> EmptyStringSequence = new string[] {};
+
+        private readonly FileInfo _baseline, _manual, _visibility;
+
+        public ProgramTest()
+        {
+            var basePath = Environment.CurrentDirectory;
+            var baselineFullPath = Path.Combine(basePath, "Textile-base.dll");
+            _baseline = new FileInfo(baselineFullPath);
+            var manualFullPath = Path.Combine(basePath, "Textile-manual.dll");
+            _manual = new FileInfo(manualFullPath);
+            var visibilityFullPath = Path.Combine(basePath, "Textile-visibility.dll");
+            _visibility = new FileInfo(visibilityFullPath);
+
+        }
+
+        private static TextReader Compare(FileInfo left, FileInfo right)
+        {
+            // arrange
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
+            // act
+            Program.Compare(left, right, sw);
+            // assert
+            var sr = new StringReader(sb.ToString());
+            return sr;
+        }
+
+        [Test]
+        public void Compare_SameAssembly()
+        {
+            var actual = Compare(_baseline, _baseline);
+            EnumerableExtensions.EnumerateSame(EmptyStringSequence, actual.Lines());
+        }
+
+        [Test]
+        public void Compare_DifferentButIdenticalAssembly()
+        {
+            var actual = Compare(_baseline, _manual);
+            EnumerableExtensions.EnumerateSame(EmptyStringSequence, actual.Lines());
+        }
+
+        [Test]
+        public void Compare_DifferentAssemblies()
+        {
+            var actual = Compare(_baseline, _visibility);
+            var listed = actual.Lines().ToList();
+            var count = listed.Count;
+            Assert.AreEqual(133, count);
+        }
 
         [Test]
         public void LoadPublicMembers_RemoteAppDomain()
