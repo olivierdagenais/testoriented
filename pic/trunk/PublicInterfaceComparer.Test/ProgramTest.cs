@@ -38,5 +38,19 @@ namespace SoftwareNinjas.PublicInterfaceComparer.Test
             var actual = Program.Difference(one, one);
             EnumerableExtensions.EnumerateSame(EmptyStringSequence, actual);
         }
+
+        [Test]
+        public void Difference_OneTooManyAtTheEndOfLeft()
+        {
+            var actual = Program.Difference(new[] {"a", "b"}, new[] {"a"});
+            EnumerableExtensions.EnumerateSame(new[] {"b"}, actual);
+        }
+
+        [Test]
+        public void Difference_OneTooManyAtTheEndOfRight()
+        {
+            var actual = Program.Difference(new[] {"a"}, new[] {"a", "b"});
+            EnumerableExtensions.EnumerateSame(new[] {"b"}, actual);
+        }
     }
 }

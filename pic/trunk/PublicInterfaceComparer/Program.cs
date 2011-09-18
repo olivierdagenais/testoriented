@@ -45,7 +45,31 @@ namespace SoftwareNinjas.PublicInterfaceComparer
 
         public static IEnumerable<string> Difference(IEnumerable<string> left, IEnumerable<string> right)
         {
-            yield break;
+            var le = left.GetEnumerator();
+            var re = right.GetEnumerator();
+            while(true)
+            {
+                if(!le.MoveNext())
+                {
+                    break;
+                }
+                if(!re.MoveNext())
+                {
+                    yield return le.Current;
+                    break;
+                }
+                // TODO: compare items and advance enumerators accordingly
+            }
+
+            // drain whatever is left
+            while(le.MoveNext())
+            {
+                yield return le.Current;
+            }
+            while (re.MoveNext())
+            {
+                yield return re.Current;
+            }
         }
     }
 }
