@@ -47,18 +47,55 @@ namespace SoftwareNinjas.PublicInterfaceComparer
         {
             var le = left.GetEnumerator();
             var re = right.GetEnumerator();
-            while(true)
+            bool moveLeft = true, moveRight = true;
+            while (true)
             {
-                if(!le.MoveNext())
+                if (moveLeft && moveRight)
                 {
-                    break;
+                    moveLeft = false;
+                    moveRight = false;
+                    if (!le.MoveNext())
+                    {
+                        break;
+                    }
+                    if (!re.MoveNext())
+                    {
+                        yield return le.Current;
+                        break;
+                    }
                 }
-                if(!re.MoveNext())
+                else if (moveLeft)
+                {
+                    moveLeft = false;
+                    if (!le.MoveNext())
+                    {
+                        break;
+                    }
+                }
+                else if (moveRight)
+                {
+                    moveRight = false;
+                    if (!re.MoveNext())
+                    {
+                        break;
+                    }
+                }
+                var compare = String.Compare(le.Current, re.Current, StringComparison.InvariantCulture);
+                if (compare < 0)
                 {
                     yield return le.Current;
-                    break;
+                    moveLeft = true;
                 }
-                // TODO: compare items and advance enumerators accordingly
+                else if (compare == 0)
+                {
+                    moveLeft = true;
+                    moveRight = true;
+                }
+                else
+                {
+                    yield return re.Current;
+                    moveRight = true;
+                }
             }
 
             // drain whatever is left
