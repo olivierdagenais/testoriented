@@ -263,6 +263,34 @@
         </foreach>
     </target>
 
+    <target name="determinePublicInterfaceChanges">
+        <foreach item="String" in="${projects}" delim="," property="project">
+            <echo message="Project: ${project}..." />
+            <foreach item="String" in="${strategies}" delim="," property="strategy">
+                <property name="projectBaseFolder" value="Projects/${project}/base" />
+                <property name="projectStrategyFolder" value="Projects/${project}/working-${strategy}" />
+                <property name="reportFile" value="${projectStrategyFolder}/PublicInterfaceDifferences.txt" />
+                <delete file="${reportFile}" failonerror="false" />
+
+                <if test="${strategy == 'base'}">
+                    <touch file="${reportFile}" />
+                </if>
+                <if test="${strategy != 'base'}">
+                    <msbuild project="${projectBaseFolder}/${project}.sln">
+                        <arg value="/property:Configuration=${configuration}" />
+                        <arg value="/verbosity:minimal" />
+                    </msbuild>
+                    <exec program="Tools/SoftwareNinjas.PublicInterfaceComparer.exe"
+                        workingdir="${projectBaseFolder}/${project}/bin/${configuration}/">
+                        <arg file="${projectBaseFolder}/${project}/bin/${configuration}/${project}.dll" />
+                        <arg file="${projectStrategyFolder}/${project}/bin/${configuration}/${project}.dll" />
+                        <arg file="${reportFile}" />
+                    </exec>
+                </if>
+            </foreach>
+        </foreach>
+    </target>
+
     <target name="postStringExtensions">
         <property name="project" value="StringExtensions" />
         <if test="${environment::variable-exists('SVN_REVISION')}">
@@ -303,24 +331,10 @@
                 <property name="coverageFile" value="${projectFolder}/coverage.xml" />
                 <xpath file="${coverageFile}" property="tsp" query="count(//seqpnt)" />
                 <xpath file="${coverageFile}" property="vsp" query="count(//seqpnt[not(@visitcount='0')])" />
-                <if test="${strategy == 'base'}">
-                    <property name="dpi" value="0" />
-                </if>
-                <if test="${strategy != 'base'}">
-                    <msbuild project="Projects/${project}/base/${project}.sln">
-                        <arg value="/property:Configuration=${configuration}" />
-                        <arg value="/verbosity:minimal" />
-                    </msbuild>
-                    <exec program="Tools/SoftwareNinjas.PublicInterfaceComparer.exe">
-                        <arg file="Projects/${project}/base/${project}/bin/${configuration}/${project}.dll" />
-                        <arg file="Projects/${project}/working-${strategy}/${project}/bin/${configuration}/${project}.dll" />
-                        <arg file="Projects/${project}/working-${strategy}/PublicInterfaceDifferences.txt" />
-                    </exec>
-                    <lineCount
-                        file="Projects/${project}/working-${strategy}/PublicInterfaceDifferences.txt"
-                        property="dpi"
-                    />
-                </if>
+                <lineCount
+                    file="Projects/${project}/working-${strategy}/PublicInterfaceDifferences.txt"
+                    property="dpi"
+                />
                 <post action="https://spreadsheets0.google.com/formResponse?formkey=dG9zQnFtTlQ0Z1dGUjI5TUlFMnpFWWc6MQ&amp;ifq">
                     <!-- Batch # -->        <input name="entry.1.single" value="${svnRevision}" />
                     <!-- Project -->        <input name="entry.2.single" value="${project}" />
@@ -355,6 +369,9 @@
 
         <!-- run manually-written tests -->
         <call target="runManualTests" />
+
+        <!-- run the PublicInterfaceComparer -->
+        <call target="determinePublicInterfaceChanges" />
 
         <!-- determine the Maintainability Index, etc. -->
         <call target="calculateCodeMetrics" />
