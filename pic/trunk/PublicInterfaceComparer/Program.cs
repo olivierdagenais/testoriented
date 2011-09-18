@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using SoftwareNinjas.Core;
 
 namespace SoftwareNinjas.PublicInterfaceComparer
 {
@@ -14,14 +15,29 @@ namespace SoftwareNinjas.PublicInterfaceComparer
             var challengerFile = new FileInfo(args[1]);
             var reportFile = new FileInfo(args[2]);
 
-            var baselinePublicMembers = LoadPublicMembers(baselineFile);
-            var challengerPublicMembers = LoadPublicMembers(challengerFile);
-
             using (var report = new StreamWriter(reportFile.FullName, false))
             {
-                foreach (var difference in Difference(baselinePublicMembers, challengerPublicMembers))
+                Compare(baselineFile, challengerFile, report);
+            }
+        }
+
+        internal static void Compare(FileInfo baselineFile, FileInfo challengerFile, TextWriter report)
+        {
+            var baselinePublicMembers = LoadPublicMembers(baselineFile);
+            var challengerPublicMembers = LoadPublicMembers(challengerFile);
+            foreach (var difference in Difference(baselinePublicMembers, challengerPublicMembers))
+            {
+                report.WriteLine(difference);
+            }
+        }
+
+        internal static void WriteToFile(IList<string> lines, string fileName)
+        {
+            using (var sw = new StreamWriter(fileName, false))
+            {
+                foreach (var line in lines)
                 {
-                    report.WriteLine(difference);
+                    sw.WriteLine(line);
                 }
             }
         }
