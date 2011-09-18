@@ -241,8 +241,9 @@ namespace SoftwareNinjas.PublicInterfaceComparer.Test
         public void LoadPublicMembers_SameDomain()
         {
             var basePath = Environment.CurrentDirectory;
-            var baselineFullPath = Path.Combine(basePath, "Textile-base.dll");
-            var pis = new PublicInterfaceScanner(new FileInfo(baselineFullPath));
+            var baseFullPath = Path.Combine(basePath, "Textile-base.dll");
+            var assemblyPath = new FileInfo(baseFullPath);
+            var pis = new PublicInterfaceScanner(assemblyPath);
             var actual = pis.LoadPublicMembers();
             Assert.AreEqual(653, actual.Count);
         }
