@@ -94,5 +94,33 @@ namespace SoftwareNinjas.PublicInterfaceComparer.Test
             var actual = Program.Difference(new[] {"c"}, new[] {"b", "d", "e"});
             EnumerableExtensions.EnumerateSame(new[] {"b", "c", "d", "e"}, actual);
         }
+
+        [Test]
+        public void Difference_OnlyOneItemOnTheLeft()
+        {
+            var actual = Program.Difference(new[] {"a"}, EmptyStringSequence);
+            EnumerableExtensions.EnumerateSame(new[] {"a"}, actual);
+        }
+
+        [Test]
+        public void Difference_OnlyItemsOnTheLeft()
+        {
+            var actual = Program.Difference(new[] {"a", "b", "c"}, EmptyStringSequence);
+            EnumerableExtensions.EnumerateSame(new[] {"a", "b", "c"}, actual);
+        }
+
+        [Test]
+        public void Difference_OnlyOneItemOnTheRight()
+        {
+            var actual = Program.Difference(EmptyStringSequence, new[] {"a"});
+            EnumerableExtensions.EnumerateSame(new[] {"a"}, actual);
+        }
+
+        [Test]
+        public void Difference_OnlyItemsOnTheRight()
+        {
+            var actual = Program.Difference(EmptyStringSequence, new[] {"a", "b", "c"});
+            EnumerableExtensions.EnumerateSame(new[] {"a", "b", "c"}, actual);
+        }
     }
 }
