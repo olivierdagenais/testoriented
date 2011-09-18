@@ -52,8 +52,6 @@ namespace SoftwareNinjas.PublicInterfaceComparer
             {
                 if (moveLeft && moveRight)
                 {
-                    moveLeft = false;
-                    moveRight = false;
                     if (!le.MoveNext())
                     {
                         break;
@@ -66,7 +64,6 @@ namespace SoftwareNinjas.PublicInterfaceComparer
                 }
                 else if (moveLeft)
                 {
-                    moveLeft = false;
                     if (!le.MoveNext())
                     {
                         yield return re.Current;
@@ -75,7 +72,6 @@ namespace SoftwareNinjas.PublicInterfaceComparer
                 }
                 else if (moveRight)
                 {
-                    moveRight = false;
                     if (!re.MoveNext())
                     {
                         yield return le.Current;
@@ -87,6 +83,7 @@ namespace SoftwareNinjas.PublicInterfaceComparer
                 {
                     yield return le.Current;
                     moveLeft = true;
+                    moveRight = false;
                 }
                 else if (compare == 0)
                 {
@@ -96,6 +93,7 @@ namespace SoftwareNinjas.PublicInterfaceComparer
                 else
                 {
                     yield return re.Current;
+                    moveLeft = false;
                     moveRight = true;
                 }
             }
