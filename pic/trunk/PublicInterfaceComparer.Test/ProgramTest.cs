@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using NUnit.Framework;
 using SoftwareNinjas.Core.Test;
@@ -11,6 +12,8 @@ namespace SoftwareNinjas.PublicInterfaceComparer.Test
     [TestFixture]
     public class ProgramTest
     {
+        private static readonly IEnumerable<string> EmptyStringSequence = new string[] {};
+
         [Test]
         public void LoadPublicMembers_RemoteAppDomain()
         {
@@ -25,7 +28,7 @@ namespace SoftwareNinjas.PublicInterfaceComparer.Test
         public void Difference_Empty()
         {
             var actual = Program.Difference(new string[] {}, new string[] {});
-            EnumerableExtensions.EnumerateSame(new string[] {}, actual);
+            EnumerableExtensions.EnumerateSame(EmptyStringSequence, actual);
         }
     }
 }
