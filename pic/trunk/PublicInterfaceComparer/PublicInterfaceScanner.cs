@@ -9,21 +9,61 @@ namespace SoftwareNinjas.PublicInterfaceComparer
     /// <summary>
     /// Scans the public interface of an <see cref="Assembly"/> instance.
     /// </summary>
-    public class PublicInterfaceScanner
+    public class PublicInterfaceScanner : MarshalByRefObject
     {
-        /// <summary>
-        /// The path to the baseline <see cref="Assembly"/>.
-        /// </summary>
-        public FileInfo BaselineFile
+        private readonly FileInfo _assemblyPath;
+        private readonly DirectoryInfo _assemblyFolder;
+
+        public PublicInterfaceScanner(FileInfo assemblyPath)
         {
-            get;
-            set;
+            _assemblyPath = assemblyPath;
+            _assemblyFolder = _assemblyPath.Directory;
         }
 
-        internal void Execute()
+        // http://www.codeproject.com/Articles/42312/Loading-Assemblies-in-Separate-Directories-Into-a-.aspx?display=Print
+        internal IList<string> LoadPublicMembers()
         {
-            var baselineFullPath = BaselineFile.FullName;
-            var baseline = Assembly.LoadFile(baselineFullPath);
+            var result = new List<string>();
+
+            var folder = _assemblyPath.Directory;
+            var currentDomain = AppDomain.CurrentDomain;
+            currentDomain.ReflectionOnlyAssemblyResolve += OnReflectionOnlyResolve;
+            Assembly.ReflectionOnlyLoadFrom(_assemblyPath.FullName);
+            var assembly = currentDomain.ReflectionOnlyGetAssemblies().First();
+
+            foreach (var type in GetVisibleTypes(assembly))
+            {
+                foreach (var member in GetVisibleMembers(type))
+                {
+                    result.Add(Describe(member));
+                }
+            }
+
+            currentDomain.ReflectionOnlyAssemblyResolve -= OnReflectionOnlyResolve;
+
+            return result;
+        }
+
+        private Assembly OnReflectionOnlyResolve(object sender, ResolveEventArgs args)
+        {
+            var loadedAssembly =
+                AppDomain.CurrentDomain.ReflectionOnlyGetAssemblies()
+                    .FirstOrDefault(
+                      asm => String.Equals(asm.FullName, args.Name, StringComparison.OrdinalIgnoreCase));
+
+            if (loadedAssembly != null)
+            {
+                return loadedAssembly;
+            }
+
+            var assemblyName = new AssemblyName(args.Name);
+            var dependentAssemblyFilename = Path.Combine(_assemblyFolder.FullName, assemblyName.Name + ".dll");
+
+            if (File.Exists(dependentAssemblyFilename))
+            {
+                return Assembly.ReflectionOnlyLoadFrom(dependentAssemblyFilename);
+            }
+            return Assembly.ReflectionOnlyLoad(args.Name);
         }
 
         internal static IEnumerable<Type> GetVisibleTypes(Assembly assembly)

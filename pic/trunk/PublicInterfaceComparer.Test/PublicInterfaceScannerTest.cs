@@ -236,5 +236,15 @@ namespace SoftwareNinjas.PublicInterfaceComparer.Test
             var actual = PublicInterfaceScanner.IsVisible(baselineMethod);
             Assert.AreEqual(false, actual);
         }
+
+        [Test]
+        public void LoadPublicMembers_SameDomain()
+        {
+            var basePath = Environment.CurrentDirectory;
+            var baselineFullPath = Path.Combine(basePath, "Textile-base.dll");
+            var pis = new PublicInterfaceScanner(new FileInfo(baselineFullPath));
+            var actual = pis.LoadPublicMembers();
+            Assert.AreEqual(653, actual.Count);
+        }
     }
 }
