@@ -13,7 +13,17 @@ namespace SoftwareNinjas.PublicInterfaceComparer
             var baselineFile = new FileInfo(args[0]);
             var challengerFile = new FileInfo(args[1]);
             var reportFile = new FileInfo(args[2]);
-            // TODO: scan both files, then produce a report based on their differences
+
+            var baselinePublicMembers = LoadPublicMembers(baselineFile);
+            var challengerPublicMembers = LoadPublicMembers(challengerFile);
+
+            using (var report = new StreamWriter(reportFile.FullName, false))
+            {
+                foreach (var difference in Difference(baselinePublicMembers, challengerPublicMembers))
+                {
+                    report.WriteLine(difference);
+                }
+            }
         }
 
         internal static IList<string> LoadPublicMembers(FileInfo assemblyPath)
