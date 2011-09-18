@@ -60,7 +60,7 @@ namespace SoftwareNinjas.PublicInterfaceComparer.Test
             // act
             var actual = PublicInterfaceScanner.Describe((MemberInfo) methodInfo);
             // assert
-            Assert.AreEqual("System.Convert System.String ToString(Int32)", actual);
+            Assert.AreEqual("System.Convert public System.String ToString(Int32)", actual);
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace SoftwareNinjas.PublicInterfaceComparer.Test
             // act
             var actual = PublicInterfaceScanner.Describe((MemberInfo) constructorCharCount);
             // assert
-            Assert.AreEqual("System.String Void .ctor(Char, Int32)", actual);
+            Assert.AreEqual("System.String public Void .ctor(Char, Int32)", actual);
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace SoftwareNinjas.PublicInterfaceComparer.Test
             // act
             var actual = PublicInterfaceScanner.Describe((MemberInfo) field);
             // assert
-            Assert.AreEqual("System.String System.String Empty", actual);
+            Assert.AreEqual("System.String public System.String Empty", actual);
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace SoftwareNinjas.PublicInterfaceComparer.Test
             // act
             var actual = PublicInterfaceScanner.Describe((MemberInfo) disposedEvent);
             // assert
-            Assert.AreEqual("System.Diagnostics.Process System.EventHandler Disposed", actual);
+            Assert.AreEqual("System.Diagnostics.Process public System.EventHandler Disposed", actual);
         }
 
         private static MethodInfo GetPhraseModifierFormatMethod(Type type)
@@ -251,8 +251,8 @@ namespace SoftwareNinjas.PublicInterfaceComparer.Test
 
             // assert
             Assert.AreEqual(653, actual.Count);
-            Assert.AreEqual("Textile.BlockModifier Boolean Equals(System.Object)", actual[0]);
-            Assert.AreEqual("Textile.TextileFormatter Void SwitchBlockModifier(System.Type, Boolean)", actual[652]);
+            Assert.AreEqual("Textile.BlockModifier protected System.Object MemberwiseClone()", actual[0]);
+            Assert.AreEqual("Textile.TextileFormatter public Void SwitchBlockModifier(System.Type, Boolean)", actual[652]);
         }
     }
 }

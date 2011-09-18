@@ -11,6 +11,10 @@ namespace SoftwareNinjas.PublicInterfaceComparer
     /// </summary>
     public class PublicInterfaceScanner : MarshalByRefObject
     {
+        private const string VisibilityPublic = "public";
+        private const string VisibilityProtected = "protected";
+        private const string VisibilityProtectedInternal = "protected internal";
+
         private readonly FileInfo _assemblyPath;
         private readonly DirectoryInfo _assemblyFolder;
 
@@ -132,7 +136,8 @@ namespace SoftwareNinjas.PublicInterfaceComparer
 
         internal static string Describe(MethodBase methodBase)
         {
-            return "{0} {1}".FormatInvariant(Describe(methodBase.ReflectedType), methodBase.ToString());
+            return "{0} {1} {2}".FormatInvariant(
+                Describe(methodBase.ReflectedType), DescribeVisibility(methodBase), methodBase.ToString());
         }
 
         internal static string Describe(Type type)
@@ -142,12 +147,47 @@ namespace SoftwareNinjas.PublicInterfaceComparer
 
         internal static string Describe(EventInfo eventInfo)
         {
-            return "{0} {1}".FormatInvariant(Describe(eventInfo.ReflectedType), eventInfo.ToString());
+            return "{0} public {1}".FormatInvariant(Describe(eventInfo.ReflectedType), eventInfo.ToString());
         }
 
         internal static string Describe(FieldInfo fieldInfo)
         {
-            return "{0} {1}".FormatInvariant(Describe(fieldInfo.ReflectedType), fieldInfo.ToString());
+            return "{0} {1} {2}".FormatInvariant(
+                Describe(fieldInfo.ReflectedType), DescribeVisibility(fieldInfo), fieldInfo.ToString());
+        }
+
+        internal static string DescribeVisibility(MethodBase methodBase)
+        {
+            if (methodBase.IsPublic)
+            {
+                return VisibilityPublic;
+            }
+            if (methodBase.IsFamily)
+            {
+                return VisibilityProtected;
+            }
+            if (methodBase.IsFamilyOrAssembly)
+            {
+                return VisibilityProtectedInternal;
+            }
+            throw new ArgumentException("Unsupported visibility");
+        }
+
+        internal static string DescribeVisibility(FieldInfo fieldInfo)
+        {
+            if (fieldInfo.IsPublic)
+            {
+                return VisibilityPublic;
+            }
+            if (fieldInfo.IsFamily)
+            {
+                return VisibilityProtected;
+            }
+            if (fieldInfo.IsFamilyOrAssembly)
+            {
+                return VisibilityProtectedInternal;
+            }
+            throw new ArgumentException("Unsupported visibility");
         }
 
         internal static string Describe(MemberInfo memberInfo)
