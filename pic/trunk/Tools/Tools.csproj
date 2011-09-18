@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{18687B8E-FF02-414A-8826-3FFB65366C07}</ProjectGuid>
+    <ProjectGuid>{A01F8503-3523-4BA6-9456-F7352ADB3599}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Tools</RootNamespace>
@@ -39,6 +39,12 @@
   </Target>
   -->
   <ItemGroup>
+    <None Include="nantcontrib\bin\MSITaskErrors.mst" />
+    <None Include="nantcontrib\bin\MSITaskTemplate.msi" />
+    <None Include="nantcontrib\bin\MSMTaskErrors.mst" />
+    <None Include="nantcontrib\bin\MSMTaskTemplate.msm" />
+    <None Include="nantcontrib\doc\NAnt contrib Help.URL" />
+    <None Include="nantcontrib\schema\nantcontrib.xsd" />
     <None Include="nant\bin\lib\ICSharpCode.SharpCvsLib.Console.dll" />
     <None Include="nant\bin\lib\ICSharpCode.SharpCvsLib.dll" />
     <None Include="nant\bin\lib\ICSharpCode.SharpZipLib.dll" />
@@ -85,9 +91,25 @@
     <None Include="nant\bin\scvs.exe" />
     <None Include="nant\COPYING.txt" />
     <None Include="nant\README.txt" />
-    <None Include="NAnt.xsd" />
     <None Include="nant\bin\NAnt.exe.config" />
     <None Include="nant\doc\NAnt Help.URL" />
     <None Include="nant\schema\nant.xsd" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="nantcontrib\bin\CollectionGen.dll" />
+    <None Include="nantcontrib\bin\Interop.MsmMergeTypeLib.dll" />
+    <None Include="nantcontrib\bin\Interop.StarTeam.dll" />
+    <None Include="nantcontrib\bin\Interop.WindowsInstaller.dll" />
+    <None Include="nantcontrib\bin\NAnt.Contrib.Tasks.dll" />
+    <None Include="nantcontrib\bin\NAnt.Contrib.Tasks.xml" />
+    <None Include="nantcontrib\bin\SLiNgshoT.Core.dll" />
+    <None Include="nantcontrib\bin\SLiNgshoT.exe" />
+    <None Include="nantcontrib\bin\SourceSafe.Interop.dll" />
+    <None Include="nantcontrib\license.txt" />
+    <None Include="nantcontrib\readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SoftwareNinjas.Core.dll" />
+    <None Include="SoftwareNinjas.Core.xml" />
   </ItemGroup>
 </Project>

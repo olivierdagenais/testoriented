@@ -35,6 +35,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Tools\nant\bin\lib\net\2.0\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="SoftwareNinjas.Core">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Tools\SoftwareNinjas.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
@@ -43,10 +47,6 @@
     <Compile Include="PublicInterfaceScannerTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\Core.csproj">
-      <Project>{ECF90A5B-D97A-4E1D-B76C-CDC6ECE2AE03}</Project>
-      <Name>Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\PublicInterfaceComparer\PublicInterfaceComparer.csproj">
       <Project>{8AA8D047-755A-4FCF-A83B-4954E1E6C977}</Project>
       <Name>PublicInterfaceComparer</Name>
