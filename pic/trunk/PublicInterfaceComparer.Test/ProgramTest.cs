@@ -122,5 +122,19 @@ namespace SoftwareNinjas.PublicInterfaceComparer.Test
             var actual = Program.Difference(EmptyStringSequence, new[] {"a", "b", "c"});
             EnumerableExtensions.EnumerateSame(new[] {"a", "b", "c"}, actual);
         }
+
+        [Test]
+        public void Difference_LastRightEqual()
+        {
+            var actual = Program.Difference(new[] {"a", "b", "c"}, new[] {"c"});
+            EnumerableExtensions.EnumerateSame(new[] {"a", "b"}, actual);
+        }
+
+        [Test]
+        public void Difference_LastLeftEqual()
+        {
+            var actual = Program.Difference(new[] {"c"}, new[] {"a", "b", "c"});
+            EnumerableExtensions.EnumerateSame(new[] {"a", "b"}, actual);
+        }
     }
 }
