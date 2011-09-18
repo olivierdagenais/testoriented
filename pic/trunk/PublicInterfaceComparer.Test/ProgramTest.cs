@@ -30,5 +30,13 @@ namespace SoftwareNinjas.PublicInterfaceComparer.Test
             var actual = Program.Difference(new string[] {}, new string[] {});
             EnumerableExtensions.EnumerateSame(EmptyStringSequence, actual);
         }
+
+        [Test]
+        public void Difference_Identical()
+        {
+            IEnumerable<string> one = new[] {"one"};
+            var actual = Program.Difference(one, one);
+            EnumerableExtensions.EnumerateSame(EmptyStringSequence, actual);
+        }
     }
 }
