@@ -75,10 +75,24 @@ namespace SoftwareNinjas.PublicInterfaceComparer.Test
         }
 
         [Test]
+        public void Difference_AlternatingWithLastTwoOnLeft()
+        {
+            var actual = Program.Difference(new[] { "b", "d", "e" }, new[] { "c" });
+            EnumerableExtensions.EnumerateSame(new[] { "b", "c", "d", "e" }, actual);
+        }
+
+        [Test]
         public void Difference_AlternatingWithLastOneOnRight()
         {
             var actual = Program.Difference(new[] {"c"}, new[] {"b", "d"});
             EnumerableExtensions.EnumerateSame(new[] {"b", "c", "d"}, actual);
+        }
+
+        [Test]
+        public void Difference_AlternatingWithLastTwoOnRight()
+        {
+            var actual = Program.Difference(new[] {"c"}, new[] {"b", "d", "e"});
+            EnumerableExtensions.EnumerateSame(new[] {"b", "c", "d", "e"}, actual);
         }
     }
 }
