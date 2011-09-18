@@ -5,14 +5,13 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SoftwareNinjas.PublicInterfaceComparer")]
-[assembly: AssemblyDescription("Compares two assemblies for differences in their public members")]
+[assembly: AssemblyTitle("SoftwareNinjas.PublicInterfaceComparer.Test")]
+[assembly: AssemblyDescription("Tests for the public interface comparer")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Software Ninjas")]
 [assembly: AssemblyProduct("Software Ninjas Public Interface Comparer")]
 [assembly: AssemblyCopyright("(C) Copyright 2011 Software Ninjas")]
 [assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
@@ -20,5 +19,17 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("552fd2ff-2b00-48d0-aa8d-cdcb0b554774")]
-[assembly: InternalsVisibleTo("SoftwareNinjas.PublicInterfaceComparer.Test")]
+[assembly: Guid("85c6b762-04e5-4d68-99ef-f581af8ce09a")]
+
+// Version information for an assembly consists of the following four values:
+//
+//      Major Version
+//      Minor Version 
+//      Build Number
+//      Revision
+//
+// You can specify all the values or you can default the Build and Revision Numbers 
+// by using the '*' as shown below:
+// [assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]
