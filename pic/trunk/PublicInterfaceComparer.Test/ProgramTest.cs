@@ -66,5 +66,12 @@ namespace SoftwareNinjas.PublicInterfaceComparer.Test
             var actual = Program.Difference(new[] {"b"}, new[] {"a", "b"});
             EnumerableExtensions.EnumerateSame(new[] {"a"}, actual);
         }
+
+        [Test]
+        public void Difference_AlternatingWithLastOneOnLeft()
+        {
+            var actual = Program.Difference(new[] { "b", "d" }, new[] { "c" });
+            EnumerableExtensions.EnumerateSame(new[] { "b", "c", "d" }, actual);
+        }
     }
 }
