@@ -69,6 +69,7 @@ namespace SoftwareNinjas.PublicInterfaceComparer
                     moveLeft = false;
                     if (!le.MoveNext())
                     {
+                        yield return re.Current;
                         break;
                     }
                 }
