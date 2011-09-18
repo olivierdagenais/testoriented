@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using SoftwareNinjas.NAnt.Tasks;
 
 namespace SoftwareNinjas.PublicInterfaceComparer
 {
@@ -7,13 +6,10 @@ namespace SoftwareNinjas.PublicInterfaceComparer
     {
         static void Main(string[] args)
         {
-            var pic = new PublicInterfaceComparerTask(false)
-            {
-                BaselineFile = new FileInfo(args[0]),
-                ChallengerFile = new FileInfo(args[1]),
-                ReportFile = new FileInfo(args[2]),
-            };
-            pic.ExecuteForTest();
+            var baselineFile = new FileInfo(args[0]);
+            var challengerFile = new FileInfo(args[1]);
+            var reportFile = new FileInfo(args[2]);
+            // TODO: scan both files, then produce a report based on their differences
         }
     }
 }
