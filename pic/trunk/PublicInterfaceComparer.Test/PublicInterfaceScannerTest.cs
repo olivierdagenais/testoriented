@@ -240,12 +240,19 @@ namespace SoftwareNinjas.PublicInterfaceComparer.Test
         [Test]
         public void LoadPublicMembers_SameDomain()
         {
+            // arrange
             var basePath = Environment.CurrentDirectory;
             var baseFullPath = Path.Combine(basePath, "Textile-base.dll");
             var assemblyPath = new FileInfo(baseFullPath);
             var pis = new PublicInterfaceScanner(assemblyPath);
+
+            // act
             var actual = pis.LoadPublicMembers();
+
+            // assert
             Assert.AreEqual(653, actual.Count);
+            Assert.AreEqual("Textile.BlockModifier Boolean Equals(System.Object)", actual[0]);
+            Assert.AreEqual("Textile.TextileFormatter Void SwitchBlockModifier(System.Type, Boolean)", actual[652]);
         }
     }
 }

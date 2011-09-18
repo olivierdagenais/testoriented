@@ -40,6 +40,7 @@ namespace SoftwareNinjas.PublicInterfaceComparer
 
             currentDomain.ReflectionOnlyAssemblyResolve -= OnReflectionOnlyResolve;
 
+            result.Sort((x, y) => String.Compare(x, y, StringComparison.InvariantCulture));
             return result;
         }
 
