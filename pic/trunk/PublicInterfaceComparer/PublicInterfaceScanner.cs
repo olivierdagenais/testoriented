@@ -38,7 +38,13 @@ namespace SoftwareNinjas.PublicInterfaceComparer
             {
                 foreach (var member in GetVisibleMembers(type))
                 {
-                    result.Add(Describe(member));
+                    // the add_Event() and remove_Event() methods will be caught
+                    // the get_Property() and set_Property() methods will be caught
+                    if (!(member is EventInfo)
+                        && !(member is PropertyInfo))
+                    {
+                        result.Add(Describe(member));
+                    }
                 }
             }
 
