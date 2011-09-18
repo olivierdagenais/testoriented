@@ -2,4 +2,6 @@ syntax: glob
 obj/**
 bin/**
 *.user
-SoftwareNinjas.suo
+*.suo
+*.sln.cache
+Deploy/**
