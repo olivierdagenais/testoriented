@@ -42,5 +42,10 @@ namespace SoftwareNinjas.PublicInterfaceComparer
                 AppDomain.Unload(childDomain);
             }
         }
+
+        public static IEnumerable<string> Difference(IEnumerable<string> left, IEnumerable<string> right)
+        {
+            yield break;
+        }
     }
 }
