@@ -25,7 +25,6 @@ namespace SoftwareNinjas.PublicInterfaceComparer
         {
             var result = new List<string>();
 
-            var folder = _assemblyPath.Directory;
             var currentDomain = AppDomain.CurrentDomain;
             currentDomain.ReflectionOnlyAssemblyResolve += OnReflectionOnlyResolve;
             Assembly.ReflectionOnlyLoadFrom(_assemblyPath.FullName);
