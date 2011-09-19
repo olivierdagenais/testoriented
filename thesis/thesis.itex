@@ -994,7 +994,23 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               The console NUnit runner executes all the unit tests that Pex generated while NCover monitors the execution to collect code coverage data.  It is not important whether the tests pass, fail or end in error - Pex by its very nature will generate tests that throw or expect to throw ArgumentException instances - it is only important to record code coverage.
             </command>
             <command name="subsubsection" param="Record results">
-              TODO
+              An online spreadsheet is used to collect the results.  Its columns are explained in table <command name="ref" param="tbl:SpreadsheetColumns" />.
+              <block param="table" opt="htbp">
+                <tabular spec="p{0.2\textwidth} p{0.75\textwidth}">
+                  <tr><td>Column name</td><td>Description</td></tr>
+                  <hline />
+                  <tr><td>Batch #</td><td>The revision of the Subversion repository or <tt>private</tt> if not run in a batch</td></tr>
+                  <tr><td>Project</td><td>The name of the project</td></tr>
+                  <tr><td>Strategy</td><td>The name of the strategy employed</td></tr>
+                  <tr><td>TODD version</td><td>Unused, is always <tt>n/a</tt></td></tr>
+                  <tr><td>TSP</td><td>Total Sequence Points, the denominator for code coverage percentage calculation</td></tr>
+                  <tr><td>VSP</td><td>Visited Sequence Points, the numerator for code coverage percentage calculation</td></tr>
+                  <tr><td>DPI</td><td>Differences in Public Interface</td></tr>
+                  <tr><td>TODO: MI</td><td>TODO</td></tr>
+                </tabular>
+                <command name="caption" param="Names and descriptions of spreadsheet columns" />
+                <command name="label" param="tbl:SpreadsheetColumns" />
+              </block>
             </command>
           </command>
         </command>
