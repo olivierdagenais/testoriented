@@ -903,10 +903,10 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                 <command name="item"> The class must implement a specific interface; a technological variation of the previous reason.</command>
                 <command name="item"> Exposing instance state as directly mutable might allow callers to violate some constraints or invariants.</command>
               </block>
-              This second evaluation, therefore, counts how often each strategy causes a change to the public interface of the class under test, compared to the original version.  Lower values are better.  TODO: talk about the tool used
+              This second evaluation, therefore, counts how often each strategy causes a change to the public interface of the class under test, compared to the original version.  Lower values are better, with zero being ideal.  The tool used is further described in Appendix <raw>\unskip~</raw><command name="ref" param="chapter:PublicInterfaceComparer" />.
             </command>
             <command name="subsubsection" param="Percentage of branches covered using concolic testing">
-              The Pex tool <command name="cite" param="tillman08pex" /> can be used to analyze a specified project and generate unit tests to exercise as much of that project's source code as it can.  Pex's ability to exercise the CUT's methods in an automated and unattended fashion provides a very good objective evaluation of testability.  This ability is measured by the code coverage reported when executing the generated unit tests with a code coverage tool.  Higher values are better.  Version 0.91.50418.0 of Pex is used, along with NUnit version 2.4.8 to run the unit tests and NCover version 1.5.8 to measure the code coverage.
+              The Pex tool <command name="cite" param="tillman08pex" /> can be used to analyze a specified project and generate unit tests to exercise as much of that project's source code as it can.  Pex's ability to exercise the CUT's methods in an automated and unattended fashion provides a very good objective evaluation of testability.  This ability is measured by the code coverage reported when executing the generated unit tests with a code coverage tool.  Higher values are better.  Version 0.91.50418.0 of Pex is used, along with NUnit <command name="cite" param="poole00nunit" /> version 2.4.8 to run the unit tests and NCover <command name="cite" param="waldschmidt04ncover" /> version 1.5.8 to measure the code coverage.
             </command>
           </command>
           <command name="subsection" param="Strategies">
@@ -1165,6 +1165,10 @@ internal static string FormatFootNote(int noteId, string formattedStylesAndAlign
 }
 
 -->
+      </command>
+      <command name="chapter" param="Public Interface Comparer tool">
+        <command name="label" param="chapter:PublicInterfaceComparer" />
+        TODO: explain the tool, point to its location in source control and maybe include some source code, if not of the implementation, then of its tests
       </command>
     </command>
     <command name="bibliographystyle" param="abbrv" />
