@@ -209,6 +209,39 @@
         <xsl:text>\underline{</xsl:text><xsl:value-of select="." /><xsl:text>}</xsl:text>
     </xsl:template>
 
+    <xsl:template match="tabular">
+        <xsl:text>\begin{tabular}</xsl:text>
+        <xsl:if test="@pos">
+            <xsl:text>[</xsl:text><xsl:value-of select="@pos" /><xsl:text>]</xsl:text>
+        </xsl:if>
+        <xsl:text>{</xsl:text><xsl:value-of select="@spec" /><xsl:text>}
+</xsl:text>
+        <xsl:apply-templates select="* | node() | comment()" />
+        <xsl:call-template name="command">
+            <xsl:with-param name="name" select="'end'" />
+            <xsl:with-param name="param" select="'tabular'" />
+        </xsl:call-template>
+    </xsl:template>
+    
+    <xsl:template match="tr">
+        <xsl:apply-templates select="* | node() | comment()" />
+        <xsl:text>\tabularnewline
+</xsl:text>
+    </xsl:template>
+    
+    <xsl:template match="td">
+        <xsl:if test="position() > 1">
+            <xsl:text> &amp; </xsl:text>
+        </xsl:if>
+        <xsl:apply-templates select="* | node() | comment()" />
+    </xsl:template>
+    
+    <xsl:template match="hline">
+        <xsl:call-template name="command">
+            <xsl:with-param name="name" select="'hline'" />
+        </xsl:call-template>
+    </xsl:template>
+
     <!-- Pass-through (identity transform) template -->
     <xsl:template match="* | @*">
         <xsl:apply-templates select="* | @* | node() | comment()" />
