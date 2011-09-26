@@ -4,3 +4,4 @@ Projects/*/*/*/obj/**
 *.sln.cache
 Projects/*/working-*/**
 *.suo
+TestResult.xml
