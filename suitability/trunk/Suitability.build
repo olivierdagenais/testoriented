@@ -251,14 +251,21 @@
         <foreach item="String" in="${projects}" delim="," property="project">
             <echo message="Project: ${project}..." />
             <foreach item="String" in="${strategies}" delim="," property="strategy">
-                <property name="projectFolder" value="Projects/${project}/working-${strategy}" />
+                <property name="projectFolder" value="${path::get-full-path('Projects/' + project + '/working-' + strategy)}" />
                 <property name="reportFile" value="${projectFolder}/CodeMetrics.xml" />
                 <delete file="${reportFile}" failonerror="false" />
+                <delete file="${reportFile}.filtered" failonerror="false" />
                 <exec program="${codeMetricsFolder}/Metrics.exe">
-                    <arg value="/file:${projectFolder}/${project}/bin/${configuration}/${project}.dll" />
+                    <arg value="/file:${projectFolder}/${project}.ManualTests/bin/${configuration}/${project}.ManualTests.dll" />
                     <arg value="/out:${reportFile}" />
                     <arg value="/ignoregeneratedcode" />
                 </exec>
+                <property name="basePath" value="${string::replace(projectFolder, '/', '\')}" />
+                <copy file="${reportFile}" tofile="${reportFile}.filtered">
+                    <filterchain>
+                        <replacestring from="${basePath}\" to="" ignorecase="true" />
+                    </filterchain>
+                </copy>
             </foreach>
         </foreach>
     </target>
