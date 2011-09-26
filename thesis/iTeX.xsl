@@ -242,6 +242,33 @@
         </xsl:call-template>
     </xsl:template>
 
+    <xsl:template match="see[@ref]">
+        <!-- <command name="ref" param="tbl:SpreadsheetColumns" /> -->
+        <xsl:text>\unskip~</xsl:text>
+        <xsl:call-template name="command">
+            <xsl:with-param name="name" select="'ref'" />
+            <xsl:with-param name="param" select="@ref" />
+        </xsl:call-template>
+    </xsl:template>
+
+    <xsl:template match="see[@nameref]">
+        <!-- <command name="nameref" param="tbl:SpreadsheetColumns" /> -->
+        <xsl:text>\unskip~</xsl:text>
+        <xsl:call-template name="command">
+            <xsl:with-param name="name" select="'nameref'" />
+            <xsl:with-param name="param" select="@nameref" />
+        </xsl:call-template>
+    </xsl:template>
+
+    <xsl:template match="see[@cite]">
+        <!-- <command name="cite" param="shaw06nant" /> -->
+        <xsl:text>\unskip~</xsl:text>
+        <xsl:call-template name="command">
+            <xsl:with-param name="name" select="'cite'" />
+            <xsl:with-param name="param" select="@cite" />
+        </xsl:call-template>
+    </xsl:template>
+
     <!-- Pass-through (identity transform) template -->
     <xsl:template match="* | @*">
         <xsl:apply-templates select="* | @* | node() | comment()" />
