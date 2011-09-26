@@ -338,6 +338,8 @@
                 <property name="coverageFile" value="${projectFolder}/coverage.xml" />
                 <xpath file="${coverageFile}" property="tsp" query="count(//seqpnt)" />
                 <xpath file="${coverageFile}" property="vsp" query="count(//seqpnt[not(@visitcount='0')])" />
+                <xpath file="${projectFolder}/CodeMetrics.xml.filtered" property="mi"
+                    query="/CodeMetricsReport/Targets/Target[1]/Modules/Module[1]/Metrics/Metric[@Name='MaintainabilityIndex']/@Value" />
                 <lineCount
                     file="Projects/${project}/working-${strategy}/PublicInterfaceDifferences.txt"
                     property="dpi"
@@ -346,10 +348,10 @@
                     <!-- Batch # -->        <input name="entry.1.single" value="${svnRevision}" />
                     <!-- Project -->        <input name="entry.2.single" value="${project}" />
                     <!-- Strategy -->       <input name="entry.3.single" value="${strategy}" />
-                    <!-- TODD version -->   <input name="entry.4.single" value="${toddVersion}" />
                     <!-- TSP -->            <input name="entry.5.single" value="${tsp}" />
                     <!-- VSP -->            <input name="entry.6.single" value="${vsp}" />
                     <!-- DPI -->            <input name="entry.7.single" value="${dpi}" />
+                    <!-- MI -->             <input name="entry.9.single" value="${mi}" />
                     <!-- Google -->         <input name="pageNumber" value="0" />
                     <!-- Google -->         <input name="backupCache" value="" />
                     <!-- Google -->         <input name="submit" value="Submit" />
