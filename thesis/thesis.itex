@@ -935,7 +935,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           </command>
           <command name="subsection" param="How it works">
             <region comment="Intro">
-            The source code to the projects was imported into a source control repository<footnote>The Subversion repository used for the evaluation of this thesis is available at <br /> <url>https://testoriented.googlecode.com/svn/suitability/trunk</url>.</footnote>.  Each project gets its own folder and the imported version (which serves as a baseline) is placed in a sub-folder called <tt>base</tt>.  Some slight modifications were made to the source code to simplify the evaluation, detailed as follows:
+            The source code to the projects was imported into a source control repository<footnote>The Subversion repository used for the evaluation of this thesis is available at <br /> <url>https://testoriented.googlecode.com/svn/suitability/trunk</url></footnote>.  Each project gets its own folder and the imported version (which serves as a baseline) is placed in a sub-folder called <tt>base</tt>.  Some slight modifications were made to the source code to simplify the evaluation, detailed as follows:
             </region>
             <command name="subsubsection" param="Consolidate projects">
               If a project consisted of many sub-projects, the source files for those sub-projects were combined into a single project, to simplify the configuration of Pex.
@@ -982,7 +982,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               The console NUnit runner executes all the unit tests that Pex generated while NCover monitors the execution to collect code coverage data for the IUT.  It is not important whether the tests pass, fail or end in error - Pex by its very nature will generate tests that throw or expect to throw ArgumentException instances - it is only important to record code coverage.
             </command>
             <command name="subsubsection" param="Record results">
-              An online spreadsheet <footnote>The spreadsheet can be seen at <url>https://docs.google.com/spreadsheet/ccc?key=0Ag6eugnyWA09dG9zQnFtTlQ0Z1dGUjI5TUlFMnpFWWc</url>.</footnote> is used to collect the results.  Its columns are explained in table <see ref="tbl:SpreadsheetColumns" />.
+              An online spreadsheet <footnote>The spreadsheet can be seen at <url>https://docs.google.com/spreadsheet/ccc?key=0Ag6eugnyWA09dG9zQnFtTlQ0Z1dGUjI5TUlFMnpFWWc</url></footnote> is used to collect the results.  Its columns are explained in table <see ref="tbl:SpreadsheetColumns" />.
               <block param="table" opt="htbp">
                 <tabular spec="p{0.2\textwidth} p{0.75\textwidth}">
                   <tr><td>Column name</td><td>Description</td></tr>
