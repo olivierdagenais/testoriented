@@ -209,6 +209,17 @@
         <xsl:text>\underline{</xsl:text><xsl:value-of select="." /><xsl:text>}</xsl:text>
     </xsl:template>
 
+    <xsl:template match="url">
+        <xsl:text>\url{</xsl:text><xsl:value-of select="." /><xsl:text>}</xsl:text>
+    </xsl:template>
+
+    <xsl:template match="footnote">
+        <xsl:text>\unskip</xsl:text>
+        <xsl:text>\footnote{</xsl:text>
+        <xsl:apply-templates select="* | node() | comment()" />
+        <xsl:text>}</xsl:text>
+    </xsl:template>
+
     <xsl:template match="tabular">
         <xsl:text>\begin{tabular}</xsl:text>
         <xsl:if test="@pos">
