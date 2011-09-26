@@ -968,8 +968,8 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             <command name="subsubsection" param="Determine public interface differences">
               The PIC metric is computed on each project's IUT and the report is stored in the project's folder as the file <tt>PublicInterfaceDifferences.txt</tt>.
             </command>
-            <command name="subsubsection" param="Evaluate maintainability of manual tests">
-              The MI metric is computed on the unit tests.
+            <command name="subsubsection" param="Evaluate maintainability of IUT and manual tests">
+              The MI metric is computed for both the IUT and the manually-written unit tests.  This allows an objective evaluation of the maintainability of the IUT in the face of testability transformations as well as an evaluation of maintainability of the corresponding unit tests.
               TODO: explain what tests are included and how the metric is aggregated
             </command>
             <command name="subsubsection" param="Invoke Pex Wizard">
@@ -993,8 +993,9 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                   <tr><td>Strategy</td><td>The name of the strategy employed</td></tr>
                   <tr><td>TSP</td><td>Total Sequence Points, the denominator for code coverage percentage calculation</td></tr>
                   <tr><td>VSP</td><td>Visited Sequence Points, the numerator for code coverage percentage calculation</td></tr>
-                  <tr><td>DPI</td><td>Differences in Public Interface</td></tr>
-                  <tr><td>MI</td><td>Maintainability Index of the manual tests</td></tr>
+                  <tr><td>DPI</td><td>The number of Differences in Public Interface</td></tr>
+                  <tr><td>MI IUT</td><td>Maintainability Index of the Implementation Under Test</td></tr>
+                  <tr><td>MI MT</td><td>Maintainability Index of the Manual Tests</td></tr>
                 </tabular>
                 <command name="caption" param="Names and descriptions of spreadsheet columns" />
                 <command name="label" param="tbl:SpreadsheetColumns" />
