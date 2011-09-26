@@ -252,16 +252,32 @@
             <echo message="Project: ${project}..." />
             <foreach item="String" in="${strategies}" delim="," property="strategy">
                 <property name="projectFolder" value="${path::get-full-path('Projects/' + project + '/working-' + strategy)}" />
-                <property name="reportFile" value="${projectFolder}/CodeMetrics.xml" />
-                <delete file="${reportFile}" failonerror="false" />
-                <delete file="${reportFile}.filtered" failonerror="false" />
+
+                <property name="reportFileIut" value="${projectFolder}/CodeMetrics.Iut.xml" />
+                <delete file="${reportFileIut}" failonerror="false" />
+                <delete file="${reportFileIut}.filtered" failonerror="false" />
                 <exec program="${codeMetricsFolder}/Metrics.exe">
-                    <arg value="/file:${projectFolder}/${project}.ManualTests/bin/${configuration}/${project}.ManualTests.dll" />
-                    <arg value="/out:${reportFile}" />
+                    <arg value="/file:${projectFolder}/${project}/bin/${configuration}/${project}.dll" />
+                    <arg value="/out:${reportFileIut}" />
                     <arg value="/ignoregeneratedcode" />
                 </exec>
                 <property name="basePath" value="${string::replace(projectFolder, '/', '\')}" />
-                <copy file="${reportFile}" tofile="${reportFile}.filtered">
+                <copy file="${reportFileIut}" tofile="${reportFileIut}.filtered">
+                    <filterchain>
+                        <replacestring from="${basePath}\" to="" ignorecase="true" />
+                    </filterchain>
+                </copy>
+
+                <property name="reportFileMt" value="${projectFolder}/CodeMetrics.Mt.xml" />
+                <delete file="${reportFileMt}" failonerror="false" />
+                <delete file="${reportFileMt}.filtered" failonerror="false" />
+                <exec program="${codeMetricsFolder}/Metrics.exe">
+                    <arg value="/file:${projectFolder}/${project}.ManualTests/bin/${configuration}/${project}.ManualTests.dll" />
+                    <arg value="/out:${reportFileMt}" />
+                    <arg value="/ignoregeneratedcode" />
+                </exec>
+                <property name="basePath" value="${string::replace(projectFolder, '/', '\')}" />
+                <copy file="${reportFileMt}" tofile="${reportFileMt}.filtered">
                     <filterchain>
                         <replacestring from="${basePath}\" to="" ignorecase="true" />
                     </filterchain>
@@ -338,7 +354,9 @@
                 <property name="coverageFile" value="${projectFolder}/coverage.xml" />
                 <xpath file="${coverageFile}" property="tsp" query="count(//seqpnt)" />
                 <xpath file="${coverageFile}" property="vsp" query="count(//seqpnt[not(@visitcount='0')])" />
-                <xpath file="${projectFolder}/CodeMetrics.xml.filtered" property="mi"
+                <xpath file="${projectFolder}/CodeMetrics.Iut.xml.filtered" property="miIut"
+                    query="/CodeMetricsReport/Targets/Target[1]/Modules/Module[1]/Metrics/Metric[@Name='MaintainabilityIndex']/@Value" />
+                <xpath file="${projectFolder}/CodeMetrics.Mt.xml.filtered" property="miMt"
                     query="/CodeMetricsReport/Targets/Target[1]/Modules/Module[1]/Metrics/Metric[@Name='MaintainabilityIndex']/@Value" />
                 <lineCount
                     file="Projects/${project}/working-${strategy}/PublicInterfaceDifferences.txt"
@@ -351,7 +369,8 @@
                     <!-- TSP -->            <input name="entry.5.single" value="${tsp}" />
                     <!-- VSP -->            <input name="entry.6.single" value="${vsp}" />
                     <!-- DPI -->            <input name="entry.7.single" value="${dpi}" />
-                    <!-- MI -->             <input name="entry.9.single" value="${mi}" />
+                    <!-- MI IUT -->         <input name="entry.9.single" value="${miIut}" />
+                    <!-- MI MT -->          <input name="entry.10.single" value="${miMt}" />
                     <!-- Google -->         <input name="pageNumber" value="0" />
                     <!-- Google -->         <input name="backupCache" value="" />
                     <!-- Google -->         <input name="submit" value="Submit" />
