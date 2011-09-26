@@ -3,3 +3,4 @@ Projects/*/*/*/bin/Release/**
 Projects/*/*/*/obj/**
 *.sln.cache
 Projects/*/working-*/**
+*.suo
