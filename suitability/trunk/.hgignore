@@ -5,3 +5,4 @@ Projects/*/*/*/obj/**
 Projects/*/working-*/**
 *.suo
 TestResult.xml
+*.ReSharper.user
