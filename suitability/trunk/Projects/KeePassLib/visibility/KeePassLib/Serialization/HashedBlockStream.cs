@@ -31,20 +31,20 @@ namespace KeePassLib.Serialization
 {
 	public sealed class HashedBlockStream : Stream
 	{
-		private const int m_nDefaultBufferSize = 1024 * 1024; // 1 MB
+		internal const int m_nDefaultBufferSize = 1024 * 1024; // 1 MB
 
-		private Stream m_sBaseStream;
-		private bool m_bWriting;
-		private bool m_bVerify;
-		private bool m_bEos = false;
+		internal Stream m_sBaseStream;
+		internal bool m_bWriting;
+		internal bool m_bVerify;
+		internal bool m_bEos = false;
 
-		private BinaryReader m_brInput;
-		private BinaryWriter m_bwOutput;
+		internal BinaryReader m_brInput;
+		internal BinaryWriter m_bwOutput;
 
-		private byte[] m_pbBuffer;
-		private int m_nBufferPos = 0;
+		internal byte[] m_pbBuffer;
+		internal int m_nBufferPos = 0;
 
-		private uint m_uBufferIndex = 0;
+		internal uint m_uBufferIndex = 0;
 
 		public override bool CanRead
 		{
@@ -88,7 +88,7 @@ namespace KeePassLib.Serialization
 			Initialize(sBaseStream, bWriting, nBufferSize, bVerify);
 		}
 
-		private void Initialize(Stream sBaseStream, bool bWriting, int nBufferSize,
+		internal void Initialize(Stream sBaseStream, bool bWriting, int nBufferSize,
 			bool bVerify)
 		{
 			if(sBaseStream == null) throw new ArgumentNullException("sBaseStream");
@@ -192,7 +192,7 @@ namespace KeePassLib.Serialization
 			return nCount;
 		}
 
-		private bool ReadHashedBlock()
+		internal bool ReadHashedBlock()
 		{
 			if(m_bEos) return false; // End of stream reached already
 
@@ -264,7 +264,7 @@ namespace KeePassLib.Serialization
 			}
 		}
 
-		private void WriteHashedBlock()
+		internal void WriteHashedBlock()
 		{
 			m_bwOutput.Write(m_uBufferIndex);
 			++m_uBufferIndex;

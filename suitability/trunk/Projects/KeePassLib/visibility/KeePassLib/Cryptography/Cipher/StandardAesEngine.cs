@@ -34,10 +34,10 @@ namespace KeePassLib.Cryptography.Cipher
 	/// </summary>
 	public sealed class StandardAesEngine : ICipherEngine
 	{
-		private const CipherMode m_rCipherMode = CipherMode.CBC;
-		private const PaddingMode m_rCipherPadding = PaddingMode.PKCS7;
+		internal const CipherMode m_rCipherMode = CipherMode.CBC;
+		internal const PaddingMode m_rCipherPadding = PaddingMode.PKCS7;
 
-		private static PwUuid m_uuidAes = null;
+		internal static PwUuid m_uuidAes = null;
 
 		/// <summary>
 		/// UUID of the cipher engine. This ID uniquely identifies the
@@ -71,7 +71,7 @@ namespace KeePassLib.Cryptography.Cipher
 		/// </summary>
 		public string DisplayName { get { return KLRes.EncAlgorithmAes; } }
 
-		private static void ValidateArguments(Stream stream, bool bEncrypt, byte[] pbKey, byte[] pbIV)
+		internal static void ValidateArguments(Stream stream, bool bEncrypt, byte[] pbKey, byte[] pbIV)
 		{
 			Debug.Assert(stream != null); if(stream == null) throw new ArgumentNullException("stream");
 
@@ -95,7 +95,7 @@ namespace KeePassLib.Cryptography.Cipher
 			}
 		}
 
-		private static Stream CreateStream(Stream s, bool bEncrypt, byte[] pbKey, byte[] pbIV)
+		internal static Stream CreateStream(Stream s, bool bEncrypt, byte[] pbKey, byte[] pbIV)
 		{
 			StandardAesEngine.ValidateArguments(s, bEncrypt, pbKey, pbIV);
 

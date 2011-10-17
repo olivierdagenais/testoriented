@@ -30,10 +30,10 @@ namespace KeePassLib.Utility
 {
 	public sealed class MessageServiceEventArgs : EventArgs
 	{
-		private string m_strTitle = string.Empty;
-		private string m_strText = string.Empty;
-		private MessageBoxButtons m_msgButtons = MessageBoxButtons.OK;
-		private MessageBoxIcon m_msgIcon = MessageBoxIcon.None;
+		internal string m_strTitle = string.Empty;
+		internal string m_strText = string.Empty;
+		internal MessageBoxButtons m_msgButtons = MessageBoxButtons.OK;
+		internal MessageBoxIcon m_msgIcon = MessageBoxIcon.None;
 
 		public string Title { get { return m_strTitle; } }
 		public string Text { get { return m_strText; } }
@@ -54,21 +54,21 @@ namespace KeePassLib.Utility
 
 	public static class MessageService
 	{
-		private static volatile uint m_uCurrentMessageCount = 0;
+		internal static volatile uint m_uCurrentMessageCount = 0;
 
 #if !KeePassLibSD
-		private const MessageBoxIcon m_mbiInfo = MessageBoxIcon.Information;
-		private const MessageBoxIcon m_mbiWarning = MessageBoxIcon.Warning;
-		private const MessageBoxIcon m_mbiFatal = MessageBoxIcon.Error;
+		internal const MessageBoxIcon m_mbiInfo = MessageBoxIcon.Information;
+		internal const MessageBoxIcon m_mbiWarning = MessageBoxIcon.Warning;
+		internal const MessageBoxIcon m_mbiFatal = MessageBoxIcon.Error;
 
-		private const MessageBoxOptions m_mboRtl = (MessageBoxOptions.RtlReading |
+		internal const MessageBoxOptions m_mboRtl = (MessageBoxOptions.RtlReading |
 			MessageBoxOptions.RightAlign);
 #else
-		private const MessageBoxIcon m_mbiInfo = MessageBoxIcon.Asterisk;
-		private const MessageBoxIcon m_mbiWarning = MessageBoxIcon.Exclamation;
-		private const MessageBoxIcon m_mbiFatal = MessageBoxIcon.Hand;
+		internal const MessageBoxIcon m_mbiInfo = MessageBoxIcon.Asterisk;
+		internal const MessageBoxIcon m_mbiWarning = MessageBoxIcon.Exclamation;
+		internal const MessageBoxIcon m_mbiFatal = MessageBoxIcon.Hand;
 #endif
-		private const MessageBoxIcon m_mbiQuestion = MessageBoxIcon.Question;
+		internal const MessageBoxIcon m_mbiQuestion = MessageBoxIcon.Question;
 
 		public static string NewLine
 		{
@@ -95,12 +95,12 @@ namespace KeePassLib.Utility
 
 		public static event EventHandler<MessageServiceEventArgs> MessageShowing;
 
-		private static string ObjectsToMessage(object[] vLines)
+		internal static string ObjectsToMessage(object[] vLines)
 		{
 			return ObjectsToMessage(vLines, false);
 		}
 
-		private static string ObjectsToMessage(object[] vLines, bool bFullExceptions)
+		internal static string ObjectsToMessage(object[] vLines, bool bFullExceptions)
 		{
 			if(vLines == null) return string.Empty;
 
@@ -142,7 +142,7 @@ namespace KeePassLib.Utility
 			return sbText.ToString();
 		}
 
-		private static DialogResult SafeShowMessageBox(string strText, string strTitle,
+		internal static DialogResult SafeShowMessageBox(string strText, string strTitle,
 			MessageBoxButtons mb, MessageBoxIcon mi, MessageBoxDefaultButton mdb)
 		{
 		    return DialogResult.OK;

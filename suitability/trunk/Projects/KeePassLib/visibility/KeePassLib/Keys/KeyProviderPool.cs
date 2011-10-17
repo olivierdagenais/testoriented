@@ -27,7 +27,7 @@ namespace KeePassLib.Keys
 {
 	public sealed class KeyProviderPool : IEnumerable<KeyProvider>
 	{
-		private List<KeyProvider> m_vProviders = new List<KeyProvider>();
+		internal List<KeyProvider> m_vProviders = new List<KeyProvider>();
 
 		public int Count
 		{

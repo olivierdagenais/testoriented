@@ -26,7 +26,7 @@ namespace KeePassLib.Cryptography.PasswordGenerator
 {
 	public sealed class CustomPwGeneratorPool : IEnumerable<CustomPwGenerator>
 	{
-		private List<CustomPwGenerator> m_vGens = new List<CustomPwGenerator>();
+		internal List<CustomPwGenerator> m_vGens = new List<CustomPwGenerator>();
 
 		public int Count
 		{
@@ -84,7 +84,7 @@ namespace KeePassLib.Cryptography.PasswordGenerator
 			return null;
 		}
 
-		private int FindIndex(PwUuid uuid)
+		internal int FindIndex(PwUuid uuid)
 		{
 			if(uuid == null) throw new ArgumentNullException("uuid");
 

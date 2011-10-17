@@ -30,7 +30,7 @@ namespace KeePassLib.Native
 	/// </summary>
 	public static class NativeLib
 	{
-		private static bool m_bAllowNative = true;
+		internal static bool m_bAllowNative = true;
 
 		/// <summary>
 		/// If this property is set to <c>true</c>, the native library is used.
@@ -63,7 +63,7 @@ namespace KeePassLib.Native
 			return bResult;
 		}
 
-		private static bool? m_bIsUnix = null;
+		internal static bool? m_bIsUnix = null;
 		public static bool IsUnix()
 		{
 			if(m_bIsUnix.HasValue) return m_bIsUnix.Value;
@@ -124,7 +124,7 @@ namespace KeePassLib.Native
 			return true;
 		}
 
-		private static KeyValuePair<IntPtr, IntPtr> PrepareArrays256(byte[] pBuf256,
+		internal static KeyValuePair<IntPtr, IntPtr> PrepareArrays256(byte[] pBuf256,
 			byte[] pKey256)
 		{
 			Debug.Assert((pBuf256 != null) && (pBuf256.Length == 32));
@@ -144,7 +144,7 @@ namespace KeePassLib.Native
 			return new KeyValuePair<IntPtr, IntPtr>(hBuf, hKey);
 		}
 
-		private static void GetBuffers256(KeyValuePair<IntPtr, IntPtr> kvpSource,
+		internal static void GetBuffers256(KeyValuePair<IntPtr, IntPtr> kvpSource,
 			byte[] pbDestBuf, byte[] pbDestKey)
 		{
 			if(kvpSource.Key != IntPtr.Zero)
@@ -154,7 +154,7 @@ namespace KeePassLib.Native
 				Marshal.Copy(kvpSource.Value, pbDestKey, 0, pbDestKey.Length);
 		}
 
-		private static void FreeArrays(KeyValuePair<IntPtr, IntPtr> kvpPointers)
+		internal static void FreeArrays(KeyValuePair<IntPtr, IntPtr> kvpPointers)
 		{
 			if(kvpPointers.Key != IntPtr.Zero)
 				Marshal.FreeHGlobal(kvpPointers.Key);

@@ -11,7 +11,7 @@ namespace KeePassLib.Resources
 	/// </summary>
 	public static class KLRes
 	{
-		private static string TryGetEx(Dictionary<string, string> dictNew,
+		internal static string TryGetEx(Dictionary<string, string> dictNew,
 			string strName, string strDefault)
 		{
 			string strTemp;
@@ -53,7 +53,7 @@ namespace KeePassLib.Resources
 			m_strUserAccountKeyError = TryGetEx(dictNew, "UserAccountKeyError", m_strUserAccountKeyError);
 		}
 
-		private static readonly string[] m_vKeyNames = {
+		internal static readonly string[] m_vKeyNames = {
 			"CryptoStreamFailed",
 			"EncAlgorithmAes",
 			"ErrorFeedbackRequest",
@@ -86,7 +86,7 @@ namespace KeePassLib.Resources
 			return m_vKeyNames;
 		}
 
-		private static string m_strCryptoStreamFailed =
+		internal static string m_strCryptoStreamFailed =
 			@"Failed to initialize encryption/decryption stream!";
 		/// <summary>
 		/// Look up a localized string similar to
@@ -97,7 +97,7 @@ namespace KeePassLib.Resources
 			get { return m_strCryptoStreamFailed; }
 		}
 
-		private static string m_strEncAlgorithmAes =
+		internal static string m_strEncAlgorithmAes =
 			@"AES/Rijndael (256-Bit Key)";
 		/// <summary>
 		/// Look up a localized string similar to
@@ -108,7 +108,7 @@ namespace KeePassLib.Resources
 			get { return m_strEncAlgorithmAes; }
 		}
 
-		private static string m_strErrorFeedbackRequest =
+		internal static string m_strErrorFeedbackRequest =
 			@"An extended error report has been copied to the clipboard. Please send it to the KeePass developers.";
 		/// <summary>
 		/// Look up a localized string similar to
@@ -119,7 +119,7 @@ namespace KeePassLib.Resources
 			get { return m_strErrorFeedbackRequest; }
 		}
 
-		private static string m_strFatalError =
+		internal static string m_strFatalError =
 			@"Fatal Error";
 		/// <summary>
 		/// Look up a localized string similar to
@@ -130,7 +130,7 @@ namespace KeePassLib.Resources
 			get { return m_strFatalError; }
 		}
 
-		private static string m_strFatalErrorText =
+		internal static string m_strFatalErrorText =
 			@"A fatal error has occurred!";
 		/// <summary>
 		/// Look up a localized string similar to
@@ -141,7 +141,7 @@ namespace KeePassLib.Resources
 			get { return m_strFatalErrorText; }
 		}
 
-		private static string m_strFileCorrupted =
+		internal static string m_strFileCorrupted =
 			@"The file is corrupted.";
 		/// <summary>
 		/// Look up a localized string similar to
@@ -152,7 +152,7 @@ namespace KeePassLib.Resources
 			get { return m_strFileCorrupted; }
 		}
 
-		private static string m_strFileHeaderEndEarly =
+		internal static string m_strFileHeaderEndEarly =
 			@"The file header is corrupted! Some header data was declared but is not present.";
 		/// <summary>
 		/// Look up a localized string similar to
@@ -163,7 +163,7 @@ namespace KeePassLib.Resources
 			get { return m_strFileHeaderEndEarly; }
 		}
 
-		private static string m_strFileLoadFailed =
+		internal static string m_strFileLoadFailed =
 			@"Failed to load the specified file!";
 		/// <summary>
 		/// Look up a localized string similar to
@@ -174,7 +174,7 @@ namespace KeePassLib.Resources
 			get { return m_strFileLoadFailed; }
 		}
 
-		private static string m_strFileNewVerReq =
+		internal static string m_strFileNewVerReq =
 			@"A newer KeePass version is required to open this file.";
 		/// <summary>
 		/// Look up a localized string similar to
@@ -185,7 +185,7 @@ namespace KeePassLib.Resources
 			get { return m_strFileNewVerReq; }
 		}
 
-		private static string m_strFileSaveCorruptionWarning =
+		internal static string m_strFileSaveCorruptionWarning =
 			@"The target file might be in a corrupted state. Please try saving again, and if that fails, save the database to a different location.";
 		/// <summary>
 		/// Look up a localized string similar to
@@ -196,7 +196,7 @@ namespace KeePassLib.Resources
 			get { return m_strFileSaveCorruptionWarning; }
 		}
 
-		private static string m_strFileSaveFailed =
+		internal static string m_strFileSaveFailed =
 			@"Failed to save the current database to the specified location!";
 		/// <summary>
 		/// Look up a localized string similar to
@@ -207,7 +207,7 @@ namespace KeePassLib.Resources
 			get { return m_strFileSaveFailed; }
 		}
 
-		private static string m_strFileSigInvalid =
+		internal static string m_strFileSigInvalid =
 			@"The file signature is invalid. Either the file isn't a KeePass database file at all or it is corrupted.";
 		/// <summary>
 		/// Look up a localized string similar to
@@ -218,7 +218,7 @@ namespace KeePassLib.Resources
 			get { return m_strFileSigInvalid; }
 		}
 
-		private static string m_strFileUnknownCipher =
+		internal static string m_strFileUnknownCipher =
 			@"The file is encrypted using an unknown encryption algorithm!";
 		/// <summary>
 		/// Look up a localized string similar to
@@ -229,7 +229,7 @@ namespace KeePassLib.Resources
 			get { return m_strFileUnknownCipher; }
 		}
 
-		private static string m_strFileUnknownCompression =
+		internal static string m_strFileUnknownCompression =
 			@"The file is compressed using an unknown compression algorithm!";
 		/// <summary>
 		/// Look up a localized string similar to
@@ -240,7 +240,7 @@ namespace KeePassLib.Resources
 			get { return m_strFileUnknownCompression; }
 		}
 
-		private static string m_strFileVersionUnsupported =
+		internal static string m_strFileVersionUnsupported =
 			@"The file version is unsupported.";
 		/// <summary>
 		/// Look up a localized string similar to
@@ -251,7 +251,7 @@ namespace KeePassLib.Resources
 			get { return m_strFileVersionUnsupported; }
 		}
 
-		private static string m_strFinalKeyCreationFailed =
+		internal static string m_strFinalKeyCreationFailed =
 			@"Failed to create the final encryption/decryption key!";
 		/// <summary>
 		/// Look up a localized string similar to
@@ -262,7 +262,7 @@ namespace KeePassLib.Resources
 			get { return m_strFinalKeyCreationFailed; }
 		}
 
-		private static string m_strFrameworkNotImplExcp =
+		internal static string m_strFrameworkNotImplExcp =
 			@"The .NET framework/runtime, under which KeePass is currently running, does not support this operation.";
 		/// <summary>
 		/// Look up a localized string similar to
@@ -273,7 +273,7 @@ namespace KeePassLib.Resources
 			get { return m_strFrameworkNotImplExcp; }
 		}
 
-		private static string m_strInvalidCompositeKey =
+		internal static string m_strInvalidCompositeKey =
 			@"The composite key is invalid!";
 		/// <summary>
 		/// Look up a localized string similar to
@@ -284,7 +284,7 @@ namespace KeePassLib.Resources
 			get { return m_strInvalidCompositeKey; }
 		}
 
-		private static string m_strInvalidCompositeKeyHint =
+		internal static string m_strInvalidCompositeKeyHint =
 			@"Make sure the composite key is correct and try again.";
 		/// <summary>
 		/// Look up a localized string similar to
@@ -295,7 +295,7 @@ namespace KeePassLib.Resources
 			get { return m_strInvalidCompositeKeyHint; }
 		}
 
-		private static string m_strInvalidDataWhileDecoding =
+		internal static string m_strInvalidDataWhileDecoding =
 			@"Found invalid data while decoding.";
 		/// <summary>
 		/// Look up a localized string similar to
@@ -306,7 +306,7 @@ namespace KeePassLib.Resources
 			get { return m_strInvalidDataWhileDecoding; }
 		}
 
-		private static string m_strKeePass1xHint =
+		internal static string m_strKeePass1xHint =
 			@"In order to import KeePass 1.x KDB files, create a new 2.x database file and click 'File' -> 'Import' in the main menu. In the import dialog, choose 'KeePass KDB (1.x)' as file format.";
 		/// <summary>
 		/// Look up a localized string similar to
@@ -317,7 +317,7 @@ namespace KeePassLib.Resources
 			get { return m_strKeePass1xHint; }
 		}
 
-		private static string m_strMasterSeedLengthInvalid =
+		internal static string m_strMasterSeedLengthInvalid =
 			@"The length of the master key seed is invalid!";
 		/// <summary>
 		/// Look up a localized string similar to
@@ -328,7 +328,7 @@ namespace KeePassLib.Resources
 			get { return m_strMasterSeedLengthInvalid; }
 		}
 
-		private static string m_strOldFormat =
+		internal static string m_strOldFormat =
 			@"The selected file appears to be an old format";
 		/// <summary>
 		/// Look up a localized string similar to
@@ -339,7 +339,7 @@ namespace KeePassLib.Resources
 			get { return m_strOldFormat; }
 		}
 
-		private static string m_strUnknownHeaderId =
+		internal static string m_strUnknownHeaderId =
 			@"Unknown header ID!";
 		/// <summary>
 		/// Look up a localized string similar to
@@ -350,7 +350,7 @@ namespace KeePassLib.Resources
 			get { return m_strUnknownHeaderId; }
 		}
 
-		private static string m_strUserAccountKeyError =
+		internal static string m_strUserAccountKeyError =
 			@"The operating system did not grant KeePass read/write access to the user profile folder, where the protected user key is stored.";
 		/// <summary>
 		/// Look up a localized string similar to

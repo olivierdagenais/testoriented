@@ -141,7 +141,7 @@ namespace KeePassLib.Serialization
 			finally { CommonCleanUpRead(sSource, hashedStream); }
 		}
 
-		private void CommonCleanUpRead(Stream sSource, HashingStreamEx hashedStream)
+		internal void CommonCleanUpRead(Stream sSource, HashingStreamEx hashedStream)
 		{
 			hashedStream.Close();
 			m_pbHashOfFileOnDisk = hashedStream.Hash;
@@ -149,7 +149,7 @@ namespace KeePassLib.Serialization
 			sSource.Close();
 		}
 
-		private void ReadHeader(BinaryReaderEx br)
+		internal void ReadHeader(BinaryReaderEx br)
 		{
 			Debug.Assert(br != null);
 			if(br == null) throw new ArgumentNullException("br");
@@ -181,7 +181,7 @@ namespace KeePassLib.Serialization
 			}
 		}
 
-		private bool ReadHeaderField(BinaryReaderEx brSource)
+		internal bool ReadHeaderField(BinaryReaderEx brSource)
 		{
 			Debug.Assert(brSource != null);
 			if(brSource == null) throw new ArgumentNullException("brSource");
@@ -258,7 +258,7 @@ namespace KeePassLib.Serialization
 			return bResult;
 		}
 
-		private void SetCipher(byte[] pbID)
+		internal void SetCipher(byte[] pbID)
 		{
 			if((pbID == null) || (pbID.Length != 16))
 				throw new FormatException(KLRes.FileUnknownCipher);
@@ -266,7 +266,7 @@ namespace KeePassLib.Serialization
 			m_pwDatabase.DataCipherUuid = new PwUuid(pbID);
 		}
 
-		private void SetCompressionFlags(byte[] pbFlags)
+		internal void SetCompressionFlags(byte[] pbFlags)
 		{
 			uint uID = MemUtil.BytesToUInt32(pbFlags);
 			if(uID >= (uint)PwCompressionAlgorithm.Count)
@@ -275,7 +275,7 @@ namespace KeePassLib.Serialization
 			m_pwDatabase.Compression = (PwCompressionAlgorithm)uID;
 		}
 
-		private void SetInnerRandomStreamID(byte[] pbID)
+		internal void SetInnerRandomStreamID(byte[] pbID)
 		{
 			uint uID = MemUtil.BytesToUInt32(pbID);
 			if(uID >= (uint)CrsAlgorithm.Count)
@@ -284,7 +284,7 @@ namespace KeePassLib.Serialization
 			m_craInnerRandomStream = (CrsAlgorithm)uID;
 		}
 
-		private Stream AttachStreamDecryptor(Stream s)
+		internal Stream AttachStreamDecryptor(Stream s)
 		{
 			MemoryStream ms = new MemoryStream();
 

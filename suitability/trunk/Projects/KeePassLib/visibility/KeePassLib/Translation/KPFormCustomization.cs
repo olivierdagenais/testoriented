@@ -29,7 +29,7 @@ namespace KeePassLib.Translation
 {
 	public sealed class KPFormCustomization
 	{
-		private string m_strFQName = string.Empty;
+		internal string m_strFQName = string.Empty;
 		/// <summary>
 		/// The fully qualified name of the form.
 		/// </summary>
@@ -40,14 +40,14 @@ namespace KeePassLib.Translation
 			set { m_strFQName = value; }
 		}
 
-		private KPControlCustomization m_ccWindow = new KPControlCustomization();
+		internal KPControlCustomization m_ccWindow = new KPControlCustomization();
 		public KPControlCustomization Window
 		{
 			get { return m_ccWindow; }
 			set { m_ccWindow = value; }
 		}
 
-		private List<KPControlCustomization> m_vControls =
+		internal List<KPControlCustomization> m_vControls =
 			new List<KPControlCustomization>();
 		[XmlArray("ChildControls")]
 		[XmlArrayItem("Control")]
@@ -62,7 +62,7 @@ namespace KeePassLib.Translation
 			}
 		}
 
-		private Form m_formEnglish = null;
+		internal Form m_formEnglish = null;
 		[XmlIgnore]
 		public Form FormEnglish
 		{
@@ -84,7 +84,7 @@ namespace KeePassLib.Translation
 			foreach(Control c in form.Controls) ApplyToControl(c);
 		}
 
-		private void ApplyToControl(Control c)
+		internal void ApplyToControl(Control c)
 		{
 			foreach(KPControlCustomization cc in m_vControls)
 			{

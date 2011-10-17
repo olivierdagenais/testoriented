@@ -29,8 +29,8 @@ namespace KeePassLib.Security
 	/// </summary>
 	public sealed class XorredBuffer
 	{
-		private byte[] m_pbData = new byte[0];
-		private byte[] m_pbXorPad = new byte[0];
+		internal byte[] m_pbData = new byte[0];
+		internal byte[] m_pbXorPad = new byte[0];
 
 		/// <summary>
 		/// Length of the protected data in bytes.
@@ -65,7 +65,7 @@ namespace KeePassLib.Security
 			m_pbXorPad = pbXorPad;
 		}
 
-		private void Decrypt()
+		internal void Decrypt()
 		{
 			Debug.Assert((m_pbData.Length == m_pbXorPad.Length) || (m_pbData.Length == 0));
 

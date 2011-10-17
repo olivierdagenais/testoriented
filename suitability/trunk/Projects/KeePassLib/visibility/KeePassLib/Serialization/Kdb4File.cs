@@ -58,12 +58,12 @@ namespace KeePassLib.Serialization
 		/// <summary>
 		/// File identifier, first 32-bit value.
 		/// </summary>
-		private const uint FileSignature1 = 0x9AA2D903;
+		internal const uint FileSignature1 = 0x9AA2D903;
 
 		/// <summary>
 		/// File identifier, second 32-bit value.
 		/// </summary>
-		private const uint FileSignature2 = 0xB54BFB67;
+		internal const uint FileSignature2 = 0xB54BFB67;
 
 		/// <summary>
 		/// File version of files saved by the current <c>Kdb4File</c> class.
@@ -71,131 +71,131 @@ namespace KeePassLib.Serialization
 		/// The first 2 bytes are critical (i.e. loading will fail, if the
 		/// file version is too high), the last 2 bytes are informational.
 		/// </summary>
-		private const uint FileVersion32 = 0x00020000;
+		internal const uint FileVersion32 = 0x00020000;
 
-		private const uint FileVersionCriticalMask = 0xFFFF0000;
+		internal const uint FileVersionCriticalMask = 0xFFFF0000;
 
 		// KeePass 1.x signature
-		private const uint FileSignatureOld1 = 0x9AA2D903;
-		private const uint FileSignatureOld2 = 0xB54BFB65;
+		internal const uint FileSignatureOld1 = 0x9AA2D903;
+		internal const uint FileSignatureOld2 = 0xB54BFB65;
 		// KeePass 2.x pre-release (alpha and beta) signature
-		private const uint FileSignaturePreRelease1 = 0x9AA2D903;
-		private const uint FileSignaturePreRelease2 = 0xB54BFB66;
+		internal const uint FileSignaturePreRelease1 = 0x9AA2D903;
+		internal const uint FileSignaturePreRelease2 = 0xB54BFB66;
 
-		private const string ElemDocNode = "KeePassFile";
-		private const string ElemMeta = "Meta";
-		private const string ElemRoot = "Root";
-		private const string ElemGroup = "Group";
-		private const string ElemEntry = "Entry";
+		internal const string ElemDocNode = "KeePassFile";
+		internal const string ElemMeta = "Meta";
+		internal const string ElemRoot = "Root";
+		internal const string ElemGroup = "Group";
+		internal const string ElemEntry = "Entry";
 
-		private const string ElemGenerator = "Generator";
-		private const string ElemDbName = "DatabaseName";
-		private const string ElemDbNameChanged = "DatabaseNameChanged";
-		private const string ElemDbDesc = "DatabaseDescription";
-		private const string ElemDbDescChanged = "DatabaseDescriptionChanged";
-		private const string ElemDbDefaultUser = "DefaultUserName";
-		private const string ElemDbDefaultUserChanged = "DefaultUserNameChanged";
-		private const string ElemDbMntncHistoryDays = "MaintenanceHistoryDays";
-		private const string ElemRecycleBinEnabled = "RecycleBinEnabled";
-		private const string ElemRecycleBinUuid = "RecycleBinUUID";
-		private const string ElemRecycleBinChanged = "RecycleBinChanged";
-		private const string ElemEntryTemplatesGroup = "EntryTemplatesGroup";
-		private const string ElemEntryTemplatesGroupChanged = "EntryTemplatesGroupChanged";
-		private const string ElemLastSelectedGroup = "LastSelectedGroup";
-		private const string ElemLastTopVisibleGroup = "LastTopVisibleGroup";
+		internal const string ElemGenerator = "Generator";
+		internal const string ElemDbName = "DatabaseName";
+		internal const string ElemDbNameChanged = "DatabaseNameChanged";
+		internal const string ElemDbDesc = "DatabaseDescription";
+		internal const string ElemDbDescChanged = "DatabaseDescriptionChanged";
+		internal const string ElemDbDefaultUser = "DefaultUserName";
+		internal const string ElemDbDefaultUserChanged = "DefaultUserNameChanged";
+		internal const string ElemDbMntncHistoryDays = "MaintenanceHistoryDays";
+		internal const string ElemRecycleBinEnabled = "RecycleBinEnabled";
+		internal const string ElemRecycleBinUuid = "RecycleBinUUID";
+		internal const string ElemRecycleBinChanged = "RecycleBinChanged";
+		internal const string ElemEntryTemplatesGroup = "EntryTemplatesGroup";
+		internal const string ElemEntryTemplatesGroupChanged = "EntryTemplatesGroupChanged";
+		internal const string ElemLastSelectedGroup = "LastSelectedGroup";
+		internal const string ElemLastTopVisibleGroup = "LastTopVisibleGroup";
 
-		private const string ElemMemoryProt = "MemoryProtection";
-		private const string ElemProtTitle = "ProtectTitle";
-		private const string ElemProtUserName = "ProtectUserName";
-		private const string ElemProtPassword = "ProtectPassword";
-		private const string ElemProtURL = "ProtectURL";
-		private const string ElemProtNotes = "ProtectNotes";
-		private const string ElemProtAutoHide = "AutoEnableVisualHiding";
+		internal const string ElemMemoryProt = "MemoryProtection";
+		internal const string ElemProtTitle = "ProtectTitle";
+		internal const string ElemProtUserName = "ProtectUserName";
+		internal const string ElemProtPassword = "ProtectPassword";
+		internal const string ElemProtURL = "ProtectURL";
+		internal const string ElemProtNotes = "ProtectNotes";
+		internal const string ElemProtAutoHide = "AutoEnableVisualHiding";
 
-		private const string ElemCustomIcons = "CustomIcons";
-		private const string ElemCustomIconItem = "Icon";
-		private const string ElemCustomIconItemID = "UUID";
-		private const string ElemCustomIconItemData = "Data";
+		internal const string ElemCustomIcons = "CustomIcons";
+		internal const string ElemCustomIconItem = "Icon";
+		internal const string ElemCustomIconItemID = "UUID";
+		internal const string ElemCustomIconItemData = "Data";
 
-		private const string ElemAutoType = "AutoType";
-		private const string ElemHistory = "History";
+		internal const string ElemAutoType = "AutoType";
+		internal const string ElemHistory = "History";
 
-		private const string ElemName = "Name";
-		private const string ElemNotes = "Notes";
-		private const string ElemUuid = "UUID";
-		private const string ElemIcon = "IconID";
-		private const string ElemCustomIconID = "CustomIconUUID";
-		private const string ElemFgColor = "ForegroundColor";
-		private const string ElemBgColor = "BackgroundColor";
-		private const string ElemOverrideUrl = "OverrideURL";
-		private const string ElemTimes = "Times";
+		internal const string ElemName = "Name";
+		internal const string ElemNotes = "Notes";
+		internal const string ElemUuid = "UUID";
+		internal const string ElemIcon = "IconID";
+		internal const string ElemCustomIconID = "CustomIconUUID";
+		internal const string ElemFgColor = "ForegroundColor";
+		internal const string ElemBgColor = "BackgroundColor";
+		internal const string ElemOverrideUrl = "OverrideURL";
+		internal const string ElemTimes = "Times";
 
-		private const string ElemCreationTime = "CreationTime";
-		private const string ElemLastModTime = "LastModificationTime";
-		private const string ElemLastAccessTime = "LastAccessTime";
-		private const string ElemExpiryTime = "ExpiryTime";
-		private const string ElemExpires = "Expires";
-		private const string ElemUsageCount = "UsageCount";
-		private const string ElemLocationChanged = "LocationChanged";
+		internal const string ElemCreationTime = "CreationTime";
+		internal const string ElemLastModTime = "LastModificationTime";
+		internal const string ElemLastAccessTime = "LastAccessTime";
+		internal const string ElemExpiryTime = "ExpiryTime";
+		internal const string ElemExpires = "Expires";
+		internal const string ElemUsageCount = "UsageCount";
+		internal const string ElemLocationChanged = "LocationChanged";
 
-		private const string ElemGroupDefaultAutoTypeSeq = "DefaultAutoTypeSequence";
-		private const string ElemEnableAutoType = "EnableAutoType";
-		private const string ElemEnableSearching = "EnableSearching";
+		internal const string ElemGroupDefaultAutoTypeSeq = "DefaultAutoTypeSequence";
+		internal const string ElemEnableAutoType = "EnableAutoType";
+		internal const string ElemEnableSearching = "EnableSearching";
 
-		private const string ElemString = "String";
-		private const string ElemBinary = "Binary";
-		private const string ElemKey = "Key";
-		private const string ElemValue = "Value";
+		internal const string ElemString = "String";
+		internal const string ElemBinary = "Binary";
+		internal const string ElemKey = "Key";
+		internal const string ElemValue = "Value";
 
-		private const string ElemAutoTypeEnabled = "Enabled";
-		private const string ElemAutoTypeObfuscation = "DataTransferObfuscation";
-		private const string ElemAutoTypeDefaultSeq = "DefaultSequence";
-		private const string ElemAutoTypeItem = "Association";
-		private const string ElemWindow = "Window";
-		private const string ElemKeystrokeSequence = "KeystrokeSequence";
+		internal const string ElemAutoTypeEnabled = "Enabled";
+		internal const string ElemAutoTypeObfuscation = "DataTransferObfuscation";
+		internal const string ElemAutoTypeDefaultSeq = "DefaultSequence";
+		internal const string ElemAutoTypeItem = "Association";
+		internal const string ElemWindow = "Window";
+		internal const string ElemKeystrokeSequence = "KeystrokeSequence";
 
-		private const string AttrProtected = "Protected";
+		internal const string AttrProtected = "Protected";
 
-		private const string ElemIsExpanded = "IsExpanded";
-		private const string ElemLastTopVisibleEntry = "LastTopVisibleEntry";
+		internal const string ElemIsExpanded = "IsExpanded";
+		internal const string ElemLastTopVisibleEntry = "LastTopVisibleEntry";
 
-		private const string ElemDeletedObjects = "DeletedObjects";
-		private const string ElemDeletedObject = "DeletedObject";
-		private const string ElemDeletionTime = "DeletionTime";
+		internal const string ElemDeletedObjects = "DeletedObjects";
+		internal const string ElemDeletedObject = "DeletedObject";
+		internal const string ElemDeletionTime = "DeletionTime";
 
-		private const string ValFalse = "False";
-		private const string ValTrue = "True";
+		internal const string ValFalse = "False";
+		internal const string ValTrue = "True";
 
-		private const string ElemCustomData = "CustomData";
-		private const string ElemStringDictExItem = "Item";
+		internal const string ElemCustomData = "CustomData";
+		internal const string ElemStringDictExItem = "Item";
 
-		private PwDatabase m_pwDatabase = null;
+		internal PwDatabase m_pwDatabase = null;
 
-		private XmlTextWriter m_xmlWriter = null;
-		private CryptoRandomStream m_randomStream = null;
-		private Kdb4Format m_format = Kdb4Format.Default;
-		private IStatusLogger m_slLogger = null;
+		internal XmlTextWriter m_xmlWriter = null;
+		internal CryptoRandomStream m_randomStream = null;
+		internal Kdb4Format m_format = Kdb4Format.Default;
+		internal IStatusLogger m_slLogger = null;
 
-		private byte[] m_pbMasterSeed = null;
-		private byte[] m_pbTransformSeed = null;
-		private byte[] m_pbEncryptionIV = null;
-		private byte[] m_pbProtectedStreamKey = null;
-		private byte[] m_pbStreamStartBytes = null;
+		internal byte[] m_pbMasterSeed = null;
+		internal byte[] m_pbTransformSeed = null;
+		internal byte[] m_pbEncryptionIV = null;
+		internal byte[] m_pbProtectedStreamKey = null;
+		internal byte[] m_pbStreamStartBytes = null;
 
 		// ArcFourVariant only for compatibility; KeePass will default to a
 		// different (more secure) algorithm when *writing* databases
-		private CrsAlgorithm m_craInnerRandomStream = CrsAlgorithm.ArcFourVariant;
+		internal CrsAlgorithm m_craInnerRandomStream = CrsAlgorithm.ArcFourVariant;
 
-		private byte[] m_pbHashOfFileOnDisk = null;
+		internal byte[] m_pbHashOfFileOnDisk = null;
 
-		private readonly DateTime m_dtNow = DateTime.Now; // Cache current time
+		internal readonly DateTime m_dtNow = DateTime.Now; // Cache current time
 
-		private const uint NeutralLanguageOffset = 0x100000; // 2^20, see 32-bit Unicode specs
-		private const uint NeutralLanguageIDSec = 0x7DC5C; // See 32-bit Unicode specs
-		private const uint NeutralLanguageID = NeutralLanguageOffset + NeutralLanguageIDSec;
-		private static bool m_bLocalizedNames = false;
+		internal const uint NeutralLanguageOffset = 0x100000; // 2^20, see 32-bit Unicode specs
+		internal const uint NeutralLanguageIDSec = 0x7DC5C; // See 32-bit Unicode specs
+		internal const uint NeutralLanguageID = NeutralLanguageOffset + NeutralLanguageIDSec;
+		internal static bool m_bLocalizedNames = false;
 
-		private enum Kdb4HeaderFieldID : byte
+		internal enum Kdb4HeaderFieldID : byte
 		{
 			EndOfHeader = 0,
 			Comment = 1,
@@ -215,7 +215,7 @@ namespace KeePassLib.Serialization
 			get { return m_pbHashOfFileOnDisk; }
 		}
 
-		private bool m_bRepairMode = false;
+		internal bool m_bRepairMode = false;
 		public bool RepairMode
 		{
 			get { return m_bRepairMode; }

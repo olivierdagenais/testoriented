@@ -30,11 +30,11 @@ namespace KeePassLib.Cryptography
 {
 	public sealed class HashingStreamEx : Stream
 	{
-		private Stream m_sBaseStream;
-		private bool m_bWriting;
-		private HashAlgorithm m_hash;
+		internal Stream m_sBaseStream;
+		internal bool m_bWriting;
+		internal HashAlgorithm m_hash;
 
-		private byte[] m_pbFinalHash = null;
+		internal byte[] m_pbFinalHash = null;
 
 		public byte[] Hash
 		{

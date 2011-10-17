@@ -27,7 +27,7 @@ namespace KeePassLib.Keys
 {
 	public sealed class KeyProviderQueryContext
 	{
-		private IOConnectionInfo m_ioInfo;
+		internal IOConnectionInfo m_ioInfo;
 		public IOConnectionInfo DatabaseIOInfo
 		{
 			get { return m_ioInfo; }
@@ -38,7 +38,7 @@ namespace KeePassLib.Keys
 			get { return m_ioInfo.Path; }
 		}
 
-		private bool m_bCreatingNewKey;
+		internal bool m_bCreatingNewKey;
 		public bool CreatingNewKey
 		{
 			get { return m_bCreatingNewKey; }

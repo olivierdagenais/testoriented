@@ -40,14 +40,14 @@ namespace KeePassLib.Translation
 	{
 		public const string FileExtension = "lngx";
 
-		private KPTranslationProperties m_props = new KPTranslationProperties();
+		internal KPTranslationProperties m_props = new KPTranslationProperties();
 		public KPTranslationProperties Properties
 		{
 			get { return m_props; }
 			set { m_props = value; }
 		}
 
-		private List<KPStringTable> m_vStringTables = new List<KPStringTable>();
+		internal List<KPStringTable> m_vStringTables = new List<KPStringTable>();
 
 		[XmlArrayItem("StringTable")]
 		public List<KPStringTable> StringTables
@@ -61,7 +61,7 @@ namespace KeePassLib.Translation
 			}
 		}
 
-		private List<KPFormCustomization> m_vForms = new List<KPFormCustomization>();
+		internal List<KPFormCustomization> m_vForms = new List<KPFormCustomization>();
 
 		[XmlArrayItem("Form")]
 		public List<KPFormCustomization> Forms
@@ -75,7 +75,7 @@ namespace KeePassLib.Translation
 			}
 		}
 
-		private string m_strUnusedText = string.Empty;
+		internal string m_strUnusedText = string.Empty;
 		public string UnusedText
 		{
 			get { return m_strUnusedText; }
@@ -176,7 +176,7 @@ namespace KeePassLib.Translation
 			}
 		}
 
-		private static void RtlApplyToControls(Control.ControlCollection cc)
+		internal static void RtlApplyToControls(Control.ControlCollection cc)
 		{
 			foreach(Control c in cc)
 			{
@@ -203,7 +203,7 @@ namespace KeePassLib.Translation
 			}
 		}
 
-		private static void RtlMoveChildControls(Control cParent)
+		internal static void RtlMoveChildControls(Control cParent)
 		{
 			int nParentWidth = cParent.Size.Width;
 
@@ -214,7 +214,7 @@ namespace KeePassLib.Translation
 			}
 		}
 
-		private static void RtlApplyToToolStripItems(ToolStripItemCollection tsic)
+		internal static void RtlApplyToToolStripItems(ToolStripItemCollection tsic)
 		{
 			foreach(ToolStripItem tsi in tsic)
 			{

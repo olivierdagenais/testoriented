@@ -11,7 +11,7 @@ namespace KeePassLib.Resources
 	/// </summary>
 	public static class KSRes
 	{
-		private static string TryGetEx(Dictionary<string, string> dictNew,
+		internal static string TryGetEx(Dictionary<string, string> dictNew,
 			string strName, string strDefault)
 		{
 			string strTemp;
@@ -29,7 +29,7 @@ namespace KeePassLib.Resources
 			m_strTest = TryGetEx(dictNew, "Test", m_strTest);
 		}
 
-		private static readonly string[] m_vKeyNames = {
+		internal static readonly string[] m_vKeyNames = {
 			"Test"
 		};
 
@@ -38,7 +38,7 @@ namespace KeePassLib.Resources
 			return m_vKeyNames;
 		}
 
-		private static string m_strTest =
+		internal static string m_strTest =
 			@"Test";
 		/// <summary>
 		/// Look up a localized string similar to

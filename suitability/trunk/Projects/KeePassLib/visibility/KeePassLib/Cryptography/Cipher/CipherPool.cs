@@ -32,8 +32,8 @@ namespace KeePassLib.Cryptography.Cipher
 	/// </summary>
 	public sealed class CipherPool
 	{
-		private List<ICipherEngine> m_vCiphers = new List<ICipherEngine>();
-		private static CipherPool m_poolGlobal = null;
+		internal List<ICipherEngine> m_vCiphers = new List<ICipherEngine>();
+		internal static CipherPool m_poolGlobal = null;
 
 		/// <summary>
 		/// Reference to the global cipher pool.

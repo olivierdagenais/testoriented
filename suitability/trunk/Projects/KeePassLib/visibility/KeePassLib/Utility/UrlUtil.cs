@@ -33,7 +33,7 @@ namespace KeePassLib.Utility
 	/// </summary>
 	public static class UrlUtil
 	{
-		private static readonly char[] m_vDirSeps = new char[] { '\\', '/',
+		internal static readonly char[] m_vDirSeps = new char[] { '\\', '/',
 			Path.DirectorySeparatorChar };
 
 		/// <summary>

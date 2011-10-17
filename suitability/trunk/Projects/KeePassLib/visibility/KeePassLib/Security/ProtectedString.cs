@@ -41,13 +41,13 @@ namespace KeePassLib.Security
 		// object instead of the secure one. This of course decreases the
 		// security of the class, but at least allows the application
 		// to run on older systems, too.
-		private SecureString m_secString = null; // Created in constructor
-		private string m_strAlternativeSecString = string.Empty;
+		internal SecureString m_secString = null; // Created in constructor
+		internal string m_strAlternativeSecString = string.Empty;
 
-		private string m_strPlainText = string.Empty; // Never null
-		private bool m_bIsProtected = false; // See default constructor
+		internal string m_strPlainText = string.Empty; // Never null
+		internal bool m_bIsProtected = false; // See default constructor
 
-		private XorredBuffer m_xbEncrypted = null; // UTF-8 representation
+		internal XorredBuffer m_xbEncrypted = null; // UTF-8 representation
 
 		/// <summary>
 		/// A flag specifying whether the <c>ProtectedString</c> object has turned on

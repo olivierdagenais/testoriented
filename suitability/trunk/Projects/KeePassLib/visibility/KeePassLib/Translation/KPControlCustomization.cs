@@ -37,13 +37,13 @@ namespace KeePassLib.Translation
 			X, Y, Width, Height
 		}
 
-		private const string m_strControlRelative = @"%c";
+		internal const string m_strControlRelative = @"%c";
 
 		internal const NumberStyles m_nsParser = NumberStyles.AllowLeadingSign |
 			NumberStyles.AllowDecimalPoint;
 		internal static readonly CultureInfo m_lclInv = CultureInfo.InvariantCulture;
 
-		private string m_strPosX = string.Empty;
+		internal string m_strPosX = string.Empty;
 		[XmlAttribute]
 		public string X
 		{
@@ -51,7 +51,7 @@ namespace KeePassLib.Translation
 			set { m_strPosX = value; }
 		}
 
-		private string m_strPosY = string.Empty;
+		internal string m_strPosY = string.Empty;
 		[XmlAttribute]
 		public string Y
 		{
@@ -59,7 +59,7 @@ namespace KeePassLib.Translation
 			set { m_strPosY = value; }
 		}
 
-		private string m_strSizeW = string.Empty;
+		internal string m_strSizeW = string.Empty;
 		[XmlAttribute]
 		public string Width
 		{
@@ -67,7 +67,7 @@ namespace KeePassLib.Translation
 			set { m_strSizeW = value; }
 		}
 
-		private string m_strSizeH = string.Empty;
+		internal string m_strSizeH = string.Empty;
 		[XmlAttribute]
 		public string Height
 		{
@@ -105,7 +105,7 @@ namespace KeePassLib.Translation
 			if(v.HasValue) c.Height = v.Value;
 		}
 
-		private static int? GetModControlParameter(Control c, LayoutParameterEx p,
+		internal static int? GetModControlParameter(Control c, LayoutParameterEx p,
 			string strModParam)
 		{
 			if(strModParam.Length == 0) return null;
@@ -179,7 +179,7 @@ namespace KeePassLib.Translation
 
 	public sealed class KPControlCustomization : IComparable<KPControlCustomization>
 	{
-		private string m_strMemberName;
+		internal string m_strMemberName;
 		/// <summary>
 		/// Member variable name of the control to be translated.
 		/// </summary>
@@ -190,7 +190,7 @@ namespace KeePassLib.Translation
 			set { m_strMemberName = value; }
 		}
 
-		private string m_strHash = string.Empty;
+		internal string m_strHash = string.Empty;
 		[XmlAttribute]
 		public string BaseHash
 		{
@@ -198,14 +198,14 @@ namespace KeePassLib.Translation
 			set { m_strHash = value; }
 		}
 
-		private string m_strText = string.Empty;
+		internal string m_strText = string.Empty;
 		public string Text
 		{
 			get { return m_strText; }
 			set { m_strText = value; }
 		}
 
-		private string m_strEngText = string.Empty;
+		internal string m_strEngText = string.Empty;
 		[XmlIgnore]
 		public string TextEnglish
 		{
@@ -213,7 +213,7 @@ namespace KeePassLib.Translation
 			set { m_strEngText = value; }
 		}
 
-		private KpccLayout m_layout = new KpccLayout();
+		internal KpccLayout m_layout = new KpccLayout();
 		public KpccLayout Layout
 		{
 			get { return m_layout; }
@@ -232,7 +232,7 @@ namespace KeePassLib.Translation
 		}
 
 #if !KeePassLibSD
-		private static readonly Type[] m_vTextControls = new Type[] {
+		internal static readonly Type[] m_vTextControls = new Type[] {
 			typeof(MenuStrip), typeof(PictureBox), typeof(ListView),
 			typeof(TreeView), typeof(ToolStrip), typeof(WebBrowser),
 			typeof(Panel), typeof(StatusStrip), typeof(ProgressBar),
@@ -304,7 +304,7 @@ namespace KeePassLib.Translation
 				Base64FormattingOptions.None);
 		}
 
-		private static void WriteControlDependentParams(StringBuilder sb, Control c)
+		internal static void WriteControlDependentParams(StringBuilder sb, Control c)
 		{
 			CheckBox cb = (c as CheckBox);
 			RadioButton rb = (c as RadioButton);
@@ -346,7 +346,7 @@ namespace KeePassLib.Translation
 			}
 		}
 
-		private static void WriteCpiParam(StringBuilder sb, string strProp)
+		internal static void WriteCpiParam(StringBuilder sb, string strProp)
 		{
 			sb.Append('/');
 			sb.Append(strProp);

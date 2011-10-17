@@ -36,14 +36,14 @@ namespace KeePassLib.Cryptography
 	/// </summary>
 	public sealed class CryptoRandom
 	{
-		private byte[] m_pbEntropyPool = new byte[64];
-		private uint m_uCounter;
-		private RNGCryptoServiceProvider m_rng = new RNGCryptoServiceProvider();
-		private ulong m_uGeneratedBytesCount = 0;
+		internal byte[] m_pbEntropyPool = new byte[64];
+		internal uint m_uCounter;
+		internal RNGCryptoServiceProvider m_rng = new RNGCryptoServiceProvider();
+		internal ulong m_uGeneratedBytesCount = 0;
 
-		private object m_oSyncRoot = new object();
+		internal object m_oSyncRoot = new object();
 
-		private static CryptoRandom m_pInstance = null;
+		internal static CryptoRandom m_pInstance = null;
 		public static CryptoRandom Instance
 		{
 			get
@@ -76,7 +76,7 @@ namespace KeePassLib.Cryptography
 		/// </summary>
 		public event EventHandler GenerateRandom256Pre;
 
-		private CryptoRandom()
+		internal CryptoRandom()
 		{
 			Random r = new Random();
 			m_uCounter = (uint)r.Next();
@@ -124,7 +124,7 @@ namespace KeePassLib.Cryptography
 			}
 		}
 
-		private static byte[] GetSystemData()
+		internal static byte[] GetSystemData()
 		{
 			byte[] pb;
 			MemoryStream ms = new MemoryStream();
@@ -206,14 +206,14 @@ namespace KeePassLib.Cryptography
 			return ms.ToArray();
 		}
 
-		private byte[] GetCspData()
+		internal byte[] GetCspData()
 		{
 			byte[] pbCspRandom = new byte[32];
 			m_rng.GetBytes(pbCspRandom);
 			return pbCspRandom;
 		}
 
-		private byte[] GenerateRandom256()
+		internal byte[] GenerateRandom256()
 		{
 			if(this.GenerateRandom256Pre != null)
 				this.GenerateRandom256Pre(this, EventArgs.Empty);

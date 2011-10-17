@@ -56,13 +56,13 @@ namespace KeePassLib.Cryptography
 	/// </summary>
 	public sealed class CryptoRandomStream
 	{
-		private CrsAlgorithm m_crsAlgorithm;
+		internal CrsAlgorithm m_crsAlgorithm;
 
-		private byte[] m_pbState = null;
-		private byte m_i = 0;
-		private byte m_j = 0;
+		internal byte[] m_pbState = null;
+		internal byte m_i = 0;
+		internal byte m_j = 0;
 
-		private Salsa20Cipher m_salsa20 = null;
+		internal Salsa20Cipher m_salsa20 = null;
 
 		/// <summary>
 		/// Construct a new cryptographically secure random stream object.
@@ -190,7 +190,7 @@ namespace KeePassLib.Cryptography
 			return str;
 		}
 
-		private static int BenchTime(CrsAlgorithm cra, int nRounds, int nDataSize)
+		internal static int BenchTime(CrsAlgorithm cra, int nRounds, int nDataSize)
 		{
 			byte[] pbKey = new byte[4] { 0x00, 0x01, 0x02, 0x03 };
 

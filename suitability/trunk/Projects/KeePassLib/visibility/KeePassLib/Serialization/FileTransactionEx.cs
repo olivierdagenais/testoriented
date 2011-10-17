@@ -33,13 +33,13 @@ namespace KeePassLib.Serialization
 {
 	public sealed class FileTransactionEx
 	{
-		private bool m_bTransacted;
-		private IOConnectionInfo m_iocBase;
-		private IOConnectionInfo m_iocTemp;
+		internal bool m_bTransacted;
+		internal IOConnectionInfo m_iocBase;
+		internal IOConnectionInfo m_iocTemp;
 
-		private bool m_bMadeUnhidden = false;
+		internal bool m_bMadeUnhidden = false;
 
-		private const string StrTempSuffix = ".tmp";
+		internal const string StrTempSuffix = ".tmp";
 
 		public FileTransactionEx(IOConnectionInfo iocBaseFile)
 		{
@@ -51,7 +51,7 @@ namespace KeePassLib.Serialization
 			Initialize(iocBaseFile, bTransacted);
 		}
 
-		private void Initialize(IOConnectionInfo iocBaseFile, bool bTransacted)
+		internal void Initialize(IOConnectionInfo iocBaseFile, bool bTransacted)
 		{
 			if(iocBaseFile == null) throw new ArgumentNullException("iocBaseFile");
 
@@ -87,7 +87,7 @@ namespace KeePassLib.Serialization
 			}
 		}
 
-		private void CommitWriteTransaction()
+		internal void CommitWriteTransaction()
 		{
 			bool bMadeUnhidden = UrlUtil.UnhideFile(m_iocBase.Path);
 

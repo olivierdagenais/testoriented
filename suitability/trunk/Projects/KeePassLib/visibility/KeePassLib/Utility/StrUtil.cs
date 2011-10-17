@@ -39,8 +39,8 @@ namespace KeePassLib.Utility
 	/// </summary>
 	public sealed class CharStream
 	{
-		private string m_strString = string.Empty;
-		private int m_nPos = 0;
+		internal string m_strString = string.Empty;
+		internal int m_nPos = 0;
 
 		public CharStream(string str)
 		{
@@ -118,7 +118,7 @@ namespace KeePassLib.Utility
 	{
 		public const StringComparison CaseIgnoreCmp = StringComparison.OrdinalIgnoreCase;
 
-		private static bool m_bRtl = false;
+		internal static bool m_bRtl = false;
 		public static bool RightToLeft
 		{
 			get { return m_bRtl; }
@@ -531,7 +531,7 @@ namespace KeePassLib.Utility
 			return sb.ToString();
 		}
 
-		private static Regex m_rxNaturalSplit = null;
+		internal static Regex m_rxNaturalSplit = null;
 		public static int CompareNaturally(string strX, string strY)
 		{
 			Debug.Assert(strX != null);
@@ -775,7 +775,7 @@ namespace KeePassLib.Utility
 			return uVer;
 		}
 
-		private static readonly byte[] m_pbOptEnt = { 0xA5, 0x74, 0x2E, 0xEC };
+		internal static readonly byte[] m_pbOptEnt = { 0xA5, 0x74, 0x2E, 0xEC };
 
 		public static string EncryptString(string strPlainText)
 		{

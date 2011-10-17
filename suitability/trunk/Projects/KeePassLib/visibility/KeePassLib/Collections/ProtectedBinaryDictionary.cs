@@ -40,7 +40,7 @@ namespace KeePassLib.Collections
 		IDeepClonable<ProtectedBinaryDictionary>,
 		IEnumerable<KeyValuePair<string, ProtectedBinary>>
 	{
-		private SortedDictionary<string, ProtectedBinary> m_vBinaries =
+		internal SortedDictionary<string, ProtectedBinary> m_vBinaries =
 			new SortedDictionary<string, ProtectedBinary>();
 
 		/// <summary>

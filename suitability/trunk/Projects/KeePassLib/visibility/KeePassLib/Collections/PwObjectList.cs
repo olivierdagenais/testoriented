@@ -34,7 +34,7 @@ namespace KeePassLib.Collections
 	public sealed class PwObjectList<T> : IEnumerable<T>
 		where T : class, IDeepClonable<T>
 	{
-		private List<T> m_vObjects = new List<T>();
+		internal List<T> m_vObjects = new List<T>();
 
 		/// <summary>
 		/// Get number of objects in this list.

@@ -30,12 +30,12 @@ namespace KeePassLib.Native
 
 		/* [DllImport("KeePassNtv32.dll", EntryPoint = "TransformKey")]
 		[return: MarshalAs(UnmanagedType.Bool)]
-		private static extern bool TransformKey32(IntPtr pBuf256,
+		internal static extern bool TransformKey32(IntPtr pBuf256,
 			IntPtr pKey256, UInt64 uRounds);
 
 		[DllImport("KeePassNtv64.dll", EntryPoint = "TransformKey")]
 		[return: MarshalAs(UnmanagedType.Bool)]
-		private static extern bool TransformKey64(IntPtr pBuf256,
+		internal static extern bool TransformKey64(IntPtr pBuf256,
 			IntPtr pKey256, UInt64 uRounds);
 
 		internal static bool TransformKey(IntPtr pBuf256, IntPtr pKey256,
@@ -49,12 +49,12 @@ namespace KeePassLib.Native
 
 		[DllImport("KeePassNtv32.dll", EntryPoint = "TransformKeyTimed")]
 		[return: MarshalAs(UnmanagedType.Bool)]
-		private static extern bool TransformKeyTimed32(IntPtr pBuf256,
+		internal static extern bool TransformKeyTimed32(IntPtr pBuf256,
 			IntPtr pKey256, ref UInt64 puRounds, UInt32 uSeconds);
 
 		[DllImport("KeePassNtv64.dll", EntryPoint = "TransformKeyTimed")]
 		[return: MarshalAs(UnmanagedType.Bool)]
-		private static extern bool TransformKeyTimed64(IntPtr pBuf256,
+		internal static extern bool TransformKeyTimed64(IntPtr pBuf256,
 			IntPtr pKey256, ref UInt64 puRounds, UInt32 uSeconds);
 
 		internal static bool TransformKeyTimed(IntPtr pBuf256, IntPtr pKey256,
@@ -68,12 +68,12 @@ namespace KeePassLib.Native
 
 		[DllImport("KeePassLibC32.dll", EntryPoint = "TransformKey256")]
 		[return: MarshalAs(UnmanagedType.Bool)]
-		private static extern bool TransformKey32(IntPtr pBuf256,
+		internal static extern bool TransformKey32(IntPtr pBuf256,
 			IntPtr pKey256, UInt64 uRounds);
 
 		[DllImport("KeePassLibC64.dll", EntryPoint = "TransformKey256")]
 		[return: MarshalAs(UnmanagedType.Bool)]
-		private static extern bool TransformKey64(IntPtr pBuf256,
+		internal static extern bool TransformKey64(IntPtr pBuf256,
 			IntPtr pKey256, UInt64 uRounds);
 
 		internal static bool TransformKey(IntPtr pBuf256, IntPtr pKey256,
@@ -86,10 +86,10 @@ namespace KeePassLib.Native
 		}
 
 		[DllImport("KeePassLibC32.dll", EntryPoint = "TransformKeyBenchmark256")]
-		private static extern UInt64 TransformKeyBenchmark32(UInt32 uTimeMs);
+		internal static extern UInt64 TransformKeyBenchmark32(UInt32 uTimeMs);
 
 		[DllImport("KeePassLibC64.dll", EntryPoint = "TransformKeyBenchmark256")]
-		private static extern UInt64 TransformKeyBenchmark64(UInt32 uTimeMs);
+		internal static extern UInt64 TransformKeyBenchmark64(UInt32 uTimeMs);
 
 		internal static UInt64 TransformKeyBenchmark(UInt32 uTimeMs)
 		{
@@ -110,9 +110,9 @@ namespace KeePassLib.Native
 			[In] uint dwAttrTo);
 #endif
 
-		private static bool? m_bSupportsLogicalCmp = null;
+		internal static bool? m_bSupportsLogicalCmp = null;
 
-		private static void TestNaturalComparisonsSupport()
+		internal static void TestNaturalComparisonsSupport()
 		{
 #if KeePassLibSD
 #warning No native natural comparisons supported.

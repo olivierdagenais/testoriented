@@ -40,7 +40,7 @@ namespace KeePassLib.Serialization
 	public sealed partial class Kdb4File
 	{
 		/*
-		private void ReadXmlDom(Stream readerStream)
+		internal void ReadXmlDom(Stream readerStream)
 		{
 			XmlDocument doc = new XmlDocument();
 			doc.Load(readerStream);
@@ -49,7 +49,7 @@ namespace KeePassLib.Serialization
 			ReadDocument(el);
 		}
 
-		private void ReadDocument(XmlNode xmlRootNode)
+		internal void ReadDocument(XmlNode xmlRootNode)
 		{
 			Debug.Assert(xmlRootNode != null);
 			if(xmlRootNode == null) throw new ArgumentNullException("xmlRootNode");
@@ -66,7 +66,7 @@ namespace KeePassLib.Serialization
 		}
 		*/
 
-		private void ReadUnknown(XmlNode xmlNode)
+		internal void ReadUnknown(XmlNode xmlNode)
 		{
 			ProcessNode(xmlNode);
 
@@ -77,7 +77,7 @@ namespace KeePassLib.Serialization
 				ReadUnknown(xmlChild);
 		}
 
-		private XorredBuffer ProcessNode(XmlNode xmlNode)
+		internal XorredBuffer ProcessNode(XmlNode xmlNode)
 		{
 			Debug.Assert(xmlNode != null);
 			if(xmlNode == null) throw new ArgumentNullException("xmlNode");
@@ -107,7 +107,7 @@ namespace KeePassLib.Serialization
 		}
 
 		/*
-		private void ReadMeta(XmlNode xmlNode)
+		internal void ReadMeta(XmlNode xmlNode)
 		{
 			ProcessNode(xmlNode);
 
@@ -154,7 +154,7 @@ namespace KeePassLib.Serialization
 			}
 		}
 
-		private void ReadMemoryProtection(XmlNode xmlNode)
+		internal void ReadMemoryProtection(XmlNode xmlNode)
 		{
 			ProcessNode(xmlNode);
 
@@ -178,7 +178,7 @@ namespace KeePassLib.Serialization
 			}
 		}
 
-		private void ReadCustomIcons(XmlNode xmlNode)
+		internal void ReadCustomIcons(XmlNode xmlNode)
 		{
 			ProcessNode(xmlNode);
 
@@ -192,7 +192,7 @@ namespace KeePassLib.Serialization
 			}
 		}
 
-		private void ReadCustomIcon(XmlNode xmlNode)
+		internal void ReadCustomIcon(XmlNode xmlNode)
 		{
 			ProcessNode(xmlNode);
 
@@ -221,7 +221,7 @@ namespace KeePassLib.Serialization
 			else { Debug.Assert(false); }
 		}
 
-		private void ReadRoot(XmlNode xmlNode)
+		internal void ReadRoot(XmlNode xmlNode)
 		{
 			ProcessNode(xmlNode);
 
@@ -250,7 +250,7 @@ namespace KeePassLib.Serialization
 			Debug.Assert(m_pwDatabase.RootGroup.ParentGroup == null);
 		}
 
-		private PwGroup ReadGroup(XmlNode xmlNode)
+		internal PwGroup ReadGroup(XmlNode xmlNode)
 		{
 			ProcessNode(xmlNode);
 
@@ -298,7 +298,7 @@ namespace KeePassLib.Serialization
 		}
 		*/
 
-		private PwEntry ReadEntry(XmlNode xmlNode)
+		internal PwEntry ReadEntry(XmlNode xmlNode)
 		{
 			ProcessNode(xmlNode);
 
@@ -344,7 +344,7 @@ namespace KeePassLib.Serialization
 			return pe;
 		}
 
-		private void ReadTimes(XmlNode xmlNode, ITimeLogger times)
+		internal void ReadTimes(XmlNode xmlNode, ITimeLogger times)
 		{
 			ProcessNode(xmlNode);
 
@@ -371,14 +371,14 @@ namespace KeePassLib.Serialization
 			}
 		}
 
-		private string ReadString(XmlNode xmlNode)
+		internal string ReadString(XmlNode xmlNode)
 		{
 			ProcessNode(xmlNode);
 
 			return xmlNode.InnerText;
 		}
 
-		private bool ReadBool(XmlNode xmlNode, bool bDefault)
+		internal bool ReadBool(XmlNode xmlNode, bool bDefault)
 		{
 			ProcessNode(xmlNode);
 
@@ -390,7 +390,7 @@ namespace KeePassLib.Serialization
 			return bDefault;
 		}
 
-		private PwUuid ReadUuid(XmlNode xmlNode)
+		internal PwUuid ReadUuid(XmlNode xmlNode)
 		{
 			ProcessNode(xmlNode);
 
@@ -398,7 +398,7 @@ namespace KeePassLib.Serialization
 			return new PwUuid(Convert.FromBase64String(xmlNode.InnerText));
 		}
 
-		private uint ReadUInt(XmlNode xmlNode, uint uDefault)
+		internal uint ReadUInt(XmlNode xmlNode, uint uDefault)
 		{
 			ProcessNode(xmlNode);
 
@@ -409,7 +409,7 @@ namespace KeePassLib.Serialization
 			return uDefault;
 		}
 
-		private ulong ReadULong(XmlNode xmlNode, ulong uDefault)
+		internal ulong ReadULong(XmlNode xmlNode, ulong uDefault)
 		{
 			ProcessNode(xmlNode);
 
@@ -420,7 +420,7 @@ namespace KeePassLib.Serialization
 			return uDefault;
 		}
 
-		private DateTime ReadTime(XmlNode xmlNode)
+		internal DateTime ReadTime(XmlNode xmlNode)
 		{
 			ProcessNode(xmlNode);
 
@@ -431,7 +431,7 @@ namespace KeePassLib.Serialization
 			return m_dtNow;
 		}
 
-		private void ReadProtectedStringEx(XmlNode xmlNode, ProtectedStringDictionary dictStorage)
+		internal void ReadProtectedStringEx(XmlNode xmlNode, ProtectedStringDictionary dictStorage)
 		{
 			ProcessNode(xmlNode);
 
@@ -499,7 +499,7 @@ namespace KeePassLib.Serialization
 #endif
 		}
 
-		private void ReadProtectedBinaryEx(XmlNode xmlNode, ProtectedBinaryDictionary dictStorage)
+		internal void ReadProtectedBinaryEx(XmlNode xmlNode, ProtectedBinaryDictionary dictStorage)
 		{
 			ProcessNode(xmlNode);
 
@@ -542,7 +542,7 @@ namespace KeePassLib.Serialization
 			}
 		}
 
-		private void ReadAutoType(XmlNode xmlNode, AutoTypeConfig atConfig)
+		internal void ReadAutoType(XmlNode xmlNode, AutoTypeConfig atConfig)
 		{
 			ProcessNode(xmlNode);
 
@@ -561,7 +561,7 @@ namespace KeePassLib.Serialization
 			}
 		}
 
-		private void ReadAutoTypeItem(XmlNode xmlNode, AutoTypeConfig atStorage)
+		internal void ReadAutoTypeItem(XmlNode xmlNode, AutoTypeConfig atStorage)
 		{
 			ProcessNode(xmlNode);
 
@@ -580,7 +580,7 @@ namespace KeePassLib.Serialization
 		}
 
 		/*
-		private void ReadDeletedObjects(XmlNode xmlNode, PwObjectList<PwDeletedObject> list)
+		internal void ReadDeletedObjects(XmlNode xmlNode, PwObjectList<PwDeletedObject> list)
 		{
 			ProcessNode(xmlNode);
 
@@ -592,7 +592,7 @@ namespace KeePassLib.Serialization
 			}
 		}
 
-		private PwDeletedObject ReadDeletedObject(XmlNode xmlNode)
+		internal PwDeletedObject ReadDeletedObject(XmlNode xmlNode)
 		{
 			ProcessNode(xmlNode);
 
@@ -610,7 +610,7 @@ namespace KeePassLib.Serialization
 		}
 		*/
 
-		private void ReadHistory(XmlNode xmlNode, PwObjectList<PwEntry> plStorage)
+		internal void ReadHistory(XmlNode xmlNode, PwObjectList<PwEntry> plStorage)
 		{
 			ProcessNode(xmlNode);
 
@@ -625,7 +625,7 @@ namespace KeePassLib.Serialization
 		}
 
 		/*
-		private void ReadStringDictEx(XmlNode xmlNode, StringDictionaryEx sdStorage)
+		internal void ReadStringDictEx(XmlNode xmlNode, StringDictionaryEx sdStorage)
 		{
 			ProcessNode(xmlNode);
 
@@ -637,7 +637,7 @@ namespace KeePassLib.Serialization
 			}
 		}
 
-		private void ReadStringDictExItem(XmlNode xmlNode, StringDictionaryEx sdStorage)
+		internal void ReadStringDictExItem(XmlNode xmlNode, StringDictionaryEx sdStorage)
 		{
 			ProcessNode(xmlNode);
 
