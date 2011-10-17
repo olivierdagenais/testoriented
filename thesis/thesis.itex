@@ -846,10 +846,11 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             The goal of stateless method extraction is to improve the testability of source code, especially that of classes with hidden mutable state.  To measure SME's efficiency and validate its effectiveness, it is compared to the following strategies:
             <block param="enumerate">
               <command name="item"> Do nothing</command>
-              <command name="item"> TODO: other strategies have been commented out, but can be added if we think there is insufficient data</command>
-              <!-- TODO: we can add more strategies later
-              <command name="item"> Write test helper methods</command>
               <command name="item"> Increase visibility of mutable state</command>
+              <command name="item"> Increase visibility of state and methods</command>
+              <!-- TODO: we can add more strategies later
+              <command name="item"> TODO: other strategies have been commented out, but can be added if we think there is insufficient data</command>
+              <command name="item"> Write test helper methods</command>
               <command name="item"> Replace mutable state with immutable state</command>
               <command name="item"> Use private accessors</command>
               -->
