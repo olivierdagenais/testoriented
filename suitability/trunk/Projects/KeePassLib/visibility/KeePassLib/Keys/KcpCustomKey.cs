@@ -29,8 +29,8 @@ namespace KeePassLib.Keys
 {
 	public sealed class KcpCustomKey : IUserKey
 	{
-		private string m_strName;
-		private ProtectedBinary m_pbKey;
+		internal string m_strName;
+		internal ProtectedBinary m_pbKey;
 
 		/// <summary>
 		/// Name of the provider that generated the custom key.

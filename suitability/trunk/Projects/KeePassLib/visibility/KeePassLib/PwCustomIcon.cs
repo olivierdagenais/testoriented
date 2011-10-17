@@ -29,9 +29,9 @@ namespace KeePassLib
 	/// </summary>
 	public sealed class PwCustomIcon
 	{
-		private PwUuid m_pwUuid;
-		private byte[] m_pbImageDataPng;
-		private Image m_pCachedImage;
+		internal PwUuid m_pwUuid;
+		internal byte[] m_pbImageDataPng;
+		internal Image m_pCachedImage;
 
 		public PwUuid Uuid
 		{

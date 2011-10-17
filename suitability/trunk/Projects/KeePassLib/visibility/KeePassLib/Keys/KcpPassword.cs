@@ -32,8 +32,8 @@ namespace KeePassLib.Keys
 	/// </summary>
 	public sealed class KcpPassword : IUserKey
 	{
-		private ProtectedString m_psPassword = null;
-		private ProtectedBinary m_pbKeyData = null;
+		internal ProtectedString m_psPassword = null;
+		internal ProtectedBinary m_pbKeyData = null;
 
 		/// <summary>
 		/// Get the password as protected string.
@@ -63,7 +63,7 @@ namespace KeePassLib.Keys
 			SetKey(Encoding.UTF8.GetBytes(strPassword));
 		}
 
-		private void SetKey(byte[] pbPasswordUtf8)
+		internal void SetKey(byte[] pbPasswordUtf8)
 		{
 			Debug.Assert(pbPasswordUtf8 != null);
 			if(pbPasswordUtf8 == null) throw new ArgumentNullException("pbPasswordUtf8");

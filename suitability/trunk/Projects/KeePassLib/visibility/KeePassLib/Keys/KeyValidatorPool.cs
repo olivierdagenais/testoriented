@@ -27,7 +27,7 @@ namespace KeePassLib.Keys
 {
 	public sealed class KeyValidatorPool : IEnumerable<KeyValidator>
 	{
-		private List<KeyValidator> m_vValidators = new List<KeyValidator>();
+		internal List<KeyValidator> m_vValidators = new List<KeyValidator>();
 
 		public int Count
 		{

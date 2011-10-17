@@ -42,55 +42,55 @@ namespace KeePassLib
 	/// </summary>
 	public sealed class PwDatabase
 	{
-		private static bool m_bPrimaryCreated = false;
+		internal static bool m_bPrimaryCreated = false;
 
 		// Initializations see Clear()
-		private PwGroup m_pgRootGroup = null;
-		private PwObjectList<PwDeletedObject> m_vDeletedObjects = new PwObjectList<PwDeletedObject>();
+		internal PwGroup m_pgRootGroup = null;
+		internal PwObjectList<PwDeletedObject> m_vDeletedObjects = new PwObjectList<PwDeletedObject>();
 
-		private PwUuid m_uuidDataCipher = StandardAesEngine.AesUuid;
-		private PwCompressionAlgorithm m_caCompression = PwCompressionAlgorithm.GZip;
-		private ulong m_uKeyEncryptionRounds = PwDefs.DefaultKeyEncryptionRounds;
+		internal PwUuid m_uuidDataCipher = StandardAesEngine.AesUuid;
+		internal PwCompressionAlgorithm m_caCompression = PwCompressionAlgorithm.GZip;
+		internal ulong m_uKeyEncryptionRounds = PwDefs.DefaultKeyEncryptionRounds;
 
-		private CompositeKey m_pwUserKey = null;
-		private MemoryProtectionConfig m_memProtConfig = new MemoryProtectionConfig();
+		internal CompositeKey m_pwUserKey = null;
+		internal MemoryProtectionConfig m_memProtConfig = new MemoryProtectionConfig();
 
-		private List<PwCustomIcon> m_vCustomIcons = new List<PwCustomIcon>();
-		private bool m_bUINeedsIconUpdate = true;
+		internal List<PwCustomIcon> m_vCustomIcons = new List<PwCustomIcon>();
+		internal bool m_bUINeedsIconUpdate = true;
 
-		private string m_strName = string.Empty;
-		private DateTime m_dtNameChanged = PwDefs.DtDefaultNow;
-		private string m_strDesc = string.Empty;
-		private DateTime m_dtDescChanged = PwDefs.DtDefaultNow;
-		private string m_strDefaultUserName = string.Empty;
-		private DateTime m_dtDefaultUserChanged = PwDefs.DtDefaultNow;
-		private uint m_uMntncHistoryDays = 365;
+		internal string m_strName = string.Empty;
+		internal DateTime m_dtNameChanged = PwDefs.DtDefaultNow;
+		internal string m_strDesc = string.Empty;
+		internal DateTime m_dtDescChanged = PwDefs.DtDefaultNow;
+		internal string m_strDefaultUserName = string.Empty;
+		internal DateTime m_dtDefaultUserChanged = PwDefs.DtDefaultNow;
+		internal uint m_uMntncHistoryDays = 365;
 
-		private IOConnectionInfo m_ioSource = new IOConnectionInfo();
-		private bool m_bDatabaseOpened = false;
-		private bool m_bModified = false;
+		internal IOConnectionInfo m_ioSource = new IOConnectionInfo();
+		internal bool m_bDatabaseOpened = false;
+		internal bool m_bModified = false;
 
-		private PwUuid m_pwLastSelectedGroup = PwUuid.Zero;
-		private PwUuid m_pwLastTopVisibleGroup = PwUuid.Zero;
+		internal PwUuid m_pwLastSelectedGroup = PwUuid.Zero;
+		internal PwUuid m_pwLastTopVisibleGroup = PwUuid.Zero;
 
-		private bool m_bUseRecycleBin = true;
-		private PwUuid m_pwRecycleBin = PwUuid.Zero;
-		private DateTime m_dtRecycleBinChanged = PwDefs.DtDefaultNow;
-		private PwUuid m_pwEntryTemplatesGroup = PwUuid.Zero;
-		private DateTime m_dtEntryTemplatesChanged = PwDefs.DtDefaultNow;
+		internal bool m_bUseRecycleBin = true;
+		internal PwUuid m_pwRecycleBin = PwUuid.Zero;
+		internal DateTime m_dtRecycleBinChanged = PwDefs.DtDefaultNow;
+		internal PwUuid m_pwEntryTemplatesGroup = PwUuid.Zero;
+		internal DateTime m_dtEntryTemplatesChanged = PwDefs.DtDefaultNow;
 
-		private StringDictionaryEx m_vCustomData = new StringDictionaryEx();
+		internal StringDictionaryEx m_vCustomData = new StringDictionaryEx();
 
-		private byte[] m_pbHashOfFileOnDisk = null;
-		private byte[] m_pbHashOfLastIO = null;
+		internal byte[] m_pbHashOfFileOnDisk = null;
+		internal byte[] m_pbHashOfLastIO = null;
 
-		private bool m_bUseFileTransactions = false;
+		internal bool m_bUseFileTransactions = false;
 
-		private IStatusLogger m_slStatus = null;
+		internal IStatusLogger m_slStatus = null;
 
-		private static string m_strLocalizedAppName = string.Empty;
+		internal static string m_strLocalizedAppName = string.Empty;
 
-		// private const string StrBackupExtension = ".bak";
+		// internal const string StrBackupExtension = ".bak";
 
 		/// <summary>
 		/// Get the root group that contains all groups and entries stored in the
@@ -408,7 +408,7 @@ namespace KeePassLib
 			Clear();
 		}
 
-		private void Clear()
+		internal void Clear()
 		{
 			m_pgRootGroup = null;
 			m_vDeletedObjects = new PwObjectList<PwDeletedObject>();
@@ -756,7 +756,7 @@ namespace KeePassLib
 			m_slStatus = slPrevStatus;
 		}
 
-		private void MergeInCustomIcons(PwDatabase pwSource)
+		internal void MergeInCustomIcons(PwDatabase pwSource)
 		{
 			foreach(PwCustomIcon pwci in pwSource.CustomIcons)
 			{
@@ -771,7 +771,7 @@ namespace KeePassLib
 		/// Apply a list of deleted objects.
 		/// </summary>
 		/// <param name="listDelObjects">List of deleted objects.</param>
-		private void ApplyDeletions(PwObjectList<PwDeletedObject> listDelObjects,
+		internal void ApplyDeletions(PwObjectList<PwDeletedObject> listDelObjects,
 			bool bCopyDeletionInfoToLocal)
 		{
 			Debug.Assert(listDelObjects != null); if(listDelObjects == null) throw new ArgumentNullException("listDelObjects");
@@ -836,7 +836,7 @@ namespace KeePassLib
 			}
 		}
 
-		private void RelocateGroups(PwObjectPool ppOrgStructure,
+		internal void RelocateGroups(PwObjectPool ppOrgStructure,
 			PwObjectPool ppSrcStructure)
 		{
 			PwObjectList<PwGroup> vGroups = m_pgRootGroup.GetGroups(true);
@@ -882,7 +882,7 @@ namespace KeePassLib
 			Debug.Assert(m_pgRootGroup.GetGroups(true).UCount == vGroups.UCount);
 		}
 
-		private void RelocateEntries(PwObjectPool ppOrgStructure,
+		internal void RelocateEntries(PwObjectPool ppOrgStructure,
 			PwObjectPool ppSrcStructure)
 		{
 			PwObjectList<PwEntry> vEntries = m_pgRootGroup.GetEntries(true);
@@ -926,7 +926,7 @@ namespace KeePassLib
 			Debug.Assert(m_pgRootGroup.GetEntries(true).UCount == vEntries.UCount);
 		}
 
-		private void ReorderGroups(PwObjectPool ppOrgStructure,
+		internal void ReorderGroups(PwObjectPool ppOrgStructure,
 			PwObjectPool ppSrcStructure)
 		{
 			GroupHandler gh = delegate(PwGroup pg)
@@ -941,7 +941,7 @@ namespace KeePassLib
 			m_pgRootGroup.TraverseTree(TraversalMethod.PreOrder, gh, null);
 		}
 
-		private void ReorderEntries(PwObjectPool ppOrgStructure,
+		internal void ReorderEntries(PwObjectPool ppOrgStructure,
 			PwObjectPool ppSrcStructure)
 		{
 			GroupHandler gh = delegate(PwGroup pg)
@@ -956,7 +956,7 @@ namespace KeePassLib
 			m_pgRootGroup.TraverseTree(TraversalMethod.PreOrder, gh, null);
 		}
 
-		private void ReorderObjectList<T>(PwObjectList<T> vItems,
+		internal void ReorderObjectList<T>(PwObjectList<T> vItems,
 			PwObjectPool ppOrgStructure, PwObjectPool ppSrcStructure, bool bEntries)
 			where T : class, IStructureItem, IDeepClonable<T>
 		{
@@ -1050,7 +1050,7 @@ namespace KeePassLib
 #endif
 		}
 
-		private static uint FindLocationChangedPivot<T>(PwObjectList<T> vItems,
+		internal static uint FindLocationChangedPivot<T>(PwObjectList<T> vItems,
 			KeyValuePair<uint, uint> kvpRange, PwObjectPool ppOrgStructure,
 			PwObjectPool ppSrcStructure, Queue<PwUuid> qBefore, Queue<PwUuid> qAfter,
 			bool bEntries)
@@ -1087,7 +1087,7 @@ namespace KeePassLib
 			return uPosMax;
 		}
 
-		private static void GetNeighborItems(List<IStructureItem> vItems,
+		internal static void GetNeighborItems(List<IStructureItem> vItems,
 			PwUuid pwPivot, Queue<PwUuid> qBefore, Queue<PwUuid> qAfter)
 		{
 			qBefore.Clear();
@@ -1113,7 +1113,7 @@ namespace KeePassLib
 		/// allows to skip the reordering routine, resulting in a large
 		/// performance increase.
 		/// </summary>
-		private bool ObjectListRequiresReorder<T>(PwObjectList<T> vItems,
+		internal bool ObjectListRequiresReorder<T>(PwObjectList<T> vItems,
 			PwObjectPool ppOrgStructure, PwObjectPool ppSrcStructure, bool bEntries)
 			where T : class, IStructureItem, IDeepClonable<T>
 		{
@@ -1159,7 +1159,7 @@ namespace KeePassLib
 			return false;
 		}
 
-		private void MergeInDbProperties(PwDatabase pwSource, PwMergeMethod mm)
+		internal void MergeInDbProperties(PwDatabase pwSource, PwMergeMethod mm)
 		{
 			if(pwSource == null) { Debug.Assert(false); return; }
 			if((mm == PwMergeMethod.KeepExisting) || (mm == PwMergeMethod.None))
@@ -1213,7 +1213,7 @@ namespace KeePassLib
 			else m_pwEntryTemplatesGroup = PwUuid.Zero; // Debug.Assert(false);
 		}
 
-		private void MergeEntryHistory(PwEntry pe, PwEntry peSource,
+		internal void MergeEntryHistory(PwEntry pe, PwEntry peSource,
 			PwMergeMethod mm)
 		{
 			if(!pe.Uuid.EqualsValue(peSource.Uuid)) { Debug.Assert(false); return; }
@@ -1354,7 +1354,7 @@ namespace KeePassLib
 			return true;
 		}
 
-		private static void RemoveCustomIconUuid(PwEntry pe, List<PwUuid> vToDelete)
+		internal static void RemoveCustomIconUuid(PwEntry pe, List<PwUuid> vToDelete)
 		{
 			PwUuid uuidThis = pe.CustomIconUuid;
 			if(uuidThis.EqualsValue(PwUuid.Zero)) return;
@@ -1372,7 +1372,7 @@ namespace KeePassLib
 				RemoveCustomIconUuid(peHistory, vToDelete);
 		}
 
-		private bool ValidateUuidUniqueness()
+		internal bool ValidateUuidUniqueness()
 		{
 #if DEBUG
 			List<PwUuid> l = new List<PwUuid>();
@@ -1440,7 +1440,7 @@ namespace KeePassLib
 			if(bMadeUnhidden) UrlUtil.HideFile(iocBk.Path, true); // Hide again
 		} */
 
-		/* private static void RemoveData(PwGroup pg)
+		/* internal static void RemoveData(PwGroup pg)
 		{
 			EntryHandler eh = delegate(PwEntry pe)
 			{

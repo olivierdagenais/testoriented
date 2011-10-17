@@ -37,29 +37,29 @@ namespace KeePassLib
 	/// </summary>
 	public sealed class PwEntry : ITimeLogger, IStructureItem, IDeepClonable<PwEntry>
 	{
-		private PwUuid m_uuid = PwUuid.Zero;
-		private PwGroup m_pParentGroup = null;
-		private DateTime m_tParentGroupLastMod = PwDefs.DtDefaultNow;
+		internal PwUuid m_uuid = PwUuid.Zero;
+		internal PwGroup m_pParentGroup = null;
+		internal DateTime m_tParentGroupLastMod = PwDefs.DtDefaultNow;
 
-		private ProtectedStringDictionary m_listStrings = new ProtectedStringDictionary();
-		private ProtectedBinaryDictionary m_listBinaries = new ProtectedBinaryDictionary();
-		private AutoTypeConfig m_listAutoType = new AutoTypeConfig();
-		private PwObjectList<PwEntry> m_listHistory = new PwObjectList<PwEntry>();
+		internal ProtectedStringDictionary m_listStrings = new ProtectedStringDictionary();
+		internal ProtectedBinaryDictionary m_listBinaries = new ProtectedBinaryDictionary();
+		internal AutoTypeConfig m_listAutoType = new AutoTypeConfig();
+		internal PwObjectList<PwEntry> m_listHistory = new PwObjectList<PwEntry>();
 
-		private PwIcon m_pwIcon = PwIcon.Key;
-		private PwUuid m_pwCustomIconID = PwUuid.Zero;
+		internal PwIcon m_pwIcon = PwIcon.Key;
+		internal PwUuid m_pwCustomIconID = PwUuid.Zero;
 
-		private Color m_clrForeground = Color.Empty;
-		private Color m_clrBackground = Color.Empty;
+		internal Color m_clrForeground = Color.Empty;
+		internal Color m_clrBackground = Color.Empty;
 
-		private DateTime m_tCreation = PwDefs.DtDefaultNow;
-		private DateTime m_tLastMod = PwDefs.DtDefaultNow;
-		private DateTime m_tLastAccess = PwDefs.DtDefaultNow;
-		private DateTime m_tExpire = PwDefs.DtDefaultNow;
-		private bool m_bExpires = false;
-		private ulong m_uUsageCount = 0;
+		internal DateTime m_tCreation = PwDefs.DtDefaultNow;
+		internal DateTime m_tLastMod = PwDefs.DtDefaultNow;
+		internal DateTime m_tLastAccess = PwDefs.DtDefaultNow;
+		internal DateTime m_tExpire = PwDefs.DtDefaultNow;
+		internal bool m_bExpires = false;
+		internal ulong m_uUsageCount = 0;
 
-		private string m_strOverrideUrl = string.Empty;
+		internal string m_strOverrideUrl = string.Empty;
 
 		/// <summary>
 		/// UUID of this entry.
@@ -581,9 +581,9 @@ namespace KeePassLib
 
 	public sealed class PwEntryComparer : IComparer<PwEntry>
 	{
-		private string m_strFieldName;
-		private bool m_bCaseInsensitive;
-		private bool m_bCompareNaturally;
+		internal string m_strFieldName;
+		internal bool m_bCaseInsensitive;
+		internal bool m_bCompareNaturally;
 
 		public PwEntryComparer(string strFieldName, bool bCaseInsensitive,
 			bool bCompareNaturally)

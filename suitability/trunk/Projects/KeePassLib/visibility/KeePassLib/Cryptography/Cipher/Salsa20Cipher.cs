@@ -28,13 +28,13 @@ namespace KeePassLib.Cryptography.Cipher
 {
 	public sealed class Salsa20Cipher
 	{
-		private uint[] m_state = new uint[16];
-		private uint[] m_x = new uint[16]; // Working buffer
+		internal uint[] m_state = new uint[16];
+		internal uint[] m_x = new uint[16]; // Working buffer
 
-		private byte[] m_output = new byte[64];
-		private int m_outputPos = 64;
+		internal byte[] m_output = new byte[64];
+		internal int m_outputPos = 64;
 
-		private static readonly uint[] m_sigma = new uint[4]{
+		internal static readonly uint[] m_sigma = new uint[4]{
 			0x61707865, 0x3320646E, 0x79622D32, 0x6B206574
 		};
 
@@ -51,7 +51,7 @@ namespace KeePassLib.Cryptography.Cipher
 			Array.Clear(m_x, 0, m_x.Length);
 		}
 
-		private void NextOutput()
+		internal void NextOutput()
 		{
 			uint[] x = m_x; // Local alias for working buffer
 
@@ -115,7 +115,7 @@ namespace KeePassLib.Cryptography.Cipher
 			}
 		}
 
-		private static uint Rotl32(uint x, int b)
+		internal static uint Rotl32(uint x, int b)
 		{
 			unchecked
 			{
@@ -123,7 +123,7 @@ namespace KeePassLib.Cryptography.Cipher
 			}
 		}
 
-		private static uint U8To32Little(byte[] pb, int iOffset)
+		internal static uint U8To32Little(byte[] pb, int iOffset)
 		{
 			unchecked
 			{
@@ -132,7 +132,7 @@ namespace KeePassLib.Cryptography.Cipher
 			}
 		}
 
-		private void KeySetup(byte[] k)
+		internal void KeySetup(byte[] k)
 		{
 			if(k == null) throw new ArgumentNullException("pbKey");
 			if(k.Length != 32) throw new ArgumentException();
@@ -151,7 +151,7 @@ namespace KeePassLib.Cryptography.Cipher
 			m_state[15] = m_sigma[3];
 		}
 
-		private void IvSetup(byte[] pbIV)
+		internal void IvSetup(byte[] pbIV)
 		{
 			if(pbIV == null) throw new ArgumentNullException("pbIV");
 			if(pbIV.Length != 8) throw new ArgumentException();

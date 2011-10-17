@@ -38,7 +38,7 @@ namespace KeePassLib.Keys
 	/// </summary>
 	public sealed class CompositeKey
 	{
-		private List<IUserKey> m_vUserKeys = new List<IUserKey>();
+		internal List<IUserKey> m_vUserKeys = new List<IUserKey>();
 
 		/// <summary>
 		/// List of all user keys contained in the current composite key.
@@ -146,7 +146,7 @@ namespace KeePassLib.Keys
 		/// Creates the composite key from the supplied user key sources (password,
 		/// key file, user account, computer ID, etc.).
 		/// </summary>
-		private byte[] CreateRawCompositeKey32()
+		internal byte[] CreateRawCompositeKey32()
 		{
 			ValidateUserKeys();
 
@@ -198,7 +198,7 @@ namespace KeePassLib.Keys
 			return pbRet;
 		}
 
-		private void ValidateUserKeys()
+		internal void ValidateUserKeys()
 		{
 			int nAccounts = 0;
 
@@ -222,7 +222,7 @@ namespace KeePassLib.Keys
 		/// be <c>null</c>. This parameter won't be modified.</param>
 		/// <param name="uNumRounds">Transformation count.</param>
 		/// <returns>256-bit transformed key.</returns>
-		private static byte[] TransformKey(byte[] pbOriginalKey32, byte[] pbKeySeed32,
+		internal static byte[] TransformKey(byte[] pbOriginalKey32, byte[] pbKeySeed32,
 			ulong uNumRounds)
 		{
 			Debug.Assert((pbOriginalKey32 != null) && (pbOriginalKey32.Length == 32));

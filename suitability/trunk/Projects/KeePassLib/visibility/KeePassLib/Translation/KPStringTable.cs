@@ -28,7 +28,7 @@ namespace KeePassLib.Translation
 {
 	public sealed class KPStringTable
 	{
-		private string m_strName = string.Empty;
+		internal string m_strName = string.Empty;
 		[XmlAttribute]
 		public string Name
 		{
@@ -36,7 +36,7 @@ namespace KeePassLib.Translation
 			set { m_strName = value; }
 		}
 
-		private List<KPStringTableItem> m_vItems = new List<KPStringTableItem>();
+		internal List<KPStringTableItem> m_vItems = new List<KPStringTableItem>();
 
 		[XmlArrayItem("Data")]
 		public List<KPStringTableItem> Strings
@@ -74,7 +74,7 @@ namespace KeePassLib.Translation
 			this.ApplyTo(tsic, dict);
 		}
 
-		private void ApplyTo(ToolStripItemCollection tsic, Dictionary<string, string> dict)
+		internal void ApplyTo(ToolStripItemCollection tsic, Dictionary<string, string> dict)
 		{
 			if(tsic == null) return;
 

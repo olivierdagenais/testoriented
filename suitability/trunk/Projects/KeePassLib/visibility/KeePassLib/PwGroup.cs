@@ -37,34 +37,34 @@ namespace KeePassLib
 		public const bool DefaultAutoTypeEnabled = true;
 		public const bool DefaultSearchingEnabled = true;
 
-		private PwObjectList<PwGroup> m_listGroups = new PwObjectList<PwGroup>();
-		private PwObjectList<PwEntry> m_listEntries = new PwObjectList<PwEntry>();
-		private PwGroup m_pParentGroup = null;
-		private DateTime m_tParentGroupLastMod = PwDefs.DtDefaultNow;
+		internal PwObjectList<PwGroup> m_listGroups = new PwObjectList<PwGroup>();
+		internal PwObjectList<PwEntry> m_listEntries = new PwObjectList<PwEntry>();
+		internal PwGroup m_pParentGroup = null;
+		internal DateTime m_tParentGroupLastMod = PwDefs.DtDefaultNow;
 
-		private PwUuid m_uuid = PwUuid.Zero;
-		private string m_strName = string.Empty;
-		private string m_strNotes = string.Empty;
+		internal PwUuid m_uuid = PwUuid.Zero;
+		internal string m_strName = string.Empty;
+		internal string m_strNotes = string.Empty;
 
-		private PwIcon m_pwIcon = PwIcon.Folder;
-		private PwUuid m_pwCustomIconID = PwUuid.Zero;
+		internal PwIcon m_pwIcon = PwIcon.Folder;
+		internal PwUuid m_pwCustomIconID = PwUuid.Zero;
 
-		private DateTime m_tCreation = PwDefs.DtDefaultNow;
-		private DateTime m_tLastMod = PwDefs.DtDefaultNow;
-		private DateTime m_tLastAccess = PwDefs.DtDefaultNow;
-		private DateTime m_tExpire = PwDefs.DtDefaultNow;
-		private bool m_bExpires = false;
-		private ulong m_uUsageCount = 0;
+		internal DateTime m_tCreation = PwDefs.DtDefaultNow;
+		internal DateTime m_tLastMod = PwDefs.DtDefaultNow;
+		internal DateTime m_tLastAccess = PwDefs.DtDefaultNow;
+		internal DateTime m_tExpire = PwDefs.DtDefaultNow;
+		internal bool m_bExpires = false;
+		internal ulong m_uUsageCount = 0;
 
-		private bool m_bIsExpanded = true;
-		private bool m_bVirtual = false;
+		internal bool m_bIsExpanded = true;
+		internal bool m_bVirtual = false;
 
-		private string m_strDefaultAutoTypeSequence = string.Empty;
+		internal string m_strDefaultAutoTypeSequence = string.Empty;
 
-		private bool? m_bEnableAutoType = null;
-		private bool? m_bEnableSearching = null;
+		internal bool? m_bEnableAutoType = null;
+		internal bool? m_bEnableSearching = null;
 
-		private PwUuid m_pwLastTopVisibleEntry = PwUuid.Zero;
+		internal PwUuid m_pwLastTopVisibleEntry = PwUuid.Zero;
 
 		/// <summary>
 		/// UUID of this group.
@@ -537,7 +537,7 @@ namespace KeePassLib
 			return bRet;
 		}
 
-		private bool PreOrderTraverseTree(GroupHandler groupHandler, EntryHandler entryHandler)
+		internal bool PreOrderTraverseTree(GroupHandler groupHandler, EntryHandler entryHandler)
 		{
 			if(entryHandler != null)
 			{
@@ -588,7 +588,7 @@ namespace KeePassLib
 			return list;
 		}
 
-		private void LinearizeGroupRecursive(LinkedList<PwGroup> list, PwGroup pg, ushort uLevel)
+		internal void LinearizeGroupRecursive(LinkedList<PwGroup> list, PwGroup pg, ushort uLevel)
 		{
 			Debug.Assert(pg != null); if(pg == null) return;
 
@@ -773,7 +773,7 @@ namespace KeePassLib
 			PreOrderTraverseTree(null, eh);
 		}
 
-		private static void SearchEvalAdd(string strSearch, string strDataField,
+		internal static void SearchEvalAdd(string strSearch, string strDataField,
 			StringComparison scType, Regex rx, PwEntry pe, PwObjectList<PwEntry> lResults)
 		{
 			if(rx == null)

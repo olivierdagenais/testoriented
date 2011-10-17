@@ -40,7 +40,7 @@ namespace KeePassLib.Collections
 		IDeepClonable<ProtectedStringDictionary>,
 		IEnumerable<KeyValuePair<string, ProtectedString>>
 	{
-		private SortedDictionary<string, ProtectedString> m_vStrings =
+		internal SortedDictionary<string, ProtectedString> m_vStrings =
 			new SortedDictionary<string, ProtectedString>();
 
 		/// <summary>

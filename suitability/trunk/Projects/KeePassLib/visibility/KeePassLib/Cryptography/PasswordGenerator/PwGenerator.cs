@@ -64,7 +64,7 @@ namespace KeePassLib.Cryptography.PasswordGenerator
 			return e;
 		}
 
-		private static CryptoRandomStream CreateCryptoStream(byte[] pbAdditionalEntropy)
+		internal static CryptoRandomStream CreateCryptoStream(byte[] pbAdditionalEntropy)
 		{
 			byte[] pbKey = CryptoRandom.Instance.GetRandomBytes(256);
 
@@ -123,7 +123,7 @@ namespace KeePassLib.Cryptography.PasswordGenerator
 			}
 		}
 
-		private static PwgError GenerateCustom(ProtectedString psOutBuffer,
+		internal static PwgError GenerateCustom(ProtectedString psOutBuffer,
 			PwProfile pwProfile, CryptoRandomStream crs,
 			CustomPwGeneratorPool pwAlgorithmPool)
 		{

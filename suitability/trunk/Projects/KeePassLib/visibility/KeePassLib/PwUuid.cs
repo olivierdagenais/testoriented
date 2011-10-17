@@ -42,7 +42,7 @@ namespace KeePassLib
 		/// </summary>
 		public static readonly PwUuid Zero = new PwUuid();
 
-		private byte[] m_pbUuid = new byte[UuidSize];
+		internal byte[] m_pbUuid = new byte[UuidSize];
 
 		/// <summary>
 		/// Get the 16 UUID bytes.
@@ -55,7 +55,7 @@ namespace KeePassLib
 		/// <summary>
 		/// Construct a new UUID object. Its value is initialized to zero.
 		/// </summary>
-		private PwUuid()
+		internal PwUuid()
 		{
 			SetZero();
 		}
@@ -86,7 +86,7 @@ namespace KeePassLib
 		/// </summary>
 		/// <returns>Returns <c>true</c> if a random UUID has been generated,
 		/// otherwise it returns <c>false</c>.</returns>
-		private void CreateNew()
+		internal void CreateNew()
 		{
 			while(true)
 			{
@@ -132,7 +132,7 @@ namespace KeePassLib
 		/// </summary>
 		/// <param name="uuidBytes">UUID bytes. The byte array must contain
 		/// exactly <c>UUIDSize</c> bytes, otherwise the function will fail.</param>
-		private void SetValue(byte[] uuidBytes)
+		internal void SetValue(byte[] uuidBytes)
 		{
 			Debug.Assert((uuidBytes != null) && (uuidBytes.Length == UuidSize));
 			if(uuidBytes == null) throw new ArgumentNullException("uuidBytes");
@@ -144,7 +144,7 @@ namespace KeePassLib
 		/// <summary>
 		/// Set the UUID value to zero.
 		/// </summary>
-		private void SetZero()
+		internal void SetZero()
 		{
 			Array.Clear(m_pbUuid, 0, (int)UuidSize);
 		}
@@ -152,7 +152,7 @@ namespace KeePassLib
 
 	public sealed class PwUuidComparable : IComparable<PwUuidComparable>
 	{
-		private byte[] m_pbUuid = new byte[PwUuid.UuidSize];
+		internal byte[] m_pbUuid = new byte[PwUuid.UuidSize];
 
 		public PwUuidComparable(PwUuid pwUuid)
 		{

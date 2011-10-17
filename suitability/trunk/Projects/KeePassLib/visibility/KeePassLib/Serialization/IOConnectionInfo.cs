@@ -54,11 +54,11 @@ namespace KeePassLib.Serialization
 
 	public sealed class IOConnectionInfo : IDeepClonable<IOConnectionInfo>
 	{
-		private string m_strUrl = string.Empty;
-		private string m_strUser = string.Empty;
-		private string m_strPassword = string.Empty;
-		private IOCredSaveMode m_ioCredSaveMode = IOCredSaveMode.NoSave;
-		// private IOFileFormatHint m_ioHint = IOFileFormatHint.None;
+		internal string m_strUrl = string.Empty;
+		internal string m_strUser = string.Empty;
+		internal string m_strPassword = string.Empty;
+		internal IOCredSaveMode m_ioCredSaveMode = IOCredSaveMode.NoSave;
+		// internal IOFileFormatHint m_ioHint = IOFileFormatHint.None;
 
 		public string Path
 		{
@@ -222,7 +222,7 @@ namespace KeePassLib.Serialization
 		/// <param name="bEncode">If <c>true</c>, the string will be encoded,
 		/// otherwise it'll be decoded.</param>
 		/// <returns>Encoded/decoded string.</returns>
-		private static string TransformUnreadable(string strToEncode, bool bEncode)
+		internal static string TransformUnreadable(string strToEncode, bool bEncode)
 		{
 			Debug.Assert(strToEncode != null);
 			if(strToEncode == null) throw new ArgumentNullException("strToEncode");

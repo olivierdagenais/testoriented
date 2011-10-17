@@ -34,7 +34,7 @@ namespace KeePassLib.Utility
 	/// </summary>
 	public static class AppLogEx
 	{
-		private static StreamWriter m_swOut = null;
+		internal static StreamWriter m_swOut = null;
 
 		public static void Open(string strPrefix)
 		{

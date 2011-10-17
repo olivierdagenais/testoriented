@@ -32,7 +32,7 @@ namespace KeePassLib.Cryptography
 	/// </summary>
 	public static class HmacOtp
 	{
-		private static readonly uint[] vDigitsPower = new uint[]{ 1, 10, 100,
+		internal static readonly uint[] vDigitsPower = new uint[]{ 1, 10, 100,
 			1000, 10000, 100000, 1000000, 10000000, 100000000 };
 
 		public static string Generate(byte[] pbSecret, ulong uFactor,
@@ -61,10 +61,10 @@ namespace KeePassLib.Cryptography
 			return uOtp.ToString().PadLeft((int)uDigits, '0');
 		}
 
-		private static readonly uint[] vDoubleDigits = new uint[]{ 0, 2, 4, 6, 8,
+		internal static readonly uint[] vDoubleDigits = new uint[]{ 0, 2, 4, 6, 8,
 			1, 3, 5, 7, 9 };
 
-		private static uint CalculateChecksum(uint uNum, uint uDigits)
+		internal static uint CalculateChecksum(uint uNum, uint uDigits)
 		{
 			bool bDoubleDigit = true;
 			uint uTotal = 0;

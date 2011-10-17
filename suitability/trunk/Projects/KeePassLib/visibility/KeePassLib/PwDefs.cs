@@ -212,7 +212,7 @@ namespace KeePassLib
 	/// </summary>
 	public sealed class SearchParameters
 	{
-		private string m_strText = string.Empty;
+		internal string m_strText = string.Empty;
 		public string SearchString
 		{
 			get { return m_strText; }
@@ -223,70 +223,70 @@ namespace KeePassLib
 			}
 		}
 
-		private bool m_bRegex = false;
+		internal bool m_bRegex = false;
 		public bool RegularExpression
 		{
 			get { return m_bRegex; }
 			set { m_bRegex = value; }
 		}
 
-		private bool m_bSearchInTitles = true;
+		internal bool m_bSearchInTitles = true;
 		public bool SearchInTitles
 		{
 			get { return m_bSearchInTitles; }
 			set { m_bSearchInTitles = value; }
 		}
 
-		private bool m_bSearchInUserNames = true;
+		internal bool m_bSearchInUserNames = true;
 		public bool SearchInUserNames
 		{
 			get { return m_bSearchInUserNames; }
 			set { m_bSearchInUserNames = value; }
 		}
 
-		private bool m_bSearchInPasswords = false;
+		internal bool m_bSearchInPasswords = false;
 		public bool SearchInPasswords
 		{
 			get { return m_bSearchInPasswords; }
 			set { m_bSearchInPasswords = value; }
 		}
 
-		private bool m_bSearchInUrls = true;
+		internal bool m_bSearchInUrls = true;
 		public bool SearchInUrls
 		{
 			get { return m_bSearchInUrls; }
 			set { m_bSearchInUrls = value; }
 		}
 
-		private bool m_bSearchInNotes = true;
+		internal bool m_bSearchInNotes = true;
 		public bool SearchInNotes
 		{
 			get { return m_bSearchInNotes; }
 			set { m_bSearchInNotes = value; }
 		}
 
-		private bool m_bSearchInOther = true;
+		internal bool m_bSearchInOther = true;
 		public bool SearchInOther
 		{
 			get { return m_bSearchInOther; }
 			set { m_bSearchInOther = value; }
 		}
 
-		private bool m_bSearchInUuids = false;
+		internal bool m_bSearchInUuids = false;
 		public bool SearchInUuids
 		{
 			get { return m_bSearchInUuids; }
 			set { m_bSearchInUuids = value; }
 		}
 
-		private bool m_bSearchInGroupNames = false;
+		internal bool m_bSearchInGroupNames = false;
 		public bool SearchInGroupNames
 		{
 			get { return m_bSearchInGroupNames; }
 			set { m_bSearchInGroupNames = value; }
 		}
 
-		private StringComparison m_scType = StringComparison.InvariantCultureIgnoreCase;
+		internal StringComparison m_scType = StringComparison.InvariantCultureIgnoreCase;
 		/// <summary>
 		/// String comparison type. Specifies the condition when the specified
 		/// text matches a group/entry string.
@@ -297,7 +297,7 @@ namespace KeePassLib
 			set { m_scType = value; }
 		}
 
-		private bool m_bExcludeExpired = false;
+		internal bool m_bExcludeExpired = false;
 		public bool ExcludeExpired
 		{
 			get { return m_bExcludeExpired; }
@@ -371,13 +371,13 @@ namespace KeePassLib
 
 	public sealed class ObjectTouchedEventArgs : EventArgs
 	{
-		private object m_o;
+		internal object m_o;
 		public object Object { get { return m_o; } }
 
-		private bool m_bModified;
+		internal bool m_bModified;
 		public bool Modified { get { return m_bModified; } }
 
-		private bool m_bParentsTouched;
+		internal bool m_bParentsTouched;
 		public bool ParentsTouched { get { return m_bParentsTouched; } }
 
 		public ObjectTouchedEventArgs(object o, bool bModified,

@@ -126,7 +126,7 @@ namespace KeePassLib.Cryptography.PasswordGenerator
 			return PwgError.Success;
 		}
 
-		private static string ExpandPattern(string strPattern)
+		internal static string ExpandPattern(string strPattern)
 		{
 			Debug.Assert(strPattern != null); if(strPattern == null) return string.Empty;
 			string str = strPattern;

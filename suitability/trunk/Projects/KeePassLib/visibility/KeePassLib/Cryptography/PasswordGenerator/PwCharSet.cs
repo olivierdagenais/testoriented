@@ -46,13 +46,13 @@ namespace KeePassLib.Cryptography.PasswordGenerator
 		public const string Invalid = "\t\r\n";
 		public const string LookAlike = @"O0l1I|";
 
-		private const int CharTabSize = (0x10000 / 8);
+		internal const int CharTabSize = (0x10000 / 8);
 
-		private List<char> m_vChars = new List<char>();
-		private byte[] m_vTab = new byte[CharTabSize];
+		internal List<char> m_vChars = new List<char>();
+		internal byte[] m_vTab = new byte[CharTabSize];
 
-		private string m_strHighAnsi = string.Empty;
-		private string m_strSpecial = string.Empty;
+		internal string m_strHighAnsi = string.Empty;
+		internal string m_strSpecial = string.Empty;
 
 		/// <summary>
 		/// Create a new, empty character set collection object.
@@ -68,12 +68,12 @@ namespace KeePassLib.Cryptography.PasswordGenerator
 			this.Add(strCharSet);
 		}
 
-		private PwCharSet(bool bFullInitialize)
+		internal PwCharSet(bool bFullInitialize)
 		{
 			this.Initialize(bFullInitialize);
 		}
 
-		private void Initialize(bool bFullInitialize)
+		internal void Initialize(bool bFullInitialize)
 		{
 			this.Clear();
 

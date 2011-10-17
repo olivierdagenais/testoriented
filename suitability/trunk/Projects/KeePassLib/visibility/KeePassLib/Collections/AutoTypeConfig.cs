@@ -34,8 +34,8 @@ namespace KeePassLib.Collections
 
 	/* public sealed class AutoTypeAssociation
 	{
-		private string m_strWindow = string.Empty;
-		private string m_strSequence = string.Empty;
+		internal string m_strWindow = string.Empty;
+		internal string m_strSequence = string.Empty;
 
 		public string WindowName
 		{
@@ -65,11 +65,11 @@ namespace KeePassLib.Collections
 	/// </summary>
 	public sealed class AutoTypeConfig : IDeepClonable<AutoTypeConfig>
 	{
-		private bool m_bEnabled = true;
-		private AutoTypeObfuscationOptions m_atooObfuscation =
+		internal bool m_bEnabled = true;
+		internal AutoTypeObfuscationOptions m_atooObfuscation =
 			AutoTypeObfuscationOptions.None;
-		private string m_strDefaultSequence = string.Empty;
-		private Dictionary<string, string> m_vWindowSeqPairs =
+		internal string m_strDefaultSequence = string.Empty;
+		internal Dictionary<string, string> m_vWindowSeqPairs =
 			new Dictionary<string, string>();
 
 		/// <summary>

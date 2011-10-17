@@ -39,7 +39,7 @@ namespace KeePassLib.Serialization
 {
 	public sealed partial class Kdb4File
 	{
-		private enum KdbContext
+		internal enum KdbContext
 		{
 			Null,
 			KeePassFile,
@@ -63,30 +63,30 @@ namespace KeePassLib.Serialization
 			EntryHistory
 		}
 
-		private bool m_bReadNextNode = true;
-		private Stack<PwGroup> m_ctxGroups = new Stack<PwGroup>();
-		private PwGroup m_ctxGroup = null;
-		private PwEntry m_ctxEntry = null;
-		private string m_ctxStringName = null;
-		private ProtectedString m_ctxStringValue = null;
-		private string m_ctxBinaryName = null;
-		private ProtectedBinary m_ctxBinaryValue = null;
-		private string m_ctxATName = null;
-		private string m_ctxATSeq = null;
-		private bool m_bEntryInHistory = false;
-		private PwEntry m_ctxHistoryBase = null;
-		private PwDeletedObject m_ctxDeletedObject = null;
-		private PwUuid m_uuidCustomIconID = PwUuid.Zero;
-		private byte[] m_pbCustomIconData = null;
-		private string m_strCustomDataKey = null;
-		private string m_strCustomDataValue = null;
+		internal bool m_bReadNextNode = true;
+		internal Stack<PwGroup> m_ctxGroups = new Stack<PwGroup>();
+		internal PwGroup m_ctxGroup = null;
+		internal PwEntry m_ctxEntry = null;
+		internal string m_ctxStringName = null;
+		internal ProtectedString m_ctxStringValue = null;
+		internal string m_ctxBinaryName = null;
+		internal ProtectedBinary m_ctxBinaryValue = null;
+		internal string m_ctxATName = null;
+		internal string m_ctxATSeq = null;
+		internal bool m_bEntryInHistory = false;
+		internal PwEntry m_ctxHistoryBase = null;
+		internal PwDeletedObject m_ctxDeletedObject = null;
+		internal PwUuid m_uuidCustomIconID = PwUuid.Zero;
+		internal byte[] m_pbCustomIconData = null;
+		internal string m_strCustomDataKey = null;
+		internal string m_strCustomDataValue = null;
 
-		private void ReadXmlStreamed(Stream readerStream, Stream sParentStream)
+		internal void ReadXmlStreamed(Stream readerStream, Stream sParentStream)
 		{
 			ReadDocumentStreamed(CreateXmlReader(readerStream), sParentStream);
 		}
 
-		private static XmlReader CreateXmlReader(Stream readerStream)
+		internal static XmlReader CreateXmlReader(Stream readerStream)
 		{
 			XmlReaderSettings xmlSettings = new XmlReaderSettings();
 			xmlSettings.CloseInput = true;
@@ -97,7 +97,7 @@ namespace KeePassLib.Serialization
 			return XmlReader.Create(readerStream, xmlSettings);
 		}
 
-		private void ReadDocumentStreamed(XmlReader xr, Stream sParentStream)
+		internal void ReadDocumentStreamed(XmlReader xr, Stream sParentStream)
 		{
 			Debug.Assert(xr != null);
 			if(xr == null) throw new ArgumentNullException("xr");
@@ -157,7 +157,7 @@ namespace KeePassLib.Serialization
 			if(m_ctxGroups.Count != 0) throw new FormatException();
 		}
 
-		private KdbContext ReadXmlElement(KdbContext ctx, XmlReader xr)
+		internal KdbContext ReadXmlElement(KdbContext ctx, XmlReader xr)
 		{
 			Debug.Assert(xr.NodeType == XmlNodeType.Element);
 
@@ -468,7 +468,7 @@ namespace KeePassLib.Serialization
 			return ctx;
 		}
 
-		private KdbContext EndXmlElement(KdbContext ctx, XmlReader xr)
+		internal KdbContext EndXmlElement(KdbContext ctx, XmlReader xr)
 		{
 			Debug.Assert(xr.NodeType == XmlNodeType.EndElement);
 
@@ -585,7 +585,7 @@ namespace KeePassLib.Serialization
 			}
 		}
 
-		private string ReadString(XmlReader xr)
+		internal string ReadString(XmlReader xr)
 		{
 			XorredBuffer xb = ProcessNode(xr);
 
@@ -599,13 +599,13 @@ namespace KeePassLib.Serialization
 			return xr.ReadElementString();
 		}
 
-		private string ReadStringRaw(XmlReader xr)
+		internal string ReadStringRaw(XmlReader xr)
 		{
 			m_bReadNextNode = false; // ReadElementString skips end tag
 			return xr.ReadElementString();
 		}
 
-		private bool ReadBool(XmlReader xr, bool bDefault)
+		internal bool ReadBool(XmlReader xr, bool bDefault)
 		{
 			string str = ReadString(xr);
 			if(str == ValTrue) return true;
@@ -615,14 +615,14 @@ namespace KeePassLib.Serialization
 			return bDefault;
 		}
 
-		private PwUuid ReadUuid(XmlReader xr)
+		internal PwUuid ReadUuid(XmlReader xr)
 		{
 			string str = ReadString(xr);
 			if(string.IsNullOrEmpty(str)) return PwUuid.Zero;
 			return new PwUuid(Convert.FromBase64String(str));
 		}
 
-		private uint ReadUInt(XmlReader xr, uint uDefault)
+		internal uint ReadUInt(XmlReader xr, uint uDefault)
 		{
 			string str = ReadString(xr);
 
@@ -633,7 +633,7 @@ namespace KeePassLib.Serialization
 			return uDefault;
 		}
 
-		private ulong ReadULong(XmlReader xr, ulong uDefault)
+		internal ulong ReadULong(XmlReader xr, ulong uDefault)
 		{
 			string str = ReadString(xr);
 
@@ -644,7 +644,7 @@ namespace KeePassLib.Serialization
 			return uDefault;
 		}
 
-		private DateTime ReadTime(XmlReader xr)
+		internal DateTime ReadTime(XmlReader xr)
 		{
 			string str = ReadString(xr);
 
@@ -655,7 +655,7 @@ namespace KeePassLib.Serialization
 			return m_dtNow;
 		}
 
-		private ProtectedString ReadProtectedString(XmlReader xr)
+		internal ProtectedString ReadProtectedString(XmlReader xr)
 		{
 			XorredBuffer xb = ProcessNode(xr);
 
@@ -665,7 +665,7 @@ namespace KeePassLib.Serialization
 			return ps;
 		}
 
-		private ProtectedBinary ReadProtectedBinary(XmlReader xr)
+		internal ProtectedBinary ReadProtectedBinary(XmlReader xr)
 		{
 			XorredBuffer xb = ProcessNode(xr);
 
@@ -677,7 +677,7 @@ namespace KeePassLib.Serialization
 			return new ProtectedBinary(false, Convert.FromBase64String(strValue));
 		}
 
-		private void ReadUnknown(XmlReader xr)
+		internal void ReadUnknown(XmlReader xr)
 		{
 			Debug.Assert(false); // Unknown node!
 
@@ -697,7 +697,7 @@ namespace KeePassLib.Serialization
 			Debug.Assert(xr.Name == strUnknownName);
 		}
 
-		private XorredBuffer ProcessNode(XmlReader xr)
+		internal XorredBuffer ProcessNode(XmlReader xr)
 		{
 			Debug.Assert(xr.NodeType == XmlNodeType.Element);
 
@@ -727,7 +727,7 @@ namespace KeePassLib.Serialization
 			return xb;
 		}
 
-		private static KdbContext SwitchContext(KdbContext ctxCurrent,
+		internal static KdbContext SwitchContext(KdbContext ctxCurrent,
 			KdbContext ctxNew, XmlReader xr)
 		{
 			if(xr.IsEmptyElement) return ctxCurrent;

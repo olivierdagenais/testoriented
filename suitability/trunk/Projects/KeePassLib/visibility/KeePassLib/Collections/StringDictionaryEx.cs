@@ -34,7 +34,7 @@ namespace KeePassLib.Collections
 	public sealed class StringDictionaryEx : IDeepClonable<StringDictionaryEx>,
 		IEnumerable<KeyValuePair<string, string>>
 	{
-		private SortedDictionary<string, string> m_vDict =
+		internal SortedDictionary<string, string> m_vDict =
 			new SortedDictionary<string, string>();
 
 		public int Count

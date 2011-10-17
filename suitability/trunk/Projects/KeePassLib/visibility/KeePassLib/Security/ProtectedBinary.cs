@@ -38,18 +38,18 @@ namespace KeePassLib.Security
 	{
 		// In-memory protection is supported only on Windows 2000 SP3 and
 		// higher.
-		private static bool m_bProtectionSupported = true;
+		internal static bool m_bProtectionSupported = true;
 
-		private byte[] m_pbData = new byte[0];
+		internal byte[] m_pbData = new byte[0];
 
 		// The real length of the data. This value can be different than
 		// m_pbData.Length, as the length of m_pbData always is a multiple
 		// of 16 (required for fast in-memory protection).
-		private uint m_uDataLen = 0;
+		internal uint m_uDataLen = 0;
 
-		private bool m_bDoProtect = false; // See default constructor.
+		internal bool m_bDoProtect = false; // See default constructor.
 
-		private XorredBuffer m_xbEncrypted = null;
+		internal XorredBuffer m_xbEncrypted = null;
 		
 		/// <summary>
 		/// A flag specifying whether the <c>ProtectedBinary</c> object has turned on

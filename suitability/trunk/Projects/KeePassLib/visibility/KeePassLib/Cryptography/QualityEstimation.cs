@@ -30,7 +30,7 @@ namespace KeePassLib.Cryptography
 	/// </summary>
 	public static class QualityEstimation
 	{
-		private enum CharSpaceBits : uint
+		internal enum CharSpaceBits : uint
 		{
 			Escape = 60,
 			Alpha = 26,

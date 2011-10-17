@@ -33,7 +33,7 @@ namespace KeePassLib.Collections
 {
 	public sealed class PwObjectPool
 	{
-		private SortedDictionary<PwUuidComparable, IStructureItem> m_dict =
+		internal SortedDictionary<PwUuidComparable, IStructureItem> m_dict =
 			new SortedDictionary<PwUuidComparable, IStructureItem>();
 
 		public static PwObjectPool FromGroupRecursive(PwGroup pgRoot, bool bEntries)

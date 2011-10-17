@@ -34,15 +34,15 @@ namespace KeePassLib.Keys
 	/// </summary>
 	public sealed class KcpUserAccount : IUserKey
 	{
-		private ProtectedBinary m_pbKeyData = null;
+		internal ProtectedBinary m_pbKeyData = null;
 
 		// Constant initialization vector (unique for KeePass)
-		private static readonly byte[] m_pbEntropy = new byte[]{
+		internal static readonly byte[] m_pbEntropy = new byte[]{
 			0xDE, 0x13, 0x5B, 0x5F, 0x18, 0xA3, 0x46, 0x70,
 			0xB2, 0x57, 0x24, 0x29, 0x69, 0x88, 0x98, 0xE6
 		};
 
-		private const string UserKeyFileName = "ProtectedUserKey.bin";
+		internal const string UserKeyFileName = "ProtectedUserKey.bin";
 
 		/// <summary>
 		/// Get key data. Querying this property is fast (it returns a
@@ -85,7 +85,7 @@ namespace KeePassLib.Keys
 			}
 		}
 
-		private static string GetUserKeyFilePath(bool bCreate)
+		internal static string GetUserKeyFilePath(bool bCreate)
 		{
 			string strUserDir = Environment.GetFolderPath(
 				Environment.SpecialFolder.ApplicationData);
@@ -100,7 +100,7 @@ namespace KeePassLib.Keys
 			return strUserDir + UserKeyFileName;
 		}
 
-		private static byte[] LoadUserKey(bool bShowWarning)
+		internal static byte[] LoadUserKey(bool bShowWarning)
 		{
 			byte[] pbKey = null;
 
@@ -126,7 +126,7 @@ namespace KeePassLib.Keys
 			return pbKey;
 		}
 
-		private static byte[] CreateUserKey()
+		internal static byte[] CreateUserKey()
 		{
 			byte[] pbKey = null;
 

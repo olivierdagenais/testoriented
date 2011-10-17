@@ -28,8 +28,8 @@ namespace KeePassLib.Serialization
 {
 	public sealed class OldFormatException : Exception
 	{
-		private string m_strFormat = string.Empty;
-		private OldFormatType m_type = OldFormatType.Unknown;
+		internal string m_strFormat = string.Empty;
+		internal OldFormatType m_type = OldFormatType.Unknown;
 
 		public enum OldFormatType
 		{

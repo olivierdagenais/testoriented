@@ -26,21 +26,21 @@ namespace KeePassLib.Translation
 {
 	public sealed class KPStringTableItem
 	{
-		private string m_strName = string.Empty;
+		internal string m_strName = string.Empty;
 		public string Name
 		{
 			get { return m_strName; }
 			set { m_strName = value; }
 		}
 
-		private string m_strValue = string.Empty;
+		internal string m_strValue = string.Empty;
 		public string Value
 		{
 			get { return m_strValue; }
 			set { m_strValue = value; }
 		}
 
-		private string m_strEnglish = string.Empty;
+		internal string m_strEnglish = string.Empty;
 		[XmlIgnore]
 		public string ValueEnglish
 		{

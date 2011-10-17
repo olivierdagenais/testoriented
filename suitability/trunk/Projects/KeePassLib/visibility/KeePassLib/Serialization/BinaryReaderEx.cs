@@ -26,7 +26,7 @@ namespace KeePassLib.Serialization
 {
 	public sealed class BinaryReaderEx : BinaryReader
 	{
-		private string m_strReadExcp = null;
+		internal string m_strReadExcp = null;
 		public string ReadExceptionText
 		{
 			get { return m_strReadExcp; }

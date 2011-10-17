@@ -30,8 +30,8 @@ namespace KeePassLib
 	/// </summary>
 	public sealed class PwDeletedObject : IDeepClonable<PwDeletedObject>
 	{
-		PwUuid m_uuid = PwUuid.Zero;
-		DateTime m_dtDeletionTime = PwDefs.DtDefaultNow;
+		internal PwUuid m_uuid = PwUuid.Zero;
+        internal DateTime m_dtDeletionTime = PwDefs.DtDefaultNow;
 
 		/// <summary>
 		/// Construct a new <c>PwDeletedObject</c> object.
