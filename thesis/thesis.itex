@@ -910,17 +910,10 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               TODO: can be seen in the "manual" sub-folder
             </command>
             <command name="subsubsection" param="Increase state visibility">
-              Transformation was a "mechanical" one on the fields, instance and static.
-              private => internal
-              protected => protected internal
-              TODO: can be seen in the "visibility-state" sub-folder
+              All the fields (both instance and static fields) in all the classes had their visiblity increased through a manual transformation that converted fields with a visibility (explicit or otherwise) of <tt>private</tt> to <tt>internal</tt> and <tt>protected</tt> to <tt>protected internal</tt>.
             </command>
             <command name="subsubsection" param="Increase state and method visibility">
-              TODO: do we even want to talk about this one?
-              Transformation was a "mechanical" one on all the members, instance and static.
-              private => internal
-              protected => protected internal
-              TODO: can be seen in the "visibility" sub-folder
+              Similar to the previous strategy, all the fields and all the methods (both instance and static fields) in all the classes had their visiblity increased through a manual transformation that converted fields and methods with a visibility (explicit or otherwise) of <tt>private</tt> to <tt>internal</tt> and <tt>protected</tt> to <tt>protected internal</tt>.  This strategy helps to understand the effectiveness of the Pex-related code coverage evaluation.
             </command>
           </command>
           <command name="subsection" param="Selected methods">
@@ -969,7 +962,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               The KeePassLib project contains code to show a modal message box dialog that must be dismissed by an end-user.  This is undesirable for an unattended evaluation and therefore the body of the <tt>SafeShowMessageBox()</tt> method in the <tt>MessageService</tt> class was removed, as was that of the <tt>SafeShowMessageBoxInternal()</tt> method in the <tt>MessageService</tt> class.  Also, to prevent assertions in the projects from interrupting the automated evaluation in the same way, the compilation options were modified to use the <em>Release</em> configuration with optimizations disabled and full debug symbols enabled <footnote>Assertions will only display a dialog if the <tt>DEBUG</tt> constant is defined and it is not defined when using the Release configuration.  Disabling optimizations and enabling debug symbols is done to help keep the static code analysis as representative to the original source code as possible.</footnote>.
             </command>
 
-            Now that we have a baseline for each project, we can create a copy of the <tt>base</tt> folder for each strategy we wish to compare against.  As such, the following folders were created:  <tt>manual</tt> (manual application of SME), TODO.
+            Now that we have a baseline for each project, we can create a copy of the <tt>base</tt> folder for each strategy we wish to compare against.  As such, the following folders were created:  <tt>manual</tt> (manual application of SME), <tt>visibility-state</tt> (increasing the visibility of state members, such as fields) and <tt>visibility</tt> (increasing the visibility of both fields and methods).
 
             The evaluation is conducted automatically using a small program written with NAnt <see cite="shaw06nant" />.  The major steps are as follows:
             <command name="subsubsection" param="Create a working copy">
