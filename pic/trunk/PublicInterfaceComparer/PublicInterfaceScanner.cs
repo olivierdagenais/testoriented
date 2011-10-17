@@ -13,7 +13,6 @@ namespace SoftwareNinjas.PublicInterfaceComparer
     {
         private const string VisibilityPublic = "public";
         private const string VisibilityProtected = "protected";
-        private const string VisibilityProtectedInternal = "protected internal";
 
         private readonly FileInfo _assemblyPath;
         private readonly DirectoryInfo _assemblyFolder;
@@ -168,13 +167,9 @@ namespace SoftwareNinjas.PublicInterfaceComparer
             {
                 return VisibilityPublic;
             }
-            if (methodBase.IsFamily)
+            if (methodBase.IsFamily || methodBase.IsFamilyOrAssembly)
             {
                 return VisibilityProtected;
-            }
-            if (methodBase.IsFamilyOrAssembly)
-            {
-                return VisibilityProtectedInternal;
             }
             throw new ArgumentException("Unsupported visibility");
         }
@@ -185,13 +180,9 @@ namespace SoftwareNinjas.PublicInterfaceComparer
             {
                 return VisibilityPublic;
             }
-            if (fieldInfo.IsFamily)
+            if (fieldInfo.IsFamily || fieldInfo.IsFamilyOrAssembly)
             {
                 return VisibilityProtected;
-            }
-            if (fieldInfo.IsFamilyOrAssembly)
-            {
-                return VisibilityProtectedInternal;
             }
             throw new ArgumentException("Unsupported visibility");
         }
