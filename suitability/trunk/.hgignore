@@ -6,3 +6,4 @@ Projects/*/working-*/**
 *.suo
 TestResult.xml
 *.ReSharper.user
+Projects/*/*/*/bin/Debug/**
