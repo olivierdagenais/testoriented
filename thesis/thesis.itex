@@ -859,7 +859,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
 
             The evaluation uses select interesting and/or difficult-to-test methods from the source code of the following C# open-source projects (TODO: provide links/citations, plus version numbers?):
             <block param="enumerate">
-              <command name="item"> AtomicCms</command>
+              <!-- TODO: AtomicCms has no SME done on it. <command name="item"> AtomicCms</command> -->
               <command name="item"> KeePassLib</command>
               <!-- TODO: is PivotStack good enough? <command name="item"> PivotStack</command> -->
               <command name="item"> Textile</command>
@@ -885,6 +885,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
 
               The tool used for evaluating the complexity of unit tests is the <em>Visual Studio Code Metrics PowerTool 10.0</em> <see cite="ms11codemetrics" /> (CMPT).  It can compute, among others, a <em>Maintainability Index</em> (MI) that is derived and adapted <see cite="morrison07maintainabilityindex" /> from the Carnegie Mellon University's Software Engineering Institute metric of the same name <see cite="vandoren97maintainabilityindex" />.  In short, the tool combines a few metrics obtained by scanning the byte code and scales the result between 0 and 100.  Higher values are better.
               <!-- TODO: talk about which variant of the metric is used, what counts toward the score and what does not, which tool was used and how the results were extracted -->
+              TODO: talk about how the tool is used to evaluate not just the manual tests, but also the IUT, to see if the strategy affected the maintainability
             </command>
             <command name="subsubsection" param="Number of changes to the class under test's public interface">
               It could be undesirable to make changes to the CUT's public interface simply to increase its testability.  Reasons for not wanting any such changes include:
@@ -902,9 +903,24 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           <command name="subsection" param="Strategies">
             <command name="subsubsection" param="Do nothing">
               No transformations are to be performed to the IUT, the source code will be used as-is to establish a baseline.
+              TODO: can be seen in the "base" sub-folder
             </command>
             <command name="subsubsection" param="Extract stateless methods">
               The very approach proposed by this thesis; stateless methods are extracted where good candidate blocks are identified.
+              TODO: can be seen in the "manual" sub-folder
+            </command>
+            <command name="subsubsection" param="Increase state visibility">
+              Transformation was a "mechanical" one on the fields, instance and static.
+              private => internal
+              protected => protected internal
+              TODO: can be seen in the "visibility-state" sub-folder
+            </command>
+            <command name="subsubsection" param="Increase state and method visibility">
+              TODO: do we even want to talk about this one?
+              Transformation was a "mechanical" one on all the members, instance and static.
+              private => internal
+              protected => protected internal
+              TODO: can be seen in the "visibility" sub-folder
             </command>
           </command>
           <command name="subsection" param="Selected methods">
@@ -982,7 +998,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               The console NUnit runner executes all the unit tests that Pex generated while NCover monitors the execution to collect code coverage data for the IUT.  It is not important whether the tests pass, fail or end in error - Pex by its very nature will generate tests that throw or expect to throw ArgumentException instances - it is only important to record code coverage.
             </command>
             <command name="subsubsection" param="Record results">
-              An online spreadsheet <footnote>The spreadsheet can be seen at <url>https://docs.google.com/spreadsheet/ccc?key=0Ag6eugnyWA09dG9zQnFtTlQ0Z1dGUjI5TUlFMnpFWWc</url></footnote> is used to collect the results.  Its columns are explained in table <see ref="tbl:SpreadsheetColumns" />.
+              An online spreadsheet <footnote>The spreadsheet can be seen at <url>https://docs.google.com/spreadsheet/ccc?key=0Ag6eugnyWA09dG9zQnFtTlQ0Z1dGUjI5TUlFMnpFWWc</url></footnote> is used to collect the results.  Its columns are explained in table <see ref="tbl:SpreadsheetColumns" />.  The spreadsheet contains every row submitted to it by the result recorder, with many of these rows due to various tests and tweaks.  Notes were occasionally added in the "Notes" column to explain the test or tweak being investigated.
               <block param="table" opt="htbp">
                 <tabular spec="p{0.2\textwidth} p{0.75\textwidth}">
                   <tr><td>Column name</td><td>Description</td></tr>
