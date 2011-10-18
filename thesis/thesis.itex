@@ -877,6 +877,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           </command>
           <command name="subsection" param="Evaluations">
             <command name="subsubsection" param="Complexity of the unit tests">
+              <command name="label" param="subsubsec:complexity" />
               <block param="quote">
                 "If the effort to produce and run tests is high, however, less testing will be done." <see cite="binder00testharness" /> <!-- page 1043 -->
               </block>
@@ -889,6 +890,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               TODO: talk about how the tool is used to evaluate not just the manual tests, but also the IUT, to see if the strategy affected the maintainability
             </command>
             <command name="subsubsection" param="Number of changes to the class under test's public interface">
+              <command name="label" param="subsubsec:changesPublicInterface" />
               It could be undesirable to make changes to the CUT's public interface simply to increase its testability.  Reasons for not wanting any such changes include:
               <block param="enumerate">
                 <command name="item"> The class is part of an API with pre-existing releases. Changes to the API could break third-party applications consuming it.</command>
@@ -898,6 +900,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               This second evaluation, therefore, counts how often each strategy causes a change to the public interface of the class under test, compared to the original version.  This metric will be referred to as the <em>Public Interface Changes</em> (PIC) metric.  Lower values are better, with zero being ideal.  The tool used is the <em>Public Interface Comparer</em> and it is further described in Appendix <see ref="chapter:PublicInterfaceComparer" />.
             </command>
             <command name="subsubsection" param="Percentage of branches covered using concolic testing">
+              <command name="label" param="subsubsec:codeCoverageConcolic" />
               The Pex tool <see cite="tillman08pex" /> can be used to analyze a specified project and generate unit tests to exercise as much of that project's source code as it can.  Pex's ability to exercise the CUT's methods in an automated and unattended fashion provides a very good objective evaluation of testability.  This ability is measured by the code coverage reported when executing the generated unit tests with a code coverage tool.  Higher values are better.  Version 0.91.50418.0 of Pex is used, along with NUnit <see cite="poole00nunit" /> version 2.4.8 to run the unit tests and NCover <see cite="waldschmidt04ncover" /> version 1.5.8 to measure the code coverage.
             </command>
           </command>
@@ -1014,7 +1017,45 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           </command>
         </command>
         <command name="section" param="Results">
-          ...
+          Table <see ref="tbl:SummaryResults" /> summarizes the results of the evaluations, which have been averaged across the participating open-source projects.  The table is assembled from the results of running the suitability evaluation against revision 361.
+          <table placement="htbp">
+            <tbody spec="p{0.50\textwidth} p{0.12\textwidth} p{0.12\textwidth} p{0.12\textwidth}">
+              <tr>
+                <td>Strategy</td>
+                <td>MI MT<footnote>Maintainability Index of the Manual Tests.  See <see nameref="subsubsec:complexity" /> in section <see ref="subsubsec:complexity" />.</footnote></td>
+                <td>PIC<footnote>Public Interface Changes.  See <see nameref="subsubsec:changesPublicInterface" /> in section <see ref="subsubsec:changesPublicInterface" />.</footnote></td>
+                <td>VSP/TSP<footnote>Visited Sequence Points divided by Total Sequence Points.  See <see nameref="subsubsec:codeCoverageConcolic" /> in section <see ref="subsubsec:codeCoverageConcolic" />.</footnote></td>
+              </tr>
+              <hline />
+              <tr>
+                <td>Do nothing</td>
+                <td><!-- (83 + 100) / 2 -->91.5</td>
+                <td><!-- It's the reference point -->0</td>
+                <td><!-- (60.61 + 45.49) / 2 -->53.05%</td>
+              </tr>
+              <tr>
+                <td>Extract statelesss methods</td>
+                <td><!-- (90 + 100) / 2 -->95</td>
+                <td><!-- (0 + 0) / 2 -->0</td>
+                <td><!-- (67.10 + 49.05) / 2 -->58.08%</td>
+              </tr>
+              <tr>
+                <td>Increase state visibility (TODO: fix these numbers once the results are in)</td>
+                <td><!-- (83 + 100) / 2 -->91.5</td>
+                <td><!-- (0 + 0) / 2 -->0</td>
+                <td><!-- (64.01 + 45.80) / 2 -->54.92%</td>
+              </tr>
+              <tr>
+                <td>Increase state and method visibility</td>
+                <td><!-- (83 + 100) / 2 -->91.5</td>
+                <td><!-- (0 + 0) / 2 -->0</td>
+                <td><!-- (60.61 + 47.83) / 2 -->54.22%</td>
+              </tr>
+            </tbody>
+            <command name="caption" param="Summary results of the evaluations" />
+            <command name="label" param="tbl:SummaryResults" />
+          </table>
+          
         </command>
         <command name="section" param="Detailed results">
           <!--
