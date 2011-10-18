@@ -220,7 +220,27 @@
         <xsl:text>}</xsl:text>
     </xsl:template>
 
-    <xsl:template match="tabular">
+    <xsl:template match="table">
+        <xsl:text>\begin{table}</xsl:text>
+        <xsl:if test="@placement">
+            <xsl:text>[</xsl:text><xsl:value-of select="@placement" /><xsl:text>]</xsl:text>
+        </xsl:if>
+        <xsl:call-template name="command">
+            <xsl:with-param name="name" select="'begin'" />
+            <xsl:with-param name="param" select="'minipage}{\textwidth'" />
+        </xsl:call-template>
+        <xsl:apply-templates select="* | node() | comment()" />
+        <xsl:call-template name="command">
+            <xsl:with-param name="name" select="'end'" />
+            <xsl:with-param name="param" select="'minipage'" />
+        </xsl:call-template>
+        <xsl:call-template name="command">
+            <xsl:with-param name="name" select="'end'" />
+            <xsl:with-param name="param" select="'table'" />
+        </xsl:call-template>
+    </xsl:template>
+
+    <xsl:template match="tbody | tabular">
         <xsl:text>\begin{tabular}</xsl:text>
         <xsl:if test="@pos">
             <xsl:text>[</xsl:text><xsl:value-of select="@pos" /><xsl:text>]</xsl:text>
