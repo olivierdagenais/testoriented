@@ -993,8 +993,8 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             </command>
             <command name="subsubsection" param="Record results">
               An online spreadsheet <footnote>The spreadsheet can be seen at <url>https://docs.google.com/spreadsheet/ccc?key=0Ag6eugnyWA09dG9zQnFtTlQ0Z1dGUjI5TUlFMnpFWWc</url></footnote> is used to collect the results.  Its columns are explained in table <see ref="tbl:SpreadsheetColumns" />.  The spreadsheet contains every row submitted to it by the result recorder, with many of these rows due to various tests and tweaks.  Notes were occasionally added in the "Notes" column to explain the test or tweak being investigated.
-              <block param="table" opt="htbp">
-                <tabular spec="p{0.2\textwidth} p{0.75\textwidth}">
+              <table placement="htbp">
+                <tbody spec="p{0.2\textwidth} p{0.75\textwidth}">
                   <tr><td>Column name</td><td>Description</td></tr>
                   <hline />
                   <tr><td>Timestamp</td><td>The date and time the result row was inserted</td></tr>
@@ -1006,10 +1006,10 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                   <tr><td>DPI</td><td>The number of Differences in Public Interface</td></tr>
                   <tr><td>MI IUT</td><td>Maintainability Index of the Implementation Under Test</td></tr>
                   <tr><td>MI MT</td><td>Maintainability Index of the Manual Tests</td></tr>
-                </tabular>
+                </tbody>
                 <command name="caption" param="Names and descriptions of spreadsheet columns" />
                 <command name="label" param="tbl:SpreadsheetColumns" />
-              </block>
+              </table>
             </command>
           </command>
         </command>
