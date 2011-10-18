@@ -1040,10 +1040,10 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                 <td><!-- (67.10 + 49.05) / 2 -->58.08%</td>
               </tr>
               <tr>
-                <td>Increase state visibility (TODO: fix these numbers once the results are in)</td>
+                <td>Increase state visibility</td>
                 <td><!-- (83 + 100) / 2 -->91.5</td>
                 <td><!-- (0 + 0) / 2 -->0</td>
-                <td><!-- (64.01 + 45.80) / 2 -->54.92%</td>
+                <td><!-- (64.01 + 45.96) / 2 -->54.99%</td>
               </tr>
               <tr>
                 <td>Increase state and method visibility</td>
