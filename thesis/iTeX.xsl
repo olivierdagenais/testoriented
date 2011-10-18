@@ -241,7 +241,7 @@
     </xsl:template>
     
     <xsl:template match="td">
-        <xsl:if test="position() > 1">
+        <xsl:if test="count(preceding-sibling::td) > 0">
             <xsl:text> &amp; </xsl:text>
         </xsl:if>
         <xsl:apply-templates select="* | node() | comment()" />
