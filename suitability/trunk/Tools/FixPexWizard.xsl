@@ -37,7 +37,7 @@
     -->
     <xsl:template match="msbuild:Reference[msbuild:HintPath]">
         <xsl:choose>
-            <xsl:when test="@Include=$projectName" />
+            <xsl:when test="starts-with(@Include, $projectName)" />
             <xsl:otherwise>
                 <xsl:copy>
                     <xsl:apply-templates select="* | @* | node()" />
