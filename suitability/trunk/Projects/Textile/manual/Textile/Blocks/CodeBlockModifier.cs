@@ -22,6 +22,15 @@ namespace Textile.Blocks
 {
     public class CodeBlockModifier : BlockModifier
     {
+        private const string Pattern =
+            @"(?<before>^|([\s\([{]))" + // before
+             "@" +
+            @"(\|(?<lang>\w+)\|)?" +    // lang
+             "(?<code>[^@]+)" +        // code
+             "@" +
+            @"(?<after>$|([\]}])|(?=" + Globals.PunctuationPattern + @"{1,2}|\s|$))";  // after
+        internal static readonly Regex CodeBlockRegex = new Regex(Pattern);
+
         public override string ModifyLine(string line)
         {
             return InnerModifyLine(line);
@@ -31,14 +40,8 @@ namespace Textile.Blocks
         {
             // Replace "@...@" zones with "<code>" tags.
             MatchEvaluator me = new MatchEvaluator(CodeFormatMatchEvaluator);
-            line = Regex.Replace(line,
-                                  @"(?<before>^|([\s\([{]))" +    // before
-                                   "@" +
-                                  @"(\|(?<lang>\w+)\|)?" +        // lang
-                                   "(?<code>[^@]+)" +              // code
-                                   "@" +
-                                  @"(?<after>$|([\]}])|(?=" + Globals.PunctuationPattern + @"{1,2}|\s|$))",  // after
-                                me);
+            line = CodeBlockRegex.Replace(line, me);
+
             // Encode the contents of the "<code>" tags so that we don't
             // generate formatting out of it.
             line = NoTextileEncoder.EncodeNoTextileZones(line,

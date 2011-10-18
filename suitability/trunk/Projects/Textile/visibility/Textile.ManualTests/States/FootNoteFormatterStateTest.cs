@@ -1,4 +1,4 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
 using NUnit.Framework;
 using Textile.States;
 
@@ -17,17 +17,31 @@ namespace Textile.ManualTests.States
             var output = new StringBuilderTextileFormatter ();
             output.Begin();
             var fnfs = new FootNoteFormatterState(new TextileFormatter(output));
-            var expression = SimpleBlockFormatterState.PatternBegin + @"fn[0-9]+" + SimpleBlockFormatterState.PatternEnd;
-            var input = "fn1{color:red}. This is the footnote";
-            Match m = Regex.Match(input, expression);
-            fnfs.Consume (input, m);
+            fnfs.m_noteID = 1;
+            fnfs.m_alignNfo = String.Empty;
+            fnfs.m_attNfo = "{color:red}";
 
             // act
-            // do nothing, since Consume() already caused Enter() to be called
+            fnfs.Enter();
 
             // assert
             Assert.AreEqual("<p id=\"fn1\" style=\"color:red;\"><sup>1</sup> ", output.GetFormattedText());
         }
 
+        [Test]
+        public void OnContextAcquired()
+        {
+            // arrange
+            var output = new StringBuilderTextileFormatter();
+            output.Begin();
+            var fnfs = new FootNoteFormatterState(new TextileFormatter(output));
+            fnfs.m_tag = "fn42";
+
+            // act
+            fnfs.OnContextAcquired();
+
+            // assert
+            Assert.AreEqual(42, fnfs.m_noteID);
+        }
     }
 }

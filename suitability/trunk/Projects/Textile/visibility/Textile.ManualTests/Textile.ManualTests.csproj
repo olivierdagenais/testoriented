@@ -39,25 +39,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Blocks\BlockAttributesParserTest.cs" />
-    <Compile Include="Blocks\BoldPhraseBlockModifierTest.cs" />
-    <Compile Include="Blocks\CapitalsBlockModifierTest.cs" />
-    <Compile Include="Blocks\CitePhraseBlockModifierTest.cs" />
     <Compile Include="Blocks\CodeBlockModifierTest.cs" />
-    <Compile Include="Blocks\DeletedPhraseBlockModifierTest.cs" />
-    <Compile Include="Blocks\EmphasisPhraseBlockModifierTest.cs" />
-    <Compile Include="Blocks\FootNoteReferenceBlockModifierTest.cs" />
-    <Compile Include="Blocks\GlyphBlockModifierTest.cs" />
-    <Compile Include="Blocks\HyperLinkBlockModifierTest.cs" />
-    <Compile Include="Blocks\ImageBlockModifierTest.cs" />
-    <Compile Include="Blocks\InsertedPhraseBlockModifierTest.cs" />
-    <Compile Include="Blocks\ItalicPhraseBlockModifierTest.cs" />
-    <Compile Include="Blocks\NoTextileBlockModifierTest.cs" />
-    <Compile Include="Blocks\NoTextileEncoderTest.cs" />
-    <Compile Include="Blocks\PhraseBlockModifierTest.cs" />
-    <Compile Include="Blocks\PreBlockModifierTest.cs" />
-    <Compile Include="Blocks\SpanPhraseBlockModifierTest.cs" />
-    <Compile Include="Blocks\StrongPhraseBlockModifierTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="States\FootNoteFormatterStateTest.cs" />
   </ItemGroup>

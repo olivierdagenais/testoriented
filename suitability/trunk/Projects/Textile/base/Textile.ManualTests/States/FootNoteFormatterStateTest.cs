@@ -11,7 +11,7 @@ namespace Textile.ManualTests.States
     public class FootNoteFormatterStateTest
     {
         [Test]
-        public void Enter()
+        public void EnterAndOnContextAcquired()
         {
             // arrange
             var output = new StringBuilderTextileFormatter ();
@@ -23,7 +23,7 @@ namespace Textile.ManualTests.States
             fnfs.Consume (input, m);
 
             // act
-            // do nothing, since Consume() already caused Enter() to be called
+            // do nothing, since Consume() already caused OnContextAcquired() and Enter() to be called
 
             // assert
             Assert.AreEqual("<p id=\"fn1\" style=\"color:red;\"><sup>1</sup> ", output.GetFormattedText());

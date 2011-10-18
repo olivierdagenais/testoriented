@@ -10,6 +10,17 @@ namespace Textile.ManualTests.Blocks
     public class CodeBlockModifierTest
     {
         [Test]
+        public void ParseZone()
+        {
+            const string input = "Call the [@|ruby|r_tohtml();@] method";
+            var actual = CodeBlockModifier.CodeBlockRegex.Match(input);
+            Assert.AreEqual("[", actual.Groups["before"].Value);
+            Assert.AreEqual("ruby", actual.Groups["lang"].Value);
+            Assert.AreEqual("r_tohtml();", actual.Groups["code"].Value);
+            Assert.AreEqual("]", actual.Groups["after"].Value);
+        }
+
+        [Test]
         public void InnerModifyLine ()
         {
             var actual = CodeBlockModifier.InnerModifyLine ("(@|ruby|r.to_html@)");

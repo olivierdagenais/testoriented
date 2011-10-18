@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 using NUnit.Framework;
 using Textile.States;
 
@@ -14,6 +15,24 @@ namespace Textile.ManualTests.States
         public void Enter()
         {
             // arrange
+            var output = new StringBuilderTextileFormatter();
+            output.Begin();
+            var fnfs = new FootNoteFormatterState(new TextileFormatter(output));
+            fnfs.m_noteID = 1;
+            fnfs.m_alignNfo = String.Empty;
+            fnfs.m_attNfo = "{color:red}";
+
+            // act
+            fnfs.Enter();
+
+            // assert
+            Assert.AreEqual("<p id=\"fn1\" style=\"color:red;\"><sup>1</sup> ", output.GetFormattedText());
+        }
+
+        [Test]
+        public void OnContextAcquired()
+        {
+            // arrange
             var output = new StringBuilderTextileFormatter ();
             output.Begin();
             var fnfs = new FootNoteFormatterState(new TextileFormatter(output));
@@ -23,11 +42,10 @@ namespace Textile.ManualTests.States
             fnfs.Consume (input, m);
 
             // act
-            // do nothing, since Consume() already caused Enter() to be called
+            // do nothing, since Consume() already caused OnContextAcquired() to be called
 
             // assert
-            Assert.AreEqual("<p id=\"fn1\" style=\"color:red;\"><sup>1</sup> ", output.GetFormattedText());
+            Assert.AreEqual(1, fnfs.m_noteID);
         }
-
     }
 }
