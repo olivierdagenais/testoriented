@@ -940,30 +940,6 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                 </tr>
                 <command name="hline" />
                 <tr><td multicolumn="{4}{l}">Textile</td></tr>
-                <region name="Textile.States">
-                  <tr>
-                    <td></td>
-                    <td multicolumn="{3}{l}">Textile.States</td>
-                  </tr>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td multicolumn="{2}{l}">FootNoteFormatterState</td>
-                  </tr>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>void Enter()</td>
-                  </tr>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>void OnContextAcquired()</td>
-                  </tr>
-                </region>
-
                 <region name="Textile.Blocks">
                   <tr>
                     <td></td>
@@ -985,6 +961,30 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                     <td></td>
                     <td></td>
                     <td>string CodeFormatMatchEvaluator(Match)</td>
+                  </tr>
+                </region>
+
+                <region name="Textile.States">
+                  <tr>
+                    <td></td>
+                    <td multicolumn="{3}{l}">Textile.States</td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td multicolumn="{2}{l}">FootNoteFormatterState</td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>void Enter()</td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>void OnContextAcquired()</td>
                   </tr>
                 </region>
 
