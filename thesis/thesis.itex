@@ -1154,8 +1154,6 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           <command name="subsection" param="Complexity of the unit tests">
             Table <see ref="tbl:complexityResults" /> lists the per-project results of running the CMPT tool on the manual tests to obtain their maintainability index.
 
-            TODO: I didn't update the manual tests after performing visibility increases, does it make this result pointless?
-            TODO: KeePassLib has no manual tests, hence the high score
             <table placement="htbp">
               <tbody spec="p{0.29\textwidth} | R{0.12\textwidth} R{0.12\textwidth} R{0.18\textwidth} R{0.18\textwidth}">
                 <tr>
@@ -1168,25 +1166,25 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                 <hline />
                 <tr>
                   <td>Textile</td>
-                  <td>83.0</td>
-                  <td>90.0</td>
-                  <td>83.0</td>
-                  <td>83.0</td>
+                  <td>78.0</td>
+                  <td>85.0</td>
+                  <td>76.0</td>
+                  <td>76.0</td>
                 </tr>
                 <tr>
                   <td>KeePassLib</td>
-                  <td>100.0</td>
-                  <td>100.0</td>
-                  <td>100.0</td>
-                  <td>100.0</td>
+                  <td>70.0</td>
+                  <td>81.0</td>
+                  <td>70.0</td>
+                  <td>80.0</td>
                 </tr>
                 <hline />
                 <tr>
                   <td>Average</td>
-                  <td>91.5</td>
-                  <td>95.0</td>
-                  <td>91.5</td>
-                  <td>91.5</td>
+                  <td>74.0</td>
+                  <td>83.0</td>
+                  <td>73.0</td>
+                  <td>78.0</td>
                 </tr>
               </tbody>
               <command name="caption" param="Detailed results for the evaluation of the unit test complexity" />
@@ -1269,18 +1267,25 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                     <td>64.24%</td>
                   </tr>
                   <tr>
+                    <td>Textile @ 378</td>
+                    <td>60.38%</td>
+                    <td>67.02%</td>
+                    <td>60.73%</td>
+                    <td>64.24%</td>
+                  </tr>
+                  <tr>
                     <td>Textile AVERAGE</td>
                     <td>60.38%</td>
-                    <td>67.10%</td>
-                    <td>60.57%</td>
-                    <td>64.20%</td>
+                    <td>67.08%</td>
+                    <td>60.61%</td>
+                    <td>64.21%</td>
                   </tr>
                   <tr>
                     <td>Textile STDEV</td>
-                    <td>0.20%</td>
-                    <td>0.00%</td>
-                    <td>0.07%</td>
-                    <td>0.18%</td>
+                    <td>0.17%</td>
+                    <td>0.04%</td>
+                    <td>0.10%</td>
+                    <td>0.15%</td>
                   </tr>
                 </region>
                 <hline />
@@ -1307,35 +1312,42 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                     <td>48.34%</td>
                   </tr>
                   <tr>
+                    <td>KeePassLib @ 378</td>
+                    <td>45.80%</td>
+                    <td>49.14%</td>
+                    <td>46.00%</td>
+                    <td>48.33%</td>
+                  </tr>
+                  <tr>
                     <td>KeePassLib AVERAGE</td>
-                    <td>45.87%</td>
-                    <td>49.08%</td>
-                    <td>45.90%</td>
-                    <td>48.20%</td>
+                    <td>45.85%</td>
+                    <td>49.09%</td>
+                    <td>45.92%</td>
+                    <td>48.23%</td>
                   </tr>
                   <tr>
                     <td>KeePassLib STDEV</td>
-                    <td>0.33%</td>
-                    <td>0.03%</td>
-                    <td>0.06%</td>
-                    <td>0.32%</td>
+                    <td>0.27%</td>
+                    <td>0.04%</td>
+                    <td>0.07%</td>
+                    <td>0.27%</td>
                   </tr>
                 </region>
                 <hline />
                 <region name="Averages">
                   <tr>
-                    <td>Average @ 361</td>
-                    <td>53.05%</td>
-                    <td>58.07%</td>
-                    <td>53.29%</td>
-                    <td>55.92%</td>
+                    <td>Average @ 378</td>
+                    <td>53.09%</td>
+                    <td>58.08%</td>
+                    <td>53.36%</td>
+                    <td>56.29%</td>
                   </tr>
                   <tr>
                     <td>Average all runs</td>
-                    <td>53.12%</td>
+                    <td>53.11%</td>
                     <td>58.09%</td>
-                    <td>53.23%</td>
-                    <td>56.20%</td>
+                    <td>53.27%</td>
+                    <td>56.22%</td>
                   </tr>
                 </region>
               </tbody>
