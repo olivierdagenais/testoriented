@@ -1,5 +1,7 @@
 #!/usr/bin/perl
 
+my $regex = "^ {8}[^ {}#\/[][^(]+\$";
+
 sub process()
 {
 	my $file = $File::Find::name;
@@ -16,34 +18,29 @@ sub process()
 		my $lf = $2;
 
 		s/(\r|\n)+//g;
-		visibilityState($_);
+
+		if( /$regex/ )
+		{
+			if( ! /(public|internal)/ )
+			{
+				if( /private/ )
+				{
+					s/private/internal/;
+				}
+				elsif( /protected/ and not /internal/ )
+				{
+					s/(protected)/\1 internal/;
+				}
+				else
+				{
+					s/^( {8})/\1internal /;
+				}
+			}
+		}
+
 		print F "$_$lf";
 	}
 	close(F);
-}
-
-sub visibilityState($)
-{
-	shift;
-	if( /^ {8}[^ {}#\/[][^(]+$/ )
-	{
-		if( ! /(public|internal)/ )
-		{
-			if( /private/ )
-			{
-				s/private/internal/;
-			}
-			elsif( /protected/ and not /internal/ )
-			{
-				s/(protected)/\1 internal/;
-			}
-			else
-			{
-				s/^( {8})/\1internal /;
-			}
-		}
-	}
-	$_;
 }
 
 use File::Find;
