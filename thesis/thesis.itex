@@ -32,6 +32,13 @@
       <command name="usepackage" param="hyperref" opt="pdftitle={Stateless Programming And Testing: Extracting a functional layer from object-oriented code},pdfauthor={Olivier Dagenais},colorlinks=true,linkcolor=black,anchorcolor=black,citecolor=black,citecolor=black,urlcolor=black,pdftex=true" />
     </region>
 
+    <region comment="Define column type for results tables">
+      <!-- Used these articles
+http://tex.stackexchange.com/questions/12703/
+http://tex.stackexchange.com/questions/10270/
+      -->
+      <raw>\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}b{#1}}</raw>
+    </region>
     <command name="usepackage" param="nameref" />
   </preamble>
   <document>
@@ -1020,7 +1027,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
         <command name="section" param="Results">
           Table <see ref="tbl:SummaryResults" /> summarizes the results of the evaluations, which have been averaged across the participating open-source projects.  The table is assembled from the results of running the suitability evaluation against the source code as of revision 361.  Detailed results are presented in the following section, although it is clear that overall, SME performed better than the other strategies.
           <table placement="htbp">
-            <tbody spec="p{0.50\textwidth} p{0.12\textwidth} p{0.12\textwidth} p{0.12\textwidth}">
+            <tbody spec="p{0.50\textwidth} R{0.12\textwidth} R{0.12\textwidth} R{0.12\textwidth}">
               <tr>
                 <td>Strategy</td>
                 <td>MI MT<footnote>Maintainability Index of the Manual Tests.  See <see nameref="subsubsec:complexity" /> in section <see ref="subsubsec:complexity" />.</footnote></td>
@@ -1036,7 +1043,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               </tr>
               <tr>
                 <td>Extract statelesss methods</td>
-                <td><!-- (90 + 100) / 2 -->95</td>
+                <td><!-- (90 + 100) / 2 -->95.0</td>
                 <td><!-- (0 + 0) / 2 -->0</td>
                 <td><!-- (67.10 + 49.05) / 2 -->58.07%</td>
               </tr>
@@ -1065,34 +1072,34 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             TODO: I didn't update the manual tests after performing visibility increases, does it make this result pointless?
             TODO: KeePassLib has no manual tests, hence the high score
             <table placement="htbp">
-              <tbody spec="p{0.18\textwidth} p{0.18\textwidth} p{0.18\textwidth} p{0.18\textwidth} p{0.18\textwidth}">
+              <tbody spec="p{0.29\textwidth} | R{0.12\textwidth} R{0.12\textwidth} R{0.18\textwidth} R{0.18\textwidth}">
                 <tr>
                   <td>Projects</td>
                   <td><tt>base</tt></td>
                   <td><tt>manual</tt></td>
-                  <td><tt>visibility-state</tt></td>
+                  <td><tt>visibility<raw>\newline</raw>-state</tt></td>
                   <td><tt>visibility</tt></td>
                 </tr>
                 <hline />
                 <tr>
                   <td>Textile</td>
-                  <td>83</td>
-                  <td>90</td>
-                  <td>83</td>
-                  <td>83</td>
+                  <td>83.0</td>
+                  <td>90.0</td>
+                  <td>83.0</td>
+                  <td>83.0</td>
                 </tr>
                 <tr>
                   <td>KeePassLib</td>
-                  <td>100</td>
-                  <td>100</td>
-                  <td>100</td>
-                  <td>100</td>
+                  <td>100.0</td>
+                  <td>100.0</td>
+                  <td>100.0</td>
+                  <td>100.0</td>
                 </tr>
                 <hline />
                 <tr>
                   <td>Average</td>
                   <td>91.5</td>
-                  <td>95</td>
+                  <td>95.0</td>
                   <td>91.5</td>
                   <td>91.5</td>
                 </tr>
@@ -1105,12 +1112,12 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           <command name="subsection" param="Number of changes to the public interface of the class under test">
             Table <see ref="tbl:publicInterfaceResults" /> lists the per-project results of running the PIC tool on the IUTs to obtain their number of public interface differences, relative to the base source code.
             <table placement="htbp">
-              <tbody spec="p{0.18\textwidth} p{0.18\textwidth} p{0.18\textwidth} p{0.18\textwidth} p{0.18\textwidth}">
+              <tbody spec="p{0.29\textwidth} | R{0.12\textwidth} R{0.12\textwidth} R{0.18\textwidth} R{0.18\textwidth}">
                 <tr>
                   <td>Projects</td>
                   <td><tt>base</tt></td>
                   <td><tt>manual</tt></td>
-                  <td><tt>visibility-state</tt></td>
+                  <td><tt>visibility<raw>\newline</raw>-state</tt></td>
                   <td><tt>visibility</tt></td>
                 </tr>
                 <hline />
@@ -1145,12 +1152,12 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           <command name="subsection" param="Percentage of branches covered using concolic testing">
             Table <see ref="tbl:percentageConcolicCoverage" /> lists the results of measuring the code coverage percentage achieved by the tests generated by Pex.  Due to the nature of the constraint solver, measurements from a few runs are presented.
             <table placement="htbp">
-              <tbody spec="p{0.18\textwidth} p{0.18\textwidth} p{0.18\textwidth} p{0.18\textwidth} p{0.18\textwidth}">
+              <tbody spec="p{0.29\textwidth} | R{0.12\textwidth} R{0.12\textwidth} R{0.18\textwidth} R{0.18\textwidth}">
                 <tr>
                   <td>Projects and runs</td>
                   <td><tt>base</tt></td>
                   <td><tt>manual</tt></td>
-                  <td><tt>visibility-state</tt></td>
+                  <td><tt>visibility<raw>\newline</raw>-state</tt></td>
                   <td><tt>visibility</tt></td>
                 </tr>
                 <hline />
