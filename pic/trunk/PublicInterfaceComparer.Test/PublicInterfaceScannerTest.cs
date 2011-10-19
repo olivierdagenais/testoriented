@@ -60,7 +60,7 @@ namespace SoftwareNinjas.PublicInterfaceComparer.Test
             // act
             var actual = PublicInterfaceScanner.Describe((MemberInfo) methodInfo);
             // assert
-            Assert.AreEqual("System.Convert public System.String ToString(Int32)", actual);
+            Assert.AreEqual("System.Convert public static System.String ToString(Int32)", actual);
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace SoftwareNinjas.PublicInterfaceComparer.Test
             // act
             var actual = PublicInterfaceScanner.Describe((MemberInfo) field);
             // assert
-            Assert.AreEqual("System.String public System.String Empty", actual);
+            Assert.AreEqual("System.String public static System.String Empty", actual);
         }
 
         /// <summary>
