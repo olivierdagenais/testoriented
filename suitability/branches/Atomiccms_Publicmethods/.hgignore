@@ -1,0 +1,9 @@
+syntax: glob
+Projects/*/*/*/bin/Release/**
+Projects/*/*/*/obj/**
+*.sln.cache
+Projects/*/working-*/**
+*.suo
+TestResult.xml
+*.ReSharper.user
+Projects/*/*/*/bin/Debug/**

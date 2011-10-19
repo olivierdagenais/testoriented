@@ -1,0 +1,432 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<project name="test-oriented suitability" default="suitability"
+    xmlns="http://testoriented.googlecode.com/schemas/nant.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://testoriented.googlecode.com/schemas/nant.xsd Tools/NAnt.xsd">
+
+    <loadtasks assembly="Tools/nantcontrib/bin/NAnt.Contrib.Tasks.dll" />
+    <loadtasks assembly="Tools/SoftwareNinjas.NAnt.dll" />
+
+    <property name="configuration" value="Release" overwrite="false" />
+
+    <property name="baseStrategy" value="base" />
+    <property name="manualSmeStrategy" value="manual" />
+    <property name="automaticSmeStrategy" value="testoriented" />
+    <property name="strategies" value="${baseStrategy},${manualSmeStrategy},visibility-state,visibility" />
+
+    <property name="projects" value="KeePassLib,Textile" />
+
+    <property name="pexFolder" value="Tools/Pex-0.91.50418.0" />
+    <property name="ncoverFolder" value="Tools/NCover-1.5.8" />
+    <property name="nunitFolder" value="Tools/NUnit-2.4.8" />
+    <property name="codeMetricsFolder" value="Tools/CodeMetrics-10.0" />
+
+    <target name="schema">
+        <nantschema output="Tools/NAnt.xsd" target-ns="http://testoriented.googlecode.com/schemas/nant.xsd"/>
+    </target>
+
+    <target name="prepare">
+        <comregister>
+            <fileset>
+                <include name="${pexFolder}/Microsoft.ExtendedReflection.ClrMonitor.X86.dll" />
+                <include name="${ncoverFolder}/CoverLib.dll" />
+            </fileset>
+        </comregister>
+        <exec program="Tools/gacutil.exe">
+            <arg value="/i" />
+            <arg file="${pexFolder}/Microsoft.ExtendedReflection.dll" />
+            <arg value="/f" />
+        </exec>
+        <exec program="reg.exe">
+            <arg value="import" />
+            <arg file="${pexFolder}/HKLM_Software_Microsoft_Fusion.reg" />
+        </exec>
+    </target>
+
+    <target name="clean">
+        <foreach item="String" in="${projects}" delim="," property="project">
+            <echo message="Project: ${project}..." />
+            <property name="toddDestinationDir" value="Projects/${project}/${automaticSmeStrategy}" />
+            <if test="${directory::exists(toddDestinationDir)}">
+                <delete dir="${toddDestinationDir}" failonerror="false" />
+            </if>
+            <foreach item="String" in="${strategies}" delim="," property="strategy">
+                <property name="destinationDir" value="Projects/${project}/working-${strategy}" />
+                <if test="${directory::exists(destinationDir)}">
+                    <delete dir="${destinationDir}" failonerror="false" />
+                </if>
+            </foreach>
+        </foreach>
+    </target>
+
+    <target name="compile">
+        <foreach item="String" in="${projects}" delim="," property="project">
+            <echo message="Project: ${project}..." />
+            <foreach item="String" in="${strategies}" delim="," property="strategy">
+                <clean
+                    configuration="${configuration}"
+                    projects="${project},${project}.Tests,${project}.ManualTests"
+                    basedir="Projects/${project}/working-${strategy}"/>
+            </foreach>
+        </foreach>
+        <foreach item="String" in="${projects}" delim="," property="project">
+            <echo message="Project: ${project}..." />
+            <foreach item="String" in="${strategies}" delim="," property="strategy">
+                <msbuild project="Projects/${project}/working-${strategy}/${project}.sln">
+                    <arg value="/property:Configuration=${configuration}" />
+                    <arg value="/verbosity:minimal" />
+                </msbuild>
+            </foreach>
+        </foreach>
+    </target>
+
+    <target name="createautomaticSmeStrategy">
+        <foreach item="String" in="${projects}" delim="," property="project">
+            <echo message="Project: ${project}..." />
+            <property name="destinationDir" value="Projects/${project}/${automaticSmeStrategy}" />
+            <if test="${directory::exists(destinationDir)}">
+                <delete dir="${destinationDir}" failonerror="false" />
+            </if>
+            <copy todir="${destinationDir}">
+                <fileset basedir="Projects/${project}/${baseStrategy}">
+                    <include name="**" />
+                </fileset>
+            </copy>
+            <!-- TODO: apply TODD at destinationDir -->
+        </foreach>
+    </target>
+
+    <target name="createWorkingCopies">
+        <foreach item="String" in="${projects}" delim="," property="project">
+            <echo message="Project: ${project}..." />
+            <foreach item="String" in="${strategies}" delim="," property="strategy">
+                <property name="destinationDir" value="Projects/${project}/working-${strategy}" />
+                <if test="${directory::exists(destinationDir)}">
+                    <delete dir="${destinationDir}" failonerror="false" />
+                </if>
+                <copy todir="${destinationDir}">
+                    <fileset basedir="Projects/${project}/${strategy}">
+                        <include name="**" />
+                    </fileset>
+                </copy>
+            </foreach>
+        </foreach>
+    </target>
+
+    <target name="invokePexWizard">
+        <foreach item="String" in="${projects}" delim="," property="project">
+            <echo message="Project: ${project}..." />
+            <foreach item="String" in="${strategies}" delim="," property="strategy">
+                <property name="projectFolder" value="Projects/${project}/working-${strategy}" />
+                <exec program="${pexFolder}/pexwizard.exe">
+                    <environment>
+                        <variable name="moles_appdir" dir="${pexFolder}" />
+                    </environment>
+                    <arg file="${projectFolder}/${project}/bin/${configuration}/${project}.dll" />
+                    <arg value="/TestFramework:NUnit" />
+                    <arg value="/ClrVersion2" />
+                    <arg value="/NoMoles" />
+                    <arg value="/NoCompilation" />
+                    <arg value="/TestProjectFile:${projectFolder}/${project}.Tests/${project}.Tests.csproj" />
+                </exec>
+            </foreach>
+        </foreach>
+    </target>
+
+    <target name="fixPexWizardResults">
+        <foreach item="String" in="${projects}" delim="," property="project">
+            <echo message="Project: ${project}..." />
+            <foreach item="String" in="${strategies}" delim="," property="strategy">
+                <property name="projectFolder" value="Projects/${project}/working-${strategy}" />
+                <property name="testProjectFile" value="${projectFolder}/${project}.Tests/${project}.Tests.csproj" />
+
+                <delete file="${testProjectFile}.bak" failonerror="false" />
+                <move file="${testProjectFile}" tofile="${testProjectFile}.bak" />
+                <style style="Tools/FixPexWizard.xsl" in="${testProjectFile}.bak" out="${testProjectFile}">
+                    <parameters>
+                        <parameter namespaceuri=""
+                                   name="baseDir"
+                                   value="${directory::get-current-directory()}"/>
+                        <parameter namespaceuri=""
+                                   name="projectName"
+                                   value="${project}" />
+                        <parameter namespaceuri=""
+                                   name="pexFolder"
+                                   value="${string::replace(pexFolder, '/', '\')}" />
+                    </parameters>
+                </style>
+            </foreach>
+        </foreach>
+    </target>
+
+    <target name="invokePexGenerator">
+        <foreach item="String" in="${projects}" delim="," property="project">
+            <echo message="Project: ${project}..." />
+            <foreach item="String" in="${strategies}" delim="," property="strategy">
+                <property name="projectFolder" value="Projects/${project}/working-${strategy}" />
+                <property name="testProjectFile" value="${projectFolder}/${project}.Tests/${project}.Tests.csproj" />
+                <exec program="${pexFolder}/pex.x86.exe">
+                    <environment>
+                        <variable name="moles_appdir" dir="${pexFolder}" />
+                    </environment>
+                    <arg file="${projectFolder}/${project}.Tests/bin/${configuration}/${project}.Tests.dll" />
+                    <arg value="/Targetx86" />
+                    <arg value="/AssemblyResolutionDirectories:Tools\NUnit-2.4.8" />
+                    <arg value="/ClrVersion2" />
+                    <arg value="/DoNotOpenReport" />
+                    <arg value="/PreferredLineWidth:120" />
+                    <arg value="/ReportLevel:None" />
+                    <arg value="/TestLanguage:cs" />
+                    <arg value="/TestProjectFile:&quot;${path::get-full-path(testProjectFile)}&quot;" />
+                </exec>
+            </foreach>
+        </foreach>
+    </target>
+
+    <target name="fixPexGeneratorResults">
+        <foreach item="String" in="${projects}" delim="," property="project">
+            <echo message="Project: ${project}..." />
+            <foreach item="String" in="${strategies}" delim="," property="strategy">
+                <property name="projectFolder" value="Projects/${project}/working-${strategy}" />
+                <property name="testProjectFile" value="${projectFolder}/${project}.Tests/${project}.Tests.csproj" />
+
+                <delete file="${testProjectFile}.bak" failonerror="false" />
+                <move file="${testProjectFile}" tofile="${testProjectFile}.bak" />
+                <style style="Tools/FixPexGenerator.xsl" in="${testProjectFile}.bak" out="${testProjectFile}">
+                    <parameters>
+                        <parameter namespaceuri=""
+                                   name="baseDir"
+                                   value="${directory::get-current-directory()}"/>
+                        <parameter namespaceuri=""
+                                   name="projectName"
+                                   value="${project}" />
+                    </parameters>
+                </style>
+            </foreach>
+        </foreach>
+    </target>
+
+    <target name="runManualTests">
+        <foreach item="String" in="${projects}" delim="," property="project">
+            <echo message="Project: ${project}..." />
+            <foreach item="String" in="${strategies}" delim="," property="strategy">
+                <property name="projectFolder" value="Projects\${project}\working-${strategy}" />
+                <exec program="${nunitFolder}/nunit-console-x86.exe">
+                    <arg value="/nologo" />
+                    <arg value="/nodots" />
+                    <arg value="/noshadow" />
+                    <arg file="${projectFolder}/${project}.ManualTests/bin/${configuration}/${project}.ManualTests.dll" />
+                </exec>
+            </foreach>
+        </foreach>
+    </target>
+
+    <target name="runGeneratedTestsWithCoverage">
+        <foreach item="String" in="${projects}" delim="," property="project">
+            <echo message="Project: ${project}..." />
+            <foreach item="String" in="${strategies}" delim="," property="strategy">
+                <property name="projectFolder" value="Projects\${project}\working-${strategy}" />
+                <property name="coverageFile" value="${projectFolder}\coverage.xml" />
+                <delete file="${coverageFile}" failonerror="false" />
+                <exec program="${ncoverFolder}/NCover.Console.exe" failonerror="false">
+                    <arg value="//w" />
+                    <arg value="${projectFolder}\${project}.Tests\bin\${configuration}" />
+                    <arg value="//a" />
+                    <arg value="${project}" />
+                    <arg value="//x" />
+                    <arg value="${coverageFile}" />
+                    <arg value="//l" />
+                    <arg value="${projectFolder}\coverage.log" />
+                    <arg value="${nunitFolder}/nunit-console-x86.exe" />
+                    <arg value="/nologo" />
+                    <arg value="/nodots" />
+                    <arg value="/noshadow" />
+                    <arg value="${project}.Tests.dll" />
+                </exec>
+            </foreach>
+        </foreach>
+    </target>
+
+    <target name="calculateCodeMetrics">
+        <foreach item="String" in="${projects}" delim="," property="project">
+            <echo message="Project: ${project}..." />
+            <foreach item="String" in="${strategies}" delim="," property="strategy">
+                <property name="projectFolder" value="${path::get-full-path('Projects/' + project + '/working-' + strategy)}" />
+
+                <property name="reportFileIut" value="${projectFolder}/CodeMetrics.Iut.xml" />
+                <delete file="${reportFileIut}" failonerror="false" />
+                <delete file="${reportFileIut}.filtered" failonerror="false" />
+                <exec program="${codeMetricsFolder}/Metrics.exe">
+                    <arg value="/file:${projectFolder}/${project}/bin/${configuration}/${project}.dll" />
+                    <arg value="/out:${reportFileIut}" />
+                    <arg value="/ignoregeneratedcode" />
+                </exec>
+                <property name="basePath" value="${string::replace(projectFolder, '/', '\')}" />
+                <copy file="${reportFileIut}" tofile="${reportFileIut}.filtered">
+                    <filterchain>
+                        <replacestring from="${basePath}\" to="" ignorecase="true" />
+                    </filterchain>
+                </copy>
+
+                <property name="reportFileMt" value="${projectFolder}/CodeMetrics.Mt.xml" />
+                <delete file="${reportFileMt}" failonerror="false" />
+                <delete file="${reportFileMt}.filtered" failonerror="false" />
+                <exec program="${codeMetricsFolder}/Metrics.exe">
+                    <arg value="/file:${projectFolder}/${project}.ManualTests/bin/${configuration}/${project}.ManualTests.dll" />
+                    <arg value="/out:${reportFileMt}" />
+                    <arg value="/ignoregeneratedcode" />
+                </exec>
+                <property name="basePath" value="${string::replace(projectFolder, '/', '\')}" />
+                <copy file="${reportFileMt}" tofile="${reportFileMt}.filtered">
+                    <filterchain>
+                        <replacestring from="${basePath}\" to="" ignorecase="true" />
+                    </filterchain>
+                </copy>
+            </foreach>
+        </foreach>
+    </target>
+
+    <target name="determinePublicInterfaceChanges">
+        <foreach item="String" in="${projects}" delim="," property="project">
+            <echo message="Project: ${project}..." />
+            <foreach item="String" in="${strategies}" delim="," property="strategy">
+                <property name="projectBaseFolder" value="Projects/${project}/base" />
+                <property name="projectStrategyFolder" value="Projects/${project}/working-${strategy}" />
+                <property name="reportFile" value="${projectStrategyFolder}/PublicInterfaceDifferences.txt" />
+                <delete file="${reportFile}" failonerror="false" />
+
+                <if test="${strategy == 'base'}">
+                    <touch file="${reportFile}" />
+                </if>
+                <if test="${strategy != 'base'}">
+                    <msbuild project="${projectBaseFolder}/${project}.sln">
+                        <arg value="/property:Configuration=${configuration}" />
+                        <arg value="/verbosity:minimal" />
+                    </msbuild>
+                    <exec program="Tools/SoftwareNinjas.PublicInterfaceComparer.exe"
+                        workingdir="${projectBaseFolder}/${project}/bin/${configuration}/">
+                        <arg file="${projectBaseFolder}/${project}/bin/${configuration}/${project}.dll" />
+                        <arg file="${projectStrategyFolder}/${project}/bin/${configuration}/${project}.dll" />
+                        <arg file="${reportFile}" />
+                    </exec>
+                </if>
+            </foreach>
+        </foreach>
+    </target>
+
+    <target name="postStringExtensions">
+        <property name="project" value="StringExtensions" />
+        <if test="${environment::variable-exists('SVN_REVISION')}">
+            <property name="svnRevision" value="${environment::get-variable('SVN_REVISION')}"/>
+        </if>
+        <if test="${not environment::variable-exists('SVN_REVISION')}">
+            <property name="svnRevision" value="private"/>
+        </if>
+        <foreach item="String" in="${strategies}" delim="," property="strategy">
+            <property name="projectFolder" value="Projects/${project}/working-${strategy}" />
+            <property name="reportFile" value="${projectFolder}/CodeMetrics.xml" />
+            <xpath file="${reportFile}" property="capitalizeMI"
+                query="//Member[@Name='Capitalize(string) : string']/Metrics/Metric[@Name='MaintainabilityIndex']/@Value" />
+            <post action="https://spreadsheets0.google.com/formResponse?formkey=dGNZalMxMk1ySVhQV2x0RGFjdGt4WHc6MQ&amp;ifq">
+                <!-- Batch # -->                    <input name="entry.0.single" value="${svnRevision}" />
+                <!-- Strategy -->                   <input name="entry.1.single" value="${project}" />
+                <!-- string Capitalize(string) -->  <input name="entry.2.single" value="${capitalizeMI}" />
+                <!-- Google -->                     <input name="pageNumber" value="0" />
+                <!-- Google -->                     <input name="backupCache" value="" />
+                <!-- Google -->                     <input name="submit" value="Submit" />
+            </post>
+        </foreach>
+    </target>
+
+    <target name="postResults">
+        <if test="${environment::variable-exists('SVN_REVISION')}">
+            <property name="svnRevision" value="${environment::get-variable('SVN_REVISION')}"/>
+        </if>
+        <if test="${not environment::variable-exists('SVN_REVISION')}">
+            <property name="svnRevision" value="private"/>
+        </if>
+        <property name="toddVersion" value="n/a" />
+        <foreach item="String" in="${projects}" delim="," property="project">
+            <echo message="Project: ${project}..." />
+            <foreach item="String" in="${strategies}" delim="," property="strategy">
+                <property name="projectFolder" value="Projects/${project}/working-${strategy}" />
+                <property name="testProjectFile" value="${projectFolder}/${project}.Tests/${project}.Tests.csproj" />
+                <property name="coverageFile" value="${projectFolder}/coverage.xml" />
+                <xpath file="${coverageFile}" property="tsp" query="count(//seqpnt)" />
+                <xpath file="${coverageFile}" property="vsp" query="count(//seqpnt[not(@visitcount='0')])" />
+                <xpath file="${projectFolder}/CodeMetrics.Iut.xml.filtered" property="miIut"
+                    query="/CodeMetricsReport/Targets/Target[1]/Modules/Module[1]/Metrics/Metric[@Name='MaintainabilityIndex']/@Value" />
+                <xpath file="${projectFolder}/CodeMetrics.Mt.xml.filtered" property="miMt"
+                    query="/CodeMetricsReport/Targets/Target[1]/Modules/Module[1]/Metrics/Metric[@Name='MaintainabilityIndex']/@Value" />
+                <lineCount
+                    file="Projects/${project}/working-${strategy}/PublicInterfaceDifferences.txt"
+                    property="dpi"
+                />
+                <post action="https://spreadsheets0.google.com/formResponse?formkey=dG9zQnFtTlQ0Z1dGUjI5TUlFMnpFWWc6MQ&amp;ifq">
+                    <!-- Batch # -->        <input name="entry.1.single" value="${svnRevision}" />
+                    <!-- Project -->        <input name="entry.2.single" value="${project}" />
+                    <!-- Strategy -->       <input name="entry.3.single" value="${strategy}" />
+                    <!-- TSP -->            <input name="entry.5.single" value="${tsp}" />
+                    <!-- VSP -->            <input name="entry.6.single" value="${vsp}" />
+                    <!-- DPI -->            <input name="entry.7.single" value="${dpi}" />
+                    <!-- MI IUT -->         <input name="entry.9.single" value="${miIut}" />
+                    <!-- MI MT -->          <input name="entry.10.single" value="${miMt}" />
+                    <!-- Google -->         <input name="pageNumber" value="0" />
+                    <!-- Google -->         <input name="backupCache" value="" />
+                    <!-- Google -->         <input name="submit" value="Submit" />
+                </post>
+                <!-- TODO: <call target="post${project}" /> -->
+            </foreach>
+        </foreach>
+    </target>
+
+    <target name="suitability">
+        <!-- clean all working copies -->
+        <call target="clean" />
+
+        <!-- copy baseStrategy to automaticSmeStrategy and apply TODD on it -->
+        <!-- TODO: uncomment when ready:
+        <call target="createAutomaticSmeStrategy" />
+        -->
+
+        <!-- create working copies -->
+        <call target="createWorkingCopies" />
+
+        <!-- compile -->
+        <call target="compile" />
+
+        <!-- run manually-written tests -->
+        <call target="runManualTests" />
+
+        <!-- run the PublicInterfaceComparer -->
+        <call target="determinePublicInterfaceChanges" />
+
+        <!-- determine the Maintainability Index, etc. -->
+        <call target="calculateCodeMetrics" />
+
+        <!-- invoke Pex wizard -->
+        <call target="invokePexWizard" />
+
+        <!-- fix test projects -->
+        <call target="fixPexWizardResults" />
+
+        <!-- compile -->
+        <call target="compile" />
+
+        <!-- invoke Pex generator -->
+        <call target="invokePexGenerator" />
+
+        <!-- fix test projects -->
+        <call target="fixPexGeneratorResults" />
+
+        <!-- compile -->
+        <call target="compile" />
+
+        <!-- run tests with code coverage -->
+        <call target="runGeneratedTestsWithCoverage" />
+
+        <!-- interpret coverage report -->
+        <call target="postResults" />
+    </target>
+
+</project>
