@@ -932,7 +932,12 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             Table <see ref="tbl:InterestingMethods" /> lists the methods that have been selected because they represent testability challenges (difficulties?). (TODO: add more methods)
             <table placement="htbp">
               <tabular spec="l l l l">
-                Project <raw>&amp;</raw> Namespace <raw>&amp;</raw> Class <raw>&amp;</raw> Method <raw>\tabularnewline</raw>
+                <tr>
+                  <td>Project</td>
+                  <td>Namespace</td>
+                  <td>Class</td>
+                  <td>Method</td>
+                </tr>
                 <command name="hline" />
                 <tr><td multicolumn="{4}{l}">Textile</td></tr>
                 <region name="Textile.States">
