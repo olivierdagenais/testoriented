@@ -1,8 +1,6 @@
 #!/usr/bin/perl
 
-my $regex
-#	= "^ {8}[^ {}#\/[][^(]+\$";		# visibilityState
-	= "^ {8}[^ {}#\/[].+\$";		# visibility
+my $regex;
 
 sub process()
 {
@@ -43,6 +41,19 @@ sub process()
 		print F "$_$lf";
 	}
 	close(F);
+}
+
+if( $ARGV[0] eq "visibilityState" )
+{
+	$regex = "^ {8}[^ {}#\/[][^(]+\$";
+}
+elsif( $ARGV[0] eq "visibility" )
+{
+	$regex = "^ {8}[^ {}#\/[].+\$";
+}
+else
+{
+	die;
 }
 
 use File::Find;
