@@ -930,29 +930,81 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           </command>
           <command name="subsection" param="Selected methods">
             Table <see ref="tbl:InterestingMethods" /> lists the methods that have been selected because they represent testability challenges (difficulties?). (TODO: add more methods)
-            <block param="table" opt="htbp">
-              <raw>\begin{tabular}{l l l l}</raw>
+            <table placement="htbp">
+              <tabular spec="l l l l">
                 Project <raw>&amp;</raw> Namespace <raw>&amp;</raw> Class <raw>&amp;</raw> Method <raw>\tabularnewline</raw>
                 <command name="hline" />
-                <raw>\multicolumn{4}{l}{Textile}</raw> <raw>\tabularnewline</raw>
-                <raw>&amp;</raw> <raw>\multicolumn{3}{l}{Textile.States}</raw> <raw>\tabularnewline</raw>
-                <raw>&amp;</raw> <raw>&amp;</raw> <raw>\multicolumn{2}{l}{FootNoteFormatterState}</raw> <raw>\tabularnewline</raw>
-                <raw>&amp;</raw> <raw>&amp;</raw> <raw>&amp;</raw> void Enter() <raw>\tabularnewline</raw>
-                <raw>&amp;</raw> <raw>&amp;</raw> <raw>&amp;</raw> void OnContextAcquired() <raw>\tabularnewline</raw>
+                <tr><td multicolumn="{4}{l}">Textile</td></tr>
+                <region name="Textile.States">
+                  <tr>
+                    <td></td>
+                    <td multicolumn="{3}{l}">Textile.States</td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td multicolumn="{2}{l}">FootNoteFormatterState</td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>void Enter()</td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>void OnContextAcquired()</td>
+                  </tr>
+                </region>
 
-                <raw>&amp;</raw> <raw>\multicolumn{3}{l}{Textile.Blocks}</raw> <raw>\tabularnewline</raw>
-                <raw>&amp;</raw> <raw>&amp;</raw> <raw>\multicolumn{2}{l}{CodeBlockModifier}</raw> <raw>\tabularnewline</raw>
-                <raw>&amp;</raw> <raw>&amp;</raw> <raw>&amp;</raw> string ModifyLine(string) <raw>\tabularnewline</raw>
-                <raw>&amp;</raw> <raw>&amp;</raw> <raw>&amp;</raw> string CodeFormatMatchEvaluator(Match) <raw>\tabularnewline</raw>
+                <region name="Textile.Blocks">
+                  <tr>
+                    <td></td>
+                    <td multicolumn="{3}{l}">Textile.Blocks</td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td multicolumn="{2}{l}">CodeBlockModifier</td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>string ModifyLine(string)</td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>string CodeFormatMatchEvaluator(Match)</td>
+                  </tr>
+                </region>
 
-                <raw>\multicolumn{4}{l}{KeePassLib}</raw> <raw>\tabularnewline</raw>
-                <raw>&amp;</raw> <raw>\multicolumn{3}{l}{KeePassLib.Cryptography.PasswordGenerator}</raw> <raw>\tabularnewline</raw>
-                <raw>&amp;</raw> <raw>&amp;</raw> <raw>\multicolumn{2}{l}{PatternBasedGenerator}</raw> <raw>\tabularnewline</raw>
-              <raw>&amp;</raw> <raw>&amp;</raw> <raw>&amp;</raw> string ExpandPattern(string) <raw>\tabularnewline</raw>
-              <raw>\end{tabular}</raw>
+                <tr><td multicolumn="{4}{l}">KeePassLib</td></tr>
+                <region name="KeePassLib.Cryptography.PasswordGenerator">
+                  <tr>
+                    <td></td>
+                    <td multicolumn="{3}{l}">KeePassLib.Cryptography.PasswordGenerator</td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td multicolumn="{2}{l}">PatternBasedGenerator</td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>string ExpandPattern(string)</td>
+                  </tr>
+                </region>
+              </tabular>
               <command name="caption" param="Selected interesting methods" />
               <command name="label" param="tbl:InterestingMethods" />
-            </block>
+            </table>
           </command>
           <command name="subsection" param="How it works">
             <region comment="Intro">
