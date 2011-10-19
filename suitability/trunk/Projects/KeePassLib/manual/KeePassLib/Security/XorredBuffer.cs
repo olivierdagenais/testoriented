@@ -108,25 +108,32 @@ namespace KeePassLib.Security
 		{
 			Debug.Assert(pbNewXorPad != null); if(pbNewXorPad == null) throw new ArgumentNullException("pbNewXorPad");
 
-			Debug.Assert(pbNewXorPad.Length == m_pbData.Length);
-			if(pbNewXorPad.Length != m_pbData.Length) throw new ArgumentException();
-
-			if(m_pbXorPad.Length == m_pbData.Length) // Data is protected
-			{
-				for(int i = 0; i < m_pbData.Length; ++i)
-					m_pbData[i] ^= (byte)(m_pbXorPad[i] ^ pbNewXorPad[i]);
-			}
-			else // Data is unprotected
-			{
-				for(int i = 0; i < m_pbData.Length; ++i)
-					m_pbData[i] ^= pbNewXorPad[i];
-			}
+            m_pbData = InternalChangeKey(m_pbData, m_pbXorPad, pbNewXorPad);
 
 			m_pbXorPad = pbNewXorPad;
 			return m_pbData;
 		}
 
-		/// <summary>
+        internal static byte[] InternalChangeKey(byte[] pbData, byte[] pbXorPad, byte[] pbNewXorPad)
+	    {
+	        var result = new byte[pbData.Length];
+	        Debug.Assert(pbNewXorPad.Length == pbData.Length);
+	        if(pbNewXorPad.Length != pbData.Length) throw new ArgumentException();
+
+	        if(pbXorPad.Length == pbData.Length) // Data is protected
+	        {
+	            for(int i = 0; i < pbData.Length; ++i)
+	                result[i] = (byte)(pbData[i] ^ pbXorPad[i] ^ pbNewXorPad[i]);
+	        }
+	        else // Data is unprotected
+	        {
+	            for(int i = 0; i < pbData.Length; ++i)
+	                result[i] = (byte)(pbData[i] ^ pbNewXorPad[i]);
+	        }
+	        return result;
+	    }
+
+	    /// <summary>
 		/// XOR all bytes in a data buffer with a pad. Both byte arrays must
 		/// be of the same size.
 		/// </summary>
