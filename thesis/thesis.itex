@@ -1017,7 +1017,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           </command>
         </command>
         <command name="section" param="Results">
-          Table <see ref="tbl:SummaryResults" /> summarizes the results of the evaluations, which have been averaged across the participating open-source projects.  The table is assembled from the results of running the suitability evaluation against revision 361.
+          Table <see ref="tbl:SummaryResults" /> summarizes the results of the evaluations, which have been averaged across the participating open-source projects.  The table is assembled from the results of running the suitability evaluation against the source code as of revision 361.  Detailed results are presented in the following section, although it is clear that overall, SME performed better than the other strategies.
           <table placement="htbp">
             <tbody spec="p{0.50\textwidth} p{0.12\textwidth} p{0.12\textwidth} p{0.12\textwidth}">
               <tr>
@@ -1030,32 +1030,31 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               <tr>
                 <td>Do nothing</td>
                 <td><!-- (83 + 100) / 2 -->91.5</td>
-                <td><!-- It's the reference point -->0</td>
+                <td><!-- It's the reference point -->n/a<footnote>This is the reference point other strategies use to measure public interface changes.</footnote></td>
                 <td><!-- (60.61 + 45.49) / 2 -->53.05%</td>
               </tr>
               <tr>
                 <td>Extract statelesss methods</td>
                 <td><!-- (90 + 100) / 2 -->95</td>
                 <td><!-- (0 + 0) / 2 -->0</td>
-                <td><!-- (67.10 + 49.05) / 2 -->58.08%</td>
+                <td><!-- (67.10 + 49.05) / 2 -->58.07%</td>
               </tr>
               <tr>
                 <td>Increase state visibility</td>
                 <td><!-- (83 + 100) / 2 -->91.5</td>
                 <td><!-- (0 + 0) / 2 -->0</td>
-                <td><!-- (64.01 + 45.96) / 2 -->54.99%</td>
+                <td><!-- (60.61 + 45.96) / 2 -->53.29%</td>
               </tr>
               <tr>
                 <td>Increase state and method visibility</td>
                 <td><!-- (83 + 100) / 2 -->91.5</td>
                 <td><!-- (0 + 0) / 2 -->0</td>
-                <td><!-- (60.61 + 47.83) / 2 -->54.22%</td>
+                <td><!-- (64.01 + 47.83) / 2 -->55.92%</td>
               </tr>
             </tbody>
             <command name="caption" param="Summary results of the evaluations" />
             <command name="label" param="tbl:SummaryResults" />
           </table>
-          
         </command>
         <command name="section" param="Detailed results">
           <!--
