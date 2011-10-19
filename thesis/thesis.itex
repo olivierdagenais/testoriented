@@ -915,11 +915,9 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           <command name="subsection" param="Strategies">
             <command name="subsubsection" param="Do nothing">
               No transformations are to be performed to the IUT, the source code will be used as-is to establish a baseline.
-              TODO: can be seen in the "base" sub-folder
             </command>
             <command name="subsubsection" param="Extract stateless methods">
               The very approach proposed by this thesis; stateless methods are extracted where good candidate blocks are identified.
-              TODO: can be seen in the "manual" sub-folder
             </command>
             <command name="subsubsection" param="Increase state visibility">
               All the fields (both instance and static fields) in all the classes had their visiblity increased through a manual transformation that converted fields with a visibility (explicit or otherwise) of <tt>private</tt> to <tt>internal</tt> and <tt>protected</tt> to <tt>protected internal</tt>.
@@ -1034,7 +1032,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               <command name="label" param="tbl:InterestingMethods" />
             </table>
           </command>
-          <command name="subsection" param="How it works">
+          <command name="subsection" param="Preparing the projects for the evaluation">
             <region comment="Intro">
             The source code to the projects was imported into a source control repository<footnote>The Subversion repository used for the evaluation of this thesis is available at <br /> <url>https://testoriented.googlecode.com/svn/suitability/trunk</url></footnote>.  Each project gets its own folder and the imported version (which serves as a baseline) is placed in a sub-folder called <tt>base</tt>.  Some slight modifications were made to the source code to simplify the evaluation, detailed as follows:
             </region>
@@ -1053,9 +1051,11 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             <command name="subsubsection" param="Disable functionality that interferes with the evaluation">
               The KeePassLib project contains code to show a modal message box dialog that must be dismissed by an end-user.  This is undesirable for an unattended evaluation and therefore the body of the <tt>SafeShowMessageBox()</tt> method in the <tt>MessageService</tt> class was removed, as was that of the <tt>SafeShowMessageBoxInternal()</tt> method in the <tt>MessageService</tt> class.  Also, to prevent assertions in the projects from interrupting the automated evaluation in the same way, the compilation options were modified to use the <em>Release</em> configuration with optimizations disabled and full debug symbols enabled <footnote>Assertions will only display a dialog if the <tt>DEBUG</tt> constant is defined and it is not defined when using the Release configuration.  Disabling optimizations and enabling debug symbols is done to help keep the static code analysis as representative to the original source code as possible.</footnote>.
             </command>
-
-            Now that we have a baseline for each project, we can create a copy of the <tt>base</tt> folder for each strategy we wish to compare against.  As such, the following folders were created:  <tt>manual</tt> (manual application of SME), <tt>visibility-state</tt> (increasing the visibility of state members, such as fields) and <tt>visibility</tt> (increasing the visibility of both fields and methods).
-
+            <command name="subsubsection" param="Create a copy for each strategy">
+              Now that we have a baseline for each project, we can create a copy of the <tt>base</tt> folder for each strategy we wish to compare against.  As such, the following folders were created:  <tt>manual</tt> (manual application of SME), <tt>visibility-state</tt> (increasing the visibility of state members, such as fields) and <tt>visibility</tt> (increasing the visibility of both fields and methods).  The corresponding transformations were then performed in their respective folders, isolated from one another and from the baseline.
+            </command>
+          </command>
+          <command name="subsection" param="How it works">
             The evaluation is conducted automatically using a small program written with NAnt <see cite="shaw06nant" />.  The major steps are as follows:
             <command name="subsubsection" param="Create a working copy">
               Pex modifies the test project file as part of its test generation process.  To make the evaluations repeatable, a copy is made, at the start of the evaluation, of each strategy folder of each project, erasing the previous run's folders as necessary.  Pex can then operate in each working copy without chance of interference from the artifacts of any previous runs.
