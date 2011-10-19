@@ -62,7 +62,7 @@ namespace SoftwareNinjas.PublicInterfaceComparer.Test
             var actual = Compare(_baseline, _visibility);
             var listed = actual.Lines().ToList();
             var count = listed.Count;
-            Assert.AreEqual(101, count);
+            Assert.AreEqual(103, count);
         }
 
         [Test]

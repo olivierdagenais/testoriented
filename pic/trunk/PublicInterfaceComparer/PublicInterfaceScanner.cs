@@ -141,8 +141,12 @@ namespace SoftwareNinjas.PublicInterfaceComparer
 
         internal static string Describe(MethodBase methodBase)
         {
-            return "{0} {1} {2}".FormatInvariant(
-                Describe(methodBase.ReflectedType), DescribeVisibility(methodBase), methodBase.ToString());
+            return "{0} {1}{2} {3}".FormatInvariant(
+                Describe(methodBase.ReflectedType),
+                DescribeVisibility(methodBase),
+                methodBase.IsStatic ? " static" : String.Empty,
+                methodBase.ToString()
+            );
         }
 
         internal static string Describe(Type type)
@@ -157,8 +161,12 @@ namespace SoftwareNinjas.PublicInterfaceComparer
 
         internal static string Describe(FieldInfo fieldInfo)
         {
-            return "{0} {1} {2}".FormatInvariant(
-                Describe(fieldInfo.ReflectedType), DescribeVisibility(fieldInfo), fieldInfo.ToString());
+            return "{0} {1}{2} {3}".FormatInvariant(
+                Describe(fieldInfo.ReflectedType),
+                DescribeVisibility(fieldInfo),
+                fieldInfo.IsStatic ? " static" : String.Empty,
+                fieldInfo.ToString()
+            );
         }
 
         internal static string DescribeVisibility(MethodBase methodBase)
