@@ -7,7 +7,6 @@ using System.Xml.Linq;
 using System.Windows.Controls;
 using System.Windows.Markup;
 using NUnit.Framework;
-using PivotStack.Tests;
 using SoftwareNinjas.Core;
 using EnumerableExtensions = SoftwareNinjas.Core.Test.EnumerableExtensions;
 
