@@ -71,11 +71,9 @@
     <Compile Include="DeepZoomImage.cs" />
     <Compile Include="FrameworkElementExtensions.cs" />
     <Compile Include="ImageCollectionTile.cs" />
-    <Compile Include="ImageFormatExtensions.cs" />
     <Compile Include="InterceptingXmlWriter.cs" />
     <Compile Include="ItemWriter.cs" />
     <Compile Include="MortonLayout.cs" />
-    <Compile Include="Namespaces.cs" />
     <Compile Include="ObjectExtensions.cs" />
     <Compile Include="Post.cs" />
     <Compile Include="Program.cs" />
@@ -87,7 +85,6 @@
     <Compile Include="Settings.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="Tag.cs" />
-    <Compile Include="XElementExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Template.xaml">

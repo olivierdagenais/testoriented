@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
 
 using SoftwareNinjas.Core;
@@ -16,24 +17,14 @@ namespace PivotStack
         internal static readonly string TileZeroZero = "0_0";
         internal static readonly Size OneByOne = new Size (1, 1);
 
-        private readonly Settings _settings;
-
-        private readonly int _maximumLevel;
-
-        public DeepZoomImage(Settings settings)
-        {
-            _settings = settings;
-
-            _maximumLevel = DetermineMaximumLevel (settings.ItemImageSize);
-        }
-
         internal static int DetermineMaximumLevel (Size originalSize)
         {
             var maxDimension = Math.Max (originalSize.Height, originalSize.Width);
             return (int) Math.Ceiling (Math.Log (maxDimension, 2));
         }
 
-        public Size ComputeLevelSize(int levelNumber)
+        // TODO: Consider accepting a maximumLevel parameter, obtained by calling DetermineMaximumLevel()
+        internal static Size ComputeLevelSize(Size originalSize, int levelNumber)
         {
             if (levelNumber < 0)
             {
@@ -47,17 +38,18 @@ namespace PivotStack
             }
             else
             {
-                if (levelNumber >= _maximumLevel)
+                int maxLevel = DetermineMaximumLevel (originalSize);
+                if (levelNumber >= maxLevel)
                 {
-                    result = _settings.ItemImageSize;
+                    result = originalSize;
                 }
                 else
                 {
                     // shifting does not account for rounding, so we divide and round up (ceiling)
-                    var levelDifference = _maximumLevel - levelNumber;
+                    var levelDifference = maxLevel - levelNumber;
                     var divisor = Math.Pow (2, levelDifference);
-                    var width = (int) Math.Ceiling (_settings.ItemImageSize.Width / divisor);
-                    var height = (int) Math.Ceiling (_settings.ItemImageSize.Height / divisor);
+                    var width = (int) Math.Ceiling (originalSize.Width / divisor);
+                    var height = (int) Math.Ceiling (originalSize.Height / divisor);
                     result = new Size(width, height);
                 }
             }
@@ -100,7 +92,8 @@ namespace PivotStack
             }
         }
 
-        public void Slice(Bitmap source, IEnumerable<Tile> tiles, Func<string, Stream> streamGenerator)
+        internal static void Slice
+            (Bitmap source, IEnumerable<Tile> tiles, ImageFormat encoder, Func<string, Stream> streamGenerator)
         {
             var slices = Slice (source, tiles);
             foreach (var pair in slices)
@@ -108,72 +101,34 @@ namespace PivotStack
                 var targetImage = pair.First;
                 var streamName = pair.Second;
                 var stream = streamGenerator (streamName);
-                targetImage.Save (stream, _settings.PostImageEncoding);
+                targetImage.Save (stream, encoder);
             }
         }
 
-        public void SlicePostImage(int postId)
-        {
-            var extension = _settings.PostImageEncoding.GetName ();
-            var relativeBinnedImageFolder = Post.ComputeBinnedPath (postId, null, _settings.FileNameIdFormat) + "_files";
-            var absoluteBinnedImageFolder = Path.Combine (_settings.AbsoluteWorkingFolder, relativeBinnedImageFolder);
-            var absoluteBinnedOutputImageFolder = Path.Combine (_settings.AbsoluteOutputFolder, relativeBinnedImageFolder);
-
-            for (var level = _maximumLevel; level >= 0; level--)
-            {
-                var levelName = Convert.ToString (level, 10);
-                var targetSize = ComputeLevelSize (level);
-                var tileFiles = new List<Stream> ();
-                var inputLevelImageFile = Path.ChangeExtension (levelName, extension);
-                var inputLevelImagePath = Path.Combine (absoluteBinnedImageFolder, inputLevelImageFile);
-                var outputLevelFolder = Path.Combine (absoluteBinnedOutputImageFolder, levelName);
-                Directory.CreateDirectory (outputLevelFolder);
-
-                var tiles = ComputeTiles (targetSize);
-                using (var inputStream = inputLevelImagePath.CreateReadStream ())
-                using (var levelBitmap = new Bitmap (inputStream))
-                {
-                    Slice (levelBitmap, tiles, tileName =>
-                        {
-                            var tileFileName = Path.ChangeExtension (tileName, extension);
-                            var tilePath = Path.Combine (outputLevelFolder, tileFileName);
-                            var stream = tilePath.CreateWriteStream ();
-                            tileFiles.Add (stream);
-                            return stream;
-                        }
-                    );
-                }
-                foreach (var stream in tileFiles)
-                {
-                    stream.Close ();
-                }
-            }
-        }
-
-        public IEnumerable<Tile> ComputeTiles(Size levelSize)
+        internal static IEnumerable<Tile> ComputeTiles(Size levelSize, int tileSize, int tileOverlap)
         {
             double width = levelSize.Width;
             double height = levelSize.Height;
             var maxDimension = Math.Max (width, height);
-            if (maxDimension <= _settings.TileSize)
+            if (maxDimension <= tileSize)
             {
                 var pair = new Tile (CreateRectangle (levelSize), TileZeroZero);
                 yield return pair;
             }
             else
             {
-                var columns = (int) Math.Ceiling (width / _settings.TileSize);
-                var rows = (int) Math.Ceiling (height / _settings.TileSize);
-                var tileOffsetMultiplier = _settings.TileSize + _settings.TileOverlap - 1;
+                var columns = (int) Math.Ceiling (width / tileSize);
+                var rows = (int) Math.Ceiling (height / tileSize);
+                var tileOffsetMultiplier = tileSize + tileOverlap - 1;
 
                 for (int column = 0; column < columns; column++)
                 {
-                    var left = 0 == column ? 0 : column * _settings.TileSize - _settings.TileOverlap;
+                    var left = 0 == column ? 0 : column * tileSize - tileOverlap;
                     var right = Math.Min ((int) width - 1, (column + 1) * tileOffsetMultiplier);
 
                     for (int row = 0; row < rows; row++)
                     {
-                        var top = 0 == row ? 0 : row * _settings.TileSize - _settings.TileOverlap;
+                        var top = 0 == row ? 0 : row * tileSize - tileOverlap;
                         var bottom = Math.Min ((int) height - 1, (row + 1) * tileOffsetMultiplier);
 
                         var rect = CreateRectangle (new Point (left, top), new Point (right, bottom));
@@ -214,18 +169,6 @@ namespace PivotStack
         internal static Rectangle CreateRectangle(Point point1, Point point2)
         {
             return new Rectangle (point1.X, point1.Y, point2.X - point1.X + 1, point2.Y - point1.Y + 1);
-        }
-
-        public void GeneratePostImageResizes(Bitmap sourceBitmap, Action<int, Bitmap> saveAction)
-        {
-            for (var level = _maximumLevel; level >= 0; level--)
-            {
-                var targetSize = ComputeLevelSize (level);
-                using (var resizedBitmap = Resize (sourceBitmap, targetSize.Width, targetSize.Height))
-                {
-                    saveAction (level, resizedBitmap);
-                }
-            }
         }
     }
 }
