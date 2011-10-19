@@ -260,6 +260,17 @@
 </xsl:text>
     </xsl:template>
     
+    <xsl:template match="td[@multicolumn]">
+        <xsl:if test="count(preceding-sibling::td) > 0">
+            <xsl:text> &amp; </xsl:text>
+        </xsl:if>
+        <xsl:text>\multicolumn</xsl:text>
+        <xsl:value-of select="@multicolumn" />
+        <xsl:text>{</xsl:text>
+        <xsl:apply-templates select="* | node() | comment()" />
+        <xsl:text>}</xsl:text>
+    </xsl:template>
+
     <xsl:template match="td">
         <xsl:if test="count(preceding-sibling::td) > 0">
             <xsl:text> &amp; </xsl:text>
