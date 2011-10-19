@@ -1,6 +1,8 @@
 #!/usr/bin/perl
 
-my $regex = "^ {8}[^ {}#\/[][^(]+\$";
+my $regex
+#	= "^ {8}[^ {}#\/[][^(]+\$";		# visibilityState
+	= "^ {8}[^ {}#\/[].+\$";		# visibility
 
 sub process()
 {
@@ -51,3 +53,4 @@ find(
 	},
 	Cwd::getcwd()
 );
+
