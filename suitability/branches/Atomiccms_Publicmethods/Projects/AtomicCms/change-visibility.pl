@@ -48,5 +48,5 @@ find(
 		wanted=>\&process,
 		follow=>1
 	},
-	"."
+	Cwd::getcwd()
 );
