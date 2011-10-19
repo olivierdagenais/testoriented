@@ -1012,6 +1012,23 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                     <td>string ExpandPattern(string)</td>
                   </tr>
                 </region>
+                <region name="KeePassLib.Security">
+                  <tr>
+                    <td></td>
+                    <td multicolumn="{3}{l}">KeePassLib.Security</td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td multicolumn="{2}{l}">XorredBuffer</td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>public byte[] ChangeKey(byte[])</td>
+                  </tr>
+                </region>
               </tabular>
               <command name="caption" param="Selected interesting methods" />
               <command name="label" param="tbl:InterestingMethods" />
