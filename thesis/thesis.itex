@@ -866,12 +866,12 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               <!-- There are other strategies, such as "Built-in Test Driver" (an inner class of the CUT has access to the CUT's private members), "Drone" (using multiple inheritance to with Eiffel to get at private members -->
             </block>
 
-            The evaluation uses select interesting and/or difficult-to-test methods from the source code of the following C# open-source projects (TODO: provide links/citations, plus version numbers?):
+            The evaluation uses the source code of the following C# open-source projects:
             <block param="enumerate">
               <!-- TODO: AtomicCms has no SME done on it. <command name="item"> AtomicCms</command> -->
-              <command name="item"> KeePassLib</command>
+              <command name="item"> KeePass, version 2.10 <see cite="reichl10keepass" />, henceforth referred to as <em>KeePassLib</em></command>
               <!-- TODO: is PivotStack good enough? <command name="item"> PivotStack</command> -->
-              <command name="item"> Textile</command>
+              <command name="item"> Textile.NET, changeset 26030 <see cite="chabant09textilenet" />, henceforth referred to as <em>Textile</em></command>
             </block>
 
             The following evaluations are performed for each of the competing strategies on each of the open-source projects:
