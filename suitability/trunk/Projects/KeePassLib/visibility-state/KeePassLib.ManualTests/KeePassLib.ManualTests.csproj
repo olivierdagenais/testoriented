@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Cryptography\PasswordGenerator\PatternBasedGeneratorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\XorredBufferTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\KeePassLib\KeePassLib.csproj">
