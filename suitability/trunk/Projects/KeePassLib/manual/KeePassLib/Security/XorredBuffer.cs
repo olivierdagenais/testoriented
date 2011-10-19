@@ -123,7 +123,7 @@ namespace KeePassLib.Security
 	        if(pbXorPad.Length == pbData.Length) // Data is protected
 	        {
 	            for(int i = 0; i < pbData.Length; ++i)
-	                result[i] = (byte)(pbData[i] ^ pbXorPad[i] ^ pbNewXorPad[i]);
+	                result[i] = (byte)(pbData[i] ^ (pbXorPad[i] ^ pbNewXorPad[i]));
 	        }
 	        else // Data is unprotected
 	        {
