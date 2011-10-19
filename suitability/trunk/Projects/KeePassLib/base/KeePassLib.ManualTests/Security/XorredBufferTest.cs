@@ -28,6 +28,7 @@ namespace KeePassLib.ManualTests.Security
 
             // assert
             Assert.AreEqual(data.Length, actual.Length);
+            Assert.AreSame(protectedData, actual);
             for (var i = 0; i < data.Length; i++ )
             {
                 Assert.AreEqual(0x20, actual[i]);
