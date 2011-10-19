@@ -1,7 +1,5 @@
 #!/usr/bin/perl
 
-my $regex;
-
 sub process()
 {
 	my $file = $File::Find::name;
@@ -19,7 +17,17 @@ sub process()
 
 		s/(\r|\n)+//g;
 
-		if( /$regex/ )
+		if( 
+			(
+				$ARGV[0] eq "visibilityState" 
+				&& /^ {8}[^ {}#\/[][^(]+$/
+			)
+			||
+			(
+				$ARGV[0] eq "visibility" 
+				&& /^ {8}[^ {}#\/[].+$/
+			)
+		)
 		{
 			if( ! /(public|internal)/ )
 			{
@@ -43,18 +51,7 @@ sub process()
 	close(F);
 }
 
-if( $ARGV[0] eq "visibilityState" )
-{
-	$regex = "^ {8}[^ {}#\/[][^(]+\$";
-}
-elsif( $ARGV[0] eq "visibility" )
-{
-	$regex = "^ {8}[^ {}#\/[].+\$";
-}
-else
-{
-	die;
-}
+$ARGV[0] eq "visibility" or $ARGV[0] eq "visibilityState" or die;
 
 use File::Find;
 find(
