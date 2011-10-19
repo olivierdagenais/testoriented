@@ -105,6 +105,9 @@
     <EmbeddedResource Include="3.png" />
     <EmbeddedResource Include="4.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>
     <VisualStudio AllowExistingFolder="true" />
