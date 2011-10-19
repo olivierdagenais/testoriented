@@ -960,6 +960,12 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                     <td></td>
                     <td></td>
                     <td></td>
+                    <td>string Conclude(string)</td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                     <td>string CodeFormatMatchEvaluator(Match)</td>
                   </tr>
                 </region>
