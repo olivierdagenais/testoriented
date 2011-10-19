@@ -33,6 +33,10 @@ sub visibilityState($)
 			{
 				s/private/internal/;
 			}
+			elsif( /protected/ and not /internal/ )
+			{
+				s/(protected)/\1 internal/;
+			}
 			else
 			{
 				s/^( {8})/\1internal /;
