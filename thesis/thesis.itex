@@ -1067,7 +1067,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               As a sanity check, the tests written to be evaluated for their complexity are run to make sure they all pass.
             </command>
             <command name="subsubsection" param="Determine public interface differences">
-              The PIC metric is computed on each project's IUT and the report is stored in the project's folder as the file <tt>PublicInterfaceDifferences.txt</tt>.
+              The PIC metric is computed on each project's IUT and the report is stored in the project's working folder as the file <tt>PublicInterfaceDifferences.txt</tt>.
             </command>
             <command name="subsubsection" param="Evaluate maintainability of IUT and manual tests">
               The MI metric is computed for both the IUT and the manually-written unit tests.  This allows an objective evaluation of the maintainability of the IUT in the face of testability transformations as well as an evaluation of maintainability of the corresponding unit tests.
@@ -1105,11 +1105,12 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           </command>
         </command>
         <command name="section" param="Results">
-          Table <see ref="tbl:SummaryResults" /> summarizes the results of the evaluations, which have been averaged across the participating open-source projects.  The table is assembled from the results of running the suitability evaluation against the source code as of revision 361.  Detailed results are presented in the following section, although it is clear that overall, SME performed better than the other strategies.
+          Table <see ref="tbl:SummaryResults" /> summarizes the results of the evaluations, which have been averaged across the participating open-source projects.  The table is assembled from the results of running the suitability evaluation against the source code as of revision 361.  Detailed results are presented in the following section, although it is clear that overall, SME performed no worse and often better than the other strategies.
           <table placement="htbp">
-            <tbody spec="p{0.50\textwidth} R{0.12\textwidth} R{0.12\textwidth} R{0.12\textwidth}">
+            <tbody spec="p{0.42\textwidth} R{0.11\textwidth} R{0.11\textwidth} R{0.08\textwidth} R{0.12\textwidth}">
               <tr>
                 <td>Strategy</td>
+                <td>MI IUT<footnote>Maintainability Index of the Implementation Under Test.</footnote></td>
                 <td>MI MT<footnote>Maintainability Index of the Manual Tests.  See <see nameref="subsubsec:complexity" /> in section <see ref="subsubsec:complexity" />.</footnote></td>
                 <td>PIC<footnote>Public Interface Changes.  See <see nameref="subsubsec:changesPublicInterface" /> in section <see ref="subsubsec:changesPublicInterface" />.</footnote></td>
                 <td>VSP/TSP<footnote>Visited Sequence Points divided by Total Sequence Points.  See <see nameref="subsubsec:codeCoverageConcolic" /> in section <see ref="subsubsec:codeCoverageConcolic" />.</footnote></td>
@@ -1117,24 +1118,28 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               <hline />
               <tr>
                 <td>Do nothing</td>
+                <td><!-- (83 + 81) / 2 -->82.0</td>
                 <td><!-- (83 + 100) / 2 -->91.5</td>
                 <td><!-- It's the reference point -->n/a<footnote>This is the reference point other strategies use to measure public interface changes.</footnote></td>
                 <td><!-- (60.61 + 45.49) / 2 -->53.05%</td>
               </tr>
               <tr>
                 <td>Extract statelesss methods</td>
+                <td><!-- (84 + 81) / 2 -->82.5</td>
                 <td><!-- (90 + 100) / 2 -->95.0</td>
                 <td><!-- (0 + 0) / 2 -->0</td>
                 <td><!-- (67.10 + 49.05) / 2 -->58.07%</td>
               </tr>
               <tr>
                 <td>Increase state visibility</td>
+                <td><!-- (83 + 81) / 2 -->82.0</td>
                 <td><!-- (83 + 100) / 2 -->91.5</td>
                 <td><!-- (0 + 0) / 2 -->0</td>
                 <td><!-- (60.61 + 45.96) / 2 -->53.29%</td>
               </tr>
               <tr>
                 <td>Increase state and method visibility</td>
+                <td><!-- (83 + 81) / 2 -->82.0</td>
                 <td><!-- (83 + 100) / 2 -->91.5</td>
                 <td><!-- (0 + 0) / 2 -->0</td>
                 <td><!-- (64.01 + 47.83) / 2 -->55.92%</td>
