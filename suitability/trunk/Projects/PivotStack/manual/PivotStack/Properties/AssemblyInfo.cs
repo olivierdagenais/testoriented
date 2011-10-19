@@ -22,4 +22,5 @@ using System.Runtime.InteropServices;
 // Assembly version information
 [assembly: AssemblyVersion("1.0.0.0")]
 
+[assembly: InternalsVisibleTo("PivotStack.ManualTests")]
 [assembly: InternalsVisibleTo("PivotStack.Tests")]

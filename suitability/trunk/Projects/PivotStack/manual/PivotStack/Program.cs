@@ -9,6 +9,7 @@ using System.Text;
 using System.Windows.Markup;
 using System.Xml;
 using System.Xml.Linq;
+using System.Xml.XPath;
 using System.Windows.Controls;
 using PivotStack.Repositories;
 
@@ -30,7 +31,47 @@ namespace PivotStack
         private const string WorkingFolderName = "rawItems";
         private const string OutputFolderName = "output";
 
-        private readonly Settings _settings;
+        internal static readonly XNamespace CollectionNamespace
+            = "http://schemas.microsoft.com/collection/metadata/2009";
+        internal static readonly XNamespace PivotNamespace 
+            = "http://schemas.microsoft.com/livelabs/pivot/collection/2009";
+        internal static readonly XNamespace DeepZoomNamespace
+            = "http://schemas.microsoft.com/deepzoom/2009";
+        internal static readonly XNamespace DeepZoom2008Namespace
+            = "http://schemas.microsoft.com/deepzoom/2008";
+
+        private static readonly XName ItemNodeName = DeepZoom2008Namespace + "I";
+        private static readonly XName SizeNodeName = DeepZoom2008Namespace + "Size";
+
+        internal static readonly XmlWriterSettings WriterSettings = new XmlWriterSettings
+        {
+            OmitXmlDeclaration = true,
+            NewLineChars = "\n",
+#if DEBUG
+            Indent = true,
+            IndentChars = "  ",
+#endif
+        };
+        internal static readonly XmlWriterSettings ItemWriterSettings = new XmlWriterSettings
+        {
+            OmitXmlDeclaration = true,
+            NewLineChars = "\n",
+#if DEBUG
+            Indent = true,
+            IndentChars = "  ",
+#else
+            NewLineHandling = NewLineHandling.Entitize,
+#endif
+        };
+
+        internal static readonly XmlReaderSettings ReaderSettings = new XmlReaderSettings
+        {
+#if DEBUG
+            IgnoreWhitespace = false,
+#else
+            IgnoreWhitespace = true,
+#endif
+        };
 
         [STAThread]
         public static int Main (string[] args)
@@ -41,25 +82,6 @@ namespace PivotStack
                 ItemImageSize = new Size(800, 400),
                 TileSize = 254,
                 TileOverlap = 1,
-                XmlReaderSettings = new XmlReaderSettings
-                {
-#if DEBUG
-                    IgnoreWhitespace = false,
-#else
-                    IgnoreWhitespace = true,
-#endif
-                },
-                XmlWriterSettings = new XmlWriterSettings
-                {
-                    OmitXmlDeclaration = true,
-                    NewLineChars = "\n",
-#if DEBUG
-                    Indent = true,
-                    IndentChars = "  ",
-#else
-                    NewLineHandling = NewLineHandling.Entitize,
-#endif
-                },
                 /*
                 DatabaseConnectionString = "Data Source=Blackberry;Initial Catalog=SuperUser;Integrated Security=True",
                 SiteDomain = "superuser.com",
@@ -71,21 +93,11 @@ namespace PivotStack
                 MaximumNumberOfItems = 936,
                 HighestId = 4479,
 
-                AbsoluteWorkingFolder = Path.GetFullPath (WorkingFolderName),
-                AbsoluteOutputFolder = Path.GetFullPath (OutputFolderName),
                 PostImageEncoding = ImageFormat.Png,
             };
 
-            var program = new Program (settings);
-            program.Generate ();
-
-            return 0;
-        }
-
-        internal void Generate ()
-        {
-            using (var tagsConnection = new SqlConnection(_settings.DatabaseConnectionString))
-            using (var postsConnection = new SqlConnection (_settings.DatabaseConnectionString))
+            using (var tagsConnection = new SqlConnection(settings.DatabaseConnectionString))
+            using (var postsConnection = new SqlConnection (settings.DatabaseConnectionString))
             {
                 tagsConnection.Open ();
                 postsConnection.Open ();
@@ -94,33 +106,32 @@ namespace PivotStack
 
                 #region Phase 1: Convert Posts (collection items) into temporary raw artifacts
                 CleanWorkingFolder ();
-                CreateRawItems (postRepository);
-                GeneratePostImageResizes (postRepository);
+                CreateRawItems (settings, postRepository);
+                GeneratePostImageResizes (settings, postRepository);
                 #endregion
 
                 #region Phase 2: Slice Post (collection item) images to create final .dzi files and sub-folders
-                GenerateImageSlices (postRepository);
-                GenerateImageManifests (postRepository);
+                GenerateImageSlices (settings, postRepository);
+                GenerateImageManifests (settings, postRepository);
                 #endregion
 
                 #region Phase 3: Convert Tags (collections) into final .cxml and .dzc files
-                AssembleCollections (tagRepository, postRepository);
+                AssembleCollections (settings, tagRepository, postRepository);
                 #endregion
             }
+            return 0;
         }
 
-        public Program(Settings settings)
+        internal static void GenerateImageManifests (Settings settings, PostRepository postRepository)
         {
-            _settings = settings;
-        }
-
-        internal void GenerateImageManifests (PostRepository postRepository)
-        {
-            var fileNameIdFormat = _settings.FileNameIdFormat;
-            var imageNode = _settings.GenerateImageManifest ();
+            var outputPath = Path.GetFullPath (OutputFolderName);
+            var fileNameIdFormat = settings.FileNameIdFormat;
+            var imageNode = GenerateImageManifest (settings.TileSize, settings.TileOverlap,
+                                                   settings.PostImageEncoding.ToString ().ToLower (),
+                                                   settings.ItemImageSize.Width, settings.ItemImageSize.Height);
 
             var sb = new StringBuilder ();
-            using (var writer = XmlWriter.Create (sb, _settings.XmlWriterSettings))
+            using (var writer = XmlWriter.Create (sb, WriterSettings))
             {
                 Debug.Assert (writer != null);
                 imageNode.WriteTo (writer);
@@ -130,91 +141,216 @@ namespace PivotStack
             foreach (var postId in postRepository.RetrievePostIds ())
             {
                 var relativeBinnedImageManifestPath = Post.ComputeBinnedPath (postId, "dzi", fileNameIdFormat);
-                var absoluteBinnedImageManifestPath =
-                    Path.Combine (_settings.AbsoluteOutputFolder, relativeBinnedImageManifestPath);
+                var absoluteBinnedImageManifestPath = Path.Combine (outputPath, relativeBinnedImageManifestPath);
                 Directory.CreateDirectory (Path.GetDirectoryName (absoluteBinnedImageManifestPath));
                 File.WriteAllText (absoluteBinnedImageManifestPath, imageManifest, Encoding.UTF8);
             }
         }
 
-        internal void GenerateImageSlices(PostRepository postRepository)
+        internal static XElement GenerateImageManifest
+            (int tileSize, int tileOverlap, string imageFormat, int imageWidth, int imageHeight)
         {
-            var dzi = new DeepZoomImage (_settings);
+            XDocument doc;
+            XmlNamespaceManager namespaceManager;
+            using (var stream = AssemblyExtensions.OpenScopedResourceStream<Program> ("Template.dzi"))
+            using (var reader = XmlReader.Create (stream, ReaderSettings))
+            {
+                doc = XDocument.Load (reader);
+                namespaceManager = new XmlNamespaceManager(reader.NameTable);
+                namespaceManager.AddNamespace("dz", DeepZoomNamespace.NamespaceName);
+            }
+            var imageNode = doc.Root;
+            Debug.Assert (imageNode != null);
+            #region <Image TileSize="254" Overlap="1" Format="png">
+            imageNode.SetAttributeValue ("TileSize", tileSize);
+            imageNode.SetAttributeValue ("Overlap", tileOverlap);
+            imageNode.SetAttributeValue ("Format", imageFormat);
+
+            #region <Size Width="800" Height="400" />
+            var sizeNode = imageNode.XPathSelectElement ("dz:Size", namespaceManager);
+            sizeNode.SetAttributeValue ("Width", imageWidth);
+            sizeNode.SetAttributeValue ("Height", imageHeight);
+            #endregion
+            #endregion
+
+            return imageNode;
+        }
+
+        internal static void GenerateImageSlices(Settings settings, PostRepository postRepository)
+        {
+            var size = settings.ItemImageSize;
+            var maximumLevel = DeepZoomImage.DetermineMaximumLevel (size);
+            var imageFormat = settings.PostImageEncoding;
+            var imageExtension = imageFormat.ToString ().ToLower ();
+            var fileNameIdFormat = settings.FileNameIdFormat;
             foreach (var postId in postRepository.RetrievePostIds ())
             {
-                dzi.SlicePostImage (postId);
+                SlicePostImage (postId, size, maximumLevel, imageExtension, fileNameIdFormat, imageFormat, settings.TileSize, settings.TileOverlap);
             }
         }
 
-        internal void AssembleCollections (TagRepository tagRepository, PostRepository postRepository)
+        internal static IEnumerable<Bitmap> OpenLevelImages
+            (IEnumerable<int> postIds, string extension, string fileNameIdFormat, string absoluteOutputPath, int level)
         {
-            var dzc = new DeepZoomCollection (_settings);
+            var levelName = Convert.ToString (level, 10);
+            var inputFileName = Path.ChangeExtension (DeepZoomImage.TileZeroZero, extension);
+            foreach (var postId in postIds)
+            {
+                var relativeFolder = Post.ComputeBinnedPath (postId, null, fileNameIdFormat) + "_files";
+                var relativeLevelFolder = relativeFolder.CombinePath (levelName, inputFileName);
+                var absoluteSourceImagePath = Path.Combine (absoluteOutputPath, relativeLevelFolder);
+                using (var bitmap = new Bitmap (absoluteSourceImagePath))
+                {
+                    yield return bitmap;
+                }
+            }
+        }
+
+        internal static void AssembleCollections (Settings settings, TagRepository tagRepository, PostRepository postRepository)
+        {
+            var outputPath = Path.GetFullPath (OutputFolderName);
+
+            var imageFormat = settings.PostImageEncoding;
+            var imageFormatName = imageFormat.ToString ().ToLower ();
+            var fileNameIdFormat = settings.FileNameIdFormat;
+            var width = settings.ItemImageSize.Width;
+            var height = settings.ItemImageSize.Height;
 
             var tags = tagRepository.RetrieveTags ();
             foreach (var tag in tags)
             {
+                // TODO: consider using postIds, currently computed below
+                PivotizeTag (postRepository, tag, settings);
+
                 var postIds = new List<int> (postRepository.RetrievePostIds (tag.Id));
-                dzc.PivotizeTag (tag, postIds);
-                dzc.CreateCollectionManifest (tag, postIds);
-                dzc.CreateCollectionTiles (tag, postIds);
+
+                var relativePathToCollectionManifest = Tag.ComputeBinnedPath (tag.Name, ".dzc");
+                var absolutePathToCollectionManifest = Path.Combine (outputPath, relativePathToCollectionManifest);
+                var relativePathToRoot = relativePathToCollectionManifest.RelativizePath ();
+
+                CreateCollectionManifest (postIds, absolutePathToCollectionManifest, imageFormatName, relativePathToRoot,
+                                          fileNameIdFormat, width, height);
+
+                CreateCollectionTiles (tag, outputPath, postIds, imageFormat, fileNameIdFormat, outputPath);
             }
         }
 
-        internal void CleanWorkingFolder()
+        internal static void CreateCollectionManifest(
+            List<int> postIds,
+            string absolutePathToCollectionManifest,
+            string imageFormatName,
+            string relativePathToRoot,
+            string fileNameIdFormat,
+            int width,
+            int height
+        )
         {
-            if (Directory.Exists (_settings.AbsoluteWorkingFolder))
+            Directory.CreateDirectory (Path.GetDirectoryName (absolutePathToCollectionManifest));
+            var element =
+                GenerateImageCollection (postIds, imageFormatName, fileNameIdFormat, relativePathToRoot, width, height);
+            using (var outputStream =
+                new FileStream (absolutePathToCollectionManifest, FileMode.Create, FileAccess.Write, FileShare.Read))
             {
-                Directory.Delete (_settings.AbsoluteWorkingFolder, true);
+                using (var writer = XmlWriter.Create (outputStream, WriterSettings))
+                {
+                    Debug.Assert (writer != null);
+                    element.WriteTo (writer);
+                }
             }
         }
 
-        internal void CreateRawItems (PostRepository postRepository)
+        internal static void CreateCollectionTiles(
+            Tag tag,
+            string outputPath,
+            List<int> postIds,
+            ImageFormat imageFormat,
+            string fileNameIdFormat,
+            string absoluteOutputPath
+        )
         {
-            var workingPath = _settings.AbsoluteWorkingFolder;
+            var extension = imageFormat.ToString ().ToLower ();
+            var relativePathToCollectionFolder = Tag.ComputeBinnedPath (tag.Name, null) + "_files";
+            var absolutePathToCollectionFolder = Path.Combine (outputPath, relativePathToCollectionFolder);
+            for (var level = 0; level < DeepZoomCollection.CollectionTilePower; level++)
+            {
+                var levelName = Convert.ToString (level, 10);
+                var absolutePathToCollectionLevelFolder = Path.Combine (absolutePathToCollectionFolder, levelName);
+                Directory.CreateDirectory (absolutePathToCollectionLevelFolder);
+                var levelSize = (int) Math.Pow (2, level);
+                var imageCollectionTiles = DeepZoomCollection.GenerateCollectionTiles (postIds, levelSize);
+                foreach (var imageCollectionTile in imageCollectionTiles)
+                {
+                    var relativePathToTile = Path.ChangeExtension (imageCollectionTile.TileName, extension);
+                    var absolutePathToTile = Path.Combine (absolutePathToCollectionLevelFolder, relativePathToTile);
+                    var levelImages = OpenLevelImages (imageCollectionTile.Ids, extension, fileNameIdFormat,
+                                                           absoluteOutputPath, level);
+                    using (var bitmap = DeepZoomCollection.CreateCollectionTile (levelImages, levelSize))
+                    {
+                        bitmap.Save (absolutePathToTile, imageFormat);
+                    }
+                }
+            }
+        }
+
+        internal static void CleanWorkingFolder()
+        {
+            var workingPath = Path.GetFullPath (WorkingFolderName);
+            if (Directory.Exists (workingPath))
+            {
+                Directory.Delete (workingPath, true);
+            }
+        }
+
+        internal static void CreateRawItems (Settings settings, PostRepository postRepository)
+        {
+            var workingPath = Path.GetFullPath (WorkingFolderName);
             Directory.CreateDirectory (workingPath);
             Page template;
             using (var stream = AssemblyExtensions.OpenScopedResourceStream<Program> ("Template.xaml"))
             {
                 template = (Page) XamlReader.Load (stream);
-                template.Width = _settings.ItemImageSize.Width;
-                template.Height = _settings.ItemImageSize.Height;
+                template.Width = settings.ItemImageSize.Width;
+                template.Height = settings.ItemImageSize.Height;
             }
-            var imageFormat = _settings.PostImageEncoding;
-            var imageExtension = imageFormat.GetName ();
+            var imageFormat = settings.PostImageEncoding;
+            var imageExtension = imageFormat.ToString ().ToLower ();
 
             var posts = postRepository.RetrievePosts ();
             foreach (var post in posts)
             {
-                var relativeBinnedXmlPath = post.ComputeBinnedPath (".xml", _settings.FileNameIdFormat);
+                var relativeBinnedXmlPath = post.ComputeBinnedPath (".xml", settings.FileNameIdFormat);
                 var absoluteBinnedXmlPath = Path.Combine (workingPath, relativeBinnedXmlPath);
                 Directory.CreateDirectory (Path.GetDirectoryName (absoluteBinnedXmlPath));
                 var element = PivotizePost (post);
-                using (var outputStream = absoluteBinnedXmlPath.CreateWriteStream ())
+                using (var outputStream =
+                    new FileStream (absoluteBinnedXmlPath, FileMode.Create, FileAccess.Write, FileShare.Read))
                 {
-                    using (var writer = new ItemWriter (outputStream, _settings.XmlWriterSettings))
+                    using (var writer = new ItemWriter (outputStream, ItemWriterSettings))
                     {
                         element.Save (writer);
                     }
                 }
 
-                var relativeBinnedImagePath = post.ComputeBinnedPath (imageExtension, _settings.FileNameIdFormat);
+                var relativeBinnedImagePath = post.ComputeBinnedPath (imageExtension, settings.FileNameIdFormat);
                 var absoluteBinnedImagePath = Path.Combine (workingPath, relativeBinnedImagePath);
                 Directory.CreateDirectory (Path.GetDirectoryName (absoluteBinnedImagePath));
-                using (var outputStream = absoluteBinnedImagePath.CreateWriteStream ())
+                using (var outputStream
+                    = new FileStream (absoluteBinnedImagePath, FileMode.Create, FileAccess.Write, FileShare.Read))
                 {
                     ImagePost (post, template, imageFormat, outputStream);
                 }
             }
         }
 
-        internal void GeneratePostImageResizes (PostRepository postRepository)
+        internal static void GeneratePostImageResizes (Settings settings, PostRepository postRepository)
         {
-            var dzi = new DeepZoomImage (_settings);
+            var size = settings.ItemImageSize;
+            var maximumLevel = DeepZoomImage.DetermineMaximumLevel (size);
 
-            var workingPath = _settings.AbsoluteWorkingFolder;
-            var imageFormat = _settings.PostImageEncoding;
-            var extension = imageFormat.GetName ();
-            var fileNameIdFormat = _settings.FileNameIdFormat;
+            var workingPath = Path.GetFullPath (WorkingFolderName);
+            var imageFormat = settings.PostImageEncoding;
+            var extension = imageFormat.ToString ().ToLower ();
+            var fileNameIdFormat = settings.FileNameIdFormat;
             foreach (var postId in postRepository.RetrievePostIds ())
             {
                 var relativeBinnedImagePath = Post.ComputeBinnedPath (postId, extension, fileNameIdFormat);
@@ -222,20 +358,57 @@ namespace PivotStack
                 var relativeBinnedImageFolder = Post.ComputeBinnedPath (postId, null, fileNameIdFormat) + "_files";
                 var absoluteBinnedImageFolder = Path.Combine (workingPath, relativeBinnedImageFolder);
                 Directory.CreateDirectory (absoluteBinnedImageFolder);
-                using (var inputStream = absoluteBinnedImagePath.CreateReadStream ())
+                using (var inputStream =
+                    new FileStream (absoluteBinnedImagePath, FileMode.Open, FileAccess.Read, FileShare.Read))
                 using (var sourceBitmap = new Bitmap (inputStream))
                 {
-                    dzi.GeneratePostImageResizes (sourceBitmap, (level, resizedBitmap) =>
+                    GeneratePostImageResizes (sourceBitmap, size, maximumLevel, (level, resizedBitmap) =>
                         {
                             var levelImageName = "{0}.{1}".FormatInvariant (level, extension);
                             var levelImagePath = Path.Combine (absoluteBinnedImageFolder, levelImageName);
-                            using (var outputStream = levelImagePath.CreateReadStream ())
+                            using (var outputStream =
+                                new FileStream (levelImagePath, FileMode.Create, FileAccess.Write, FileShare.Read))
                             {
                                 resizedBitmap.Save (outputStream, imageFormat);
                             }
                         }
                     );
                 }
+            }
+        }
+
+        internal static void GeneratePostImageResizes (Bitmap sourceBitmap, Size size, int maximumLevel, Action<int, Bitmap> saveAction)
+        {
+            for (var level = maximumLevel; level >= 0; level--)
+            {
+                var targetSize = DeepZoomImage.ComputeLevelSize (size, level);
+                using (var resizedBitmap = DeepZoomImage.Resize (sourceBitmap, targetSize.Width, targetSize.Height))
+                {
+                    saveAction (level, resizedBitmap);
+                }
+            }
+        }
+
+        internal static void PivotizeTag (PostRepository postRepository, Tag tag, Settings settings)
+        {
+            var workingPath = Path.GetFullPath (WorkingFolderName);
+            var outputPath = Path.GetFullPath (OutputFolderName);
+            var relativeBinnedCxmlPath = tag.ComputeBinnedPath (".cxml");
+            var absoluteBinnedCxmlPath = Path.Combine (outputPath, relativeBinnedCxmlPath);
+            Directory.CreateDirectory (Path.GetDirectoryName (absoluteBinnedCxmlPath));
+            using (var outputStream
+                = new FileStream (absoluteBinnedCxmlPath, FileMode.Create, FileAccess.Write, FileShare.Read))
+            {
+                var postIds = postRepository.RetrievePostIds (tag.Id);
+                var streamReaders = postIds.Map (postId =>
+                    {
+                        var relativeBinnedXmlPath = Post.ComputeBinnedPath (postId, ".xml", settings.FileNameIdFormat);
+                        var absoluteBinnedXmlPath = Path.Combine (workingPath, relativeBinnedXmlPath);
+                        var sr = new StreamReader (absoluteBinnedXmlPath);
+                        return sr;
+                    }
+                );
+                PivotizeTag (tag, streamReaders, outputStream, settings.SiteDomain);
             }
         }
 
@@ -246,6 +419,161 @@ namespace PivotStack
             var imageSource = pageTemplate.ToBitmapSource ();
             var bitmap = imageSource.ConvertToGdiPlusBitmap ();
             bitmap.Save (destination, imageFormat);
+        }
+
+        internal static void SlicePostImage (int postId, Size size, int maximumLevel, string extension, string fileNameIdFormat, ImageFormat imageFormat, int tileSize, int tileOverlap)
+        {
+            var workingPath = Path.GetFullPath (WorkingFolderName);
+            var outputPath = Path.GetFullPath (OutputFolderName);
+            var relativeBinnedImageFolder = Post.ComputeBinnedPath (postId, null, fileNameIdFormat) + "_files";
+            var absoluteBinnedImageFolder = Path.Combine (workingPath, relativeBinnedImageFolder);
+            var absoluteBinnedOutputImageFolder = Path.Combine (outputPath, relativeBinnedImageFolder);
+
+            for (var level = maximumLevel; level >= 0; level--)
+            {
+                var levelName = Convert.ToString (level, 10);
+                var targetSize = DeepZoomImage.ComputeLevelSize (size, level);
+                var tileFiles = new List<Stream> ();
+                var inputLevelImageFile = Path.ChangeExtension (levelName, extension);
+                var inputLevelImagePath = Path.Combine (absoluteBinnedImageFolder, inputLevelImageFile);
+                var outputLevelFolder = Path.Combine (absoluteBinnedOutputImageFolder, levelName);
+                Directory.CreateDirectory (outputLevelFolder);
+
+                var tiles = DeepZoomImage.ComputeTiles (targetSize, tileSize, tileOverlap);
+                using (var inputStream =
+                    new FileStream (inputLevelImagePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (var levelBitmap = new Bitmap(inputStream))
+                {
+                    DeepZoomImage.Slice (levelBitmap, tiles, imageFormat, tileName =>
+                        {
+                            var tileFileName = Path.ChangeExtension (tileName, extension);
+                            var tilePath = Path.Combine (outputLevelFolder, tileFileName);
+                            var stream =
+                                new FileStream (tilePath, FileMode.Create, FileAccess.Write, FileShare.Read);
+                            tileFiles.Add (stream);
+                            return stream;
+                        }
+                    );
+                }
+                foreach (var stream in tileFiles)
+                {
+                    stream.Close ();
+                }
+            }
+        }
+        
+        internal static XElement GenerateImageCollection (
+            IEnumerable<int> postIds,
+            string imageFormat,
+            string postFileNameFormat,
+            string relativePathToRoot,
+            int originalImageWidth,
+            int originalImageHeight
+        )
+        {
+            XDocument doc;
+            var namespaceManager = new XmlNamespaceManager (new NameTable ());
+            namespaceManager.AddNamespace ("dz", DeepZoom2008Namespace.NamespaceName);
+            using (var stream = AssemblyExtensions.OpenScopedResourceStream<Program> ("Template.dzc"))
+            using (var reader = new StreamReader(stream))
+            {
+                doc = XDocument.Parse (reader.ReadToEnd ());
+            }
+            var collectionNode = doc.Root;
+            Debug.Assert (collectionNode != null);
+            collectionNode.SetAttributeValue ("Format", imageFormat);
+
+            // the <Size> element is the same for all <I> elements
+            #region <Size Width="800" Height="400" />
+            var sizeNode = new XElement (SizeNodeName);
+            sizeNode.SetAttributeValue ("Width", originalImageWidth);
+            sizeNode.SetAttributeValue ("Height", originalImageHeight);
+            #endregion
+
+            var itemsNode = collectionNode.XPathSelectElement ("dz:Items", namespaceManager);
+
+            var mortonNumber = 0;
+            var maxPostId = 0;
+            foreach (var postId in postIds)
+            {
+                var itemNode =
+                    CreateImageCollectionItemNode (mortonNumber, postId, postFileNameFormat, relativePathToRoot);
+                itemNode.Add (sizeNode);
+                itemsNode.Add (itemNode);
+
+                mortonNumber++;
+                maxPostId = Math.Max (maxPostId, postId);
+            }
+
+            // @NextItemId is documented as:
+            // "Gets the count of items in the collection; however for Deep Zoom
+            // this does not matter because collections are read-only"
+            // ...BUT Pivot is very finicky about this one and will consider an
+            // entire .dzc invalid if this isn't one more than the highest @Id in the .dzc document.
+            collectionNode.SetAttributeValue ("NextItemId", maxPostId + 1);
+
+            return collectionNode;
+        }
+
+        internal static void PivotizeTag (Tag tag, IEnumerable<StreamReader> streamReaders, Stream destination, string siteDomain)
+        {
+            XDocument doc;
+            XmlNamespaceManager namespaceManager;
+            using (var stream = AssemblyExtensions.OpenScopedResourceStream<Program> ("Template.cxml"))
+            using (var reader = XmlReader.Create (stream, ReaderSettings))
+            {
+                doc = XDocument.Load (reader);
+                namespaceManager = new XmlNamespaceManager(reader.NameTable);
+                namespaceManager.AddNamespace("c", CollectionNamespace.NamespaceName);
+                namespaceManager.AddNamespace("p", PivotNamespace.NamespaceName);
+            }
+            var collectionNode = doc.Root;
+            Debug.Assert(collectionNode != null);
+            collectionNode.SetAttributeValue ("Name", "Tagged Questions: {0}".FormatInvariant (tag.Name));
+            // TODO: do we want to strip hyphens from tag for AdditionalSearchText?
+            collectionNode.SetAttributeValue (PivotNamespace + "AdditionalSearchText", tag.Name);
+
+            var itemsNode = collectionNode.XPathSelectElement ("c:Items", namespaceManager);
+            itemsNode.SetAttributeValue ("HrefBase", "http://{0}/questions/".FormatInvariant (siteDomain));
+            itemsNode.SetAttributeValue ("ImgBase", Path.ChangeExtension (tag.Name, ".dzc"));
+            using (var writer = new CollectionWriter (destination, WriterSettings, futureCw =>
+                {
+                    futureCw.Flush ();
+                    var sw = new StreamWriter (destination);
+                    foreach (var sr in streamReaders)
+                    {
+                        foreach (var line in sr.Lines())
+                        {
+#if DEBUG
+                            sw.WriteLine (line);
+#else
+                            sw.Write (line);
+#endif
+                        }
+                        sr.Close ();
+                    }
+                    sw.Flush ();
+                })
+            )
+            {
+                doc.Save (writer);
+            }
+        }
+
+        internal static XElement CreateImageCollectionItemNode
+            (int mortonNumber, int id, string postFileNameFormat, string relativePathToRoot)
+        {
+            #region <I N="0" Id="351" Source="../../../0/0351.dzi" />
+            var itemNode = new XElement (ItemNodeName);
+            // "N" is "The number of the item (Morton Number) where it appears in the tiles."
+            itemNode.SetAttributeValue ("N", mortonNumber);
+            itemNode.SetAttributeValue ("Id", id);
+            var relativeDziSubPath = Post.ComputeBinnedPath (id, "dzi", postFileNameFormat);
+            var relativeDziPath = Path.Combine (relativePathToRoot, relativeDziSubPath);
+            itemNode.SetAttributeValue ("Source", relativeDziPath);
+            #endregion
+
+            return itemNode;
         }
 
         internal static XElement PivotizePost (Post post)
@@ -268,67 +596,67 @@ namespace PivotStack
             var facetsNode = new XElement("Facets");
 
             #region <Facet Name="Score"><Number Value="7" /></Facet>
-            facetsNode.AddFacet (FacetType.Number, "Score", post.Score);
+            AddFacet (facetsNode, FacetType.Number, "Score", post.Score);
             #endregion
 
             #region <Facet Name="Views"><Number Value="761" /></Facet>
-            facetsNode.AddFacet (FacetType.Number, "Views", post.Views);
+            AddFacet (facetsNode, FacetType.Number, "Views", post.Views);
             #endregion
 
             #region <Facet Name="Answers"><Number Value="27" /></Facet>
-            facetsNode.AddFacet (FacetType.Number, "Answers", post.Answers);
+            AddFacet (facetsNode, FacetType.Number, "Answers", post.Answers);
             #endregion
 
             if (post.Tags != null)
             {
                 var tags = post.Tags.ParseTags ();
                 #region <Facet Name="Tagged"><String Value="excel" /><String Value="tips-and-tricks" /></Facet>
-                facetsNode.AddFacet (FacetType.String, "Tagged", tags.Map (t => (object) t));
+                AddFacet (facetsNode, FacetType.String, "Tagged", tags.Map (t => (object) t));
                 #endregion
 
                 #region <Facet Name="Related Tags"><Link Href="excel.cxml" Name="excel" /></Facet>
                 // TODO: the "related tags" files should be binned!
-                facetsNode.AddFacetLink ("Related Tags", tags.Map (t => new Pair<string, string> (t + ".cxml", t)));
+                AddFacetLink (facetsNode, "Related Tags", tags.Map (t => new Pair<string, string> (t + ".cxml", t)));
                 #endregion
             }
 
             #region <Facet Name="Date asked"><DateTime Value="2009-07-15T18:41:08" /></Facet>
-            facetsNode.AddFacet (FacetType.DateTime, "Date asked", post.DateAsked.ToString ("s"));
+            AddFacet (facetsNode, FacetType.DateTime, "Date asked", post.DateAsked.ToString ("s"));
             #endregion
 
             #region <Facet Name="Is answered?"><String Value="yes" /></Facet>
-            facetsNode.AddFacet (FacetType.String, "Is answered?", post.DateFirstAnswered.HasValue.YesNo ());
+            AddFacet (facetsNode, FacetType.String, "Is answered?", post.DateFirstAnswered.HasValue.YesNo());
             #endregion
 
             #region <Facet Name="Date first answered"><DateTime Value="2009-07-15T18:41:08" /></Facet>
             if (post.DateFirstAnswered.HasValue)
             {
-                facetsNode.AddFacet (FacetType.DateTime, "Date first answered", post.DateFirstAnswered.Value.ToString ("s"));
+                AddFacet (facetsNode, FacetType.DateTime, "Date first answered", post.DateFirstAnswered.Value.ToString ("s"));
             }
             #endregion
 
             #region <Facet Name="Date last answered"><DateTime Value="2010-06-16T09:46:07" /></Facet>
             if (post.DateLastAnswered.HasValue)
             {
-                facetsNode.AddFacet (FacetType.DateTime, "Date last answered", post.DateLastAnswered.Value.ToString ("s"));
+                AddFacet (facetsNode, FacetType.DateTime, "Date last answered", post.DateLastAnswered.Value.ToString ("s"));
             }
             #endregion
 
             #region <Facet Name="Asker"><String Value="Bob" /></Facet>
             if (post.Asker != null)
             {
-                facetsNode.AddFacet (FacetType.String, "Asker", post.Asker);
+                AddFacet (facetsNode, FacetType.String, "Asker", post.Asker);
             }
             #endregion
 
             #region <Facet Name="Has accepted answer?"><String Value="yes" /></Facet>
-            facetsNode.AddFacet (FacetType.String, "Has accepted answer?", post.AcceptedAnswerId.HasValue.YesNo ());
+            AddFacet (facetsNode, FacetType.String, "Has accepted answer?", post.AcceptedAnswerId.HasValue.YesNo());
             #endregion
 
             #region <Facet Name="Accepted Answer"><LongString Value="My best advice for Excel..." /></Facet>
             if (post.AcceptedAnswer != null)
             {
-                facetsNode.AddFacet (FacetType.LongString, "Accepted Answer", post.AcceptedAnswer.CleanHtml ());
+                AddFacet (facetsNode, FacetType.LongString, "Accepted Answer", post.AcceptedAnswer.CleanHtml ());
                 // TODO: link to accepted answer
                 // Accepted Answer Details: Link, Author(s), Score
             }
@@ -337,18 +665,18 @@ namespace PivotStack
             #region <Facet Name="Top Answer"><LongString Value="In-cell graphs..." /></Facet>
             if (post.TopAnswer != null)
             {
-                facetsNode.AddFacet (FacetType.LongString, "Top Answer", post.TopAnswer.CleanHtml ());
+                AddFacet (facetsNode, FacetType.LongString, "Top Answer", post.TopAnswer.CleanHtml ());
                 // TODO: link to top answer
                 // Top Answer Details: Link, Author(s), Score
             }
             #endregion
 
             #region <Facet Name="Is favorite?"><String Value="yes" /></Facet>
-            facetsNode.AddFacet (FacetType.String, "Is favorite?", ( post.Favorites > 0 ).YesNo ());
+            AddFacet (facetsNode, FacetType.String, "Is favorite?", ( post.Favorites > 0 ).YesNo());
             #endregion
 
             #region <Facet Name="Favorites"><Number Value="10" /></Facet>
-            facetsNode.AddFacet (FacetType.Number, "Favorites", post.Favorites);
+            AddFacet (facetsNode, FacetType.Number, "Favorites", post.Favorites);
             #endregion
 
             itemNode.Add (facetsNode);
@@ -356,6 +684,45 @@ namespace PivotStack
 
             return itemNode;
             #endregion
+        }
+
+        // TODO: turn these 4 methods into extension methods on XElement or instance methods on something else (Item?)
+        internal static void AddFacet (XElement facets, FacetType facetType, string name, object value)
+        {
+            AddFacet (facets, facetType, name, new[] { value });
+        }
+
+        internal static void AddFacet (XElement facets, FacetType facetType, string name, IEnumerable<object> values)
+        {
+            var facetNode = new XElement("Facet", new XAttribute("Name", name));
+            var elementName = facetType.ToString();
+            foreach (var value in values)
+            {
+                var valueNode = new XElement(elementName, new XAttribute("Value", value));
+                facetNode.Add (valueNode);
+            }
+            facets.Add (facetNode);
+        }
+
+        internal static void AddFacetLink
+            (XElement facets, string facetName, Pair<string, string> hrefNamePair)
+        {
+            AddFacetLink (facets, facetName, new[] { hrefNamePair });
+        }
+
+        internal static void AddFacetLink
+            (XElement facets, string facetName, IEnumerable<Pair<string, string>> hrefNamePairs)
+        {
+            var facetNode = new XElement ("Facet", new XAttribute ("Name", facetName));
+            var elementName = FacetType.Link.ToString ();
+            foreach (var pair in hrefNamePairs)
+            {
+                var href = pair.First;
+                var name = pair.Second;
+                var linkNode = new XElement (elementName, new XAttribute ("Href", href), new XAttribute ("Name", name));
+                facetNode.Add (linkNode);
+            }
+            facets.Add (facetNode);
         }
     }
 }
