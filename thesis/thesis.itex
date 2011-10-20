@@ -869,9 +869,9 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             The evaluation uses the source code of the following C# open-source projects:
             <block param="enumerate">
               <!-- TODO: AtomicCms has no SME done on it. <command name="item"> AtomicCms</command> -->
-              <command name="item"> KeePass, version 2.10 <see cite="reichl10keepass" />, henceforth referred to as <em>KeePassLib</em></command>
+              <command name="item"> KeePass, version 2.10 <see cite="reichl10keepass" />, henceforth referred to as <tt>KeePassLib</tt></command>
               <!-- TODO: is PivotStack good enough? <command name="item"> PivotStack</command> -->
-              <command name="item"> Textile.NET, changeset 26030 <see cite="chabant09textilenet" />, henceforth referred to as <em>Textile</em></command>
+              <command name="item"> Textile.NET, changeset 26030 <see cite="chabant09textilenet" />, henceforth referred to as <tt>Textile</tt></command>
             </block>
 
             The following evaluations are performed for each of the competing strategies on each of the open-source projects:
@@ -1048,7 +1048,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               Each project was configured to make any methods marked as <tt>internal</tt> visible to both the empty test project and to Pex itself, using the <tt>InternalsVisibleTo</tt> attribute.
             </command>
             <command name="subsubsection" param="Disable functionality that interferes with the evaluation">
-              The KeePassLib project contains code to show a modal message box dialog that must be dismissed by an end-user.  This is undesirable for an unattended evaluation and therefore the body of the <tt>SafeShowMessageBox()</tt> method in the <tt>MessageService</tt> class was removed, as was that of the <tt>SafeShowMessageBoxInternal()</tt> method in the <tt>MessageService</tt> class.  Also, to prevent assertions in the projects from interrupting the automated evaluation in the same way, the compilation options were modified to use the <em>Release</em> configuration with optimizations disabled and full debug symbols enabled <footnote>Assertions will only display a dialog if the <tt>DEBUG</tt> constant is defined and it is not defined when using the Release configuration.  Disabling optimizations and enabling debug symbols is done to help keep the static code analysis as representative to the original source code as possible.</footnote>.
+              The <tt>KeePassLib</tt> project contains code to show a modal message box dialog that must be dismissed by an end-user.  This is undesirable for an unattended evaluation and therefore the body of the <tt>SafeShowMessageBox()</tt> method in the <tt>MessageService</tt> class was removed, as was that of the <tt>SafeShowMessageBoxInternal()</tt> method in the <tt>MessageService</tt> class.  Also, to prevent assertions in the projects from interrupting the automated evaluation in the same way, the compilation options were modified to use the <em>Release</em> configuration with optimizations disabled and full debug symbols enabled <footnote>Assertions will only display a dialog if the <tt>DEBUG</tt> constant is defined and it is not defined when using the Release configuration.  Disabling optimizations and enabling debug symbols is done to help keep the static code analysis as representative to the original source code as possible.</footnote>.
             </command>
             <command name="subsubsection" param="Create a copy for each strategy">
               Now that we have a baseline for each project, we can create a copy of the <tt>base</tt> folder for each strategy we wish to compare against.  As such, the following folders were created:  <tt>manual</tt> (manual application of SME), <tt>visibility-state</tt> (increasing the visibility of state members, such as fields) and <tt>visibility</tt> (increasing the visibility of both fields and methods).  The corresponding transformations were then performed in their respective folders, isolated from one another and from the baseline.
@@ -1164,14 +1164,14 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                 </tr>
                 <hline />
                 <tr>
-                  <td>Textile</td>
+                  <td><tt>Textile</tt></td>
                   <td>78.0</td>
                   <td>85.0</td>
                   <td>76.0</td>
                   <td>76.0</td>
                 </tr>
                 <tr>
-                  <td>KeePassLib</td>
+                  <td><tt>KeePassLib</tt></td>
                   <td>70.0</td>
                   <td>81.0</td>
                   <td>70.0</td>
@@ -1186,10 +1186,14 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                   <td>78.0</td>
                 </tr>
               </tbody>
-              <command name="caption" param="Detailed results for the evaluation of the unit test complexity" />
+              <command name="caption" param="Maintainability Index of the unit tests in the \texttt{ManualTests} project per evaluation project, per strategy" />
               <command name="label" param="tbl:complexityResults" />
             </table>
-            TODO: discuss
+
+            In the case of the <tt>Textile</tt> project, the slightly lower MI scores for the <tt>visibility-state</tt> and <tt>visibility</tt> strategies are owed to the tests written for <tt>FootNoteFormatterState</tt> and the fact that the increase in visibility allowed for <em>two</em> slightly more precise tests to be written, instead of the <em>one</em> general and indirect test possible in <tt>base</tt>.  Two tests mean more lines of code and therefore a lower MI score, although this could be interepreted as a limitation of the CMPT.  Still, the <tt>manual</tt> strategy fared much better because it was able to test the most precise parts of the processing involved in the <tt>Enter()</tt> and <tt>OnContextAcquired()</tt> methods in just two lines per test and with less class coupling.
+            
+            In the case of the <tt>KeePassLib</tt> project, the transformations afforded to the <tt>visibility-state</tt> strategy did not help simplify the unit tests by any significant amount, whereas the transformations made in the <tt>visibility</tt> strategy were very similar to those made in the <tt>manual</tt> strategy and thus helped simplify the unit tests similarily.  The disparity between the performance of the <tt>visibility</tt> strategy is owed to the nature of the methods being tested. <!-- TODO: as can be seen in table X where results are shown per method, per strategy? -->
+            
           </command>
           <command name="subsection" param="Number of changes to the public interface of the class under test">
             Table <see ref="tbl:publicInterfaceResults" /> lists the per-project results of running the PIC tool on the IUTs to obtain their number of public interface differences, relative to the base source code.
@@ -1204,14 +1208,14 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                 </tr>
                 <hline />
                 <tr>
-                  <td>Textile</td>
+                  <td><tt>Textile</tt></td>
                   <td>n/a</td>
                   <td>0</td>
                   <td>0</td>
                   <td>0</td>
                 </tr>
                 <tr>
-                  <td>KeePassLib</td>
+                  <td><tt>KeePassLib</tt></td>
                   <td>n/a</td>
                   <td>0</td>
                   <td>0</td>
@@ -1234,7 +1238,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           <command name="subsection" param="Percentage of branches covered using concolic testing">
             Table <see ref="tbl:percentageConcolicCoverage" /> lists the results of measuring the code coverage percentage achieved by the tests generated by Pex.  Due to the nature of the constraint solver, measurements from a few runs are presented.
             <table placement="htbp">
-              <tbody spec="p{0.29\textwidth} | R{0.12\textwidth} R{0.12\textwidth} R{0.18\textwidth} R{0.18\textwidth}">
+              <tbody spec="p{0.32\textwidth} | R{0.115\textwidth} R{0.115\textwidth} R{0.175\textwidth} R{0.175\textwidth}">
                 <tr>
                   <td>Projects and runs</td>
                   <td><tt>base</tt></td>
@@ -1245,42 +1249,42 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                 <hline />
                 <region name="Textile">
                   <tr>
-                    <td>Textile @ 356</td>
+                    <td><tt>Textile</tt> @ 356</td>
                     <td>60.26%</td>
                     <td>67.10%</td>
                     <td>60.61%</td>
                     <td>64.36%</td>
                   </tr>
                   <tr>
-                    <td>Textile @ 361</td>
+                    <td><tt>Textile</tt> @ 361</td>
                     <td>60.61%</td>
                     <td>67.10%</td>
                     <td>60.61%</td>
                     <td>64.01%</td>
                   </tr>
                   <tr>
-                    <td>Textile @ 366</td>
+                    <td><tt>Textile</tt> @ 366</td>
                     <td>60.26%</td>
                     <td>67.10%</td>
                     <td>60.49%</td>
                     <td>64.24%</td>
                   </tr>
                   <tr>
-                    <td>Textile @ 378</td>
+                    <td><tt>Textile</tt> @ 378</td>
                     <td>60.38%</td>
                     <td>67.02%</td>
                     <td>60.73%</td>
                     <td>64.24%</td>
                   </tr>
                   <tr>
-                    <td>Textile AVERAGE</td>
+                    <td><tt>Textile</tt> AVERAGE</td>
                     <td>60.38%</td>
                     <td>67.08%</td>
                     <td>60.61%</td>
                     <td>64.21%</td>
                   </tr>
                   <tr>
-                    <td>Textile STDEV</td>
+                    <td><tt>Textile</tt> STDEV</td>
                     <td>0.17%</td>
                     <td>0.04%</td>
                     <td>0.10%</td>
@@ -1290,42 +1294,42 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                 <hline />
                 <region name="KeePassLib">
                   <tr>
-                    <td>KeePassLib @ 356</td>
+                    <td><tt>KeePassLib</tt> @ 356</td>
                     <td>46.11%</td>
                     <td>49.11%</td>
                     <td>45.87%</td>
                     <td>48.42%</td>
                   </tr>
                   <tr>
-                    <td>KeePassLib @ 361</td>
+                    <td><tt>KeePassLib</tt> @ 361</td>
                     <td>45.49%</td>
                     <td>49.05%</td>
                     <td>45.96%</td>
                     <td>47.83%</td>
                   </tr>
                   <tr>
-                    <td>KeePassLib @ 366</td>
+                    <td><tt>KeePassLib</tt> @ 366</td>
                     <td>46.00%</td>
                     <td>49.06%</td>
                     <td>45.86%</td>
                     <td>48.34%</td>
                   </tr>
                   <tr>
-                    <td>KeePassLib @ 378</td>
+                    <td><tt>KeePassLib</tt> @ 378</td>
                     <td>45.80%</td>
                     <td>49.14%</td>
                     <td>46.00%</td>
                     <td>48.33%</td>
                   </tr>
                   <tr>
-                    <td>KeePassLib AVERAGE</td>
+                    <td><tt>KeePassLib</tt> AVERAGE</td>
                     <td>45.85%</td>
                     <td>49.09%</td>
                     <td>45.92%</td>
                     <td>48.23%</td>
                   </tr>
                   <tr>
-                    <td>KeePassLib STDEV</td>
+                    <td><tt>KeePassLib</tt> STDEV</td>
                     <td>0.27%</td>
                     <td>0.04%</td>
                     <td>0.07%</td>
