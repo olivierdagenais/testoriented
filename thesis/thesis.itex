@@ -893,7 +893,8 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
 
               The tool used for evaluating the complexity of unit tests is the <em>Visual Studio Code Metrics PowerTool 10.0</em> <see cite="ms11codemetrics" /> (CMPT).  It can compute, among others, a <em>Maintainability Index</em> (MI) that is derived and adapted <see cite="morrison07maintainabilityindex" /> from the Carnegie Mellon University's Software Engineering Institute metric of the same name <see cite="vandoren97maintainabilityindex" />.  In short, the tool combines a few metrics obtained by scanning the byte code and scales the result between 0 and 100.  Higher values are better.
               <!-- TODO: talk about which variant of the metric is used, what counts toward the score and what does not, which tool was used and how the results were extracted -->
-              TODO: talk about how the tool is used to evaluate not just the manual tests, but also the IUT, to see if the strategy affected the maintainability
+              
+              The CMPT is also used to evaluate the IUT of each strategy, to see if the transformations performed as part the respective strategies adversely affected the maintainability of the code being tested.  This result will not be included in the unit test complexity evaluation and is recorded more as a "canary in a coal mine" to detect undesireable transformations. <!-- TODO: should the MI IUT become an official evaluation? -->
             </command>
             <command name="subsubsection" param="Number of changes to the class under test's public interface">
               <command name="label" param="subsubsec:changesPublicInterface" />
