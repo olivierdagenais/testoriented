@@ -1,5 +1,12 @@
 #!/usr/bin/perl
 
+# Filters a C# class to increase its visibility.
+# - "private" becomes "internal"
+# - "protected" becomes "protected internal"
+#
+# Supports two filtering levels:
+# - visibilityState: fields and properties
+# - visibility: fields, properties and methods
 sub process()
 {
 	my $file = $File::Find::name;
@@ -43,7 +50,7 @@ sub process()
 			)
 		)
 		{
-			# If the element is already public or internal, process to the next line
+			# If the element is already public or internal, proceed to the next line
 			if( ! /(public|internal)/ )
 			{
 				if( /private/ )
@@ -72,7 +79,7 @@ sub process()
 
 $ARGV[0] eq "visibility" 
 	or $ARGV[0] eq "visibilityState" 
-	or die qq/Please pass in "visibility" or "visibilityState" as arugment./;
+	or die qq/Please specify "visibility" or "visibilityState" as argument./;
 
 # Execute the "process" function on every file found under the current working directory
 use File::Find;
