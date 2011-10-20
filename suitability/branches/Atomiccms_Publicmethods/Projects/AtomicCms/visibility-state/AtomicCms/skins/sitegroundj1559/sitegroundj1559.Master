@@ -1,0 +1,88 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/Views/Shared/BaseSkinMaster.Master" AutoEventWireup="true"
+    Inherits="System.Web.Mvc.ViewMasterPage" %>
+
+<%@ Import Namespace="AtomicCms.Core.ViewModels" %>
+
+<%@ Import Namespace="AtomicCms.Common.Constants" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
+    <%=((ViewModelHome)Model).Entry.SeoTitle%>
+</asp:Content>
+<asp:Content ID="HeadContent" ContentPlaceHolderID="HeadContent" runat="server">
+    <link rel="stylesheet" href='<%=Url.Content("~/skins/sitegroundj1559/styles/style.css") %>'
+        type="text/css" />
+    <!--[if lte IE 6]> <link rel="stylesheet" href='<%=Url.Content("~/skins/sitegroundj1559/styles/ie6.css") %>' type="text/css" /> <![endif]-->
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="BodyContent" runat="server">
+    <div id="wrap" class="body_bg">
+        <div id="page_bg">
+            <div id="topw">
+                <div id="logo">
+                    <a href="/">
+                        <%=((ViewModelHome)Model).Attributes.GetValue(Constant.Settings.SiteLogo)%></a> 
+                        <span class="sublogo"></span>
+                </div>
+                <div class="rss">
+                    <a href="<%=((ViewModelHome)Model).Attributes.GetValue(Constant.Settings.RssLink)%>"><img src="<%=Url.Content("~/skins/sitegroundj1559/images/rss-32.png") %>" alt="Rss" /></a>
+                </div>
+            </div>
+            <div class="clr">
+            </div>
+            <div id="header">
+                <div style="float: right; margin: 20px 20px 0px 0px; width: 450px">
+                    <div id="newsflash">
+                        <div class="module">
+                            <div>
+                                <div>
+                                    <div>
+                                        <%Html.RenderPartial("NewsFlash"); %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="content">
+                <div class="cpathway">
+                    <div class="cpleft">
+                        <h5 class="currentPosition">
+                        </h5>
+                    </div>
+                </div>
+                <div id="leftcolumn">
+                    <% Html.RenderAction("Show", "Menu", new { menuName = "LeftMenu" }); %>
+                    <% Html.RenderAction("LastPages", "Home"); %>
+                </div>
+                <div id="maincolumn_full">
+                    <div class="nopad">
+                        <div style="margin: 10px auto 20px; text-align: center;">
+                            <div class="componentheading">
+                                <h1>
+                                    <%=((ViewModelHome)Model).Entry.EntryTitle%>
+                                </h1>
+                            </div>
+                            <div class="contentpaneopen">
+                                <%=((ViewModelHome)Model).Entry.EntryBody%>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clr">
+                </div>
+            </div>
+        </div>
+        <div id="footer">
+            <div id="sgf">
+                <div>
+                    <div style="padding: 10px 0px 0px; text-align: center;">
+                        <% Html.RenderAction("Show", "Menu", new { menuName = "FooterMenu" }); %>
+                        <div style="padding: 5px 0pt; text-align: center; color: rgb(131, 163, 48);">
+                            <%Html.RenderPartial("Copyrights"); %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+</asp:Content>
