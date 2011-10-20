@@ -11,7 +11,7 @@ namespace AtomicCms.Web.Controllers
     [Authorize]
     public class FileUploadController : Controller
     {
-        private readonly IServiceFactory serviceFactory;
+        internal readonly IServiceFactory serviceFactory;
 
         public FileUploadController(IServiceFactory serviceFactory)
         {

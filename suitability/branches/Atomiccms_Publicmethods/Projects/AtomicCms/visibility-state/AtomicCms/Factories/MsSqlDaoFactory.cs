@@ -10,11 +10,11 @@ namespace AtomicCms.Data.NHibernate.Factories
 
     public class MsSqlDaoFactory : IDaoFactory
     {
-        private readonly ISessionFactory sessionFactory;
-        private IEntryDao entryDao;
-        private ISiteDao siteDao;
-        private IMenuDao menuDao;
-        private IUserDao userDao;
+        internal readonly ISessionFactory sessionFactory;
+        internal IEntryDao entryDao;
+        internal ISiteDao siteDao;
+        internal IMenuDao menuDao;
+        internal IUserDao userDao;
 
         public MsSqlDaoFactory()
         {

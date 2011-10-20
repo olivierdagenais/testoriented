@@ -5,7 +5,7 @@ namespace AtomicCms.Core.DomainObjectsImp
 
     public class Menu : IMenu
     {
-        private static readonly IMenu nullMenu = new Menu
+        internal static readonly IMenu nullMenu = new Menu
                                                      {
                                                          Id = 0,
                                                          Description = string.Empty,

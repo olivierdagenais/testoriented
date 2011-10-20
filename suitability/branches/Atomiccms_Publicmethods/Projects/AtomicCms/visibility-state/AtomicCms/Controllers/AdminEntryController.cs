@@ -12,7 +12,7 @@ namespace AtomicCms.Web.Controllers
     [Authorize]
     public class AdminEntryController : Controller
     {
-        private readonly IServiceFactory modelFactory;
+        internal readonly IServiceFactory modelFactory;
 
         public AdminEntryController(IServiceFactory modelFactory)
         {

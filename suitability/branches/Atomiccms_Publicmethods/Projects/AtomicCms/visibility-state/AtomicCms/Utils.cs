@@ -6,7 +6,7 @@ namespace AtomicCms.Web.Core
 
     public class Utils
     {
-        private static string _skinName;
+        internal static string _skinName;
 
         public static string SkinName
         {

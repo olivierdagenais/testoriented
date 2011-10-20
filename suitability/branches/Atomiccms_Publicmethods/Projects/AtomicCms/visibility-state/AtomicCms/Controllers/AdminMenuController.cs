@@ -15,7 +15,7 @@ namespace AtomicCms.Web.Controllers
             return View(menues);
         }
 
-        private readonly IServiceFactory serviceFactory;
+        internal readonly IServiceFactory serviceFactory;
 
         public AdminMenuController(IServiceFactory _modelFactory)
         {

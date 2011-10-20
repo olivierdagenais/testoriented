@@ -11,7 +11,7 @@ namespace AtomicCms.Web.Controllers
 
     public class InfrastructureController : AtomicCmsController
     {
-        private readonly IServiceFactory serviceFactory;
+        internal readonly IServiceFactory serviceFactory;
 
 
         public InfrastructureController(IServiceFactory _modelFactory)

@@ -12,7 +12,7 @@
     [HandleError]
     public class AccountController : Controller
     {
-        private readonly IServiceFactory _modelFactory;
+        internal readonly IServiceFactory _modelFactory;
 
         public AccountController(IServiceFactory _modelFactory)
         {

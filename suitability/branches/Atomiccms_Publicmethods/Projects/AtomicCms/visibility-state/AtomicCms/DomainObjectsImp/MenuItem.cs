@@ -5,7 +5,7 @@ namespace AtomicCms.Core.DomainObjectsImp
 
     public class MenuItem : IMenuItem
     {
-        private static readonly IMenuItem nullObject = new MenuItem
+        internal static readonly IMenuItem nullObject = new MenuItem
                                                            {
                                                                Entry = DomainObjectsImp.Entry.NullObject,
                                                                Id = 0,

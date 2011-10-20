@@ -17,7 +17,7 @@
     [SupportSkin]
     public class HomeController : Controller
     {
-        private readonly IServiceFactory serviceFactory;
+        internal readonly IServiceFactory serviceFactory;
 
         public HomeController(IServiceFactory serviceFactory)
         {

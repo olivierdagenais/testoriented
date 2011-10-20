@@ -11,7 +11,7 @@ namespace AtomicCms.Core.Models
 
     public class UserService : IUserService
     {
-        private readonly IDaoFactory daoFactory;
+        internal readonly IDaoFactory daoFactory;
 
         public UserService(IDaoFactory daoFactory)
         {

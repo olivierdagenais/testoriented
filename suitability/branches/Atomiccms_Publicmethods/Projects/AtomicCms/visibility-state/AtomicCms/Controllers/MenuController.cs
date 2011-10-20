@@ -6,7 +6,7 @@ namespace AtomicCms.Web.Controllers
 
     public class MenuController : Controller
     {
-        private readonly IServiceFactory serviceFactory;
+        internal readonly IServiceFactory serviceFactory;
 
         public MenuController(IServiceFactory serviceFactory)
         {
