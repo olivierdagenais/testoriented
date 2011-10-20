@@ -12,8 +12,8 @@ namespace AtomicCms.Core.Models
 
     public class InfrastructureService : IInfrastructureService
     {
-        private readonly IDaoFactory daoFactory;
-        private readonly IDomainObjectFactory domainObjectFactory;
+        internal readonly IDaoFactory daoFactory;
+        internal readonly IDomainObjectFactory domainObjectFactory;
 
         public InfrastructureService(IDaoFactory daoFactory, IDomainObjectFactory domainObjectFactory)
 

@@ -12,7 +12,7 @@ namespace AtomicCms.Web.Controllers
     [Authorize]
     public class AdminMenuItemController : Controller
     {
-        private readonly IServiceFactory serviceFactory;
+        internal readonly IServiceFactory serviceFactory;
 
         public AdminMenuItemController(IServiceFactory serviceFactory)
         {

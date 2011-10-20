@@ -6,7 +6,7 @@ namespace AtomicCms.Web.Core.ActionResults
 
     public class SyndicationActionResult : ActionResult
     {
-        private readonly SyndicationFeedFormatter formatter;
+        internal readonly SyndicationFeedFormatter formatter;
 
         public SyndicationActionResult(SyndicationFeedFormatter formatter)
         {

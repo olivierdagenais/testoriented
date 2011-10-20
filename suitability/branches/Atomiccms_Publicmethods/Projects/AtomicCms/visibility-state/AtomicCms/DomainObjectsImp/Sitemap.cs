@@ -31,7 +31,7 @@ namespace AtomicCms.Core.DomainObjectsImp
     [Serializable]
     public class SitemapUrl : ISitemapUrl
     {
-        private DateTime lastModified;
+        internal DateTime lastModified;
 
         #region ISitemapUrl Members
 

@@ -5,7 +5,7 @@ namespace AtomicCms.Core.DomainObjectsImp
 
     public class Entry : IEntry
     {
-        private static readonly IEntry nullObject = new Entry
+        internal static readonly IEntry nullObject = new Entry
                                                         {
                                                             Alias = string.Empty,
                                                             SeoTitle = string.Empty,

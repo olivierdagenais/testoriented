@@ -9,7 +9,7 @@ namespace AtomicCms.Core.Models
 
     public class SiteService : ISiteService
     {
-        private readonly IDaoFactory daoFactory;
+        internal readonly IDaoFactory daoFactory;
 
         public SiteService(IDaoFactory daoFactory)
         {

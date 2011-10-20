@@ -8,7 +8,7 @@ namespace AtomicCms.Core.Models
 
     public class MenuService : IMenuService
     {
-        private readonly IDaoFactory daoFactory;
+        internal readonly IDaoFactory daoFactory;
 
         public MenuService(IDaoFactory daoFactory)
         {

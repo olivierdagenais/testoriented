@@ -14,7 +14,7 @@ namespace AtomicCms.Core.Models
 
     public class EntryService : IEntryService
     {
-        private readonly IDaoFactory daoFactory;
+        internal readonly IDaoFactory daoFactory;
 
         public EntryService(IDaoFactory factory)
         {
