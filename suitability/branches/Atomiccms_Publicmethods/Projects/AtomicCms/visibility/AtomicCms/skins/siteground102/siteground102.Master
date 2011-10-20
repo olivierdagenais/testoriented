@@ -1,0 +1,111 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/Views/Shared/BaseSkinMaster.Master"
+    AutoEventWireup="true" Inherits="System.Web.Mvc.ViewMasterPage" %>
+<%@ Import Namespace="AtomicCms.Core.ViewModels" %>
+<%@ Import Namespace="AtomicCms.Common.Constants" %>
+
+<asp:Content ID="TitleContent" ContentPlaceHolderID="TitleContent"
+    runat="server">
+    <%=((ViewModelHome)Model).Entry.SeoTitle%>
+</asp:Content>
+<asp:Content ID="HeadContent" ContentPlaceHolderID="HeadContent"
+    runat="server">
+    <link rel="stylesheet" href='<%=Url.Content("~/skins/siteground102/styles/style.css") %>' type="text/css" />
+    <!--[if lte IE 6]> <link rel="stylesheet" href='<%=Url.Content("~/skins/sitegroundj1544/styles/ie6.css") %>' type="text/css" /> <![endif]-->
+</asp:Content>
+<asp:Content ID="Content" ContentPlaceHolderID="BodyContent"
+    runat="server">
+ 
+     <div id="wrap" class="body_bg">
+        <div class="bg">
+            <div id="wrapper">
+                <div id="header_3">
+                    <div id="header_2">
+                        <div id="header_1">
+                            <div id="header">
+                                <div id="logo">
+                                    <a href="/">
+        <%=((ViewModelHome)Model).Attributes.GetValue(Constant.Settings.SiteLogo)%></a>
+                                    <h2 class="sublogo">
+                                        <%=((ViewModelHome)Model).Attributes.GetValue(Constant.Settings.SiteSubLogo)%>
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="top_menu">
+                    <table cellpadding="0" cellspacing="0" style="margin: 0 auto;">
+                        <tr>
+                            <td>
+                                <div id="topnavi">
+                                    <% Html.RenderAction("Show", "Menu", new { menuName = "TopMenu" }); %>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="clr">
+                    </div>
+                </div>
+                <div class="content_b">
+                    <div id="content">
+                        <div id="leftcolumn">
+                            <div class="module">
+                                <div>
+                                    <div>
+                                        <div>
+                                            <% Html.RenderAction("Show", "Menu", new { menuName = "LeftMenu" }); %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clr">
+                            </div>
+                        </div>
+                        <div id="main_full">
+                            <table class="blog" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td valign="top">
+                                        <div>
+                                            <table class="contentpaneopen">
+                                                <tr>
+                                                    <td class="contentheading" width="100%">
+                                                        <h1>
+                                                            <%=((ViewModelHome)Model).Entry.EntryTitle%>
+                                                        </h1>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <table class="contentpaneopen">
+                                                <tr>
+                                                    <td valign="top" colspan="2">
+                                                        <%=((ViewModelHome)Model).Entry.EntryBody%>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="clr">
+                        </div>
+                    </div>
+                </div>
+                <div class="clr">
+                </div>
+            </div>
+            <div id="footer">
+                <div class="copyright">
+                    <div style="padding: 10px 0pt 0pt; text-align: center;">
+                        <% Html.RenderAction("Show", "Menu", new { menuName = "FooterMenu" }); %>
+                    </div>
+                    <div style="text-align: center; margin-top: 5px;">
+                        <%Html.RenderPartial("Copyrights"); %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%Html.RenderPartial("TrackingScripts"); %>
+</asp:Content>
+
