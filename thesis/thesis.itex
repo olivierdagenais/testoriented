@@ -1033,7 +1033,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           </command>
           <command name="subsection" param="Preparing the projects for the evaluation">
             <region comment="Intro">
-            The source code to the projects was imported into a source control repository<footnote>The Subversion repository used for the evaluation of this thesis is available at <br /> <url>https://testoriented.googlecode.com/svn/suitability/trunk</url></footnote>.  Each project gets its own folder and the imported version (which serves as a baseline) is placed in a sub-folder called <tt>base</tt>.  Some slight modifications were made to the source code to simplify the evaluation, detailed as follows:
+            The source code to the projects was imported into a source control repository<footnote>The files used for the suitability evaluation of this thesis are available inside the Subversion repository at <url>https://testoriented.googlecode.com/svn/suitability/trunk</url></footnote>.  Each project gets its own folder and the imported version (which serves as a baseline) is placed in a sub-folder called <tt>base</tt>.  Some slight modifications were made to the source code to simplify the evaluation, detailed as follows:
             </region>
             <command name="subsubsection" param="Consolidate projects">
               If a project consisted of many sub-projects, the source files for those sub-projects were combined into a single project, to simplify the configuration of Pex.
