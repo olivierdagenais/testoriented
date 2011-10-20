@@ -1,0 +1,19 @@
+#top_menu{
+	margin:0 auto 19px auto;
+}
+#content {
+	width:960px;
+}
+#search .search .inputbox {
+	line-height:16px;
+	height:27px;
+	width:123px;
+	padding: 7px 0 0 10px;
+}
+#main_full{
+	width: 734px;
+
+}
+#leftcolumn div.module form table{
+	width:172px;
+}
