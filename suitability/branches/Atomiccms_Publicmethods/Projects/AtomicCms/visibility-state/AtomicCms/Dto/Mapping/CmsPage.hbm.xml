@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="AtomicCms.Common.Dto.CmsArticle, AtomicCms.Common" table="ac_Entries" lazy="false">
+    <id name="Id" column="Id" type="int" unsaved-value="0">
+      <generator class="native">
+      </generator>
+    </id>
+    <property name="SeoPageTitle" column="Title" type="String"/>
+    <property name="ArticleTitle" column="Name" type="String"/>
+    <property name="ArticleBody" column="FullText" type="String"/>
+    <property name="Alias" column="Alias" type="String"/>
+    <property name="IsDefault" column="IsDefault" type="System.Boolean"/>
+
+    <many-to-one column="Author" name="Author" class="AtomicCms.Common.Dto.CmsUser"/>
+    <property name="CreatedDate" column="Created" type="System.DateTime"/>
+    <property name="ModifiedDate" column="LastModified" type="System.DateTime"/>
+    <property name="MetaKeywords" column="MetaKeywords" type="String"/>
+    <property name="MetaDescription" column="MetaDescription" type="String"/>
+
+  </class>
+</hibernate-mapping>
+

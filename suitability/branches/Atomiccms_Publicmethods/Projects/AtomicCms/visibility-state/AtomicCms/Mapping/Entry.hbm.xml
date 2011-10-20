@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="AtomicCms.Core.DomainObjectsImp.Entry, AtomicCms.Core" table="ac_Entries" lazy="false">
+    <id name="Id" column="Id" type="int" unsaved-value="0">
+      <generator class="native">
+      </generator>
+    </id>
+    <property name="SeoTitle" column="SeoTitle" type="String"/>
+    <property name="EntryTitle" column="EntryTitle" type="String"/>
+    <property name="EntryBody" column="EntryBody" type="String"/>
+    <property name="Alias" column="Alias" type="String"/>
+
+    <many-to-one column="Author" name="Author" class="AtomicCms.Core.DomainObjectsImp.User, AtomicCms.Core"/>
+
+    <property name="CreatedAt" column="Created" type="System.DateTime"/>
+    <property name="ModifiedAt" column="LastModified" type="System.DateTime"/>
+    <property name="MetaKeywords" column="MetaKeywords" type="String"/>
+    <property name="MetaDescription" column="MetaDescription" type="String"/>
+
+  </class>
+</hibernate-mapping>
+
