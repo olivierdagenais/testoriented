@@ -11,7 +11,7 @@ namespace AtomicCms.Web.Controllers
     [Authorize]
     public class FileUploadController : Controller
     {
-        private readonly IServiceFactory serviceFactory;
+        internal readonly IServiceFactory serviceFactory;
 
         public FileUploadController(IServiceFactory serviceFactory)
         {
@@ -48,7 +48,7 @@ namespace AtomicCms.Web.Controllers
             return RedirectToAction("Index");
         }
 
-        private string GetFullPath(string fileName)
+        internal string GetFullPath(string fileName)
         {
             return string.Format("{0}\\{1}", Server.MapPath("~/" + Configuration.UploadsFolder), fileName);
         }

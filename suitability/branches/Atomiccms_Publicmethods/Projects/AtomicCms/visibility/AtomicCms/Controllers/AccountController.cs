@@ -12,7 +12,7 @@
     [HandleError]
     public class AccountController : Controller
     {
-        private readonly IServiceFactory _modelFactory;
+        internal readonly IServiceFactory _modelFactory;
 
         public AccountController(IServiceFactory _modelFactory)
         {
@@ -60,7 +60,7 @@
 
         #region Validation Methods
 
-        private bool ValidateLogOn(string userName, string password)
+        internal bool ValidateLogOn(string userName, string password)
         {
             if (String.IsNullOrEmpty(userName))
             {
@@ -79,7 +79,7 @@
             return ModelState.IsValid;
         }
 
-        private bool IsValidateUserNameAndPassword(string userName, string password)
+        internal bool IsValidateUserNameAndPassword(string userName, string password)
         {
             IUser user = this._modelFactory.UserService.Login(userName, password);
 

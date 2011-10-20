@@ -14,7 +14,7 @@ namespace AtomicCms.Core.Models
 
     public class EntryService : IEntryService
     {
-        private readonly IDaoFactory daoFactory;
+        internal readonly IDaoFactory daoFactory;
 
         public EntryService(IDaoFactory factory)
         {
@@ -45,7 +45,7 @@ namespace AtomicCms.Core.Models
             return this.daoFactory.EntryDao.Load(parsedId);
         }
 
-        private int GetParsedDefaultPageId()
+        internal int GetParsedDefaultPageId()
         {
             ISiteAttributes attributes = this.daoFactory.SiteDao.LoadAttributes();
             string defaultPageIdFromDB = attributes.GetValue(Constant.Settings.DefaultPageId);
@@ -98,13 +98,13 @@ namespace AtomicCms.Core.Models
             return TruncateEntryTitle(ret.OrderByDescending(x=>x.CreatedAt).Where(x => x.Id != parsedId)).ToList();
         }
 
-        private IEnumerable<IEntry> TruncateEntryTitle(IEnumerable<IEntry> enumerable)
+        internal IEnumerable<IEntry> TruncateEntryTitle(IEnumerable<IEntry> enumerable)
         {
             IEnumerable<IEntry> ret =  enumerable.Select((x) => Trunc(x));
             return ret;
         }
 
-        private IEntry Trunc(IEntry entry)
+        internal IEntry Trunc(IEntry entry)
         {
             entry.EntryTitle = entry.EntryTitle.Ellipsis(23);
             return entry;

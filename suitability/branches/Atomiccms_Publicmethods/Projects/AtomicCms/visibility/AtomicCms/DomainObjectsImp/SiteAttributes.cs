@@ -6,7 +6,7 @@ namespace AtomicCms.Core.DomainObjectsImp
 
     public class SiteAttributes : ISiteAttributes
     {
-        private readonly List<ISiteAttribute> attributes;
+        internal readonly List<ISiteAttribute> attributes;
 
         public SiteAttributes(IEnumerable<ISiteAttribute> attributes)
         {

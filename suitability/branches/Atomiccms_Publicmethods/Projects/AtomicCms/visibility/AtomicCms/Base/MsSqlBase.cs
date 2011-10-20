@@ -5,15 +5,15 @@ namespace AtomicCms.Data.NHibernate.Base
 
     public class MsSqlBase
     {
-        private readonly ISessionFactory _sessionFactory;
+        internal readonly ISessionFactory _sessionFactory;
 
-        protected MsSqlBase(ISessionFactory factory)
+        protected internal MsSqlBase(ISessionFactory factory)
         {
             this._sessionFactory = factory;
         }
 
         [DebuggerStepThrough]
-        protected ISession OpenSession()
+        protected internal ISession OpenSession()
         {
             return this._sessionFactory.OpenSession();
         }

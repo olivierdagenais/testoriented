@@ -9,7 +9,7 @@ namespace AtomicCms.Web.Core.DI
 
     public class UnityControllerFactory : DefaultControllerFactory
     {
-        private readonly IUnityContainer container;
+        internal readonly IUnityContainer container;
 
         public UnityControllerFactory()
         {

@@ -17,7 +17,7 @@
     [SupportSkin]
     public class HomeController : Controller
     {
-        private readonly IServiceFactory serviceFactory;
+        internal readonly IServiceFactory serviceFactory;
 
         public HomeController(IServiceFactory serviceFactory)
         {
@@ -46,12 +46,12 @@
             }
         }
 
-        private NotFound404Result PageNotFound()
+        internal NotFound404Result PageNotFound()
         {
             return new NotFound404Result();
         }
 
-        private ActionResult ShowPage(IEntry entry)
+        internal ActionResult ShowPage(IEntry entry)
         {
             ISiteAttributes attributes = this.serviceFactory.SiteService.LoadSiteAttributes();
             return View("Index",

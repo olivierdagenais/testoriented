@@ -11,7 +11,7 @@ namespace AtomicCms.Core.Models
 
     public class UserService : IUserService
     {
-        private readonly IDaoFactory daoFactory;
+        internal readonly IDaoFactory daoFactory;
 
         public UserService(IDaoFactory daoFactory)
         {
@@ -48,7 +48,7 @@ namespace AtomicCms.Core.Models
 
         #endregion
 
-        private bool IsPasswordValid(IUser user, string password)
+        internal bool IsPasswordValid(IUser user, string password)
         {
             Contract.Requires<NullReferenceException>( user != null);
 

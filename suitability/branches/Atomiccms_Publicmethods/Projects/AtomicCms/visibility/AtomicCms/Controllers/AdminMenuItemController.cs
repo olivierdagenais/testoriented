@@ -12,7 +12,7 @@ namespace AtomicCms.Web.Controllers
     [Authorize]
     public class AdminMenuItemController : Controller
     {
-        private readonly IServiceFactory serviceFactory;
+        internal readonly IServiceFactory serviceFactory;
 
         public AdminMenuItemController(IServiceFactory serviceFactory)
         {
@@ -63,7 +63,7 @@ namespace AtomicCms.Web.Controllers
                                     new {id = menuItem.Id});
         }
 
-        private void FormatResultMessage(IMenuItem menuItem, int? id)
+        internal void FormatResultMessage(IMenuItem menuItem, int? id)
         {
             if (null == id || 0 == id)
             {
@@ -76,7 +76,7 @@ namespace AtomicCms.Web.Controllers
             }
         }
 
-        private void LoadEntryToCurrentMenuItem(NameValueCollection form, IMenuItem menuItem)
+        internal void LoadEntryToCurrentMenuItem(NameValueCollection form, IMenuItem menuItem)
         {
             string entryId = form["MenuItem.EntryId"];
             if (!string.IsNullOrEmpty(entryId))
@@ -87,7 +87,7 @@ namespace AtomicCms.Web.Controllers
         }
 
 
-        private List<SelectListItem> GetMenuTypes()
+        internal List<SelectListItem> GetMenuTypes()
         {
             ICollection<IMenu> menues = this.serviceFactory.MenuService.LoadMenues();
             List<SelectListItem> menuTypes = new List<SelectListItem>();

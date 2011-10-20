@@ -10,15 +10,15 @@ namespace AtomicCms.Core.Factories
 
     public class ModelFactory : IServiceFactory
     {
-        private readonly IDaoFactory daoFactory;
-        private readonly IDomainObjectFactory domainObjectFactory;
-        private IEntryService _entryModel;
-        private IInfrastructureService _sitemapModel;
-        private ISiteService _siteModel;
-        private IUserService _userModel;
-        private IFileUploadService fileUploadService;
+        internal readonly IDaoFactory daoFactory;
+        internal readonly IDomainObjectFactory domainObjectFactory;
+        internal IEntryService _entryModel;
+        internal IInfrastructureService _sitemapModel;
+        internal ISiteService _siteModel;
+        internal IUserService _userModel;
+        internal IFileUploadService fileUploadService;
 
-        private IMenuService menuService;
+        internal IMenuService menuService;
 
         public ModelFactory(IDaoFactory daoFactory, IDomainObjectFactory domainObjectFactory)
         {
@@ -35,7 +35,7 @@ namespace AtomicCms.Core.Factories
             }
         }
 
-        private ISeoService seoService;
+        internal ISeoService seoService;
         public ISeoService SeoService
         {
             get {

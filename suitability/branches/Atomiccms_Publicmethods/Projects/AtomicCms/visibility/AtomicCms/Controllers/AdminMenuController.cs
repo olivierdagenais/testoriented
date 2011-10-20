@@ -15,14 +15,14 @@ namespace AtomicCms.Web.Controllers
             return View(menues);
         }
 
-        private readonly IServiceFactory serviceFactory;
+        internal readonly IServiceFactory serviceFactory;
 
         public AdminMenuController(IServiceFactory _modelFactory)
         {
             this.serviceFactory = _modelFactory;
         }
 
-        private ActionResult UpdateMenu(int id, IMenu menu)
+        internal ActionResult UpdateMenu(int id, IMenu menu)
         {
             IMenu oldMenu = this.serviceFactory.MenuService.LoadMenu(id);
             menu.MenuItems = oldMenu.MenuItems;
@@ -31,7 +31,7 @@ namespace AtomicCms.Web.Controllers
             return View(menu);
         }
 
-        private ActionResult CreateNewMenu(IMenu menu)
+        internal ActionResult CreateNewMenu(IMenu menu)
         {
             this.serviceFactory.MenuService.SaveMenu(menu);
             TempData["SaveResult"] = string.Format("Items was successfully created with Id = {0}",

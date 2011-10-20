@@ -63,7 +63,7 @@ namespace AtomicCms.Data.NHibernate.Base
         }
 
         [DebuggerStepThrough]
-        protected T Get(string propertyName, object propertyValue)
+        protected internal T Get(string propertyName, object propertyValue)
         {
             using (ISession session = base.OpenSession())
             {

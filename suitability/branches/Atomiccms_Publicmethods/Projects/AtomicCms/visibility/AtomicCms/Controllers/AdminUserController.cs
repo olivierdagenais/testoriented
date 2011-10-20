@@ -9,7 +9,7 @@ namespace AtomicCms.Web.Controllers
     [Authorize]
     public class AdminUserController : Controller
     {
-        private readonly IServiceFactory serviceFactory;
+        internal readonly IServiceFactory serviceFactory;
 
         public AdminUserController(IServiceFactory serviceFactory)
         {

@@ -8,7 +8,7 @@ namespace AtomicCms.Core.Models
 
     public class MenuService : IMenuService
     {
-        private readonly IDaoFactory daoFactory;
+        internal readonly IDaoFactory daoFactory;
 
         public MenuService(IDaoFactory daoFactory)
         {
@@ -59,7 +59,7 @@ namespace AtomicCms.Core.Models
 
         #endregion
 
-        private void RemoveNotVisibleMenuItems(IMenu menu)
+        internal void RemoveNotVisibleMenuItems(IMenu menu)
         {
             ICollection<IMenuItem> itemsToRemove = new List<IMenuItem>();
 

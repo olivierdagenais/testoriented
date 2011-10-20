@@ -8,7 +8,7 @@ namespace AtomicCms.Web.Core
 
     public class AtomicCmsController : Controller
     {
-        protected string GetWebsiteUrl()
+        protected internal string GetWebsiteUrl()
         {
             HttpRequestBase request = HttpContext.Request;
 
@@ -26,7 +26,7 @@ namespace AtomicCms.Web.Core
 
             return new RouteValueDictionary(new { id = entry.Id, name = entry.Alias });
         }
-        protected string GenerateEntryUrl(IEntry entry)
+        protected internal string GenerateEntryUrl(IEntry entry)
         {
             return VirtualPathUtility.RemoveTrailingSlash(GetWebsiteUrl()) + Url.Action("Content", "Home", GetRouteValues(entry));
         }
