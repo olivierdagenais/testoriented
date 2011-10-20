@@ -12,7 +12,7 @@ namespace AtomicCms.Web.Controllers
     [Authorize]
     public class AdminEntryController : Controller
     {
-        private readonly IServiceFactory modelFactory;
+        internal readonly IServiceFactory modelFactory;
 
         public AdminEntryController(IServiceFactory modelFactory)
         {
@@ -31,7 +31,7 @@ namespace AtomicCms.Web.Controllers
             return this.CreateNewEntry(entry);
         }
 
-        private ActionResult CreateNewEntry(IEntry entry)
+        internal ActionResult CreateNewEntry(IEntry entry)
         {
             this.modelFactory.EntryService.CreateEntry(entry);
             TempData["SaveResult"] = "Items was successfully saved with Id = " + entry.Id;
@@ -41,7 +41,7 @@ namespace AtomicCms.Web.Controllers
                                     new {id = entry.Id});
         }
 
-        private ViewResult UpdateEntry(IEntry entry)
+        internal ViewResult UpdateEntry(IEntry entry)
         {
             this.modelFactory.EntryService.Save(entry);
             TempData["SaveResult"] = "Items was successfully saved";
@@ -58,7 +58,7 @@ namespace AtomicCms.Web.Controllers
             return View(Entry.NullObject);
         }
 
-        private ViewResult LoadEntry(int id)
+        internal ViewResult LoadEntry(int id)
         {
             IEntry entry = this.modelFactory.EntryService.Load(id);
             return View(entry);

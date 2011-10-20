@@ -11,7 +11,7 @@ namespace AtomicCms.Web.Controllers
 
     public class InfrastructureController : AtomicCmsController
     {
-        private readonly IServiceFactory serviceFactory;
+        internal readonly IServiceFactory serviceFactory;
 
 
         public InfrastructureController(IServiceFactory _modelFactory)
@@ -46,7 +46,7 @@ namespace AtomicCms.Web.Controllers
                 new Atom10FeedFormatter(feed));
         }
 
-        private SyndicationFeed GetSindicationFeed()
+        internal SyndicationFeed GetSindicationFeed()
         {
             string url = GetWebsiteUrl();
             return this.serviceFactory.InfrastructureService.BuildFeed(url,

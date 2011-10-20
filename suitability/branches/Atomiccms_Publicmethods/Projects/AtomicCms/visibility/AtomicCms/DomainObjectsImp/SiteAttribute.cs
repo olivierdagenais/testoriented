@@ -5,7 +5,7 @@ namespace AtomicCms.Core.DomainObjectsImp
 
     public class SiteAttribute : ISiteAttribute
     {
-        private static readonly ISiteAttribute nullObject = new SiteAttribute {Key = string.Empty, Value = string.Empty};
+        internal static readonly ISiteAttribute nullObject = new SiteAttribute {Key = string.Empty, Value = string.Empty};
 
         public static ISiteAttribute NullObject
         {

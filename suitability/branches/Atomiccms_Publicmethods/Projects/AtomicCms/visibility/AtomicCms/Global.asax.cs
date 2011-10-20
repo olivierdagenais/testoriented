@@ -29,7 +29,7 @@
 */
         }
 
-        private static void InfrastructureRoutes(RouteCollection routes)
+        internal static void InfrastructureRoutes(RouteCollection routes)
         {
             // remove this route after april 2009 (it's in use with google and yandex now)
             routes.MapRoute("infrastructure-sitemap-without-extension-remove-it",
@@ -44,14 +44,14 @@
             routes.MapRoute("atom-route", "atom/", new {controller = "Infrastructure", action = "Atom"});
         }
 
-        private static void AccountRoutes(RouteCollection routes)
+        internal static void AccountRoutes(RouteCollection routes)
         {
             routes.MapRoute("account",
                             "account/{action}",
                             new {controller = "Account"});
         }
 
-        private static void EntryRoutes(RouteCollection routes)
+        internal static void EntryRoutes(RouteCollection routes)
         {
             EntryRoute entryRoute = new EntryRoute("{name}-{id}/",
                                                    new RouteValueDictionary(
@@ -81,7 +81,7 @@
                             new {controller = "Home"});
         }
 
-        private static void AdminRoutes(RouteCollection routes)
+        internal static void AdminRoutes(RouteCollection routes)
         {
             routes.MapRoute("edit-entry",
                             "Admin/EditEntry/{id}",
@@ -124,7 +124,7 @@
                             new {controller = "FileUpload", action = "Index", id = string.Empty});
         }
 
-        protected void Application_Start()
+        protected internal void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
 
@@ -134,12 +134,12 @@
             ControllerBuilder.Current.SetControllerFactory(new UnityControllerFactory());
         }
 
-        protected void Application_BeginRequest(object sender, EventArgs e)
+        protected internal void Application_BeginRequest(object sender, EventArgs e)
         {
             this.SeoRedirects();
         }
 
-        private void SeoRedirects()
+        internal void SeoRedirects()
         {
             if (Request.HttpMethod.Equals("POST",
                                           StringComparison.InvariantCultureIgnoreCase))

@@ -33,7 +33,7 @@ namespace AtomicCms.Common.Utils
             throw new Exception("Not supported action " + action);
         }
 
-        private static string PropertyName(Expression operand)
+        internal static string PropertyName(Expression operand)
         {
             MemberExpression member = operand as MemberExpression;
             if (member != null) return member.Member.Name;
@@ -41,7 +41,7 @@ namespace AtomicCms.Common.Utils
             throw new NullReferenceException("Unxexpected null reference");
         }
         
-        private static string MethodName(Expression operand)
+        internal static string MethodName(Expression operand)
         {
             MethodCallExpression member = operand as MethodCallExpression;
             if (member != null) return member.Method.Name;

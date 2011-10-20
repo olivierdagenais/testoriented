@@ -9,7 +9,7 @@ namespace AtomicCms.Web.Controllers
     [Authorize]
     public class AdminSettingsController : Controller
     {
-        private readonly IServiceFactory serviceFactory;
+        internal readonly IServiceFactory serviceFactory;
 
         public AdminSettingsController(IServiceFactory serviceFactory)
         {

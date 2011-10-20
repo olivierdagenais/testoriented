@@ -12,8 +12,8 @@ namespace AtomicCms.Core.Models
 
     public class InfrastructureService : IInfrastructureService
     {
-        private readonly IDaoFactory daoFactory;
-        private readonly IDomainObjectFactory domainObjectFactory;
+        internal readonly IDaoFactory daoFactory;
+        internal readonly IDomainObjectFactory domainObjectFactory;
 
         public InfrastructureService(IDaoFactory daoFactory, IDomainObjectFactory domainObjectFactory)
 
@@ -80,7 +80,7 @@ namespace AtomicCms.Core.Models
 
         #endregion
 
-        private void AddHomePage(ISitemap sitemap, IEntry page, string homePage)
+        internal void AddHomePage(ISitemap sitemap, IEntry page, string homePage)
         {
             ISitemapUrl url = this.domainObjectFactory.CreateSitemapUrl();
             url.Location = homePage;
@@ -91,12 +91,12 @@ namespace AtomicCms.Core.Models
                            url);
         }
 
-        private bool IsDefaultPage(IEntry page, int homePageId)
+        internal bool IsDefaultPage(IEntry page, int homePageId)
         {
             return page.Id == homePageId;
         }
 
-        private static ChangeFrequency CalculateFrequency(DateTime modifiedAt)
+        internal static ChangeFrequency CalculateFrequency(DateTime modifiedAt)
         {
             ChangeFrequency frequency = ChangeFrequency.Hourly;
             if (modifiedAt < DateTime.Now.AddMonths(-12))

@@ -29,7 +29,7 @@ namespace AtomicCms.Web.Core.Mvc
                                                                         viewsLocation);
         }
 
-        private string[] AddNewLocationFormats(IEnumerable<string> defaultLocationFormats,
+        internal string[] AddNewLocationFormats(IEnumerable<string> defaultLocationFormats,
                                                IEnumerable<string> newLocationFormats)
         {
             List<string> allItems = new List<string>(newLocationFormats);
@@ -54,7 +54,7 @@ namespace AtomicCms.Web.Core.Mvc
                                  useCache);
         }
 
-        private string OverrideMasterPage(string masterName, ControllerContext controllerContext)
+        internal string OverrideMasterPage(string masterName, ControllerContext controllerContext)
         {
             if (this.NeedChangeMasterPage(controllerContext))
             {
@@ -64,7 +64,7 @@ namespace AtomicCms.Web.Core.Mvc
             return masterName;
         }
 
-        private bool NeedChangeMasterPage(ControllerContext context)
+        internal bool NeedChangeMasterPage(ControllerContext context)
         {
             SupportSkinAttribute attr = Attribute.GetCustomAttribute(context.Controller.GetType(),
                                                                      typeof (SupportSkinAttribute)) as

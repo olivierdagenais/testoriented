@@ -34,7 +34,7 @@ namespace AtomicCms.Core.Models
             return sb.ToString();
         }
 
-        private string Sanitarize(string source)
+        internal string Sanitarize(string source)
         {
             source = source.NullSafe();
             string pattern = @"['""{}.;,:]";
