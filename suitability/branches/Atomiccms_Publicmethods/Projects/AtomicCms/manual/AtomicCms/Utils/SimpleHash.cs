@@ -27,6 +27,34 @@ namespace AtomicCms.Common.Utils
             byte[] hashWithSaltBytes = Convert.FromBase64String(hashValue);
 
             // We must know size of hash (without salt).
+            int hashSizeInBits = GetHashSizeInBits(hashAlgorithm);
+
+            // Convert size of hash from bits to bytes.
+            int hashSizeInBytes = hashSizeInBits/8;
+
+            // Make sure that the specified hash value is long enough.
+            if (hashWithSaltBytes.Length < hashSizeInBytes)
+                return false;
+
+            // Allocate array to hold original salt bytes retrieved from hash.
+            byte[] saltBytes = new byte[hashWithSaltBytes.Length -
+                                        hashSizeInBytes];
+
+            // Copy salt from the end of the hash to the new array.
+            for (int i = 0; i < saltBytes.Length; i++)
+                saltBytes[i] = hashWithSaltBytes[hashSizeInBytes + i];
+
+            // Compute a new hash string.
+            string expectedHashString =
+                ComputeHash(plainText, hashAlgorithm, saltBytes);
+
+            // If the computed hash matches the specified hash,
+            // the plain text value must be correct.
+            return (hashValue == expectedHashString);
+        }
+
+        internal static int GetHashSizeInBits(Algorith hashAlgorithm)
+        {
             int hashSizeInBits;
 
             // Size of hash is based on the specified algorithm.
@@ -56,29 +84,7 @@ namespace AtomicCms.Common.Utils
                     hashSizeInBits = 128;
                     break;
             }
-
-            // Convert size of hash from bits to bytes.
-            int hashSizeInBytes = hashSizeInBits/8;
-
-            // Make sure that the specified hash value is long enough.
-            if (hashWithSaltBytes.Length < hashSizeInBytes)
-                return false;
-
-            // Allocate array to hold original salt bytes retrieved from hash.
-            byte[] saltBytes = new byte[hashWithSaltBytes.Length -
-                                        hashSizeInBytes];
-
-            // Copy salt from the end of the hash to the new array.
-            for (int i = 0; i < saltBytes.Length; i++)
-                saltBytes[i] = hashWithSaltBytes[hashSizeInBytes + i];
-
-            // Compute a new hash string.
-            string expectedHashString =
-                ComputeHash(plainText, hashAlgorithm, saltBytes);
-
-            // If the computed hash matches the specified hash,
-            // the plain text value must be correct.
-            return (hashValue == expectedHashString);
+            return hashSizeInBits;
         }
 
 
@@ -125,6 +131,32 @@ namespace AtomicCms.Common.Utils
             // Because we support multiple hashing algorithms, we must define
             // hash object as a common (abstract) base class. We will specify the
             // actual hashing algorithm class later during object creation.
+            HashAlgorithm hash = CreateHashAlgorithm(hashAlgorithm);
+
+            // Compute hash value of our plain text with appended salt.
+            byte[] hashBytes = hash.ComputeHash(plainTextWithSaltBytes);
+
+            // Create array which will hold hash and original salt bytes.
+            byte[] hashWithSaltBytes = new byte[hashBytes.Length +
+                                                saltBytes.Length];
+
+            // Copy hash bytes into resulting array.
+            for (int i = 0; i < hashBytes.Length; i++)
+                hashWithSaltBytes[i] = hashBytes[i];
+
+            // Append salt bytes to the result.
+            for (int i = 0; i < saltBytes.Length; i++)
+                hashWithSaltBytes[hashBytes.Length + i] = saltBytes[i];
+
+            // Convert result into a base64-encoded string.
+            string hashValue = Convert.ToBase64String(hashWithSaltBytes);
+
+            // Return the result.
+            return hashValue;
+        }
+
+        internal static HashAlgorithm CreateHashAlgorithm(Algorith hashAlgorithm)
+        {
             HashAlgorithm hash;
 
             // Initialize appropriate hashing algorithm class.
@@ -154,27 +186,7 @@ namespace AtomicCms.Common.Utils
                     hash = new MD5CryptoServiceProvider();
                     break;
             }
-
-            // Compute hash value of our plain text with appended salt.
-            byte[] hashBytes = hash.ComputeHash(plainTextWithSaltBytes);
-
-            // Create array which will hold hash and original salt bytes.
-            byte[] hashWithSaltBytes = new byte[hashBytes.Length +
-                                                saltBytes.Length];
-
-            // Copy hash bytes into resulting array.
-            for (int i = 0; i < hashBytes.Length; i++)
-                hashWithSaltBytes[i] = hashBytes[i];
-
-            // Append salt bytes to the result.
-            for (int i = 0; i < saltBytes.Length; i++)
-                hashWithSaltBytes[hashBytes.Length + i] = saltBytes[i];
-
-            // Convert result into a base64-encoded string.
-            string hashValue = Convert.ToBase64String(hashWithSaltBytes);
-
-            // Return the result.
-            return hashValue;
+            return hash;
         }
     }
 }

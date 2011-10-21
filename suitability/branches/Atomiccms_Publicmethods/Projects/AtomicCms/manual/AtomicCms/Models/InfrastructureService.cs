@@ -63,12 +63,7 @@ namespace AtomicCms.Core.Models
 
             ICollection<IEntry> entries = this.daoFactory.EntryDao.LoadLast(10);
             List<SyndicationItem> items =
-                entries.Select(entry => new SyndicationItem(entry.SeoTitle,
-                                                            SyndicationContent.
-                                                                CreateHtmlContent(entry.EntryBody),
-                                                            new Uri(generateEntryUrl(entry)),
-                                                            string.Format("item-id-{0}", entry.Id),
-                                                            entry.CreatedAt)).ToList();
+                entries.Select(entry => CreateSyndicationItem(entry, generateEntryUrl)).ToList();
 
             return new SyndicationFeed(rssFeedTitle,
                                        rssFeedDescr,
@@ -76,6 +71,22 @@ namespace AtomicCms.Core.Models
                                        "syndicationID",
                                        DateTime.Now,
                                        items);
+        }
+
+        internal static SyndicationItem CreateSyndicationItem(IEntry entry, Func<IEntry, string> generateEntryUrl)
+        {
+            var uriString = generateEntryUrl(entry);
+            return CreateSyndicationItem(entry, uriString);
+        }
+
+        internal static SyndicationItem CreateSyndicationItem(IEntry entry, string uriString)
+        {
+            return new SyndicationItem(entry.SeoTitle,
+                                       SyndicationContent.
+                                           CreateHtmlContent(entry.EntryBody),
+                                       new Uri(uriString),
+                                       string.Format("item-id-{0}", entry.Id),
+                                       entry.CreatedAt);
         }
 
         #endregion
@@ -98,20 +109,25 @@ namespace AtomicCms.Core.Models
 
         private static ChangeFrequency CalculateFrequency(DateTime modifiedAt)
         {
+            return CalculateFrequency(DateTime.Now, modifiedAt);
+        }
+
+        internal static ChangeFrequency CalculateFrequency(DateTime referenceTime, DateTime modifiedAt)
+        {
             ChangeFrequency frequency = ChangeFrequency.Hourly;
-            if (modifiedAt < DateTime.Now.AddMonths(-12))
+            if (modifiedAt < referenceTime.AddMonths(-12))
             {
                 frequency = ChangeFrequency.Yearly;
             }
-            else if (modifiedAt < DateTime.Now.AddDays(-60))
+            else if (modifiedAt < referenceTime.AddDays(-60))
             {
                 frequency = ChangeFrequency.Monthly;
             }
-            else if (modifiedAt < DateTime.Now.AddDays(-14))
+            else if (modifiedAt < referenceTime.AddDays(-14))
             {
                 frequency = ChangeFrequency.Weekly;
             }
-            else if (modifiedAt < DateTime.Now.AddDays(-2))
+            else if (modifiedAt < referenceTime.AddDays(-2))
             {
                 frequency = ChangeFrequency.Daily;
             }

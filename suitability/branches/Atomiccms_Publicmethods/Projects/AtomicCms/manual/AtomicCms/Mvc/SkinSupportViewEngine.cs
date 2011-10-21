@@ -14,7 +14,7 @@ namespace AtomicCms.Web.Core.Mvc
                                                string.Format("~/skins/{0}/{0}.master",
                                                              Utils.SkinName)
                                            };
-            MasterLocationFormats = this.AddNewLocationFormats(new List<string>(MasterLocationFormats),
+            MasterLocationFormats = AddNewLocationFormats(new List<string>(MasterLocationFormats),
                                                                mastersLocation);
 
             string[] viewsLocation = new[]
@@ -25,11 +25,11 @@ namespace AtomicCms.Web.Core.Mvc
                                                            Utils.SkinName)
                                          };
             ViewLocationFormats =
-                PartialViewLocationFormats = this.AddNewLocationFormats(new List<string>(ViewLocationFormats),
+                PartialViewLocationFormats = AddNewLocationFormats(new List<string>(ViewLocationFormats),
                                                                         viewsLocation);
         }
 
-        private string[] AddNewLocationFormats(IEnumerable<string> defaultLocationFormats,
+        internal static string[] AddNewLocationFormats(IEnumerable<string> defaultLocationFormats,
                                                IEnumerable<string> newLocationFormats)
         {
             List<string> allItems = new List<string>(newLocationFormats);
@@ -46,7 +46,7 @@ namespace AtomicCms.Web.Core.Mvc
                                                   string masterName,
                                                   bool useCache)
         {
-            masterName = this.OverrideMasterPage(masterName,
+            masterName = OverrideMasterPage(masterName,
                                                  controllerContext);
             return base.FindView(controllerContext,
                                  viewName,
@@ -54,9 +54,9 @@ namespace AtomicCms.Web.Core.Mvc
                                  useCache);
         }
 
-        private string OverrideMasterPage(string masterName, ControllerContext controllerContext)
+        internal static string OverrideMasterPage(string masterName, ControllerContext controllerContext)
         {
-            if (this.NeedChangeMasterPage(controllerContext))
+            if (NeedChangeMasterPage(controllerContext))
             {
                 masterName = Utils.SkinName;
             }
@@ -64,7 +64,7 @@ namespace AtomicCms.Web.Core.Mvc
             return masterName;
         }
 
-        private bool NeedChangeMasterPage(ControllerContext context)
+        internal static bool NeedChangeMasterPage(ControllerContext context)
         {
             SupportSkinAttribute attr = Attribute.GetCustomAttribute(context.Controller.GetType(),
                                                                      typeof (SupportSkinAttribute)) as
