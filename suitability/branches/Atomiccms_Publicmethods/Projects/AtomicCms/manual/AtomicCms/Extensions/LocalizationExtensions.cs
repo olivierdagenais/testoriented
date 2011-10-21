@@ -29,7 +29,7 @@ namespace AtomicCms.Web.Core.Extensions
         }
 
 
-        private static string GetResourceString(HttpContextBase httpContext,
+        internal static string GetResourceString(HttpContextBase httpContext,
                                                 string expression,
                                                 string virtualPath,
                                                 object[] args)
@@ -60,7 +60,7 @@ namespace AtomicCms.Web.Core.Extensions
                                  args);
         }
 
-        private static string GetVirtualPath(HtmlHelper htmlhelper)
+        internal static string GetVirtualPath(HtmlHelper htmlhelper)
         {
             string virtualPath = null;
             TemplateControl tc = htmlhelper.ViewDataContainer as TemplateControl;
