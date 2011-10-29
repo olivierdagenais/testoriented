@@ -1,0 +1,118 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/Views/Shared/BaseSkinMaster.Master"
+    AutoEventWireup="true" Inherits="System.Web.Mvc.ViewMasterPage" %>
+<%@ Import Namespace="AtomicCms.Core.ViewModels" %>
+<%@ Import Namespace="AtomicCms.Common.Constants" %>
+
+<asp:Content ID="TitleContent" ContentPlaceHolderID="TitleContent"
+    runat="server">
+    <%=((ViewModelHome)Model).Entry.SeoTitle%>
+</asp:Content>
+<asp:Content ID="HeadContent" ContentPlaceHolderID="HeadContent"
+    runat="server">
+    <link rel="stylesheet" href='<%=Url.Content("~/skins/sitegroundj1544/styles/style.css") %>' type="text/css" />
+    <!--[if lte IE 6]> <link rel="stylesheet" href='<%=Url.Content("~/skins/sitegroundj1544/styles/ie7.css") %>' type="text/css" /> <![endif]-->
+</asp:Content>
+<asp:Content ID="Content" ContentPlaceHolderID="BodyContent"
+    runat="server">
+    <div id="page_bg">
+        <!--header start -->
+        <div id="header">
+        </div>
+        <div class="clr">
+        </div>
+        <!--header end -->
+        <!--topmenu start-->
+        <div class="pill_m">
+            <div id="pillmenu">
+                <% Html.RenderAction("Show", "Menu", new { menuName = "TopMenu" }); %>
+            </div>
+        </div>
+        <div class="clr">
+        </div>
+        <!--topmenu end-->
+        <!--middle_header start-->
+        <div id="middle_header">
+            <div id="logo">
+                <table cellspacing="0" cellpadding="0" style="width: 380px; height: 40px;
+                    text-align: center;">
+                    <tr>
+                        <td style="text-align: left; vertical-align: middle;">
+                                <a href="/">
+        <%=((ViewModelHome)Model).Attributes.GetValue(Constant.Settings.SiteLogo)%></a>
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="clr">
+            </div>
+            <div id="newsflash">
+                <div class="module">
+                    <div>
+                        <div>
+                            <div>
+                                <%Html.RenderPartial("NewsFlash"); %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--middle_header end-->
+        <!--center start-->
+        <div class="center">
+            <div id="wrapper">
+                <div id="content">
+                    <div id="leftcolumn">
+                        <% Html.RenderAction("Show", "Menu", new { menuName = "LeftMenu" }); %>
+                        <% Html.RenderAction("LastPages", "Home"); %>
+                    </div>
+                    <div id="maincolumn_full">
+                        <div class="nopad">
+                            <div class="componentheading">
+                                <h1>
+                                    <%=((ViewModelHome)Model).Entry.EntryTitle%> 
+                                </h1>
+                            </div>
+                            <table cellspacing="0" cellpadding="0" class="blog">
+                                <tbody>
+                                    <tr>
+                                        <td valign="top">
+                                            <div>
+                                                <table class="contentpaneopen">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td valign="top" colspan="2">
+                                                                <%=((ViewModelHome)Model).Entry.EntryBody%>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <span class="article_separator"></span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="clr">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--footer start-->
+        <div id="footer">
+            <div id="sgf">
+                <div style="padding: 10px 0 0 0px;">
+                    <div style="text-align: center;">
+                        <%Html.RenderPartial("Copyrights"); %>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--footer end-->
+        <!--center end-->
+    </div>
+ 
+</asp:Content>
