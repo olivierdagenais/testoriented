@@ -49,6 +49,12 @@ namespace AtomicCms.Core.Models
         {
             ISiteAttributes attributes = this.daoFactory.SiteDao.LoadAttributes();
             string defaultPageIdFromDB = attributes.GetValue(Constant.Settings.DefaultPageId);
+            int parsedId = ParseId(defaultPageIdFromDB);
+            return parsedId;
+        }
+
+        internal static int ParseId(string defaultPageIdFromDB)
+        {
             int parsedId;
             if (string.IsNullOrEmpty(defaultPageIdFromDB) || !Int32.TryParse(defaultPageIdFromDB,
                                                                              out parsedId))
@@ -98,13 +104,13 @@ namespace AtomicCms.Core.Models
             return TruncateEntryTitle(ret.OrderByDescending(x=>x.CreatedAt).Where(x => x.Id != parsedId)).ToList();
         }
 
-        private IEnumerable<IEntry> TruncateEntryTitle(IEnumerable<IEntry> enumerable)
+        internal static IEnumerable<IEntry> TruncateEntryTitle(IEnumerable<IEntry> enumerable)
         {
             IEnumerable<IEntry> ret =  enumerable.Select((x) => Trunc(x));
             return ret;
         }
 
-        private IEntry Trunc(IEntry entry)
+        internal static IEntry Trunc(IEntry entry)
         {
             entry.EntryTitle = entry.EntryTitle.Ellipsis(23);
             return entry;

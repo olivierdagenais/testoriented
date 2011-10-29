@@ -1,0 +1,86 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/Views/Shared/BaseSkinMaster.Master" AutoEventWireup="true"
+    Inherits="System.Web.Mvc.ViewMasterPage" %>
+
+<%@ Import Namespace="AtomicCms.Core.ViewModels" %>
+<%@ Import Namespace="AtomicCms.Common.Constants" %>
+<asp:Content ID="TitleContent" ContentPlaceHolderID="TitleContent" runat="server">
+    <%=((ViewModelHome)Model).Entry.SeoTitle%>
+</asp:Content>
+<asp:Content ID="HeadContent" ContentPlaceHolderID="HeadContent" runat="server">
+    <link rel="stylesheet" href='<%=Url.Content("~/skins/sitegroundj1558/styles/style.css") %>'
+        type="text/css" />
+</asp:Content>
+<asp:Content ID="Content" ContentPlaceHolderID="BodyContent" runat="server">
+    <div id="page_bg">
+        <div id="headerimage">
+            <div id="top_menu">
+                <div id="top">
+                    <div id="path">
+                        <span class="breadcrumbs pathway"><a href="/">
+                            <%=((ViewModelHome)Model).Attributes.GetValue(Constant.Settings.SiteLogo)%></a>
+                        </span>
+                    </div>
+                    <div id="search">
+                    </div>
+                </div>
+                <%Html.RenderPartial("NewsFlash"); %>
+                <% Html.RenderAction("Show", "Menu", new { menuName = "TopMenu" }); %>
+                <div class="clr">
+                </div>
+                <div class="center">
+                    <div id="wrapper">
+                        <div id="gradient">
+                            <div id="content">
+                                <div id="leftcolumn">
+                                    <% Html.RenderAction("Show", "Menu", new { menuName = "LeftMenu" }); %>
+                                </div>
+                                <div id="maincolumn_full">
+                                    <div class="nopad">
+                                        <div class="componentheading">
+                                            <h1><%=((ViewModelHome)Model).Entry.EntryTitle%></h1>
+                                        </div>
+                                        <table cellspacing="0" cellpadding="0" class="blog">
+                                            <tbody>
+                                                <tr>
+                                                    <td valign="top">
+                                                        <div>
+                                                            <table class="contentpaneopen">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td valign="top" colspan="2">
+                                                                            <%=((ViewModelHome)Model).Entry.EntryBody%>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                            <span class="article_separator">&nbsp;</span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="clr">
+                                </div>
+                                <div class="clr">
+                                </div>
+                                <div class="Spacer10">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="content_bottom">
+                    </div>
+                </div>
+                <div id="validation">
+                    <div id="footer">
+                        <div id="sgf">
+                            <%Html.RenderPartial("Copyrights"); %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+     </div>
+</asp:Content>

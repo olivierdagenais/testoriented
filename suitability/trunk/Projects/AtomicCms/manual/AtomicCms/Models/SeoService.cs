@@ -10,6 +10,11 @@ namespace AtomicCms.Core.Models
     {
         public string CreateAlias(string source)
         {
+            return InnerCreateAlias(source);
+        }
+
+        internal static string InnerCreateAlias(string source)
+        {
             source = Sanitarize(source.NullSafe().ToLower());
             char[] separator = new[] { ';', ',', ' ', '.', ':' };
             string[] words = source.Split(separator, StringSplitOptions.RemoveEmptyEntries);
@@ -34,7 +39,7 @@ namespace AtomicCms.Core.Models
             return sb.ToString();
         }
 
-        private string Sanitarize(string source)
+        internal static string Sanitarize(string source)
         {
             source = source.NullSafe();
             string pattern = @"['""{}.;,:]";

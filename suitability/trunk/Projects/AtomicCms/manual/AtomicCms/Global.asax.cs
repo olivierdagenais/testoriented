@@ -182,6 +182,11 @@
 
         public bool RemoveDoubleSlashes(string absolutePath)
         {
+            return InnerRemoveDoubleSlashes(absolutePath);
+        }
+
+        internal static bool InnerRemoveDoubleSlashes(string absolutePath)
+        {
             // If we have double-slashes, strip them out
             if (absolutePath.Contains("//"))
             {
@@ -197,17 +202,25 @@
                                     string query,
                                     out string newUrl)
         {
+            newUrl = RemoveWWWPrefix(scheme, authority, absolutePath, query);
+            return newUrl != null;
+        }
+
+        internal static string RemoveWWWPrefix(string scheme,
+                                    string authority,
+                                    string absolutePath,
+                                    string query)
+        {
+            string newUrl = null;
             if (authority.StartsWith("www.",
                                      StringComparison.InvariantCultureIgnoreCase))
             {
                 newUrl = (scheme + "://" + authority.Remove(0,
                                                             4) +
                           absolutePath);
-                return true;
             }
 
-            newUrl = null;
-            return false;
+            return newUrl;
         }
 
         public void PermanentRedirect(string url)
@@ -217,6 +230,11 @@
         }
 
         public bool AddTrailingSlash(string absolutePath)
+        {
+            return InnerAddTrailingSlash(absolutePath);
+        }
+
+        internal static bool InnerAddTrailingSlash(string absolutePath)
         {
             absolutePath = absolutePath.NullSafe();
             return !absolutePath.Contains(".") && !absolutePath.EndsWith("/");
