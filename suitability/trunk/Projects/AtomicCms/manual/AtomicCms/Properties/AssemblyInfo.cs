@@ -39,3 +39,4 @@ using System.Security;
 [assembly: AllowPartiallyTrustedCallers]
 
 [assembly: InternalsVisibleTo("AtomicCms.Tests")]
+[assembly: InternalsVisibleTo("AtomicCms.ManualTests")]
