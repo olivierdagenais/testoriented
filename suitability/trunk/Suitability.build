@@ -14,7 +14,7 @@
     <property name="automaticSmeStrategy" value="testoriented" />
     <property name="strategies" value="${baseStrategy},${manualSmeStrategy},visibility-state,visibility" />
 
-    <property name="projects" value="KeePassLib,Textile" />
+    <property name="projects" value="AtomicCms,KeePassLib,Textile" />
 
     <property name="pexFolder" value="Tools/Pex-0.91.50418.0" />
     <property name="ncoverFolder" value="Tools/NCover-1.5.8" />
