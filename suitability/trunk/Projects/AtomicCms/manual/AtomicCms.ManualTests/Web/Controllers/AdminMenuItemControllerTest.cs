@@ -1,4 +1,3 @@
-using AtomicCms.Core.DomainObjectsImp;
 using NUnit.Framework;
 using AtomicCms.Web.Controllers;
 
@@ -13,14 +12,8 @@ namespace AtomicCms.ManualTests.Web.Controllers
         [Test]
         public void InnerFormatResultMessage_Created()
         {
-            // arrange
-            var item = new MenuItem
-            {
-                Id = 42,
-            };
-
             // act
-            var actual = AdminMenuItemController.InnerFormatResultMessage(null, item);
+            var actual = AdminMenuItemController.InnerFormatResultMessage(null, 42);
 
             // assert
             Assert.AreEqual("Items was successfully created with Id = 42", actual);
@@ -29,14 +22,8 @@ namespace AtomicCms.ManualTests.Web.Controllers
         [Test]
         public void InnerFormatResultMessage_Updated()
         {
-            // arrange
-            var item = new MenuItem
-            {
-                Id = 42,
-            };
-
             // act
-            var actual = AdminMenuItemController.InnerFormatResultMessage(42, item);
+            var actual = AdminMenuItemController.InnerFormatResultMessage(42, 42);
 
             // assert
             Assert.AreEqual("Items was successfully updated", actual);
