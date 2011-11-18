@@ -65,16 +65,16 @@ namespace AtomicCms.Web.Controllers
 
         private void FormatResultMessage(IMenuItem menuItem, int? id)
         {
-            TempData["SaveResult"] = InnerFormatResultMessage(id, menuItem);
+            TempData["SaveResult"] = InnerFormatResultMessage(id, menuItem.Id);
         }
 
-        internal static string InnerFormatResultMessage(int? id, IMenuItem menuItem)
+        internal static string InnerFormatResultMessage(int? id, int menuItemId)
         {
             string result;
             if (null == id || 0 == id)
             {
                 result = string.Format("Items was successfully created with Id = {0}",
-                                       menuItem.Id);
+                                       menuItemId);
             }
             else
             {
