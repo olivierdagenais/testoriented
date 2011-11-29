@@ -355,6 +355,11 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
           </command>
         </command>
         <command name="section" param="Scope">
+          <!-- 
+          We are not comparing test-generation systems (such as Random, SBST and Concolic Testing), we are comparing techniques humans would use to work around HMS when testing classes that have it.  Pex is only used to see if what we are doing is helping.
+          We are not interested in any particular intent described in that section, since that applies only to CGT.
+          Should we "score" the approaches by the cases in the related work section?  How does each approach help towards functional programming, towards transforming the IUT for testability purposes (which I guess we already have) and if the approach helps to improve simplicity of IUT or corresponding unit tests.
+          -->
           The present thesis focuses on addressing the glass-box unit testing difficulties introduced by hidden mutable state, in the context of object-oriented software, through the use of stateless method extraction.  In other words, the implementation under test is available for inspection as tests are written on a per-method basis for classes that contain private instance fields whose values are altered by calls to instance methods.
 
           Considerations outside the scope of this thesis therefore include:
