@@ -1148,7 +1148,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                 <td>Do nothing</td>
                 <td>83.67</td>
                 <td>77.33</td>
-                <td>n/a<footnote>This is the reference point other strategies use to measure public interface changes.</footnote></td>
+                <td>0<footnote>This is the reference point other strategies use to measure public interface changes.</footnote></td>
                 <td>52.92%</td>
               </tr>
               <tr>
