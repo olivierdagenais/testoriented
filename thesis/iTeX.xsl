@@ -271,6 +271,17 @@
         <xsl:text>}</xsl:text>
     </xsl:template>
 
+    <xsl:template match="td[@multirow]">
+        <xsl:if test="count(preceding-sibling::td) > 0">
+            <xsl:text> &amp; </xsl:text>
+        </xsl:if>
+        <xsl:text>\multirow</xsl:text>
+        <xsl:value-of select="@multirow" />
+        <xsl:text>{</xsl:text>
+        <xsl:apply-templates select="* | node() | comment()" />
+        <xsl:text>}</xsl:text>
+    </xsl:template>
+
     <xsl:template match="td">
         <xsl:if test="count(preceding-sibling::td) > 0">
             <xsl:text> &amp; </xsl:text>
