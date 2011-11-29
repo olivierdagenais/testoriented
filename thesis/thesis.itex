@@ -1031,6 +1031,24 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                     <td><tt>public byte[] ChangeKey(byte[])</tt></td>
                   </tr>
                 </region>
+                <tr><td multicolumn="{4}{l}"><tt>AtomicCms</tt></td></tr>
+                <region name="AtomicCms.Web.Controllers">
+                  <tr>
+                    <td />
+                    <td multicolumn="{3}{l}"><tt>AtomicCms.Web.Controllers</tt></td>
+                  </tr>
+                  <tr>
+                    <td />
+                    <td />
+                    <td multicolumn="{2}{l}"><tt>AdminMenuItemController</tt></td>
+                  </tr>
+                  <tr>
+                    <td />
+                    <td />
+                    <td />
+                    <td><tt>private void FormatResultMessage(IMenuItem, int?)</tt></td>
+                  </tr>
+                </region>
               </tabular>
               <command name="caption" param="Selected interesting methods" />
               <command name="label" param="tbl:InterestingMethods" />
