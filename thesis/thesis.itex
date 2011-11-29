@@ -927,7 +927,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               All the fields (both instance and static fields) in all the classes had their visiblity increased through a manual transformation that converted fields with a visibility (explicit or otherwise) of <tt>private</tt> to <tt>internal</tt> and <tt>protected</tt> to <tt>protected internal</tt>.
             </command>
             <command name="subsubsection" param="Increase state and method visibility">
-              Similar to the previous strategy, all the fields and all the methods (both instance and static fields) in all the classes had their visiblity increased through a manual transformation that converted fields and methods with a visibility (explicit or otherwise) of <tt>private</tt> to <tt>internal</tt> and <tt>protected</tt> to <tt>protected internal</tt>.  This strategy helps to understand the effectiveness of the Pex-related code coverage evaluation.
+              Similar to the previous strategy, all the fields and all the methods (both instance and static) in all the classes had their visiblity increased through a manual transformation that converted fields and methods with a visibility (explicit or otherwise) of <tt>private</tt> to <tt>internal</tt> and <tt>protected</tt> to <tt>protected internal</tt>.  This strategy helps to understand the effectiveness of the Pex-related code coverage evaluation.
             </command>
           </command>
           <command name="subsection" param="Selected methods for maintainability evaluation">
@@ -1065,10 +1065,10 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               Any existing automated tests were removed, otherwise Pex would be able to trivially reach areas of the CUTs through their tests, defeating the purpose of that part of the evaluation.
             </command>
             <command name="subsubsection" param="Add two empty test projects">
-              To help Pex generate unit tests, a corresponding empty test project was created for each project, as was another emtpy test project created for the complexity evaluations.  Each empty test project was configured to reference its associated project.  The test projects are ready to have test classes added to them.
+              To help Pex generate unit tests, a corresponding empty test project was created for each project (<tt>.Tests</tt>), as was another empty test project created for the complexity evaluations (<tt>.ManualTests</tt>).  Each empty test project was configured to reference its associated project.  The test projects are ready to have test classes added to them.
             </command>
             <command name="subsubsection" param="Expose internal members to Pex">
-              Each project was configured to make any methods marked as <tt>internal</tt> visible to both the empty test project and to Pex itself, using the <tt>InternalsVisibleTo</tt> attribute.
+              Each project was configured to make any methods marked as <tt>internal</tt> visible to both the empty test projects and to Pex itself, using the <tt>InternalsVisibleTo</tt> attribute.
             </command>
             <command name="subsubsection" param="Disable functionality that interferes with the evaluation">
               The <tt>KeePassLib</tt> project contains code to show a modal message box dialog that must be dismissed by an end-user.  This is undesirable for an unattended evaluation and therefore the body of the <tt>SafeShowMessageBox()</tt> method in the <tt>MessageService</tt> class was removed, as was that of the <tt>SafeShowMessageBoxInternal()</tt> method in the <tt>MessageService</tt> class.  Also, to prevent assertions in the projects from interrupting the automated evaluation in the same way, the compilation options were modified to use the <em>Release</em> configuration with optimizations disabled and full debug symbols enabled <footnote>Assertions will only display a dialog if the <tt>DEBUG</tt> constant is defined and it is not defined when using the Release configuration.  Disabling optimizations and enabling debug symbols is done to help keep the static code analysis as representative to the original source code as possible.</footnote>.
