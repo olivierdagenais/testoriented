@@ -877,10 +877,10 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             <command name="subsubsection" param="Projects">
               The evaluation makes use of the source code from the following C# open-source projects:
               <block param="enumerate">
-                <command name="item"> Atomic CMS, version 2.0 <see cite="shapovalov09atomic" />, henceforth referred to as <tt>AtomicCms</tt></command>
-                <command name="item"> KeePass, version 2.10 <see cite="reichl10keepass" />, henceforth referred to as <tt>KeePassLib</tt></command>
-                <!-- TODO: is PivotStack good enough? <command name="item"> PivotStack</command> -->
                 <command name="item"> Textile.NET, changeset 26030 <see cite="chabant09textilenet" />, henceforth referred to as <tt>Textile</tt></command>
+                <command name="item"> KeePass, version 2.10 <see cite="reichl10keepass" />, henceforth referred to as <tt>KeePassLib</tt></command>
+                <command name="item"> Atomic CMS, version 2.0 <see cite="shapovalov09atomic" />, henceforth referred to as <tt>AtomicCms</tt></command>
+                <!-- TODO: is PivotStack good enough? <command name="item"> PivotStack</command> -->
               </block>
             </command>
 
