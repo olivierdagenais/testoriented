@@ -1028,7 +1028,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td><tt>public byte[] ChangeKey(byte[])</tt></td>
+                    <td><tt>byte[] ChangeKey(byte[])</tt></td>
                   </tr>
                 </region>
                 <tr><td multicolumn="{4}{l}"><tt>AtomicCms</tt></td></tr>
@@ -1046,7 +1046,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                     <td />
                     <td />
                     <td />
-                    <td><tt>private void FormatResultMessage(IMenuItem, int?)</tt></td>
+                    <td><tt>void FormatResultMessage(IMenuItem, int?)</tt></td>
                   </tr>
                 </region>
               </tabular>
