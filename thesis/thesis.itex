@@ -1089,11 +1089,10 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               As a sanity check, the tests written to be evaluated for their complexity are run to make sure they all pass.
             </command>
             <command name="subsubsection" param="Determine public interface differences">
-              The PIC metric is computed on each project's IUT and the report is stored in the project's working folder as the file <tt>PublicInterfaceDifferences.txt</tt>.
+              The PIC metric is computed on each project's IUT and the report is stored in the project's working folder as the file <tt>PublicInterfaceDifferences.txt</tt>.  Each line of the report represents a public interface difference between the base code and the code of a strategy and therefore the number of public interface differences is the number of lines in the report.  By definition, the report for the <tt>base</tt> strategy will always contain 0 lines.
             </command>
             <command name="subsubsection" param="Evaluate maintainability of IUT and manual tests">
-              The MI metric is computed for both the IUT and the manually-written unit tests.  This allows an objective evaluation of the maintainability of the IUT in the face of testability transformations as well as an evaluation of maintainability of the corresponding unit tests.
-              TODO: explain what tests are included and how the metric is aggregated
+              The CMPT is launched to compute the MI metric for both the IUT and the manually-written unit tests (henceforth known as MT).  This allows an objective evaluation of the maintainability of the IUT in the face of testability transformations as well as an evaluation of maintainability of the corresponding MT.  The CMPT emits the reports respectively as <tt>CodeMetrics.Iut.xml</tt> and <tt>CodeMetrics.Mt.xml</tt> in each working folder.  A quick post-processing step converts the absolute paths in the reports into relative paths to simplify comparisons, producing the files <tt>CodeMetrics.Iut.xml.filtered</tt> and <tt>CodeMetrics.Mt.xml.fitered</tt>.
             </command>
             <command name="subsubsection" param="Invoke Pex Wizard">
               Pex first needs to first run in "Wizard" mode, which inspects the IUT and generates test helper methods called "parameterized unit tests".  Unfortunately, there are some defects in Pex that garble the test project files and must then be repaired.  This is done using the Extensible Stylesheet Language (XSL) transformation file <tt>FixPexWizard.xsl</tt> located in the <tt>Tools</tt> folder.  Lastly, the projects are recompiled so that Pex may perform the next step by inspecting the new byte code.
@@ -1102,10 +1101,10 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               Pex is now run in "Generate" mode, which produces the actual unit tests by using the helpers it generated in the previous step.  Again, some Pex defects call for the repair of the affected test project files, this time using the <tt>FixPexGenerator.xsl</tt> XSL transformation file.  The projects are recompiled one last time in preparation for running the generated tests.
             </command>
             <command name="subsubsection" param="Run generated tests with coverage">
-              The console NUnit runner executes all the unit tests that Pex generated while NCover monitors the execution to collect code coverage data for the IUT.  It is not important whether the tests pass, fail or end in error - Pex by its very nature will generate tests that throw or expect to throw ArgumentException instances - it is only important to record code coverage.
+              The console NUnit runner executes all the unit tests that Pex generated while NCover monitors the execution to collect code coverage data for the IUT.  It is not important whether the tests pass, fail or end in error - Pex by its very nature will generate tests that throw or expect to throw <tt>ArgumentException</tt> instances - it is only important to record code coverage.  The NCover tool emits a coverage report in each project's working folder as the file <tt>coverage.xml</tt>.
             </command>
             <command name="subsubsection" param="Record results">
-              An online spreadsheet <footnote>The spreadsheet can be seen at <url>https://docs.google.com/spreadsheet/ccc?key=0Ag6eugnyWA09dG9zQnFtTlQ0Z1dGUjI5TUlFMnpFWWc</url></footnote> is used to collect the results.  Its columns are explained in table <see ref="tbl:SpreadsheetColumns" />.  The spreadsheet contains every row submitted to it by the result recorder, with many of these rows due to various tests and tweaks.  Notes were occasionally added in the "Notes" column to explain the test or tweak being investigated.
+              Results are collected from the various reports and submitted to an online spreadsheet <footnote>The spreadsheet can be seen at <url>https://docs.google.com/spreadsheet/ccc?key=0Ag6eugnyWA09dG9zQnFtTlQ0Z1dGUjI5TUlFMnpFWWc</url></footnote>.  Its columns are explained in table <see ref="tbl:SpreadsheetColumns" />.  The spreadsheet contains every row submitted to it by this step, with many of these rows created by investigating various tests and tweaks.  Notes were occasionally added in the "Notes" column to explain the test or tweak being investigated.
               <table placement="htbp">
                 <tbody spec="p{0.2\textwidth} p{0.75\textwidth}">
                   <tr><td>Column name</td><td>Description</td></tr>
@@ -1116,11 +1115,11 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                   <tr><td>Strategy</td><td>The name of the strategy employed</td></tr>
                   <tr><td>TSP</td><td>Total Sequence Points, the denominator for code coverage percentage calculation</td></tr>
                   <tr><td>VSP</td><td>Visited Sequence Points, the numerator for code coverage percentage calculation</td></tr>
-                  <tr><td>DPI</td><td>The number of Differences in Public Interface</td></tr>
+                  <tr><td>PIC</td><td>Public Interface Changes</td></tr>
                   <tr><td>MI IUT</td><td>Maintainability Index of the Implementation Under Test</td></tr>
-                  <tr><td>MI MT</td><td>Maintainability Index of the Manual Tests</td></tr>
+                  <tr><td>MI MT</td><td>Maintainability Index of the Manually-written unit Tests</td></tr>
                 </tbody>
-                <command name="caption" param="Names and descriptions of spreadsheet columns" />
+                <command name="caption" param="Names and descriptions of the columns in the ``Raw data&quot; sheet of the online results spreadsheet." />
                 <command name="label" param="tbl:SpreadsheetColumns" />
               </table>
             </command>
@@ -1133,7 +1132,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               <tr>
                 <td>Strategy</td>
                 <td>MI IUT<footnote>Maintainability Index of the Implementation Under Test.</footnote></td>
-                <td>MI MT<footnote>Maintainability Index of the Manual Tests.  See <see nameref="subsubsec:complexity" /> in section <see ref="subsubsec:complexity" />.</footnote></td>
+                <td>MI MT<footnote>Maintainability Index of the Manually-written unit Tests.  See <see nameref="subsubsec:complexity" /> in section <see ref="subsubsec:complexity" />.</footnote></td>
                 <td>PIC<footnote>Public Interface Changes.  See <see nameref="subsubsec:changesPublicInterface" /> in section <see ref="subsubsec:changesPublicInterface" />.</footnote></td>
                 <td>VSP/TSP<footnote>Visited Sequence Points divided by Total Sequence Points.  See <see nameref="subsubsec:codeCoverageConcolic" /> in section <see ref="subsubsec:codeCoverageConcolic" />.</footnote></td>
               </tr>
@@ -1218,7 +1217,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             In the case of the <tt>KeePassLib</tt> project, the transformations afforded to the <tt>visibility-state</tt> strategy did not help simplify the unit tests by any significant amount, whereas the transformations made in the <tt>visibility</tt> strategy were very similar to those made in the <tt>manual</tt> strategy and thus helped simplify the unit tests similarily.  The disparity between the performance of the <tt>visibility</tt> strategy is owed to the nature of the methods being tested. <!-- TODO: as can be seen in table X where results are shown per method, per strategy? --> TODO: explain what made the methods difficult and/or easy to test for each of the strategies
           </command>
           <command name="subsection" param="Number of changes to the public interface of the class under test">
-            Table <see ref="tbl:publicInterfaceResults" /> lists the per-project results of running the PIC tool on the IUTs to obtain their number of public interface differences, relative to the base source code.
+            Table <see ref="tbl:publicInterfaceResults" /> lists the per-project results of running the Public Interfacer Comparer tool on the IUTs to obtain their number of public interface changes - or differences - relative to the base source code.
 
             <table placement="htbp">
               <tbody spec="p{0.29\textwidth} | R{0.12\textwidth} R{0.12\textwidth} R{0.18\textwidth} R{0.18\textwidth}">
@@ -1484,6 +1483,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           <command name="item" opt="IUT"> Implementation Under Test</command>
           <command name="item" opt="MI"> Maintainability Index</command>
           <command name="item" opt="MST"> Metaheuristic Search Technique</command>
+          <command name="item" opt="MT"> Manually-written unit Tests</command>
           <command name="item" opt="MUT"> Method Under Test</command>
           <command name="item" opt="OO"> Object-Oriented</command>
           <command name="item" opt="OOP"> Object-Oriented Programming</command>
