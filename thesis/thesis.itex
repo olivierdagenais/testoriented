@@ -40,6 +40,7 @@ http://tex.stackexchange.com/questions/10270/
       <raw>\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}b{#1}}</raw>
     </region>
     <command name="usepackage" param="nameref" />
+    <command name="usepackage" param="multirow" />
   </preamble>
   <document>
     <region name="Title page">
@@ -1180,7 +1181,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
         <command name="section" param="Detailed results">
           The following sub-sections illustrate the results of the invidual evaluations identified in section <see ref="sec:Goal" /> and discuss some observations made while running the suitability evaluation.
           <command name="subsection" param="Complexity of the unit tests">
-            Table <see ref="tbl:complexityResults" /> lists the per-project results of running the CMPT tool on the manually-written unit tests to obtain their maintainability index.
+            Table <see ref="tbl:complexityResults" /> lists the per-project overall results of running the CMPT tool on the manually-written unit tests to obtain their maintainability index.
 
             <table placement="htbp">
               <tbody spec="p{0.29\textwidth} | R{0.12\textwidth} R{0.12\textwidth} R{0.18\textwidth} R{0.18\textwidth}">
@@ -1226,11 +1227,183 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                   <td>77.00</td>
                 </tr>
               </tbody>
-              <command name="caption" param="Maintainability Index of the unit tests in the \texttt{ManualTests} project per evaluation project, per strategy" />
+              <command name="caption" param="Overall Maintainability Index of the unit tests in the \texttt{ManualTests} project per evaluation project, per strategy" />
               <command name="label" param="tbl:complexityResults" />
             </table>
 
-            In the case of the <tt>Textile</tt> project, the slightly lower MI scores for the <tt>visibility-state</tt> and <tt>visibility</tt> strategies are owed to the tests written for <tt>FootNoteFormatterState</tt> and the fact that the increase in visibility allowed for <em>two</em> slightly more precise tests to be written, instead of the <em>one</em> general and indirect test possible in <tt>base</tt>.  Two tests mean more lines of code and therefore a lower MI score, although this could be interepreted as a limitation of the CMPT.  Still, the <tt>manual</tt> strategy fared much better because it was able to test the most precise parts of the processing involved in the <tt>Enter()</tt> and <tt>OnContextAcquired()</tt> methods in just two lines per test and with less class coupling.
+            In the case of the <tt>Textile</tt> project, the slightly lower MI scores for the <tt>visibility-state</tt> and <tt>visibility</tt> strategies are owed to the tests written for <tt>FootNoteFormatterState</tt> and the fact that the increase in visibility allowed for <em>two</em> slightly more precise tests to be written, instead of the <em>one</em> general and indirect test possible in <tt>base</tt>.  Two tests mean more lines of code and therefore a lower overall MI score, but this limitation of the CMPT can be avoided by comparing the MI scores on a per-method basis, as shown in table <see ref="tbl:complexityDetailedResults" />.
+            
+            <table placement="htbp">
+              <tbody spec="p{0.01\textwidth} p{0.01\textwidth} p{0.45\textwidth} | @{} R{0.12\textwidth} @{} R{0.12\textwidth} @{} R{0.12\textwidth} @{} R{0.12\textwidth}">
+                <tr>
+                  <td multicolumn="{3}{l|}">Projects</td>
+                  <td multicolumn="{4}{c}">Strategies</td>
+                </tr>
+                <tr>
+                  <td />
+                  <td multicolumn="{2}{l|}">Test classes</td>
+                  <td />
+                  <td multicolumn="{2}{r@{}}"><tt>visibility</tt></td>
+                  <td><tt>visib-</tt></td>
+                </tr>
+                <tr>
+                  <td />
+                  <td />
+                  <td>Test methods</td>
+                  <td><tt>base</tt></td>
+                  <td><tt>manual</tt></td>
+                  <td><tt>-state</tt></td>
+                  <td><tt>ility</tt></td>
+                </tr>
+                <hline />
+                <tr>
+                  <td multicolumn="{3}{l|}"><tt>Textile</tt></td>
+                  <td>78.00</td>
+                  <td>85.00</td>
+                  <td>76.00</td>
+                  <td>76.00</td>
+                </tr>
+                <tr>
+                  <td />
+                  <td multicolumn="{2}{l|}"><tt>CodeBlocksModifierTest</tt></td>
+                  <td />
+                  <td />
+                  <td />
+                  <td />
+                </tr>
+                <tr>
+                  <td />
+                  <td />
+                  <td><tt>ModifyLine</tt></td>
+                  <td>78.00</td>
+                  <td>84.00</td>
+                  <td>78.00</td>
+                  <td>78.00</td>
+                </tr>
+                <tr>
+                  <td />
+                  <td />
+                  <td><tt>Conclude</tt></td>
+                  <td>78.00</td>
+                  <td>84.00</td>
+                  <td>78.00</td>
+                  <td>78.00</td>
+                </tr>
+                <tr>
+                  <td />
+                  <td />
+                  <td><tt>CodeFormatMatchEvaluator</tt></td>
+                  <td>78.00</td>
+                  <td>82.00</td>
+                  <td>78.00</td>
+                  <td>78.00</td>
+                </tr>
+                <tr>
+                  <td />
+                  <td multicolumn="{2}{l|}"><tt>FootNoteFormatterStateTest</tt></td>
+                  <td />
+                  <td />
+                  <td />
+                  <td />
+                </tr>
+                <tr>
+                  <td />
+                  <td />
+                  <td><tt>Enter</tt></td>
+                  <td multirow="{2}{*}">65.00 <footnote>It is impossible to directly test the <tt>Enter()</tt> and <tt>OnContextAcquired()</tt> methods so a single, indirect test was written.</footnote></td>
+                  <td>83.00</td>
+                  <td>65.00</td>
+                  <td>65.00</td>
+                </tr>
+                <tr>
+                  <td />
+                  <td />
+                  <td><tt>OnContextAcquired</tt></td>
+                  <td />
+                  <td>84.00</td>
+                  <td>65.00</td>
+                  <td>69.00</td>
+                </tr>
+                <tr>
+                  <td multicolumn="{3}{l|}"><tt>KeePassLib</tt></td>
+                  <td>70.00</td>
+                  <td>81.00</td>
+                  <td>70.00</td>
+                  <td>80.00</td>
+                </tr>
+                <tr>
+                  <td />
+                  <td multicolumn="{2}{l|}"><tt>PatternBasedGeneratorTest</tt></td>
+                  <td />
+                  <td />
+                  <td />
+                  <td />
+                </tr>
+                <tr>
+                  <td />
+                  <td />
+                  <td><tt>ExpandPattern</tt></td>
+                  <td>63.00</td>
+                  <td>84.00</td>
+                  <td>63.00</td>
+                  <td>84.00</td>
+                </tr>
+                <tr>
+                  <td />
+                  <td multicolumn="{2}{l|}"><tt>XorredBufferTest</tt></td>
+                  <td />
+                  <td />
+                  <td />
+                  <td />
+                </tr>
+                <tr>
+                  <td />
+                  <td />
+                  <td><tt>ChangeKey</tt></td>
+                  <td>59.00</td>
+                  <td>61.00</td>
+                  <td>59.00</td>
+                  <td>59.00</td>
+                </tr>
+                <tr>
+                  <td multicolumn="{3}{l|}"><tt>AtomicCms</tt></td>
+                  <td>84.00</td>
+                  <td>90.00</td>
+                  <td>84.00</td>
+                  <td>75.00</td>
+                </tr>
+                <tr>
+                  <td />
+                  <td multicolumn="{2}{l|}"><tt>AdminMenuItemControllerTest</tt></td>
+                  <td />
+                  <td />
+                  <td />
+                  <td />
+                </tr>
+                <tr>
+                  <td />
+                  <td />
+                  <td><tt>FormatResultMessage\_Created</tt></td>
+                  <td>64.00</td>
+                  <td>84.00</td>
+                  <td>64.00</td>
+                  <td>70.00</td>
+                </tr>
+                <tr>
+                  <td />
+                  <td />
+                  <td><tt>FormatResultMessage\_Updated</tt></td>
+                  <td>64.00</td>
+                  <td>82.00</td>
+                  <td>64.00</td>
+                  <td>70.00</td>
+                </tr>
+              </tbody>
+              <command name="caption" param="Detailed breakdown of Maintainability Index scores per method, per strategy" />
+              <command name="label" param="tbl:complexityDetailedResults" />
+            </table>
+            
+            Still, the <tt>manual</tt> strategy fared much better because it was able to test the most precise parts of the processing involved in the <tt>Enter()</tt> and <tt>OnContextAcquired()</tt> methods in just two lines per test and with less class coupling.
             
             In the case of the <tt>KeePassLib</tt> project, the transformations afforded to the <tt>visibility-state</tt> strategy did not help simplify the unit tests by any significant amount, whereas the transformations made in the <tt>visibility</tt> strategy were very similar to those made in the <tt>manual</tt> strategy and thus helped simplify the unit tests similarily.  The disparity between the performance of the <tt>visibility</tt> strategy is owed to the nature of the methods being tested. <!-- TODO: as can be seen in table X where results are shown per method, per strategy? --> TODO: explain what made the methods difficult and/or easy to test for each of the strategies
           </command>
