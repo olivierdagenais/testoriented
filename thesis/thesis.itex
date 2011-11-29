@@ -925,16 +925,16 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           </command>
           <command name="subsection" param="Strategies">
             <command name="subsubsection" param="Do nothing">
-              No transformations are to be performed to the IUT, the source code will be used as-is to establish a baseline.
+              No transformations are to be performed to the IUT, the source code will be used as-is to establish a baseline.  Henceforth referred to as <tt>base</tt>.
             </command>
             <command name="subsubsection" param="Extract stateless methods">
-              The very approach proposed by this thesis; stateless methods are extracted where good candidate blocks are identified.
+              The very approach proposed by this thesis; stateless methods are extracted - through a manual process - where good candidate blocks are identified.  Henceforth referred to as <tt>manual</tt>.
             </command>
             <command name="subsubsection" param="Increase state visibility">
-              All the fields (both instance and static fields) in all the classes had their visiblity increased through a manual transformation that converted fields with a visibility (explicit or otherwise) of <tt>private</tt> to <tt>internal</tt> and <tt>protected</tt> to <tt>protected internal</tt>.
+              All the fields (both instance and static fields) in all the classes had their visiblity increased through a manual transformation that converted fields with a visibility (explicit or otherwise) of <tt>private</tt> to <tt>internal</tt> and <tt>protected</tt> to <tt>protected internal</tt>.  Henceforth referred to as <tt>visibility-state</tt>.
             </command>
             <command name="subsubsection" param="Increase state and method visibility">
-              Similar to the previous strategy, all the fields and all the methods (both instance and static) in all the classes had their visiblity increased through a manual transformation that converted fields and methods with a visibility (explicit or otherwise) of <tt>private</tt> to <tt>internal</tt> and <tt>protected</tt> to <tt>protected internal</tt>.  This strategy helps to understand the effectiveness of the Pex-related code coverage evaluation.
+              Similar to the previous strategy, all the fields and all the methods (both instance and static) in all the classes had their visiblity increased through a manual transformation that converted fields and methods with a visibility (explicit or otherwise) of <tt>private</tt> to <tt>internal</tt> and <tt>protected</tt> to <tt>protected internal</tt>.  This strategy helps to understand the effectiveness of the Pex-related code coverage evaluation.  Henceforth referred to as <tt>visibility</tt>.
             </command>
           </command>
           <command name="subsection" param="Selected methods for maintainability evaluation">
@@ -1145,28 +1145,28 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               </tr>
               <hline />
               <tr>
-                <td>Do nothing</td>
+                <td><tt>base</tt></td>
                 <td>83.67</td>
                 <td>77.33</td>
                 <td>0<footnote>This is the reference point other strategies use to measure public interface changes.</footnote></td>
                 <td>52.92%</td>
               </tr>
               <tr>
-                <td>Extract statelesss methods</td>
+                <td><tt>manual</tt></td>
                 <td>84.00</td>
                 <td>85.33</td>
                 <td>0</td>
                 <td>57.92%</td>
               </tr>
               <tr>
-                <td>Increase state visibility</td>
+                <td><tt>visibility-state</tt></td>
                 <td>83.67</td>
                 <td>76.67</td>
                 <td>0</td>
                 <td>53.04%</td>
               </tr>
               <tr>
-                <td>Increase state and method visibility</td>
+                <td><tt>visibility</tt></td>
                 <td>83.67</td>
                 <td>77.00</td>
                 <td>0</td>
