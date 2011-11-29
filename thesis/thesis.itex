@@ -1180,7 +1180,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
         <command name="section" param="Detailed results">
           The following sub-sections illustrate the results of the invidual evaluations identified in section <see ref="sec:Goal" /> and discuss some observations made while running the suitability evaluation.
           <command name="subsection" param="Complexity of the unit tests">
-            Table <see ref="tbl:complexityResults" /> lists the per-project results of running the CMPT tool on the manual tests to obtain their maintainability index.
+            Table <see ref="tbl:complexityResults" /> lists the per-project results of running the CMPT tool on the manually-written unit tests to obtain their maintainability index.
 
             <table placement="htbp">
               <tbody spec="p{0.29\textwidth} | R{0.12\textwidth} R{0.12\textwidth} R{0.18\textwidth} R{0.18\textwidth}">
