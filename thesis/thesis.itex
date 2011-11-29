@@ -856,35 +856,42 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
         == differences between a constraint solver and evolutionary testing
           -->
           <command name="subsection" param="Overview">
-            The goal of stateless method extraction is to improve the testability of source code, especially that of classes with hidden mutable state.  To measure SME's efficiency and validate its effectiveness, it is compared to the following strategies:
-            <block param="enumerate">
-              <command name="item"> Do nothing</command>
-              <command name="item"> Increase visibility of mutable state</command>
-              <command name="item"> Increase visibility of state and methods</command>
-              <!-- TODO: we can add more strategies later
-              <command name="item"> TODO: other strategies have been commented out, but can be added if we think there is insufficient data</command>
-              <command name="item"> Write test helper methods</command>
-              <command name="item"> Replace mutable state with immutable state</command>
-              <command name="item"> Use private accessors</command>
-              -->
-              <!-- a.k.a. "Private Access Driver" [Binder, chapter 19].  TOOD: mention in the detailed results that this won't help peek at local variables that would be turned into return values by SME -->
-              <!-- There are other strategies, such as "Built-in Test Driver" (an inner class of the CUT has access to the CUT's private members), "Drone" (using multiple inheritance to with Eiffel to get at private members -->
-            </block>
+            The goal of stateless method extraction is to improve the testability of source code, especially that of classes with hidden mutable state.
+            <command name="subsubsection" param="Strategies">
+              To measure SME's efficiency and validate its effectiveness, it is compared to the following strategies:
+              <block param="enumerate">
+                <command name="item"> Do nothing</command>
+                <command name="item"> Increase visibility of mutable state</command>
+                <command name="item"> Increase visibility of state and methods</command>
+                <!-- TODO: we can add more strategies later
+                <command name="item"> TODO: other strategies have been commented out, but can be added if we think there is insufficient data</command>
+                <command name="item"> Write test helper methods</command>
+                <command name="item"> Replace mutable state with immutable state</command>
+                <command name="item"> Use private accessors</command>
+                -->
+                <!-- a.k.a. "Private Access Driver" [Binder, chapter 19].  TOOD: mention in the detailed results that this won't help peek at local variables that would be turned into return values by SME -->
+                <!-- There are other strategies, such as "Built-in Test Driver" (an inner class of the CUT has access to the CUT's private members), "Drone" (using multiple inheritance to with Eiffel to get at private members -->
+              </block>
+            </command>
 
-            The evaluation uses the source code of the following C# open-source projects:
-            <block param="enumerate">
-              <command name="item"> Atomic CMS, version 2.0 <see cite="shapovalov09atomic" />, henceforth referred to as <tt>AtomicCms</tt></command>
-              <command name="item"> KeePass, version 2.10 <see cite="reichl10keepass" />, henceforth referred to as <tt>KeePassLib</tt></command>
-              <!-- TODO: is PivotStack good enough? <command name="item"> PivotStack</command> -->
-              <command name="item"> Textile.NET, changeset 26030 <see cite="chabant09textilenet" />, henceforth referred to as <tt>Textile</tt></command>
-            </block>
+            <command name="subsubsection" param="Projects">
+              The evaluation makes use of the source code from the following C# open-source projects:
+              <block param="enumerate">
+                <command name="item"> Atomic CMS, version 2.0 <see cite="shapovalov09atomic" />, henceforth referred to as <tt>AtomicCms</tt></command>
+                <command name="item"> KeePass, version 2.10 <see cite="reichl10keepass" />, henceforth referred to as <tt>KeePassLib</tt></command>
+                <!-- TODO: is PivotStack good enough? <command name="item"> PivotStack</command> -->
+                <command name="item"> Textile.NET, changeset 26030 <see cite="chabant09textilenet" />, henceforth referred to as <tt>Textile</tt></command>
+              </block>
+            </command>
 
-            The following evaluations are performed for each of the competing strategies on each of the open-source projects:
-            <block param="enumerate">
-              <command name="item"> Complexity of the unit tests.</command>
-              <command name="item"> Number of changes to the class under test's public interface.</command>
-              <command name="item"> Percentage of branches covered using concolic testing.</command>
-            </block>
+            <command name="subsubsection" param="Evaluations">
+              The following evaluations are performed for each of the competing strategies on each of the open-source projects:
+              <block param="enumerate">
+                <command name="item"> Complexity of the unit tests.</command>
+                <command name="item"> Number of changes to the class under test's public interface.</command>
+                <command name="item"> Percentage of branches covered using concolic testing.</command>
+              </block>
+            </command>
 
             The evaluations are now explained in further detail, followed by the strategies, the selected methods from the open-source projects and finally how the evaluations were conducted.
           </command>
