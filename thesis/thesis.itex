@@ -873,7 +873,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
 
             The evaluation uses the source code of the following C# open-source projects:
             <block param="enumerate">
-              <!-- TODO: AtomicCms has no SME done on it. <command name="item"> AtomicCms</command> -->
+              <command name="item"> Atomic CMS, version 2.0 <see cite="shapovalov09atomic" />, henceforth referred to as <tt>AtomicCms</tt></command>
               <command name="item"> KeePass, version 2.10 <see cite="reichl10keepass" />, henceforth referred to as <tt>KeePassLib</tt></command>
               <!-- TODO: is PivotStack good enough? <command name="item"> PivotStack</command> -->
               <command name="item"> Textile.NET, changeset 26030 <see cite="chabant09textilenet" />, henceforth referred to as <tt>Textile</tt></command>
@@ -1126,7 +1126,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           </command>
         </command>
         <command name="section" param="Results">
-          Table <see ref="tbl:SummaryResults" /> summarizes the results of the evaluations, which have been averaged across the participating open-source projects.  The table is assembled from the results of running the suitability evaluation against the source code as of revision 378.  Detailed results are presented in the following section, although it is clear that overall, SME performed no worse and often better than the other strategies.
+          Table <see ref="tbl:SummaryResults" /> summarizes the results of the evaluations, which have been averaged across the participating open-source projects.  The table is assembled from the results of running the suitability evaluation against the source code as of revision 424.  Detailed results are presented in the following section, although it is clear that, in general, SME performed no worse and often better than the other strategies.
           <table placement="htbp">
             <tbody spec="p{0.42\textwidth} R{0.11\textwidth} R{0.11\textwidth} R{0.08\textwidth} R{0.12\textwidth}">
               <tr>
@@ -1139,31 +1139,31 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               <hline />
               <tr>
                 <td>Do nothing</td>
-                <td><!-- (83 + 81) / 2 -->82.0</td>
-                <td><!-- (78 + 70) / 2 -->74.0</td>
-                <td><!-- It's the reference point -->n/a<footnote>This is the reference point other strategies use to measure public interface changes.</footnote></td>
-                <td><!-- (60.38 + 45.80) / 2 -->53.09%</td>
+                <td>83.67</td>
+                <td>77.33</td>
+                <td>n/a<footnote>This is the reference point other strategies use to measure public interface changes.</footnote></td>
+                <td>52.92%</td>
               </tr>
               <tr>
                 <td>Extract statelesss methods</td>
-                <td><!-- (84 + 81) / 2 -->82.5</td>
-                <td><!-- (85 + 81) / 2 -->83.0</td>
-                <td><!-- (0 + 0) / 2 -->0</td>
-                <td><!-- (67.02 + 49.14) / 2 -->58.08%</td>
+                <td>84.00</td>
+                <td>85.33</td>
+                <td>0</td>
+                <td>57.92%</td>
               </tr>
               <tr>
                 <td>Increase state visibility</td>
-                <td><!-- (83 + 81) / 2 -->82.0</td>
-                <td><!-- (76 + 70) / 2 -->73.0</td>
-                <td><!-- (0 + 0) / 2 -->0</td>
-                <td><!-- (60.73 + 46.00) / 2 -->53.36%</td>
+                <td>83.67</td>
+                <td>76.67</td>
+                <td>0</td>
+                <td>53.04%</td>
               </tr>
               <tr>
                 <td>Increase state and method visibility</td>
-                <td><!-- (83 + 81) / 2 -->82.0</td>
-                <td><!-- (76 + 80) / 2 -->78.0</td>
-                <td><!-- (0 + 0) / 2 -->0</td>
-                <td><!-- (64.24 + 48.33) / 2 -->56.29%</td>
+                <td>83.67</td>
+                <td>77.00</td>
+                <td>0</td>
+                <td>56.35%</td>
               </tr>
             </tbody>
             <command name="caption" param="Summary results of the evaluations" />
