@@ -1185,6 +1185,10 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             <table placement="htbp">
               <tbody spec="p{0.29\textwidth} | R{0.12\textwidth} R{0.12\textwidth} R{0.18\textwidth} R{0.18\textwidth}">
                 <tr>
+                  <td />
+                  <td multicolumn="{4}{c}">Strategies</td>
+                </tr>
+                <tr>
                   <td>Projects</td>
                   <td><tt>base</tt></td>
                   <td><tt>manual</tt></td>
@@ -1194,25 +1198,32 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                 <hline />
                 <tr>
                   <td><tt>Textile</tt></td>
-                  <td>78.0</td>
-                  <td>85.0</td>
-                  <td>76.0</td>
-                  <td>76.0</td>
+                  <td>78.00</td>
+                  <td>85.00</td>
+                  <td>76.00</td>
+                  <td>76.00</td>
                 </tr>
                 <tr>
                   <td><tt>KeePassLib</tt></td>
-                  <td>70.0</td>
-                  <td>81.0</td>
-                  <td>70.0</td>
-                  <td>80.0</td>
+                  <td>70.00</td>
+                  <td>81.00</td>
+                  <td>70.00</td>
+                  <td>80.00</td>
+                </tr>
+                <tr>
+                  <td><tt>AtomicCms</tt></td>
+                  <td>84.00</td>
+                  <td>90.00</td>
+                  <td>84.00</td>
+                  <td>75.00</td>
                 </tr>
                 <hline />
                 <tr>
                   <td>Average</td>
-                  <td>74.0</td>
-                  <td>83.0</td>
-                  <td>73.0</td>
-                  <td>78.0</td>
+                  <td>77.33</td>
+                  <td>85.33</td>
+                  <td>76.67</td>
+                  <td>77.00</td>
                 </tr>
               </tbody>
               <command name="caption" param="Maintainability Index of the unit tests in the \texttt{ManualTests} project per evaluation project, per strategy" />
