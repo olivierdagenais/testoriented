@@ -1256,148 +1256,154 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                   <td><tt>ility</tt></td>
                 </tr>
                 <hline />
-                <tr>
-                  <td multicolumn="{3}{l|}"><tt>Textile</tt></td>
-                  <td>78.00</td>
-                  <td>85.00</td>
-                  <td>76.00</td>
-                  <td>76.00</td>
-                </tr>
-                <tr>
-                  <td />
-                  <td multicolumn="{2}{l|}"><tt>CodeBlocksModifierTest</tt></td>
-                  <td />
-                  <td />
-                  <td />
-                  <td />
-                </tr>
-                <tr>
-                  <td />
-                  <td />
-                  <td><tt>ModifyLine</tt></td>
-                  <td>78.00</td>
-                  <td>84.00</td>
-                  <td>78.00</td>
-                  <td>78.00</td>
-                </tr>
-                <tr>
-                  <td />
-                  <td />
-                  <td><tt>Conclude</tt></td>
-                  <td>78.00</td>
-                  <td>84.00</td>
-                  <td>78.00</td>
-                  <td>78.00</td>
-                </tr>
-                <tr>
-                  <td />
-                  <td />
-                  <td><tt>CodeFormatMatchEvaluator</tt></td>
-                  <td>78.00</td>
-                  <td>82.00</td>
-                  <td>78.00</td>
-                  <td>78.00</td>
-                </tr>
-                <tr>
-                  <td />
-                  <td multicolumn="{2}{l|}"><tt>FootNoteFormatterStateTest</tt></td>
-                  <td />
-                  <td />
-                  <td />
-                  <td />
-                </tr>
-                <tr>
-                  <td />
-                  <td />
-                  <td><tt>Enter</tt></td>
-                  <td multirow="{2}{*}">65.00 <footnote>It is impossible to directly test the <tt>Enter()</tt> and <tt>OnContextAcquired()</tt> methods so a single, indirect test was written.</footnote></td>
-                  <td>83.00</td>
-                  <td>65.00</td>
-                  <td>65.00</td>
-                </tr>
-                <tr>
-                  <td />
-                  <td />
-                  <td><tt>OnContextAcquired</tt></td>
-                  <td />
-                  <td>84.00</td>
-                  <td>65.00</td>
-                  <td>69.00</td>
-                </tr>
-                <tr>
-                  <td multicolumn="{3}{l|}"><tt>KeePassLib</tt></td>
-                  <td>70.00</td>
-                  <td>81.00</td>
-                  <td>70.00</td>
-                  <td>80.00</td>
-                </tr>
-                <tr>
-                  <td />
-                  <td multicolumn="{2}{l|}"><tt>PatternBasedGeneratorTest</tt></td>
-                  <td />
-                  <td />
-                  <td />
-                  <td />
-                </tr>
-                <tr>
-                  <td />
-                  <td />
-                  <td><tt>ExpandPattern</tt></td>
-                  <td>63.00</td>
-                  <td>84.00</td>
-                  <td>63.00</td>
-                  <td>84.00</td>
-                </tr>
-                <tr>
-                  <td />
-                  <td multicolumn="{2}{l|}"><tt>XorredBufferTest</tt></td>
-                  <td />
-                  <td />
-                  <td />
-                  <td />
-                </tr>
-                <tr>
-                  <td />
-                  <td />
-                  <td><tt>ChangeKey</tt></td>
-                  <td>59.00</td>
-                  <td>61.00</td>
-                  <td>59.00</td>
-                  <td>59.00</td>
-                </tr>
-                <tr>
-                  <td multicolumn="{3}{l|}"><tt>AtomicCms</tt></td>
-                  <td>84.00</td>
-                  <td>90.00</td>
-                  <td>84.00</td>
-                  <td>75.00</td>
-                </tr>
-                <tr>
-                  <td />
-                  <td multicolumn="{2}{l|}"><tt>AdminMenuItemControllerTest</tt></td>
-                  <td />
-                  <td />
-                  <td />
-                  <td />
-                </tr>
-                <tr>
-                  <td />
-                  <td />
-                  <td><tt>FormatResultMessage\_Created</tt></td>
-                  <td>64.00</td>
-                  <td>84.00</td>
-                  <td>64.00</td>
-                  <td>70.00</td>
-                </tr>
-                <tr>
-                  <td />
-                  <td />
-                  <td><tt>FormatResultMessage\_Updated</tt></td>
-                  <td>64.00</td>
-                  <td>82.00</td>
-                  <td>64.00</td>
-                  <td>70.00</td>
-                </tr>
+                <region name="Textile">
+                  <tr>
+                    <td multicolumn="{3}{l|}"><tt>Textile</tt></td>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <td />
+                    <td multicolumn="{2}{l|}"><tt>CodeBlocksModifierTest</tt></td>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <td />
+                    <td />
+                    <td><tt>ModifyLine</tt></td>
+                    <td>78.00</td>
+                    <td>84.00</td>
+                    <td>78.00</td>
+                    <td>78.00</td>
+                  </tr>
+                  <tr>
+                    <td />
+                    <td />
+                    <td><tt>Conclude</tt></td>
+                    <td>78.00</td>
+                    <td>84.00</td>
+                    <td>78.00</td>
+                    <td>78.00</td>
+                  </tr>
+                  <tr>
+                    <td />
+                    <td />
+                    <td><tt>CodeFormatMatchEvaluator</tt></td>
+                    <td>78.00</td>
+                    <td>82.00</td>
+                    <td>78.00</td>
+                    <td>78.00</td>
+                  </tr>
+                  <tr>
+                    <td />
+                    <td multicolumn="{2}{l|}"><tt>FootNoteFormatterStateTest</tt></td>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <td />
+                    <td />
+                    <td><tt>Enter</tt></td>
+                    <td multirow="{2}{*}">65.00 <footnote>It is impossible to directly test the <tt>Enter()</tt> and <tt>OnContextAcquired()</tt> methods so a single, indirect test was written.</footnote></td>
+                    <td>83.00</td>
+                    <td>65.00</td>
+                    <td>65.00</td>
+                  </tr>
+                  <tr>
+                    <td />
+                    <td />
+                    <td><tt>OnContextAcquired</tt></td>
+                    <td />
+                    <td>84.00</td>
+                    <td>65.00</td>
+                    <td>69.00</td>
+                  </tr>
+                </region>
+                <region name="KeePassLib">
+                  <tr>
+                    <td multicolumn="{3}{l|}"><tt>KeePassLib</tt></td>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <td />
+                    <td multicolumn="{2}{l|}"><tt>PatternBasedGeneratorTest</tt></td>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <td />
+                    <td />
+                    <td><tt>ExpandPattern</tt></td>
+                    <td>63.00</td>
+                    <td>84.00</td>
+                    <td>63.00</td>
+                    <td>84.00</td>
+                  </tr>
+                  <tr>
+                    <td />
+                    <td multicolumn="{2}{l|}"><tt>XorredBufferTest</tt></td>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <td />
+                    <td />
+                    <td><tt>ChangeKey</tt></td>
+                    <td>59.00</td>
+                    <td>61.00</td>
+                    <td>59.00</td>
+                    <td>59.00</td>
+                  </tr>
+                </region>
+                <region name="AtomicCms">
+                  <tr>
+                    <td multicolumn="{3}{l|}"><tt>AtomicCms</tt></td>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <td />
+                    <td multicolumn="{2}{l|}"><tt>AdminMenuItemControllerTest</tt></td>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <td />
+                    <td />
+                    <td><tt>FormatResultMessage\_Created</tt></td>
+                    <td>64.00</td>
+                    <td>84.00</td>
+                    <td>64.00</td>
+                    <td>70.00</td>
+                  </tr>
+                  <tr>
+                    <td />
+                    <td />
+                    <td><tt>FormatResultMessage\_Updated</tt></td>
+                    <td>64.00</td>
+                    <td>82.00</td>
+                    <td>64.00</td>
+                    <td>70.00</td>
+                  </tr>
+                </region>
               </tbody>
               <command name="caption" param="Detailed breakdown of Maintainability Index scores per method, per strategy" />
               <command name="label" param="tbl:complexityDetailedResults" />
