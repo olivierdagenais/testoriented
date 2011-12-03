@@ -1486,128 +1486,29 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                   <td><tt>visibility</tt></td>
                 </tr>
                 <hline />
-                <region name="Textile">
-                  <tr>
-                    <td><tt>Textile</tt> @ 356</td>
-                    <td>60.26%</td>
-                    <td>67.10%</td>
-                    <td>60.61%</td>
-                    <td>64.36%</td>
-                  </tr>
-                  <tr>
-                    <td><tt>Textile</tt> @ 361</td>
-                    <td>60.61%</td>
-                    <td>67.10%</td>
-                    <td>60.61%</td>
-                    <td>64.01%</td>
-                  </tr>
-                  <tr>
-                    <td><tt>Textile</tt> @ 366</td>
-                    <td>60.26%</td>
-                    <td>67.10%</td>
-                    <td>60.49%</td>
-                    <td>64.24%</td>
-                  </tr>
-                  <tr>
-                    <td><tt>Textile</tt> @ 378</td>
-                    <td>60.38%</td>
-                    <td>67.02%</td>
-                    <td>60.73%</td>
-                    <td>64.24%</td>
-                  </tr>
-                  <tr>
-                    <td><tt>Textile</tt> @ 393</td>
-                    <td>60.61%</td>
-                    <td>67.13%</td>
-                    <td>60.49%</td>
-                    <td>64.36%</td>
-                  </tr>
-                  <tr>
-                    <td><tt>Textile</tt> AVERAGE</td>
-                    <td>60.42%</td>
-                    <td>67.09%</td>
-                    <td>60.59%</td>
-                    <td>64.24%</td>
-                  </tr>
-                  <tr>
-                    <td><tt>Textile</tt> STDEV</td>
-                    <td>0.18%</td>
-                    <td>0.04%</td>
-                    <td>0.10%</td>
-                    <td>0.14%</td>
-                  </tr>
-                </region>
-                <hline />
-                <region name="KeePassLib">
-                  <tr>
-                    <td><tt>KeePassLib</tt> @ 356</td>
-                    <td>46.11%</td>
-                    <td>49.11%</td>
-                    <td>45.87%</td>
-                    <td>48.42%</td>
-                  </tr>
-                  <tr>
-                    <td><tt>KeePassLib</tt> @ 361</td>
-                    <td>45.49%</td>
-                    <td>49.05%</td>
-                    <td>45.96%</td>
-                    <td>47.83%</td>
-                  </tr>
-                  <tr>
-                    <td><tt>KeePassLib</tt> @ 366</td>
-                    <td>46.00%</td>
-                    <td>49.06%</td>
-                    <td>45.86%</td>
-                    <td>48.34%</td>
-                  </tr>
-                  <tr>
-                    <td><tt>KeePassLib</tt> @ 378</td>
-                    <td>45.80%</td>
-                    <td>49.14%</td>
-                    <td>46.00%</td>
-                    <td>48.33%</td>
-                  </tr>
-                  <tr>
-                    <td><tt>KeePassLib</tt> @ 393</td>
-                    <td>46.11%</td>
-                    <td>49.18%</td>
-                    <td>45.72%</td>
-                    <td>48.38%</td>
-                  </tr>
-                  <tr>
-                    <td><tt>KeePassLib</tt> AVERAGE</td>
-                    <td>45.90%</td>
-                    <td>49.11%</td>
-                    <td>45.88%</td>
-                    <td>48.26%</td>
-                  </tr>
-                  <tr>
-                    <td><tt>KeePassLib</tt> STDEV</td>
-                    <td>0.26%</td>
-                    <td>0.05%</td>
-                    <td>0.11%</td>
-                    <td>0.24%</td>
-                  </tr>
-                </region>
-                <hline />
-                <region name="Averages">
-                  <tr>
-                    <td>Average @ 378</td>
-                    <td>53.09%</td>
-                    <td>58.08%</td>
-                    <td>53.36%</td>
-                    <td>56.29%</td>
-                  </tr>
-                  <tr>
-                    <td>Average all runs</td>
-                    <td>53.16%</td>
-                    <td>58.10%</td>
-                    <td>53.23%</td>
-                    <td>56.25%</td>
-                  </tr>
-                </region>
+                <tr>
+                  <td><tt>Textile</tt></td>
+                  <td>59.79%</td>
+                  <td>67.02%</td>
+                  <td>60.61%</td>
+                  <td>64.13%</td>
+                </tr>
+                <tr>
+                  <td><tt>KeePassLib</tt></td>
+                  <td>45.90%</td>
+                  <td>49.18%</td>
+                  <td>46.00%</td>
+                  <td>48.33%</td>
+                </tr>
+                <tr>
+                  <td><tt>AtomicCms</tt></td>
+                  <td>50.24%</td>
+                  <td>55.23%</td>
+                  <td>50.24%</td>
+                  <td>57.85%</td>
+                </tr>
               </tbody>
-              <command name="caption" param="Percentage of branch code coverage achieved by concolic testing per project, per strategy with 5 trials for each combination. TODO: Should we include a chart with error bars?" />
+              <command name="caption" param="Percentage of branch code coverage achieved by concolic testing per project, per strategy." />
               <command name="label" param="tbl:percentageConcolicCoverage" />
             </table>
 
