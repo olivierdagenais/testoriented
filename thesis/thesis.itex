@@ -1513,7 +1513,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               <command name="label" param="tbl:percentageConcolicCoverage" />
             </table>
 
-            The variation between runs turns out to be fairly small (relatively speaking), meaning we can confidently say that the <tt>visibility-state</tt> strategy produced equivalent results to doing nothing, while the <tt>visibility</tt> strategy produced better results and the <tt>manual</tt> strategy produced the best results.
+            We can confidently say that the <tt>visibility-state</tt> strategy produced equivalent results to doing nothing, while the <tt>visibility</tt> strategy produced better results and the <tt>manual</tt> strategy produced the best results, save for the <tt>AtomicCms</tt> project.  This is due to the fact that the <tt>AtomicCms</tt> project consists almost entirely of data access code, loading entities from a database into an object model in order to display them in a web page, as well as code to go the other way around.  The project is therefore very state-centric and contains very little processing that lends itself to be extracted into stateless methods.
             
             The fact that <tt>visibility</tt> fared better than <tt>visibility-state</tt> suggests that the biggest obstacle to Pex's quest for coverage is not hidden mutable state but rather methods it cannot reach.  Even so, that may be a necessary condition, but not a sufficient one as the <tt>manual</tt> strategy still outperformed the <tt>visibility</tt> strategy, which suggests that there is merit in what differentiates the <tt>manual</tt>strategy from the <tt>visibility</tt> strategy:  statelessness and input simplification.
           </command>
