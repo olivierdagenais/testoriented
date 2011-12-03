@@ -1431,6 +1431,10 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             <table placement="htbp">
               <tbody spec="p{0.29\textwidth} | R{0.12\textwidth} R{0.12\textwidth} R{0.18\textwidth} R{0.18\textwidth}">
                 <tr>
+                  <td />
+                  <td multicolumn="{4}{c}">Strategies</td>
+                </tr>
+                <tr>
                   <td>Projects</td>
                   <td><tt>base</tt></td>
                   <td><tt>manual</tt></td>
@@ -1472,7 +1476,11 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             <table placement="htbp">
               <tbody spec="p{0.32\textwidth} | R{0.115\textwidth} R{0.115\textwidth} R{0.175\textwidth} R{0.175\textwidth}">
                 <tr>
-                  <td>Projects and runs</td>
+                  <td />
+                  <td multicolumn="{4}{c}">Strategies</td>
+                </tr>
+                <tr>
+                  <td>Projects</td>
                   <td><tt>base</tt></td>
                   <td><tt>manual</tt></td>
                   <td><tt>visibility<raw>\newline</raw>-state</tt></td>
