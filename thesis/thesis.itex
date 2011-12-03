@@ -1218,14 +1218,6 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                   <td>84.00</td>
                   <td>75.00</td>
                 </tr>
-                <hline />
-                <tr>
-                  <td>Average</td>
-                  <td>77.33</td>
-                  <td>85.33</td>
-                  <td>76.67</td>
-                  <td>77.00</td>
-                </tr>
               </tbody>
               <command name="caption" param="Overall Maintainability Index of the unit tests in the \texttt{ManualTests} project per evaluation project, per strategy" />
               <command name="label" param="tbl:complexityResults" />
