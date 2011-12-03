@@ -1430,6 +1430,8 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                 </td>
               </tr>
             </tabular>
+
+            TODO: should we discuss the MI - IUT results here?
           </command>
           <command name="subsection" param="Number of changes to the public interface of the class under test">
             Table <see ref="tbl:publicInterfaceResults" /> lists the per-project results of running the Public Interfacer Comparer tool on the IUTs to obtain their number of public interface changes - or differences - relative to the base source code.
