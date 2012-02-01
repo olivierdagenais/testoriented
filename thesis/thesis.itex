@@ -1134,6 +1134,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           </command>
         </command>
         <command name="section" param="Results">
+          <command name="label" param="sec:Results" />
           Table <see ref="tbl:SummaryResults" /> summarizes the results of the evaluations, which have been averaged across the participating open-source projects.  The table is assembled from the results of running the suitability evaluation against the source code as of revision 424.  Detailed results are presented in the following section, although it is clear that, in general, SME performed no worse and often better than the other strategies.
           <table placement="htbp">
             <tbody spec="p{0.42\textwidth} R{0.11\textwidth} R{0.11\textwidth} R{0.08\textwidth} R{0.12\textwidth}">
@@ -1179,6 +1180,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           </table>
         </command>
         <command name="section" param="Detailed results">
+          <command name="label" param="sec:DetailedResults" />
           The following sub-sections illustrate the results of the invidual evaluations identified in section <see ref="sec:Goal" /> and discuss some observations made while running the suitability evaluation.
           <command name="subsection" param="Complexity of the unit tests">
             Table <see ref="tbl:complexityResults" /> lists the per-project overall results of running the CMPT tool on the manually-written unit tests to obtain their maintainability index.
@@ -1551,12 +1553,51 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           -->
         </command>
         <command name="section" param="Validation">
-          <!-- Demonstrate that you met your goal
-          Objectives can be checked off one by one
-          If goal was "improve X", then show that X became better (i.e. less clicks, etc.)
-          Verification is not very useful; this really has to be about validation -->
+          To help meet the goal, the proposed SME testability refactoring was applied on selected parts of three open-source projects and then compared against two other strategies as well as the baseline.
+          <table placement="htbp">
+            <tbody spec="p{0.2\textwidth} | R{0.2\textwidth} R{0.2\textwidth} | R{0.2\textwidth}">
+              <tr>
+                <td />
+                <td multicolumn="{2}{c}">Strategies</td>
+                <td />
+              </tr>
+              <tr>
+                <td>Metrics</td>
+                <td>Do nothing</td>
+                <td>SME</td>
+                <td>Difference</td>
+              </tr>
+              <hline />
+              <tr>
+                <td>MI MT <footnote>Complexity of unit tests: A higher number indicates better maintainability and, consequently, lower complexity.</footnote></td>
+                <td>77.33</td>
+                <td>85.33</td>
+                <td>+8.00</td>
+              </tr>
+              <tr>
+                <td>PIC <footnote>Public interface changes: A lower number is better.</footnote></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>VSP/TSP <footnote>The percentage of branches covered using concolic testing. A higher number is better.</footnote></td>
+                <td>52.92%</td>
+                <td>57.92%</td>
+                <td>+5.00%</td>
+              </tr>
+            </tbody>
+            <command name="caption" param="Comparison of the results between \texttt{base} and \texttt{manual}." />
+            <command name="label" param="tbl:TransposedResults" />
+          </table>
+          As can be seen in sections <see ref="sec:Results" /> and <see ref="sec:DetailedResults" /> (summarized in table <see ref="tbl:TransposedResults" />), the application of SME on the three test projects had the following general effects on the metrics, relative to the <tt>base</tt> version:
+          <block param="enumerate">
+            <command name="item"> The complexity of the manually-written unit tests went down.</command>
+            <command name="item"> Zero changes to the public interface of the class under test were necessary.</command>
+            <command name="item"> The percentage of branches covered using concolic testing went up.</command>
+          </block>
+          Given the three evaluation metrics are better than or equal to the baseline, the goal of this thesis to improve the testability of classes that suffer from the "state problem" can thus be said to have been validated.
           <!-- Cross-reference with Scope and discuss observed trade-offs of other potential approaches -->
-          ...
         </command>
         <command name="section" param="Summary">
           ...
