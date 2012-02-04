@@ -1628,13 +1628,13 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
         </command>
         <command name="section" param="Summary of work">
           <!-- Can be thought of as the companion to the "Outline" section or maybe the Abstract chapter -->
-          The "state problem" was introduced as a specific problem in the general field of software testing.  Its "worthiness" [as a problem] was motivated <!-- TODO: make sure this is so --> and then the goal of this thesis was introduced:  to improve the testability of classes that suffer from the state problem - because they contain hidden, mutable state - while minimally affecting functionality, maintainability and the public interface of the code under test.  Three metrics were introduced to evaluate the effectiveness of any proposed approach and finally a plan was presented to address this problem with, as objectives, the development of an approach that addresses the goal and an evaluation mechanism to validate the proposed approach.
+          The "state problem" was introduced as a specific problem in the general field of software testing.  Its "worthiness" [as a problem] was motivated <!-- TODO: make sure this is so --> and then the goal of this thesis was introduced:  to improve the testability of classes that suffer from the state problem - because they contain hidden, mutable state - while minimally affecting functionality, maintainability and the public interface of the code under test.  Three metrics were introduced to evaluate the effectiveness of any proposed approach and finally a plan was presented to address this problem with, as objectives, the development and application of an approach that addresses the goal, as well an evaluation mechanism to validate the proposed approach.
 
           Some background and related work was presented to explain the problem space, establish context and cover previous attempts at solving similar problems in the fields of test generation and program transformation.
 
           The stateless method extraction approach was proposed, designed and discussed, with many source code examples presented.
 
-          An evaluation mechanism was proposed and described, and the proposed approach (as well as two others) were applied on three open-source projects.  Empirical summary and detailed results were presented and discussed.  Lastly, the results were cross-referenced with the goal's metrics and were shown to validate the proposed approach.
+          An evaluation mechanism was proposed and described, and the proposed approach, as well as two others, were applied on three open-source projects.  Empirical summary and detailed results were presented and discussed.  Lastly, the results were cross-referenced with the goal's metrics and were shown to validate the proposed approach.
         </command>
         <command name="section" param="Conclusions">
           <!-- list of inferences made -->
