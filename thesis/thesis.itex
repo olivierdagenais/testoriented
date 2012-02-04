@@ -200,6 +200,7 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
           <!-- (what you will produce to meet your goal)
           action items to address goal -->
           To meet the goal, a testability refactoring <see cite="harman11refactoringtestability" /> algorithm called "stateless method extraction" (SME) is proposed and explained/detailed.  The SME algorithm transforms the source code of the implementation under test (IUT) to introduce a functional, or "externally state-free", software layer to specifically work around many of the testability problems of HMS and to generally increase the testability of the code under test.  The SME algorithm's efficiency and effectiveness will be evaluated by comparing the results of the algorithm's application to other testing approaches.
+          <!-- TODO: can describe a bit of the evaluation here, especially as it relates to the goal's metrics -->
         </command>
         <command name="section" param="Outline">
           ...
@@ -1605,14 +1606,20 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           ...
         </command>
       </command>
-      <command name="chapter" param="Summary of work, Conclusions and Future Work">
+      <command name="chapter" param="Summary of work, Conclusions and Future work">
         <command name="section" param="Introduction">
           <!-- what the chapter is about -->
           ...
         </command>
-        <command name="section" param="Summary of results">
-          <!-- Review goal and contributions -->
-          ...
+        <command name="section" param="Summary of work">
+          <!-- Can be thought of as the companion to the "Outline" section or maybe the Abstract chapter -->
+          The "state problem" was introduced as a specific problem in the general field of software testing.  Its "worthiness" [as a problem] was motivated <!-- TODO: make sure this is so --> and then the goal of this thesis was introduced:  to improve the testability of classes that suffer from the state problem - because they contain hidden, mutable state - while minimally affecting functionality, maintainability and the public interface of the code under test.  Three metrics were introduced to evaluate the effectiveness of any proposed approach and finally a plan was presented to address this problem with, as objectives, the development of an approach that addresses the goal and an evaluation mechanism to validate the proposed approach.
+
+          Some background and related work was presented to explain the problem space, establish context and cover previous attempts at solving similar problems in the fields of test generation and program transformation.
+
+          The stateless method extraction approach was proposed, designed and discussed, with many source code examples presented.
+
+          An evaluation mechanism was proposed and described, and the proposed approach (as well as two others) were applied on three open-source projects.  Empirical summary and detailed results were presented and discussed.  Lastly, the results were cross-referenced with the goal's metrics and were shown to validate the proposed approach.
         </command>
         <command name="section" param="Conclusions">
           <!-- list of inferences made -->
