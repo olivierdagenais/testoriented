@@ -151,7 +151,7 @@ http://tex.stackexchange.com/questions/10270/
           Can be written retroactively, after the results have been written -->
           If we are to overcome the difficulties of HMS, can we do so with minimal changes to the public interface and with minimal risk of introducing regressions?  Can the unit tests be kept parsimonious, yet cover all the important edge cases?  Is there something we can do to make code containing hidden mutable state more easily testable?
 
-          The goal of this thesis is to improve the testability of classes that suffer from the "state problem" - because they contain HMS - while minimally affecting functionality, maintainability and the public interface of the code under test.  The goal is to be validated according to the following metrics:
+          The goal of this thesis is to improve the testability of classes that suffer from the "state problem" - because they contain HMS - while minimally affecting functionality, maintainability and the public interface of the code under test. <!-- This makes it sound like we'll be measuring maintainability of the IUT more than that of the tests -->  The goal is to be validated according to the following metrics:
 
           <block param="enumerate">
             <command name="item"> Complexity of the unit tests.
