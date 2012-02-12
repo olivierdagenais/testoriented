@@ -5,15 +5,19 @@ using NUnit.Framework;
 [TestFixture]
 public class FootNoteFormatterStateTest
 {
-  [Test]
-  public void FormatFootNote()
-  {
-    // act
-    var actual = FootNoteFormatterState.FormatFootNote(1, " style=\"color:red;\"");
+[Test]
+public void FormatFootNote()
+{
+  // act
+  var actual =
+    FootNoteFormatterState.FormatFootNote
+      (1, " style=\"color:red\"");
 
-    // assert
-    Assert.AreEqual("<p id=\"fn1\" style=\"color:red;\"><sup>1</sup> ", actual);
-  }
+  // assert
+  Assert.AreEqual(
+    "<p id=\"fn1\" style=\"color:red\"><sup>1</sup> ",
+    actual);
+}
 
 [Test]
 public void ParseFootNoteId()
