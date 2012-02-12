@@ -75,12 +75,12 @@ public class FootNoteFormatterState
   }
 
   internal static string FormatFootNote
-    (int noteId, string formattedStylesAndAlignment)
+    (int noteId, string atts)
   {
     return string.Format(
       "<p id=\"fn{0}\"{1}><sup>{2}</sup> ",
       noteId,
-      formattedStylesAndAlignment,
+      atts,
       noteId);
   }
 
@@ -118,12 +118,20 @@ public class IntermediateFootNoteFormatterState
 
   public override void Enter()
   {
-    Writer.Write(
-      string.Format(
-        "<p id=\"fn{0}\"{1}><sup>{2}</sup> ",
-        m_noteID,
-        FormattedStylesAndAlignment(),
-        m_noteID));
+    int noteId = m_noteID;
+    string atts = FormattedStylesAndAlignment();
+    string result = FormatFootNote(noteId, atts);
+    Writer.Write(result);
+  }
+
+  internal static string FormatFootNote
+    (int noteId, string atts)
+  {
+    return string.Format(
+      "<p id=\"fn{0}\"{1}><sup>{2}</sup> ",
+      noteId,
+      atts,
+      noteId);
   }
 
   public override void Exit()

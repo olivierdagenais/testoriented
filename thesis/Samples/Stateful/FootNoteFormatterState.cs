@@ -106,12 +106,14 @@ public class IntermediateFootNoteFormatterState
 
   public override void Enter()
   {
-    Writer.Write(
-      string.Format(
-        "<p id=\"fn{0}\"{1}><sup>{2}</sup> ",
-        m_noteID,
-        FormattedStylesAndAlignment(),
-        m_noteID));
+    int noteId = m_noteID;
+    string atts = FormattedStylesAndAlignment();
+    string result = string.Format(
+      "<p id=\"fn{0}\"{1}><sup>{2}</sup> ",
+      noteId,
+      atts,
+      noteId);
+    Writer.Write(result);
   }
 
   public override void Exit()
