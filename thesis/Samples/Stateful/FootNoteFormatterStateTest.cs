@@ -1,33 +1,30 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.IO;
+using System.Text.RegularExpressions;
 using NUnit.Framework;
-using Textile.States;
 
-namespace Textile.ManualTests.States
+[TestFixture]
+public class FootNoteFormatterStateTest
 {
-    /// <summary>
-    /// A class to test <see cref="FootNoteFormatterState"/>.
-    /// </summary>
-    [TestFixture]
-    public class FootNoteFormatterStateTest
-    {
-        [Test]
-        public void EnterAndOnContextAcquired()
-        {
-            // arrange
-            var output = new StringBuilderTextileFormatter ();
-            output.Begin();
-            var fnfs = new FootNoteFormatterState(new TextileFormatter(output));
-            var expression = SimpleBlockFormatterState.PatternBegin + @"fn[0-9]+" + SimpleBlockFormatterState.PatternEnd;
-            var input = "fn1{color:red}. This is the footnote";
-            Match m = Regex.Match(input, expression);
-            fnfs.Consume (input, m);
+[Test]
+public void EnterAndOnContextAcquired()
+{
+  // arrange
+  var output = new StringWriter();
+  var fnfs = new FootNoteFormatterState(output);
+  var expression = @"^\s*(?<tag>fn[0-9]+)"
+    + @"(?:\{(?<atts>[^}]+)\})?"
+    + @"\.(?:\s+)?(?<content>.*)$";
+  var input = "fn1{color:red}. This is the footnote";
+  Match m = Regex.Match(input, expression);
 
-            // act
-            // do nothing, since Consume() already caused OnContextAcquired() and Enter() to be called
+  // act
+  // Consume() causes OnContextAcquired()
+  // and Enter() to be called
+  fnfs.Consume(m);
 
-            // assert
-            Assert.AreEqual("<p id=\"fn1\" style=\"color:red;\"><sup>1</sup> ", output.GetFormattedText());
-        }
-
-    }
+  // assert
+  Assert.AreEqual(
+    "<p id=\"fn1\" style=\"color:red\"><sup>1</sup> ",
+    output.ToString());
+}
 }

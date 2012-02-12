@@ -1,38 +1,54 @@
-﻿using Textile.States;
+﻿using System.IO;
+using System.Text.RegularExpressions;
 using NUnit.Framework;
 
-namespace Textile.ManualTests.States
+[TestFixture]
+public class FootNoteFormatterStateTest
 {
-    /// <summary>
-    /// A class to test <see cref="FootNoteFormatterState"/>.
-    /// </summary>
-    [TestFixture]
-    public class FootNoteFormatterStateTest
-    {
-        /// <summary>
-        /// Tests the stateless part of the <see cref="FootNoteFormatterState.Enter()"/> method.
-        /// </summary>
-        [Test]
-        public void FormatFootNote()
-        {
-            // act
-            var actual = FootNoteFormatterState.FormatFootNote(1, " style=\"color:red;\"");
+  [Test]
+  public void FormatFootNote()
+  {
+    // act
+    var actual = FootNoteFormatterState.FormatFootNote(1, " style=\"color:red;\"");
 
-            // assert
-            Assert.AreEqual("<p id=\"fn1\" style=\"color:red;\"><sup>1</sup> ", actual);
-        }
+    // assert
+    Assert.AreEqual("<p id=\"fn1\" style=\"color:red;\"><sup>1</sup> ", actual);
+  }
 
-        /// <summary>
-        /// Tests the stateless part of the <see cref="FootNoteFormatterState.OnContextAcquired()"/> method.
-        /// </summary>
-        [Test]
-        public void ParseFootNoteId()
-        {
-            // act
-            var actual = FootNoteFormatterState.ParseFootNoteId("fn42");
+[Test]
+public void ParseFootNoteId()
+{
+  // arrange
+  var input = "fn1{color:red}. This is the footnote";
 
-            // assert
-            Assert.AreEqual(42, actual);
-        }
-    }
+  // act
+  var actual =
+    FootNoteFormatterState.ParseFootNoteId(input);
+
+  // assert
+  Assert.AreEqual(1, actual);
+}
+
+[Test]
+public void EnterAndOnContextAcquired()
+{
+  // arrange
+  var output = new StringWriter();
+  var fnfs = new FootNoteFormatterState(output);
+  var expression = @"^\s*(?<tag>fn[0-9]+)"
+    + @"(?:\{(?<atts>[^}]+)\})?"
+    + @"\.(?:\s+)?(?<content>.*)$";
+  var input = "fn1{color:red}. This is the footnote";
+  Match m = Regex.Match(input, expression);
+
+  // act
+  // Consume() causes OnContextAcquired()
+  // and Enter() to be called
+  fnfs.Consume(m);
+
+  // assert
+  Assert.AreEqual(
+    "<p id=\"fn1\" style=\"color:red\"><sup>1</sup> ",
+    output.ToString());
+}
 }
