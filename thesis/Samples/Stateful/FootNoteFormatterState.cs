@@ -26,23 +26,41 @@ public abstract class SimpleBlockFormatterState
 {
   protected readonly TextWriter Writer;
   private string m_tag = null;
-  protected SimpleBlockFormatterState
-    (TextWriter writer)
-  { Writer = writer; }
+  private string m_atts = null;
+  protected SimpleBlockFormatterState(TextWriter w)
+  {
+    Writer = w;
+  }
+
   public abstract void Enter();
   public abstract void Exit();
   public abstract void FormatLine(string input);
+  public string Consume(Match m)
+  {
+    m_tag = m.Groups["tag"].Value;
+    m_atts = m.Groups["atts"].Value;
+    var input = m.Groups["content"].Value;
+    OnContextAcquired(); Enter();
+    return input;
+  }
+
   protected abstract void OnContextAcquired();
   protected string FormattedStylesAndAlignment()
-  { throw new NotImplementedException(); }
+  {
+    return String.IsNullOrEmpty(m_atts)
+      ? "" : " style=\"" + m_atts + "\"";
+  }
+
   public string Tag
-  { get { return m_tag; } }
+  {
+    get { return m_tag; }
+  }
 }
 
 public class FootNoteFormatterState
   : SimpleBlockFormatterState
 {
-  int m_noteID = 0;
+  private int m_noteID = 0;
 
   public FootNoteFormatterState(TextWriter w)
     : base(w)
@@ -73,5 +91,44 @@ public class FootNoteFormatterState
   {
     Match m = Regex.Match(Tag, @"^fn(?<id>[0-9]+)");
     m_noteID = Int32.Parse(m.Groups["id"].Value);
+  }
+}
+
+public class IntermediateFootNoteFormatterState
+  : SimpleBlockFormatterState
+{
+  private int m_noteID = 0;
+
+  public IntermediateFootNoteFormatterState(TextWriter w)
+    : base(w)
+  {
+  }
+
+  public override void Enter()
+  {
+    Writer.Write(
+      string.Format(
+        "<p id=\"fn{0}\"{1}><sup>{2}</sup> ",
+        m_noteID,
+        FormattedStylesAndAlignment(),
+        m_noteID));
+  }
+
+  public override void Exit()
+  {
+    Writer.WriteLine("</p>");
+  }
+
+  public override void FormatLine(string input)
+  {
+    Writer.Write(input);
+  }
+
+  protected override void OnContextAcquired()
+  {
+    string input = Tag;
+    Match m = Regex.Match(input, @"^fn(?<id>[0-9]+)");
+    int result = Int32.Parse(m.Groups["id"].Value);
+    m_noteID = result;
   }
 }
