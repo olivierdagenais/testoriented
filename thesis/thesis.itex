@@ -114,9 +114,9 @@ http://tex.stackexchange.com/questions/10270/
               <tt>SmokeDetector</tt> class with hidden mutable state
             </listing>
             <raw>&amp;</raw>
-            <command name="lstinputlisting"
-              opt="label=lst:StatefulSmokeDetectorTest,caption=Test class for the SmokeDetector,style=realCode"
-              param="Stateful/SmokeDetectorTest.cs" />
+            <listing label="lst:StatefulSmokeDetectorTest" style="realCode" file="Stateful/SmokeDetectorTest.cs">
+              Test class for the SmokeDetector
+            </listing>
             <raw>\end{tabular}</raw>
           </region>
 
@@ -134,13 +134,13 @@ http://tex.stackexchange.com/questions/10270/
           <!-- TODO: should the listings use a figure with subfloats, instead? -->
           <region name="table and two stateless code listings">
             <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
-            <command name="lstinputlisting"
-              opt="label=lst:StatelessSmokeDetector,caption=SmokeDetector class with a stateless method extracted,style=realCode"
-              param="Stateless/SmokeDetector.cs" />
+            <listing label="lst:StatelessSmokeDetector" style="realCode" file="Stateless/SmokeDetector.cs">
+              SmokeDetector class with a stateless method extracted
+            </listing>
             <raw>&amp;</raw>
-            <command name="lstinputlisting"
-              opt="label=lst:StatelessSmokeDetectorTest,caption=Test class for SmokeDetector exploiting the new Cycle() method overload,style=realCode"
-              param="Stateless/SmokeDetectorTest.cs" />
+            <listing label="lst:StatelessSmokeDetectorTest" style="realCode" file="Stateless/SmokeDetectorTest.cs">
+              Test class for SmokeDetector exploiting the new Cycle() method overload
+            </listing>
             <raw>\end{tabular}</raw>
           </region>
         </command>
@@ -483,9 +483,9 @@ references as well.
             </block>
             Refer to listing <see ref="lst:Procedure" /> for a pseudo-code version of the stateless method extraction procedure.  The following sub-sections will cover the individual steps in greater detail.
             <!-- TODO: should this be an "algorithmic" block, instead? -->
-            <command name="lstinputlisting"
-              opt="label=lst:Procedure,caption=General procedure for extracting stateless methods,style=pseudoCode"
-              param="Procedure.pc" />
+            <listing label="lst:Procedure" style="pseudoCode" file="Procedure.pc">
+              General procedure for extracting stateless methods
+            </listing>
           </command>
           <command name="subsection" param="Step 1: Identification of a candidate block">
             <command name="label" param="subsec:Step1" />
@@ -521,18 +521,18 @@ references as well.
                 This can be considered the reverse of string parsing and usually involves combining a few inputs to yield a meaninful string representation.  An example of this category can be found in the <tt>GenerateItemNode()</tt> method extracted in listing <see ref="lst:StatelessGenerateXml" />.
               </command>
             </block>
-            <command name="lstinputlisting"
-              opt="caption=ComputeTourLength() method with some inlined mathematical formulas,label=lst:StatefulComputeTourLength,style=realCode,linerange=38-60"
-              param="Stateful/FlyingSalespersonProblem.cs" />
+            <listing label="lst:StatefulComputeTourLength" style="realCode" linerange="38-60" file="Stateful/FlyingSalespersonProblem.cs">
+              ComputeTourLength() method with some inlined mathematical formulas
+            </listing>
             <region name="table and two code listings for partial loop block extraction">
               <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
-              <command name="lstinputlisting"
-                opt="label=lst:StatefulGenerateXml,caption=GenerateXml() method with a candidate block between lines 19-30,style=realCode,linerange=40-78"
-                param="Stateful/ImageCollection.cs" />
+              <listing label="lst:StatefulGenerateXml" style="realCode" linerange="40-78" file="Stateful/ImageCollection.cs">
+                GenerateXml() method with a candidate block between lines 19-30
+              </listing>
               <raw>&amp;</raw>
-              <command name="lstinputlisting"
-                opt="label=lst:StatelessGenerateXml,caption=GenerateXml() method with the candidate block extracted as the GenerateItemNode() method,style=realCode,linerange=40-87"
-                param="Stateless/ImageCollection.cs" />
+              <listing label="lst:StatelessGenerateXml" style="realCode" linerange="40-87" file="Stateless/ImageCollection.cs">
+                GenerateXml() method with the candidate block extracted as the GenerateItemNode() method
+              </listing>
               <raw>\end{tabular}</raw>
             </region>
             It follows that there are uninteresting categories of blocks, such as:
@@ -561,13 +561,13 @@ references as well.
 
             <region name="table and two code listings for operation re-ordering">
               <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
-              <command name="lstinputlisting"
-                opt="label=lst:StatefulGenerateXmlIntermixed,caption=GenerateXmlIntermixed() method with a candidate block between lines 18-33,style=realCode,linerange=80-118"
-                param="Stateful/ImageCollection.cs" />
+              <listing label="lst:StatefulGenerateXmlIntermixed" style="realCode" linerange="80-118" file="Stateful/ImageCollection.cs">
+                GenerateXmlIntermixed() method with a candidate block between lines 18-33
+              </listing>
               <raw>&amp;</raw>
-              <command name="lstinputlisting"
-                opt="label=lst:StatefulGenerateXmlUnmixed,caption=GenerateXml() method with a shorter candidate block between lines 19-30,style=realCode,linerange=40-78"
-                param="Stateful/ImageCollection.cs" />
+              <listing label="lst:StatefulGenerateXmlUnmixed" style="realCode" linerange="40-78" file="Stateful/ImageCollection.cs">
+                GenerateXml() method with a shorter candidate block between lines 19-30
+              </listing>
               <raw>\end{tabular}</raw>
             </region>
 
@@ -580,13 +580,13 @@ references as well.
 
             <region name="table and two code listings for candidate block splitting">
               <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
-              <command name="lstinputlisting"
-                opt="label=lst:StatefulSubversionClient,caption=The Info() method has a candidate block between lines 14-42,style=realCode,linerange=6-66"
-                param="Stateful/SubversionClient.cs" />
+              <listing label="lst:StatefulSubversionClient" style="realCode" linerange="6-66" file="Stateful/SubversionClient.cs">
+                The Info() method has a candidate block between lines 14-42
+              </listing>
               <raw>&amp;</raw>
-              <command name="lstinputlisting"
-                opt="label=lst:StatelessSubversionClient,caption=Two stateless methods were extracted from the Info() method,style=realCode,linerange=6-62"
-                param="Stateless/SubversionClient.cs" />
+              <listing label="lst:StatelessSubversionClient" style="realCode" linerange="6-62" file="Stateless/SubversionClient.cs">
+                Two stateless methods were extracted from the Info() method
+              </listing>
               <raw>\end{tabular}</raw>
             </region>
 
@@ -594,13 +594,13 @@ references as well.
 
             <region name="table and two code listings for math re-ordering">
               <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
-              <command name="lstinputlisting"
-                opt="label=lst:StatefulCartesianCoordinate,caption=The ToPolar() method interleaves computations for r and theta,style=realCode,linerange=3-27"
-                param="Stateful/CartesianCoordinate.cs" />
+              <listing label="lst:StatefulCartesianCoordinate" style="realCode" linerange="3-27" file="Stateful/CartesianCoordinate.cs">
+                The ToPolar() method interleaves computations for r and theta
+              </listing>
               <raw>&amp;</raw>
-              <command name="lstinputlisting"
-                opt="label=lst:StatelessCartesianCoordinate,caption=The ToPolar() method with the computations separated,style=realCode,linerange=3-27"
-                param="Stateless/CartesianCoordinate.cs" />
+              <listing label="lst:StatelessCartesianCoordinate" style="realCode" linerange="3-27" file="Stateless/CartesianCoordinate.cs">
+                The ToPolar() method with the computations separated
+              </listing>
               <raw>\end{tabular}</raw>
             </region>
 
@@ -618,13 +618,13 @@ references as well.
 
             <region name="table and two code listings for Vector math">
               <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
-              <command name="lstinputlisting"
-                opt="label=lst:StatefulVector,caption=The original Vector and Plane classes,style=realCode,linerange=3-39"
-                param="Stateful/Plane.cs" />
+              <listing label="lst:StatefulVector" style="realCode" linerange="3-39" file="Stateful/Plane.cs">
+                The original Vector and Plane classes
+              </listing>
               <raw>&amp;</raw>
-              <command name="lstinputlisting"
-                opt="label=lst:StatelessVector,caption=The Plane class had two stateless methods extracted from it,style=realCode,linerange=3-41"
-                param="Stateless/Plane.cs" />
+              <listing label="lst:StatelessVector" style="realCode" linerange="3-41" file="Stateless/Plane.cs">
+                The Plane class had two stateless methods extracted from it
+              </listing>
               <raw>\end{tabular}</raw>
             </region>
 
@@ -632,13 +632,13 @@ references as well.
 
             <region name="table and two code listings for Match-based formatting">
               <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
-              <command name="lstinputlisting"
-                opt="label=lst:StatefulCodeFormatMatchEvaluator,caption=The original CodeBlockModifier class,style=realCode,linerange=35-64"
-                param="Stateful/CodeBlockModifier.cs" />
+              <listing label="lst:StatefulCodeFormatMatchEvaluator" style="realCode" linerange="35-64" file="Stateful/CodeBlockModifier.cs">
+                The original CodeBlockModifier class
+              </listing>
               <raw>&amp;</raw>
-              <command name="lstinputlisting"
-                opt="label=lst:StatelessCodeFormatMatchEvaluator,caption=The CodeBlockModifier class with testability extractions,style=realCode,linerange=35-78"
-                param="Stateless/CodeBlockModifier.cs" />
+              <listing label="lst:StatelessCodeFormatMatchEvaluator" style="realCode" linerange="35-78" file="Stateless/CodeBlockModifier.cs">
+                The CodeBlockModifier class with testability extractions
+              </listing>
               <raw>\end{tabular}</raw>
             </region>
 
@@ -646,13 +646,13 @@ references as well.
 
             <region name="table and two code listings for Match-based formatting tests">
               <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
-              <command name="lstinputlisting"
-                opt="label=lst:StatefulCodeFormatMatchEvaluatorTest,caption=Two ways to test the CodeFormatMatchEvaluator() method,style=realCode,linerange=7-36"
-                param="Stateful/CodeBlockModifierTest.cs" />
+              <listing label="lst:StatefulCodeFormatMatchEvaluatorTest" style="realCode" linerange="7-36" file="Stateful/CodeBlockModifierTest.cs">
+                Two ways to test the CodeFormatMatchEvaluator() method
+              </listing>
               <raw>&amp;</raw>
-              <command name="lstinputlisting"
-                opt="label=lst:StatelessCodeFormatMatchEvaluatorTest,caption=Parsing and formatting can be tested directly and separately,style=realCode,linerange=19-50"
-                param="Stateless/CodeBlockModifierTest.cs" />
+              <listing label="lst:StatelessCodeFormatMatchEvaluatorTest" style="realCode" linerange="19-50" file="Stateless/CodeBlockModifierTest.cs">
+                Parsing and formatting can be tested directly and separately
+              </listing>
               <raw>\end{tabular}</raw>
             </region>
           </command>
@@ -675,14 +675,14 @@ references as well.
               <tabular spec="p{0.45\textwidth} p{0.45\textwidth}">
                 <tr>
                   <td>
-                    <command name="lstinputlisting"
-                      opt="label=lst:StatefulFootNoteFormatterState,caption=The original FootNoteFormatterState class,style=realCode,linerange=60-95"
-                      param="Stateful/FootNoteFormatterState.cs" />
+                    <listing label="lst:StatefulFootNoteFormatterState" style="realCode" linerange="60-95" file="Stateful/FootNoteFormatterState.cs">
+                      The original FootNoteFormatterState class
+                    </listing>
                   </td>
                   <td>
-                    <command name="lstinputlisting"
-                      opt="label=lst:StatefulSimpleBlockFormatterState,caption=The SimpleBlockFormatterState base class,style=realCode,linerange=25-58"
-                      param="Stateful/FootNoteFormatterState.cs" />
+                    <listing label="lst:StatefulSimpleBlockFormatterState" style="realCode" linerange="25-58" file="Stateful/FootNoteFormatterState.cs">
+                      The SimpleBlockFormatterState base class
+                    </listing>
                   </td>
                 </tr>
               </tabular>
@@ -691,9 +691,9 @@ references as well.
               
               Looking at listing <see ref="lst:StatefulSimpleBlockFormatterState" />, we see that the <tt>Tag</tt> property's underlying value comes from the <tt>m\_tag</tt> field (line 32), which is initialized at line 16, as part of the <tt>Consume()</tt> method.  We see that the <tt>Consume()</tt> method also calls the <tt>OnContextAcquired()</tt> method, so our test can call the <tt>Consume()</tt> method to invoke the <tt>OnContextAcquired()</tt> method indirectly.  Even if the test class subclassed <tt>FootNoteFormatterState</tt> to be able to call <tt>OnContextAcquired()</tt> directly (due to its visibility of <tt>protected</tt>), it would not be sufficient because <tt>m\_tag</tt> is only initialized by a call to <tt>Consume()</tt>.  The <tt>Consume()</tt> method's parameter is an instance of the <tt>Match</tt> class, which has no visible constructors and can only be obtained from a call to one of the <tt>Match()</tt> method overloads on the <tt>Regex</tt> class.  As for the outputs, we see that the <tt>m\_noteID</tt> field is unavailable for direct inspection, however the <tt>Enter()</tt> method reads it to insert its value into a template, the result of which is written to the <tt>TextWriter</tt> instance provided at construction.  As luck would have it, the <tt>Consume()</tt> method also calls the <tt>Enter()</tt> method. <!-- TODO: can add a footnote saying the non-simplified version called it rather indirectly -->
 
-              <command name="lstinputlisting"
-                opt="label=lst:StatefulFootNoteFormatterStateTest,caption=Unit test for the original OnContextAcquired() method,style=realCode,linerange=8-29"
-                param="Stateful/FootNoteFormatterStateTest.cs" />
+              <listing label="lst:StatefulFootNoteFormatterStateTest" style="realCode" linerange="8-29" file="Stateful/FootNoteFormatterStateTest.cs">
+                Unit test for the original OnContextAcquired() method
+              </listing>
 
               Armed with the information gathered by this analysis, we can now write a unit test, which can be seen in listing <see ref="lst:StatefulFootNoteFormatterStateTest" />.  As we can see, the <tt>arrange</tt> phase is rather complex, given it must initialize five variables to satisfy the requirements for all the methods involved.  Notice also how the <tt>assert</tt> phase can verify that the <tt>1</tt> we provided as part of the input on line 10 was indeed parsed out by the <tt>OnContextAcquired()</tt> method and then formatted again into the string that was written - through the <tt>Enter()</tt> method - to the <tt>TextWriter</tt>-compatible instance we provided on line 6.  This level of indirection is at best maddening and at worse a sufficient obstacle to prevent such unit tests to be written in the first place, encouraging more involved and/or fragile integration tests, if any.
             </command>
@@ -706,9 +706,9 @@ references as well.
             <command name="subsubsection" param="Assignment of inputs and outputs to local variables">
               Listing <see ref="lst:StatefulIntermediateFootNoteFormatterState" /> shows the <tt>OnContextAcquired()</tt> method after the small transformation called for by the third SME step: the introduction of local variables for inputs and outputs, namely the <tt>input</tt> variable on line 3 and the <tt>result</tt> variable on line 5.
 
-              <command name="lstinputlisting"
-                opt="label=lst:StatefulIntermediateFootNoteFormatterState,caption=The OnContextAcquired() method with additional local variables,style=realCode,linerange=129-135"
-                param="Stateful/FootNoteFormatterState.cs" />
+              <listing label="lst:StatefulIntermediateFootNoteFormatterState" style="realCode" linerange="129-135" file="Stateful/FootNoteFormatterState.cs">
+                The OnContextAcquired() method with additional local variables
+              </listing>
             </command>
             <command name="subsubsection" param="Simplification of inputs">
               Our only input is a string and a string is considered one of the "simple" types and thus the fourth SME step results in no action being taken.
@@ -716,22 +716,22 @@ references as well.
             <command name="subsubsection" param="Extraction of the candidate block into a method">
               The application of SME's fifth step can be seen in listing <see ref="lst:StatelessIntermediateFootNoteFormatterState" />, where the <tt>ParseFootNoteId()</tt> stateless method was introduced based on the candidate block inside the <tt>OnContextAcquired()</tt> method.  Notice how the <tt>ParseFootNoteId()</tt> method has been decorated with the visibility of <tt>internal</tt> so that it is not visible to outside callers except the tests, and the scope of <tt>static</tt> because it no longer needs to read from or write to any instance fields or properties, nor call any instance methods <footnote>Indeed, Microsoft recommends that methods which do not access instance members be marked as static for performance reasons.  This is documented as Code Analysis rule <em>CA1822: Mark members as static</em> at <url>http://msdn.microsoft.com/en-us/library/ms245046.aspx</url></footnote>.
 
-              <command name="lstinputlisting"
-                opt="label=lst:StatelessIntermediateFootNoteFormatterState,caption=The OnContextAcquired() method with the ParseFootNoteId() method extracted,style=realCode,linerange=147-158"
-                param="Stateless/FootNoteFormatterState.cs" />
+              <listing label="lst:StatelessIntermediateFootNoteFormatterState" style="realCode" linerange="147-158" file="Stateless/FootNoteFormatterState.cs">
+                The OnContextAcquired() method with the ParseFootNoteId() method extracted
+              </listing>
             </command>
             <command name="subsubsection" param="Re-inline any variables created to facilitate a refactor">
               The sixth step of SME reverses the actions of the third step and inlines the <tt>input</tt> and <tt>result</tt> temporary variables, as can be seen in listing <see ref="lst:StatelessFootNoteFormatterState" />.
 
-              <command name="lstinputlisting"
-                opt="label=lst:StatelessFootNoteFormatterState,caption=The OnContextAcquired() and ParseFootNoteId() methods after SME,style=realCode,linerange=97-106"
-                param="Stateless/FootNoteFormatterState.cs" />
+              <listing label="lst:StatelessFootNoteFormatterState" style="realCode" linerange="97-106" file="Stateless/FootNoteFormatterState.cs">
+                The OnContextAcquired() and ParseFootNoteId() methods after SME
+              </listing>
             </command>
             <command name="subsubsection" param="Writing a unit test after SME">
               Now that SME has been applied on the <tt>OnContextAcquired()</tt> method, our mission to unit test its functionality has been greatly simplified, as the computations have been <em>outsourced</em> to the <tt>ParseFootNoteId()</tt> method and <tt>OnContextAcquired()</tt> simply serves as a proxy for said computations.  The <tt>ParseFootNoteId()</tt> method's inputs consist of a single string and its outputs consist of a single integer, making unit tests almost trivial, as listing <see ref="lst:StatelessFootNoteFormatterStateTest" /> shows.
-              <command name="lstinputlisting"
-                opt="label=lst:StatelessFootNoteFormatterStateTest,caption=Unit test for the ParseFootNoteId() method,style=realCode,linerange=22-34"
-                param="Stateless/FootNoteFormatterStateTest.cs" />
+              <listing label="lst:StatelessFootNoteFormatterStateTest" style="realCode" linerange="22-34" file="Stateless/FootNoteFormatterStateTest.cs">
+                Unit test for the ParseFootNoteId() method
+              </listing>
             </command>
           </command>
           <command name="subsection" param="Accelerated walkthrough">
@@ -740,33 +740,33 @@ references as well.
             <tabular spec="p{0.45\textwidth} p{0.45\textwidth}">
               <tr>
                 <td>
-                  <command name="lstinputlisting"
-                    opt="label=lst:StatefulEnterFootNoteFormatterState,caption=The original Enter() method,style=realCode,linerange=70-78"
-                    param="Stateful/FootNoteFormatterState.cs" />
+                  <listing label="lst:StatefulEnterFootNoteFormatterState" style="realCode" linerange="70-78" file="Stateful/FootNoteFormatterState.cs">
+                    The original Enter() method
+                  </listing>
                 </td>
                 <td>
-                  <command name="lstinputlisting"
-                    opt="label=lst:StatefulIntermediateEnterFootNoteFormatterState,caption=The Enter() method with temporary variables introduced,style=realCode,linerange=107-117"
-                    param="Stateful/FootNoteFormatterState.cs" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <command name="lstinputlisting"
-                    opt="label=lst:StatelessIntermediateEnterFootNoteFormatterState,caption=The FormatFootNote() method was extracted from the Enter() method,style=realCode,linerange=119-135"
-                    param="Stateless/FootNoteFormatterState.cs" />
-                </td>
-                <td>
-                  <command name="lstinputlisting"
-                    opt="label=lst:StatelessEnterFootNoteFormatterState,caption=The temporary variables were re-inlined in the Enter() method,style=realCode,linerange=70-85"
-                    param="Stateless/FootNoteFormatterState.cs" />
+                  <listing label="lst:StatefulIntermediateEnterFootNoteFormatterState" style="realCode" linerange="107-117" file="Stateful/FootNoteFormatterState.cs">
+                    The Enter() method with temporary variables introduced
+                  </listing>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <command name="lstinputlisting"
-                    opt="label=lst:StatelessEnterFootNoteFormatterStateTest,caption=Unit test for the FormatFootNote() method,style=realCode,linerange=8-20"
-                    param="Stateless/FootNoteFormatterStateTest.cs" />
+                  <listing label="lst:StatelessIntermediateEnterFootNoteFormatterState" style="realCode" linerange="119-135" file="Stateless/FootNoteFormatterState.cs">
+                    The FormatFootNote() method was extracted from the Enter() method
+                  </listing>
+                </td>
+                <td>
+                  <listing label="lst:StatelessEnterFootNoteFormatterState" style="realCode" linerange="70-85" file="Stateless/FootNoteFormatterState.cs">
+                    The temporary variables were re-inlined in the Enter() method
+                  </listing>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <listing label="lst:StatelessEnterFootNoteFormatterStateTest" style="realCode" linerange="8-20" file="Stateless/FootNoteFormatterStateTest.cs">
+                    Unit test for the FormatFootNote() method
+                  </listing>
                 </td>
               </tr>
             </tabular>
@@ -805,22 +805,6 @@ Notice how it is now possible to test a single instance of the <I /> element, as
   = which is called from TextileFormatter.Format(string)
   = which must be constructed with an instance of IOutputter
   => see revision 202 for what a "test" looks like vs. what it looks like with a small stateless method extraction
-For example, consider the following <tt>OnContextAcquired()</tt> method in a class that reads from the <tt>Tag</tt> property defined in a parent class and writes to the <tt>m\_noteID</tt> field.  This method is very difficult to test because it requires considerable work to get the read-only <tt>Tag</tt> property to have a specific value and considerable work to be able to observe the result of the <tt>m\_noteID</tt> field, since it is private.  See Appendix <see ref="chapter:FootNoteFormatterState" /> for a more thorough treatment.
-                <block param="itemize">
-                  <command name="item"> Original method:
-                    <br />
-                    <command name="lstinputlisting"
-                      opt="label=lst:StatefulOnContextAcquired,style=realCode,linerange=72-76"
-                      param="Stateful/FootNoteFormatterState.cs" />
-                  </command>
-                  <command name="item"> After SME:
-                    <br />
-                    <command name="lstinputlisting"
-                      opt="label=lst:StatefulOnContextAcquired,style=realCode,linerange=79-88"
-                      param="Stateless/FootNoteFormatterState.cs" />
-                    Notice that the <tt>ParseFootNoteId()</tt> method can be unit tested by calling it directly and asserting on its output directly.
-                  </command>
-                </block>
 
 [re: trivial visibility change]
         private string FixEntities(string text)
@@ -854,13 +838,13 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
 
             <region name="table and two code listings for computation coupling">
               <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
-              <command name="lstinputlisting"
-                opt="label=lst:StatefulMortonLayout,caption=The original Decode() method computes the values of x and y simultaneously,style=realCode,linerange=4-27"
-                param="Stateful/MortonLayout.cs" />
+              <listing label="lst:StatefulMortonLayout" style="realCode" linerange="4-27" file="Stateful/MortonLayout.cs">
+                The original Decode() method computes the values of x and y simultaneously
+              </listing>
               <raw>&amp;</raw>
-              <command name="lstinputlisting"
-                opt="label=lst:StatelessMortonLayout,caption=The Decode() method with the DecodeAxis() method extracted out of it,style=realCode,linerange=4-31"
-                param="Stateless/MortonLayout.cs" />
+              <listing label="lst:StatelessMortonLayout" style="realCode" linerange="4-31" file="Stateless/MortonLayout.cs">
+                The Decode() method with the DecodeAxis() method extracted out of it
+              </listing>
               <raw>\end{tabular}</raw>
             </region>
 
@@ -870,9 +854,9 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           <command name="subsection" param="The presence of side-effects">
             A method may not suffer from the state problem (it neither reads from nor writes to instance fields), but nevertheless has side-effects that increase the difficulty when writing unit tests, such as the modification of input parameters or interactions with the environment.  Stateless method extraction could potentially still take place, provided some candidate blocks can be identified around the code causing said side-effects.  This would allow some simple unit tests to be written against the simple stateless methods extracted, while still allowing more involved integration tests against the original method.
 
-            <command name="lstinputlisting"
-              opt="label=lst:StatefulMutableVector,caption=The CalculateAngle() method causes side-effects on its parameters,style=realCode,linerange=3-32"
-              param="Stateful/MutableVector.cs" />
+            <listing label="lst:StatefulMutableVector" style="realCode" linerange="3-32" file="Stateful/MutableVector.cs">
+              The CalculateAngle() method causes side-effects on its parameters
+            </listing>
 
             An example of a method producing a result and causing side-effects can be seen in listing <see ref="lst:StatefulMutableVector" />.  The <tt>CalculateAngle()</tt> method calls the <tt>Normalize()</tt> method on <tt>MutableVector</tt>, which irreversibly scales the parameters to be unit vectors.  SME's candidate block identification would exclude both calls to <tt>Normalize()</tt> and would allow a version of the <tt>CalculateAngle()</tt> method to be created that had no side-effects but assumed both parameters were of unit length.
           </command>
@@ -906,13 +890,13 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
 
             <region name="table and two code listings for the proposed attributes">
               <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
-              <command name="lstinputlisting"
-                opt="label=lst:StatelessStatelessAttribute,caption=A proposed Stateless attribute with a sample of its use,style=realCode,linerange=3-24"
-                param="Stateless/StatelessAttribute.cs" />
+              <listing label="lst:StatelessStatelessAttribute" style="realCode" linerange="3-24" file="Stateless/StatelessAttribute.cs">
+                A proposed Stateless attribute with a sample of its use
+              </listing>
               <raw>&amp;</raw>
-              <command name="lstinputlisting"
-                opt="label=lst:StatelessImmutableAttribute,caption=A proposed Immutable attribute with a sample of its use,style=realCode,linerange=3-24"
-                param="Stateless/ImmutableAttribute.cs" />
+              <listing label="lst:StatelessImmutableAttribute" style="realCode" linerange="3-24" file="Stateless/ImmutableAttribute.cs">
+                A proposed Immutable attribute with a sample of its use
+              </listing>
               <raw>\end{tabular}</raw>
             </region>
 
@@ -1526,14 +1510,14 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             <tabular spec="p{0.45\textwidth} p{0.45\textwidth}">
               <tr>
                 <td>
-                  <command name="lstinputlisting"
-                    opt="label=lst:StatefulAdminMenuItemControllerTest,caption=Two \texttt{AtomicCms} unit tests in the \texttt{base} version,style=realCode,linerange=109-163"
-                    param="Stateful/AdminMenuItemControllerTest.cs" />
+                  <listing label="lst:StatefulAdminMenuItemControllerTest" style="realCode" linerange="109-163" file="Stateful/AdminMenuItemControllerTest.cs">
+                    Two <tt>AtomicCms</tt> unit tests in the <tt>base</tt> version
+                  </listing>
                 </td>
                 <td>
-                  <command name="lstinputlisting"
-                    opt="label=lst:StatelessAdminMenuItemControllerTest,caption=The same two \texttt{AtomicCms} unit tests in the \texttt{manual} version,style=realCode,linerange=12-36"
-                    param="Stateless/AdminMenuItemControllerTest.cs" />
+                  <listing label="lst:StatelessAdminMenuItemControllerTest" style="realCode" linerange="12-36" file="Stateless/AdminMenuItemControllerTest.cs">
+                    The same two <tt>AtomicCms</tt> unit tests in the <tt>manual</tt> version
+                  </listing>
                 </td>
               </tr>
             </tabular>
