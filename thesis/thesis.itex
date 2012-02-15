@@ -1795,7 +1795,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
         </command>
         <command name="section" param="Future work">
           <!-- best ideas of next steps -->
-          As was seen in subsection <see ref="subsec:Strategies" />, there is more than one possible strategy for addressing HMS and there are [very likely] more strategies, both competing and complementing to SME.  It would be interesting to compare SME to a non-trivial HMS-oriented testability refactoring, both head-to-head and working together.
+          As was seen in subsection <see ref="subsec:Strategies" />, there is more than one possible strategy for addressing HMS and there are very likely more strategies, both competing and complementing to SME.  It would be interesting to compare SME to a non-trivial HMS-oriented testability refactoring, both head-to-head and working together.  Example strategies include Binder's "Built-in Test Driver" and "Private Access Driver" <see cite="binder00testharness" />, extracting test "helper" methods <footnote>A variant on SME, the "test helper method extraction" idea adds methods to the test class, abstracting out the unwieldy arrange phase.</footnote> and introducing more "testing seams" <see cite="hevery08staticmethods" />.
           
           As discussed in the previous section, one way to increase confidence in the results would be to repeat the evaluation with more projects and this would be substantially easier to achieve if the SME technique could be applied automatically.
 
