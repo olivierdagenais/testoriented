@@ -1839,48 +1839,6 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           <command name="item" opt="XSL"> Extensible Stylesheet Language</command>
         </block>
       </command>
-<!--
-From Textile/States/FootNoteFormatterState.cs;
-
-Revision 202:
-Before
-public override void Enter()
-{
-  Formatter.Output.Write(
-    string.Format("<p id=\"fn{0}\"{1}><sup>{2}</sup> ",
-      m_noteID,
-      FormattedStylesAndAlignment(),
-      m_noteID));
-}
-
-During
-public override void Enter()
-{
-  var noteID = m_noteID;
-  var formattedStylesAndAlignment = FormattedStylesAndAlignment();
-  var result = string.Format("<p id=\"fn{0}\"{1}><sup>{2}</sup> ",
-    noteID,
-    formattedStylesAndAlignment,
-    noteID);
-  Formatter.Output.Write(result);
-}
-
-After
-public override void Enter()
-{
-  Formatter.Output.Write(
-    FormatFootNote(m_noteID, FormattedStylesAndAlignment()));
-}
-
-internal static string FormatFootNote(int noteId, string formattedStylesAndAlignment)
-{
-  return string.Format("<p id=\"fn{0}\"{1}><sup>{2}</sup> ",
-    noteID,
-    formattedStylesAndAlignment,
-    noteID));
-}
-
--->
       <command name="chapter" param="Public Interface Comparer tool">
         <command name="label" param="chapter:PublicInterfaceComparer" />
         TODO: explain the tool, point to its location in source control and maybe include some source code, if not of the implementation, then of its tests
