@@ -1718,7 +1718,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           ...
         </command>
       </command>
-      <command name="chapter" param="Summary of work, Conclusions and Future work">
+      <command name="chapter" param="Summary of work, Conclusion and Future work">
         <command name="section" param="Introduction">
           <!-- what the chapter is about -->
           ...
