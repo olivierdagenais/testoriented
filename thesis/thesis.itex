@@ -110,9 +110,9 @@ http://tex.stackexchange.com/questions/10270/
           <!-- TODO: should the listings use a figure with subfloats, instead? -->
           <region name="table and two stateful code listings">
             <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
-            <command name="lstinputlisting"
-              opt="label=lst:StatefulSmokeDetector,caption=SmokeDetector class with hidden mutable state,style=realCode"
-              param="Stateful/SmokeDetector.cs" />
+            <listing label="lst:StatefulSmokeDetector" style="realCode" file="Stateful/SmokeDetector.cs">
+              <tt>SmokeDetector</tt> class with hidden mutable state
+            </listing>
             <raw>&amp;</raw>
             <command name="lstinputlisting"
               opt="label=lst:StatefulSmokeDetectorTest,caption=Test class for the SmokeDetector,style=realCode"
