@@ -342,6 +342,8 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
             Difficulties associated with internal state can be reduced or worked around with better analysis, such as data dependency analysis <see cite="korel05datadependence" />.  Since said analysis can often be time-consuming, techniques, such as program slicing <see cite="tip95surveyslicing" />, were developed to help reduce the search space.  McMinn went on to develop a technique that enhances the search to look for method call sequences and combines the chaining approach with evolutionary search <see cite="mcminn05evolutionarysearch" />.
 
             Another approach to generate tests for programs with state - specifically those written in OO programming languages - was proposed by Wappler and Wegener <see cite="wappler06evolutionaryunit" />.  Their two-phase technique, called "strongly-typed genetic programming", consists of first using genetic programming to generate a sequence of methods to call (creating instances of classes as necessary), then using a genetic algorithm to find suitable values for the parameters of the generated method calls.
+            
+            Binder suggests four approaches to work around a programming language's visibility constraints: "Private Access Driver", "Test Control Interface", "Drone" and "Built-in Test Driver"  <see cite="binder00testharness" />.
             <!-- TODO: discuss Microsoft's PrivateObject -->
           </command>
           <command name="subsection" param="The case for functional programming">
@@ -412,6 +414,12 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
             <command name="caption" param="Approach vs. Features" />
             <command name="label" param="tbl:ScopeTable" />
           </block>
+                <!--
+                TODO: add the following
+                = "Reflection-based helpers" is really "Private Access Driver"
+                = "Built-in Test Driver"
+                = "Drone"
+                -->
           <!--
 TODO: what about simply refactoring so that processing is taking place closer to the objects involved?  For example, instead of computing the great-circle distance in a method of the FlyingSalespersonProblem class, have it be an instance method on LatLon: GreatCircleDistance(LatLon destination), which might also allow LatLon to keep a cache of the Sin() and Cos() of the radian version of Lat (as well as the radian version of Lon) for further performance.  There probably is more risk involved when moving the functionality like that, although the risk would most likely be proportional to the test coverage (as it would be in general).
 
@@ -983,14 +991,6 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                 <command name="item"> Do nothing</command>
                 <command name="item"> Increase visibility of mutable state</command>
                 <command name="item"> Increase visibility of state and methods</command>
-                <!-- TODO: we can add more strategies later
-                <command name="item"> TODO: other strategies have been commented out, but can be added if we think there is insufficient data</command>
-                <command name="item"> Write test helper methods</command>
-                <command name="item"> Replace mutable state with immutable state</command>
-                <command name="item"> Use private accessors</command>
-                -->
-                <!-- a.k.a. "Private Access Driver" [Binder, chapter 19].  TOOD: mention in the detailed results that this won't help peek at local variables that would be turned into return values by SME -->
-                <!-- There are other strategies, such as "Built-in Test Driver" (an inner class of the CUT has access to the CUT's private members), "Drone" (using multiple inheritance to with Eiffel to get at private members -->
               </block>
             </command>
 
