@@ -26,7 +26,7 @@ public partial class SubversionClient {
     return sb.ToString();
   }
 
-  public Info Info(string pathToWorkingCopy) {
+  public Info LoadInfo(string pathToWorkingCopy) {
     var arguments =
       CreateInfoArguments(pathToWorkingCopy);
 
