@@ -398,22 +398,23 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
 
           Stateless method extraction is to be compared against other approaches for unit testing OO software containing hidden mutable state;  see table <see ref="tbl:ScopeTable" />.
 
-          <block param="table" opt="htbp">
-            <raw>\begin{tabular}{l >{\centering}m{2cm} >{\centering}m{2cm} >{\centering}m{2cm} >{\centering}m{2cm} }</raw>
-              <raw>&amp; \multicolumn{4}{c}{Features}\tabularnewline</raw>
+          <table placement="htbp">
+            <tabular spec="l >{\centering}m{2cm} >{\centering}m{2cm} >{\centering}m{2cm} >{\centering}m{2cm} ">
+              <tr><td /><td multicolumn="{4}{c}">Features</td></tr>
               <!-- TODO: should we consider/measure the effect on the arrange phase? -->
-              <raw>\multicolumn{1}{c}{Approach}</raw> <raw>&amp;</raw> Transforms IUT <raw>&amp;</raw> Transforms (Affects?) tests <raw>&amp;</raw> Affects public interface <raw>&amp;</raw> Requires tool <raw>\tabularnewline</raw>
+              <tr><td multicolumn="{1}{c}">Approach</td><td>Transforms IUT</td><td>Transforms (Affects?) tests</td><td>Affects public interface</td><td>Requires tool</td></tr>
               <command name="hline" />
-              Stateless method extraction <raw>&amp;</raw> Y <raw>&amp;</raw> N <raw>&amp;</raw> N <raw>&amp;</raw> N <raw>\tabularnewline</raw>
-              Isolated test methods <raw>&amp;</raw> N <raw>&amp;</raw> N <raw>&amp;</raw> N <raw>&amp;</raw> N <raw>\tabularnewline</raw>
-              Test helper methods <raw>&amp;</raw> N <raw>&amp;</raw> Y <raw>&amp;</raw> N <raw>&amp;</raw> N <raw>\tabularnewline</raw>
-              Reflection-based helpers <raw>&amp;</raw> N <raw>&amp;</raw> Y <raw>&amp;</raw> N <raw>&amp;</raw> Y <raw>\tabularnewline</raw>
-              Making mutable state visible <raw>&amp;</raw> Y <raw>&amp;</raw> N <raw>&amp;</raw> N <raw>&amp;</raw> N <raw>\tabularnewline</raw>
-              Making hidden state mutable <raw>&amp;</raw> Y <raw>&amp;</raw> N <raw>&amp;</raw> Y <raw>&amp;</raw> N <raw>\tabularnewline</raw>
-            <raw>\end{tabular}</raw>
+              <tr><td>Stateless method extraction</td><td>Y</td><td>N</td><td>N</td><td>N</td></tr>
+              <tr><td>Isolated test methods</td><td>N</td><td>N</td><td>N</td><td>N</td></tr>
+              <tr><td>Test helper methods</td><td>N</td><td>Y</td><td>N</td><td>N</td></tr>
+              <tr><td>Reflection-based helpers</td><td>N</td><td>Y</td><td>N</td><td>Y</td></tr>
+              <tr><td>Making mutable state visible</td><td>Y</td><td>N</td><td>N</td><td>N</td></tr>
+              <tr><td>Making hidden state mutable</td><td>Y</td><td>N</td><td>Y</td><td>N</td></tr>
+
+            </tabular>
             <command name="caption" param="Approach vs. Features" />
             <command name="label" param="tbl:ScopeTable" />
-          </block>
+          </table>
                 <!--
                 TODO: add the following
                 = "Reflection-based helpers" is really "Private Access Driver"
