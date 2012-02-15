@@ -370,7 +370,7 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
             </block>
             McCabe introduced the concept of "cyclomatic complexity" with the intention of evaluating the difficulty involved when testing programs based on their structure <see cite="mccabe76complexitymeasure" />.  Indeed, McCabe even discussed the possibility of reducing a program's structure to reduce the testing effort, in an effort to make software that is both testable and maintainable.
 
-            Hevery created the Testability Explorer tool to compute the "Non-Mockable Total Recursive Cyclomatic Complexity" metric, compute the "Demeter" metric as well as count the number of global mutable fields in Java programs <see cite="hevery08testabilityexplorer" />.  The first metric is an evolution of McCabe's metric for OO programs while the other two metrics also help to reduce the testing effort through smaller call chains (Demeter) and less "spooky action at a distance" (surprise side-effects) by reducing the use of mutable global fields <see cite="hevery08flawbrittle" />.
+            Hevery created the Testability Explorer tool to compute the "Non-Mockable Total Recursive Cyclomatic Complexity" metric, compute the "Demeter" metric as well as count the number of global mutable fields in Java programs <see cite="hevery08testabilityexplorer" />.  The first metric is an evolution of McCabe's metric for OO programs while the other two metrics also help to reduce the testing effort through smaller call chains (Demeter) and less "spooky action at a distance" (surprise side-effects) by reducing the use of mutable global fields <see cite="hevery08flawbrittle" />.  Hevery's technique of choice for increasing testability is the addition of "test seams" <see cite="hevery08staticmethods" />.
           </command>
         </command>
         <command name="section" param="Scope">
@@ -396,35 +396,31 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
             <!-- Is the last one really reasonable since the basis of this thesis was the ET-related "state problem"?  Shouldn't I be able to show some progress on that front? -->
           </block>
 
-          Stateless method extraction is to be compared against other approaches for unit testing OO software containing hidden mutable state;  see table <see ref="tbl:ScopeTable" />.
+          Stateless method extraction is to be compared against 3 other strategies for unit testing OO software containing hidden mutable state;  consult table <see ref="tbl:ScopeTable" /> to see which strategies are covered.
 
           <table placement="htbp">
-            <tabular spec="l >{\centering}m{2cm} >{\centering}m{2cm} >{\centering}m{2cm} >{\centering}m{2cm} ">
-              <tr><td /><td multicolumn="{4}{c}">Features</td></tr>
-              <!-- TODO: should we consider/measure the effect on the arrange phase? -->
-              <tr><td multicolumn="{1}{c}">Approach</td><td>Transforms IUT</td><td>Transforms (Affects?) tests</td><td>Affects public interface</td><td>Requires tool</td></tr>
+            <tabular spec="l | >{\centering}m{2cm} >{\centering}m{2cm} | >{\centering}m{2cm}">
+              <tr><td /><td multicolumn="{2}{c|}">Known effects</td><td /></tr>
+              <tr><td multicolumn="{1}{c|}">Strategies</td><td>Affects IUT or tests</td><td>Affects public interface</td><td>Covered</td></tr>
               <command name="hline" />
-              <tr><td>Stateless method extraction</td><td>Y</td><td>N</td><td>N</td><td>N</td></tr>
-              <tr><td>Isolated test methods</td><td>N</td><td>N</td><td>N</td><td>N</td></tr>
-              <tr><td>Test helper methods</td><td>N</td><td>Y</td><td>N</td><td>N</td></tr>
-              <tr><td>Reflection-based helpers</td><td>N</td><td>Y</td><td>N</td><td>Y</td></tr>
-              <tr><td>Making mutable state visible</td><td>Y</td><td>N</td><td>N</td><td>N</td></tr>
-              <tr><td>Making hidden state mutable</td><td>Y</td><td>N</td><td>Y</td><td>N</td></tr>
-
+              <tr><td>Do nothing</td><td>neither</td><td>N</td><td>Y</td></tr>
+              <tr><td>Stateless method extraction</td><td>IUT</td><td>N</td><td>Y</td></tr>
+              <tr><td>Making mutable state visible</td><td>IUT</td><td>N</td><td>Y</td></tr>
+              <tr><td>Making state and methods visible</td><td>IUT</td><td>N</td><td>Y</td></tr>
+              <tr><td>Making hidden state immutable</td><td>IUT</td><td>Y</td><td>N</td></tr>
+              <tr><td>Extracting test helper methods</td><td>tests</td><td>Y</td><td>N</td></tr>
+              <tr><td> "Private Access Driver"</td><td>IUT</td><td>N</td><td>N</td></tr>
+              <tr><td> "Test Control Interface"</td><td>both</td><td>N</td><td>N</td></tr>
+              <tr><td> "Drone"</td><td>tests</td><td>N</td><td>N</td></tr>
+              <tr><td> "Built-in Test Driver"</td><td>both</td><td>N</td><td>N</td></tr>
+              <tr><td>Adding "test seams"</td><td>IUT</td><td>Y</td><td>N</td></tr>
             </tabular>
-            <command name="caption" param="Approach vs. Features" />
+            <command name="caption" param="A matrix of known strategies designed to improve testability, their known effects and whether they are covered by this thesis." />
             <command name="label" param="tbl:ScopeTable" />
           </table>
-                <!--
-                TODO: add the following
-                = "Reflection-based helpers" is really "Private Access Driver"
-                = "Built-in Test Driver"
-                = "Drone"
-                -->
           <!--
 TODO: what about simply refactoring so that processing is taking place closer to the objects involved?  For example, instead of computing the great-circle distance in a method of the FlyingSalespersonProblem class, have it be an instance method on LatLon: GreatCircleDistance(LatLon destination), which might also allow LatLon to keep a cache of the Sin() and Cos() of the radian version of Lat (as well as the radian version of Lon) for further performance.  There probably is more risk involved when moving the functionality like that, although the risk would most likely be proportional to the test coverage (as it would be in general).
 
-          = contrast with isolated, stand-alone tests
           = contrast with test helper methods
           == For example, DeepZoomImageTest.TestComputeLevelSize() that creates two instances per call:
           Assert.AreEqual (new Size (1200, 1500), TestComputeLevelSize (PortraitImageSize, 12));
@@ -440,10 +436,6 @@ the user may also provide factory methods, which could invoke a sequence of
 method calls to construct and configure a new object, possibly creating cyclic
 references as well.
           """ Pex, last paragraph of section 3.4
-          = contrast with visible, mutable state
-          == changes current public interface
-          = contrast with hidden, immutable state
-          == changes current public interface
           -->
         </command>
         <command name="section" param="Summary">
