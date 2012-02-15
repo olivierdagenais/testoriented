@@ -334,8 +334,9 @@
           <xsl:text>label=</xsl:text>
           <xsl:value-of select="@label" />
           <xsl:if test="@linerange">
-            <xsl:text>,linerange=</xsl:text>
+            <xsl:text>,linerange={</xsl:text>
             <xsl:value-of select="@linerange" />
+            <xsl:text>}</xsl:text>
           </xsl:if>
           <xsl:text>,caption={</xsl:text>
           <xsl:apply-templates select="* | node() | comment()" />

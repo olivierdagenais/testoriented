@@ -151,7 +151,7 @@ http://tex.stackexchange.com/questions/10270/
           Can be written retroactively, after the results have been written -->
           If we are to overcome the difficulties of HMS, can we do so with minimal changes to the public interface and with minimal risk of introducing regressions?  Can the unit tests be kept parsimonious, yet cover all the important edge cases?  Is there something we can do to make code containing hidden mutable state more easily testable?
 
-          The goal of this thesis is to improve the testability of classes that suffer from the "state problem" - because they contain HMS - while minimally affecting functionality, maintainability and the public interface of the code under test. <!-- This makes it sound like we'll be measuring maintainability of the IUT more than that of the tests -->  The goal is to be validated according to the following metrics:
+          The goal of this thesis is to improve the testability of classes that suffer from the "state problem" - because they contain HMS - while increasing the maintainability of the accompanying tests as well as minimally affecting the functionality and the public interface of the code under test.  The goal is to be validated according to the following metrics:
 
           <block param="enumerate">
             <command name="item"> Complexity of the unit tests.
@@ -231,7 +231,7 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
           This chapter presents an overview of the related concepts from object-oriented (OO) programming to automated testing to computer-generated tests, introduces related work, establishes context within that work and defines the scope of the thesis.
         </command>
         <command name="section" param="Object Oriented Programming">
-          This thesis focuses on testing programs written with OO languages, as opposed to procedural or functional languages because the intent is to solve a problem specific to OO languages:  hidden mutable state.  Although procedural languages (such as C) allow programs to have mutable state, the state is not hidden.  Functional languages (such as Lisp) on the other hand, allow programs to be written using immutable state through the use of set-once variables.
+          This thesis focuses on testing programs written with OO languages, as opposed to procedural or functional languages because the intent is to solve a problem specific to OO languages:  hidden mutable state.  Although procedural languages (such as C) allow programs to have mutable state, the state is not hidden.  Functional languages (such as Lisp) on the other hand, only allow programs to be written using immutable state through the use of set-once variables.
 
           <command name="subsection" param="Terminology">
             OO languages will generally have a basic set of features, the most important of which are described here for clarity.
@@ -312,7 +312,7 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
           </command>
         </command>
         <command name="section" param="Intents of Computer-Generated Tests">
-          There are four major uses for Computer-Generated Tests (CGT).  They differ mostly in the choice of executable statement(s) to target and are not usually specific to any approach in particular.  The exception is non-functional testing, which does not target any executable statement in particular and is more suited to an optimization approach (such as SBST).
+          There are four major uses for Computer-Generated Tests (CGT).  They differ mostly in the choice of executable statement(s) to target and are not usually specific to any CGT approach in particular.  The exception is non-functional testing, which does not target any executable statement in particular and is more suited to an optimization approach (such as SBST).
           <command name="subsection" param="Structural Testing">
             Coupling an automated test generator with a code coverage tool makes it possible to discover which inputs can be used to reach otherwise hard-to-cover areas as well as areas of the code where no inputs can be found to reach them (within a pre-defined search time).  This could indicate that the code is unreachable because it contains, for example, conflicting pre-conditions.  Structural testing will generally attempt to execute all statements of an IUT at least once.
           </command>
@@ -451,7 +451,7 @@ references as well.
         <command name="section" param="Design">
           Stateless method extraction's intent is to separate the interaction between the hidden mutable state in a class and the inputs and outputs of said class' instance methods.  This decoupling allows programmers to first focus their unit tests on the pure computation aspects, then on the object-oriented layer above the stateless methods.
 
-          It is important to note that SME relies on all its steps applying modifications to the source code that will not alter any of the behaviours and functionality present before SME was performed.  That is to say, all the operations performed should be pure refactorings <see cite="fowler00refactoring" /> and no functional changes are to be performed during the process.  These rules help ensure the use of SME is invisible to end-users and has the least chance of breaking the affected methods.
+          It is important to note that SME relies on the fact that all its steps will only modify the source code in ways that will not alter any of the behaviours and functionality present before SME was performed.  That is to say, all the operations performed should be pure refactorings <see cite="fowler00refactoring" /> and no functionality changes are to be performed during the process.  These rules help ensure the use of SME is invisible to end-users and has the least chance of introducing defects or regressions in the affected methods.
 
           <command name="subsection" param="Overview">
             Stateless method extraction is performed in six high-level steps:
@@ -518,7 +518,7 @@ references as well.
               </command>
               <command name="item"> Filling in of templates.
                 <br />
-                This can be considered the reverse of string parsing and usually involves combining a few inputs to yield a meaninful string representation.  An example of this category can be found in the <tt>GenerateItemNode()</tt> method extracted in listing <see ref="lst:StatelessGenerateXml" />.
+                This can be considered the reverse of parsing and usually involves combining a few inputs to yield a meaningful construction, such as a string representation of an object.  An example of this category can be found in the <tt>GenerateItemNode()</tt> method extracted in listing <see ref="lst:StatelessGenerateXml" />, where an <tt>XElement</tt> instance is created (on line 36) and its attributes initialized from two of the supplied parameters (lines 37 and 38) as well as from a value derived from the last two parameters (line 45).
               </command>
             </block>
             <listing label="lst:StatefulComputeTourLength" style="realCode" linerange="38-60" file="Stateful/FlyingSalespersonProblem.cs">
@@ -571,21 +571,21 @@ references as well.
               <raw>\end{tabular}</raw>
             </region>
 
-            An example of unrelated statements can be seen in listing <see ref="lst:StatefulGenerateXmlIntermixed" />, specifically in the candidate block identified between lines 18 and 33.  The majority of the operations in the block concern themselves with the creation and configuration of the <tt>itemNode</tt> instance while at least 3 of them perform tasks incidental to the <tt>itemNode</tt> configuration:  lines 21, 23 and 25.  Line 20 does augment <tt>itemNode</tt>, but does so with a trivial operation (the <tt>Add()</tt> method call) and so its inclusion in the candidate block could be argued either way.  For the purposes of this example, line 20 will be considered incidental.  The candidate block could be shrunk by re-ordering all the operations identified as incidental without affecting the functionality.  In particular, the <tt>mortonNumber++;</tt> operation on line 23 is only sensitive to ordering insofar as <tt>itemNode.SetAttributeValue("N", mortonNumber);</tt> on line 22 is concerned and thus could be moved down and out of the candidate block.  Lines 20 and 21 depend on one another as well as line 19 (the creation of the <tt>itemNode</tt> instance), but the behaviour would be the same if they appeared at the end of the block (the XML API used in the example guarantees this) and therefore, because they have no advantage being located immediately after the creation of <tt>itemNode</tt>, they can be safely moved out of the candidate block.  The last incidental operation is <tt>maxPostId = Math.Max(maxPostId, postId);</tt> on line 25.  Its only dependency is the <tt>postId</tt> loop variable and thus could be moved up to be the very first operation in the loop.  Listing <see ref="lst:StatefulGenerateXmlUnmixed" /> illustrates the result of re-ordering the lines containing incidental operations and the smaller, simpler candidate block obtained.
+            An example of unrelated statements can be seen in listing <see ref="lst:StatefulGenerateXmlIntermixed" />, specifically in the candidate block identified between lines 18 and 33.  The majority of the operations in the block concern themselves with the creation and configuration of the <tt>itemNode</tt> instance while at least 3 of them perform tasks incidental to the <tt>itemNode</tt> configuration:  lines 21, 23 and 25.  Line 20 does augment <tt>itemNode</tt>, but does so with a trivial operation (the <tt>Add()</tt> method call) and so its inclusion in the candidate block could be argued either way.  For the purposes of this example, line 20 will be considered incidental.  The candidate block could be shrunk by re-ordering all the operations identified as incidental without affecting the functionality.  In particular, the <tt>mortonNumber++;</tt> operation on line 23 is only sensitive to ordering insofar as <tt>itemNode.SetAttributeValue("N", mortonNumber);</tt> on line 22 is concerned and thus could be moved down and out of the candidate block.  Lines 20 and 21 depend on one another as well as line 19 (the creation of the <tt>itemNode</tt> instance), but the behaviour would be the same if they appeared at the end of the block (the XML API used in the example guarantees this) and therefore, because they have no advantage being located immediately after the creation of <tt>itemNode</tt>, they can be safely moved out of the candidate block.  The last incidental operation is <tt>maxPostId = Math.Max(maxPostId, postId);</tt> on line 25.  Its only dependency is the <tt>postId</tt> loop variable and thus could be moved up to be the very first operation in the loop.  Listing <see ref="lst:StatefulGenerateXmlUnmixed" /> illustrates the result of re-ordering the lines containing incidental operations and the smaller, simpler candidate block obtained between lines 19 and 30.
             <!-- TODO: can also argue the decision to keep the path manipulation code (fileName and relativeDziSubPath) in the candidate block vs. moving it out.  There's no change in the number of parameters to GenerateItemNode(), but it might make for even smaller/simpler tests that are more focused? -->
 
-            A statement is said to be non-stateless if values or data not explicitly specified by parameters or the return value are modified as a result of execution.  This can be as simple as an instance method modifying hidden mutable state, a method modifying global state or a method interpreting its parameters for interaction with the environment, such as using a string parameter as the name of a file to create or delete, or the name of a database table to read from or write to.  Non-stateless operations will generally be more difficult to re-order because, by definition, they cause or depend on side-effects and standard data dependency analysis will not be useful.
+            A statement is said to be non-stateless if values or data not explicitly specified by parameters or the return value are modified as a result of execution.  This can be as simple as an instance method modifying hidden mutable state, a method modifying global state or a method interpreting its parameters for interaction with the environment, such as using a string parameter as the name of a file to create or delete, or the name of a database table to read from or write to.  Non-stateless operations will generally be more difficult to re-order because, by definition, they cause or depend on side-effects and standard data dependency analysis will be made difficult because it would have to be aware of private instance field changes.
 
-            An example of a non-stateless method in the middle of a candidate block can be seen at line 22 of listing <see ref="lst:StatefulSubversionClient" />.  The <tt>ExecuteSvn()</tt> method, defined at line 48, starts a sub-process and returns the contents of <tt>StandardOutput</tt> and thus is said to interact with the environment, making it definitely non-stateless.  In this particular case, because the <tt>ExecuteSvn()</tt> method depends on the computations immediately above it and provides input needed by the computations immediately below it, it can not be moved before or after the candidate block (lines 14-44).  This causes the original candidate block to be split into parts excluding the immovable, non-stateless method with the first half being lines 14-20 and the second half lines 24-42.  Listing  <see ref="lst:StatelessSubversionClient" /> shows the two stateless methods that were extracted from the split candidate block: <tt>CreateInfoArguments()</tt> and <tt>ParseInfoFromXml()</tt>.
+            An example of a non-stateless method in the middle of a candidate block can be seen at line 22 of listing <see ref="lst:StatefulSubversionClient" />.  The <tt>ExecuteSvn()</tt> method, defined at line 48, starts a sub-process and returns the contents of <tt>StandardOutput</tt> and thus is said to interact with the environment, making it definitely non-stateless.  In this particular case, because the <tt>ExecuteSvn()</tt> method depends on the computations immediately above it and provides input needed by the computations immediately below it, it can not be moved before or after the candidate block (lines 14-42).  This causes the original candidate block to be split into parts excluding the immovable, non-stateless method with the first half being lines 14-20 and the second half lines 24-42.  Listing  <see ref="lst:StatelessSubversionClient" /> shows the two stateless methods that were extracted, respectively, from the first and second candidate blocks: <tt>CreateInfoArguments()</tt> and <tt>ParseInfoFromXml()</tt>.
 
             <region name="table and two code listings for candidate block splitting">
               <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
               <listing label="lst:StatefulSubversionClient" style="realCode" linerange="6-66" file="Stateful/SubversionClient.cs">
-                The <tt>Info()</tt> method has a candidate block between lines 14-42
+                The <tt>LoadInfo()</tt> method has a candidate block between lines 14-42
               </listing>
               <raw>&amp;</raw>
               <listing label="lst:StatelessSubversionClient" style="realCode" linerange="6-62" file="Stateless/SubversionClient.cs">
-                Two stateless methods were extracted from the <tt>Info()</tt> method
+                Two stateless methods were extracted from the <tt>LoadInfo()</tt> method
               </listing>
               <raw>\end{tabular}</raw>
             </region>
@@ -595,11 +595,11 @@ references as well.
             <region name="table and two code listings for math re-ordering">
               <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
               <listing label="lst:StatefulCartesianCoordinate" style="realCode" linerange="3-27" file="Stateful/CartesianCoordinate.cs">
-                The <tt>ToPolar()</tt> method interleaves computations for <tt>r</tt> and <tt>theta</tt>
+                The <tt>ToPolar()</tt> method interleaves computations for <tt>r</tt> and <tt>theta</tt>.
               </listing>
               <raw>&amp;</raw>
               <listing label="lst:StatelessCartesianCoordinate" style="realCode" linerange="3-27" file="Stateless/CartesianCoordinate.cs">
-                The <tt>ToPolar()</tt> method with the computations separated
+                The <tt>ToPolar()</tt> method with the computations for <tt>r</tt> and <tt>theta</tt> separated into their own consecutive sequences.
               </listing>
               <raw>\end{tabular}</raw>
             </region>
@@ -608,7 +608,7 @@ references as well.
           </command>
           <command name="subsection" param="Step 3: Assignment of inputs and outputs to local variables">
             <command name="label" param="subsec:Step3" />
-            The third step concerns the [temporary] introduction of local variables for each of the input and output parameters, as per the "introduce explaining variable" refactoring <see cite="fowler00introducevariable" />.  This makes the upcoming stateless method parameters and return values explicit so that it is easier to provide them with suitable names, easier to evaluate their simplicity (consult Section <see ref="subsec:Step4" /> for details) and to more clearly delineate the candidate block so that it will be easier to extract it using existing "extract method" refactoring tools.
+            The third step concerns the temporary introduction of local variables for each of the input and output parameters, as per the "introduce explaining variable" refactoring <see cite="fowler00introducevariable" />.  This makes the upcoming stateless method parameters and return values explicit so that it is easier to provide them with suitable names, easier to evaluate their simplicity (consult Section <see ref="subsec:Step4" /> for details) and to more clearly delineate the candidate block so that it will be easier to extract it using existing "extract method" refactoring tools.
 
             The local variables introduced during this step should be remembered to allow their re-inlining to be performed again at the end of the current iteration, as described in Section <see ref="subsec:Step6" />.
           </command>

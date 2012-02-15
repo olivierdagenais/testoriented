@@ -15,7 +15,7 @@ public partial class SubversionClient {
   public SubversionClient(string pathToSvnProgram)
   { _pathToSvnProgram = pathToSvnProgram; }
 
-  public Info Info(string pathToWorkingCopy) {
+  public Info LoadInfo(string pathToWorkingCopy) {
     var sb = new StringBuilder();
     sb.Append("info").Append(' ');
     sb.Append('"');
