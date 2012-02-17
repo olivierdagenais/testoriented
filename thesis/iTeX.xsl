@@ -44,7 +44,7 @@
             <xsl:call-template name="replaceCharsInString">
                 <xsl:with-param name="stringIn" select="$openingQuotes" />
                 <xsl:with-param name="charsIn" select="' - '" />
-                <xsl:with-param name="charsOut" select="'--'" />
+                <xsl:with-param name="charsOut" select="'&#8212;'" />
             </xsl:call-template>
         </xsl:variable>
         <xsl:variable name="escapedBackslash">
