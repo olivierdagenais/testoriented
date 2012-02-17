@@ -218,15 +218,15 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
           </block>
         </command>
         <command name="section" param="Outline">
-          ...
-          The <!-- ref: Approach --> chapter covers the details, the how-tos and the applicability of the proposed testability refactoring.
+          This document is organized as follows:  the <see ref="chapter:Background" /> chapter introduces the problem domain, describes related concepts, related work and concludes with how the work fits in context.  The <see ref="chapter:Approach" /> chapter covers the design, suitability and applicability of the proposed testability refactoring, including many examples.  The <see ref="chapter:ResultsValidation" /> chapter introduces a mechanism by which to evaluate the proposed testability refactoring, followed by the results of the evaluation and their correlation to the goal.  The document ends with the <see ref="chapter:Conclusion" /> chapter where the work is summarized, the results discussed and further work is proposed.
         </command>
         <command name="section" param="Summary">
           <!-- key points of what was presented and linkage to next chapter -->
-          ...
+          This chapter introduced and motivated the state problem, then presented a goal along with related metrics and objectives.  It concluded with an overview of the rest of this thesis.
         </command>
       </command>
       <command name="chapter" param="Background">
+        <command name="label" param="chapter:Background" />
         <command name="section" param="Introduction">
           This chapter presents an overview of the related concepts from object-oriented (OO) programming to automated testing to computer-generated tests, introduces related work, establishes context within that work and defines the scope of the thesis.
         </command>
@@ -440,13 +440,14 @@ references as well.
         </command>
         <command name="section" param="Summary">
           <!-- key points of what was presented and linkage to next chapter -->
-          ...
+          This chapter introduced the reader to some terminology and domain concepts before describing some more advanced concepts, related work and finally how the present thesis fits around existing research.
         </command>
       </command>
       <command name="chapter" param="Approach">
+        <command name="label" param="chapter:Approach" />
         <command name="section" param="Introduction">
           <!-- what the chapter is about -->
-          ...
+          This chapter describes the SME algorithm along with examples of its use, followed by discussions around when SME can be used as well as how, concluding with a discussion of decisions made.
         </command>
         <command name="section" param="Design">
           Stateless method extraction's intent is to separate the interaction between the hidden mutable state in a class and the inputs and outputs of said class' instance methods.  This decoupling allows programmers to first focus their unit tests on the pure computation aspects, then on the object-oriented layer above the stateless methods.
@@ -969,13 +970,14 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
         </command>
         <command name="section" param="Summary">
           <!-- key points of what was presented and linkage to next chapter -->
-          ...
+          This chapter introduced the steps of the SME algorithm, along with samples of the associated source code transformations.  The suitability of SME for more than HMS was discussed, as well as the conditions under which SME would work best, concluding with the motivations behind the ideas of SME.
         </command>
       </command>
       <command name="chapter" param="Results and Validation">
+        <command name="label" param="chapter:ResultsValidation" />
         <command name="section" param="Introduction">
           <!-- what the chapter is about -->
-          ...
+          This chapter describes an experiment with which SME's efficiency at improving testability can be measured and compared against other strategies.  The results of this experiment are summarized and also presented in great detail, concluding with the relation of the results with the metrics of the goal.
         </command>
         <command name="section" param="Evaluation design">
           <!-- TODO: should we move a few words from the overview section up here? -->
@@ -1727,13 +1729,14 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           <!-- Cross-reference with Scope and discuss observed trade-offs of other potential approaches -->
         </command>
         <command name="section" param="Summary">
-          ...
+          This chapter introduced the mechanism used to compare SME against two other strategies, the open-source projects with which the experiments and evaluations were carried out as well as what tools were used and how.  The results showed how well SME performed and how the goal was validated.
         </command>
       </command>
       <command name="chapter" param="Summary of work, Conclusion and Future work">
+        <command name="label" param="chapter:Conclusion" />
         <command name="section" param="Introduction">
           <!-- what the chapter is about -->
-          ...
+          This chapter describes the work that was performed, discusses the results and concludes with ideas for further research.
         </command>
         <command name="section" param="Summary of work">
           <!-- Can be thought of as the companion to the "Outline" section or maybe the Abstract chapter -->
