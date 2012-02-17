@@ -146,8 +146,8 @@ public class IntermediateFootNoteFormatterState
 
   protected override void OnContextAcquired()
   {
-    string input = Tag;
-    int result = ParseFootNoteId(input);
+    string tag = Tag;
+    int result = ParseFootNoteId(tag);
     m_noteID = result;
   }
 
