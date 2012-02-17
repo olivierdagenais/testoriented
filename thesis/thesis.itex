@@ -1059,14 +1059,14 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             <command name="subsubsection" param="Do nothing">
               No transformations are to be performed to the IUT, the source code will be used as-is to establish a baseline.  Henceforth referred to as <tt>base</tt>.
             </command>
-            <command name="subsubsection" param="Extract stateless methods">
-              This is the very approach proposed by this thesis; stateless methods are extracted - through a manual process - where good candidate blocks are identified.  Henceforth referred to as <tt>manual</tt>.
-            </command>
             <command name="subsubsection" param="Increase state visibility">
               All the fields (both instance and static fields) in all the classes had their visiblity increased through a manual transformation that converted fields with a visibility (explicit or otherwise) of <tt>private</tt> to <tt>internal</tt> and <tt>protected</tt> to <tt>protected internal</tt>.  Henceforth referred to as <tt>visibility-state</tt>.
             </command>
             <command name="subsubsection" param="Increase state and method visibility">
               Similar to the previous strategy, all the fields and all the methods (both instance and static) in all the classes had their visiblity increased through a manual transformation that converted fields and methods with a visibility (explicit or otherwise) of <tt>private</tt> to <tt>internal</tt> and <tt>protected</tt> to <tt>protected internal</tt>.  This strategy helps to understand the effectiveness of the Pex-related code coverage metric.  Henceforth referred to as <tt>visibility</tt>.
+            </command>
+            <command name="subsubsection" param="Extract stateless methods">
+              This is the very approach proposed by this thesis; stateless methods are extracted - through a manual process - where good candidate blocks are identified.  Henceforth referred to as <tt>manual</tt>.
             </command>
           </command>
           <command name="subsection" param="Selected methods for maintainability metric">
@@ -1269,13 +1269,6 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                 <td>52.92%</td>
               </tr>
               <tr>
-                <td><tt>manual</tt></td>
-                <td>84.00</td>
-                <td>85.33</td>
-                <td>0</td>
-                <td>57.92%</td>
-              </tr>
-              <tr>
                 <td><tt>visibility-state</tt></td>
                 <td>83.67</td>
                 <td>76.67</td>
@@ -1289,6 +1282,13 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                 <td>0</td>
                 <td>56.35%</td>
               </tr>
+              <tr>
+                <td><tt>manual</tt></td>
+                <td>84.00</td>
+                <td>85.33</td>
+                <td>0</td>
+                <td>57.92%</td>
+              </tr>
             </tbody>
             <command name="caption" param="Summary results of the metrics" />
             <command name="label" param="tbl:SummaryResults" />
@@ -1301,7 +1301,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             Table <see ref="tbl:complexityResults" /> lists the per-project overall results of running the CMPT tool on the manually-written unit tests to obtain their maintainability index.
 
             <table placement="htbp">
-              <tbody spec="p{0.29\textwidth} | R{0.12\textwidth} R{0.12\textwidth} R{0.18\textwidth} R{0.18\textwidth}">
+              <tbody spec="p{0.29\textwidth} | R{0.12\textwidth} R{0.18\textwidth} R{0.18\textwidth} R{0.12\textwidth}">
                 <tr>
                   <td />
                   <td multicolumn="{4}{c}">Strategies</td>
@@ -1309,31 +1309,31 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                 <tr>
                   <td>Projects</td>
                   <td><tt>base</tt></td>
-                  <td><tt>manual</tt></td>
                   <td><tt>visibility<raw>\newline</raw>-state</tt></td>
                   <td><tt>visibility</tt></td>
+                  <td><tt>manual</tt></td>
                 </tr>
                 <hline />
                 <tr>
                   <td><tt>Textile</tt></td>
                   <td>78.00</td>
+                  <td>76.00</td>
+                  <td>76.00</td>
                   <td>85.00</td>
-                  <td>76.00</td>
-                  <td>76.00</td>
                 </tr>
                 <tr>
                   <td><tt>KeePassLib</tt></td>
                   <td>70.00</td>
-                  <td>81.00</td>
                   <td>70.00</td>
                   <td>80.00</td>
+                  <td>81.00</td>
                 </tr>
                 <tr>
                   <td><tt>AtomicCms</tt></td>
                   <td>84.00</td>
-                  <td>90.00</td>
                   <td>84.00</td>
                   <td>75.00</td>
+                  <td>90.00</td>
                 </tr>
               </tbody>
               <command name="caption" param="Overall Maintainability Index of the unit tests in the \texttt{ManualTests} project per evaluation project, per strategy" />
@@ -1351,18 +1351,18 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                 <tr>
                   <td />
                   <td multicolumn="{2}{l|}">Test classes</td>
-                  <td />
                   <td multicolumn="{2}{r@{}}"><tt>visibility</tt></td>
                   <td><tt>visib-</tt></td>
+                  <td />
                 </tr>
                 <tr>
                   <td />
                   <td />
                   <td>Test methods</td>
                   <td><tt>base</tt></td>
-                  <td><tt>manual</tt></td>
                   <td><tt>-state</tt></td>
                   <td><tt>ility</tt></td>
+                  <td><tt>manual</tt></td>
                 </tr>
                 <hline />
                 <region name="Textile">
@@ -1386,27 +1386,27 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                     <td />
                     <td><tt>ModifyLine</tt></td>
                     <td>78.00</td>
+                    <td>78.00</td>
+                    <td>78.00</td>
                     <td>84.00</td>
-                    <td>78.00</td>
-                    <td>78.00</td>
                   </tr>
                   <tr>
                     <td />
                     <td />
                     <td><tt>Conclude</tt></td>
                     <td>78.00</td>
+                    <td>78.00</td>
+                    <td>78.00</td>
                     <td>84.00</td>
-                    <td>78.00</td>
-                    <td>78.00</td>
                   </tr>
                   <tr>
                     <td />
                     <td />
                     <td><tt>CodeFormatMatchEvaluator</tt></td>
                     <td>78.00</td>
+                    <td>78.00</td>
+                    <td>78.00</td>
                     <td>82.00</td>
-                    <td>78.00</td>
-                    <td>78.00</td>
                   </tr>
                   <tr>
                     <td />
@@ -1421,18 +1421,18 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                     <td />
                     <td><tt>Enter</tt></td>
                     <td multirow="{2}{*}">65.00 <footnote>It is impossible to directly test the <tt>Enter()</tt> and <tt>OnContextAcquired()</tt> methods so a single, indirect test was written.</footnote></td>
+                    <td>65.00</td>
+                    <td>65.00</td>
                     <td>83.00</td>
-                    <td>65.00</td>
-                    <td>65.00</td>
                   </tr>
                   <tr>
                     <td />
                     <td />
                     <td><tt>OnContextAcquired</tt></td>
                     <td />
-                    <td>84.00</td>
                     <td>65.00</td>
                     <td>69.00</td>
+                    <td>84.00</td>
                   </tr>
                 </region>
                 <region name="KeePassLib">
@@ -1456,8 +1456,8 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                     <td />
                     <td><tt>ExpandPattern</tt></td>
                     <td>63.00</td>
-                    <td>84.00</td>
                     <td>63.00</td>
+                    <td>84.00</td>
                     <td>84.00</td>
                   </tr>
                   <tr>
@@ -1473,9 +1473,9 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                     <td />
                     <td><tt>ChangeKey</tt></td>
                     <td>59.00</td>
+                    <td>59.00</td>
+                    <td>59.00</td>
                     <td>61.00</td>
-                    <td>59.00</td>
-                    <td>59.00</td>
                   </tr>
                 </region>
                 <region name="AtomicCms">
@@ -1499,18 +1499,18 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                     <td />
                     <td><tt>FormatResultMessage_Created</tt></td>
                     <td>64.00</td>
-                    <td>84.00</td>
                     <td>64.00</td>
                     <td>70.00</td>
+                    <td>84.00</td>
                   </tr>
                   <tr>
                     <td />
                     <td />
                     <td><tt>FormatResultMessage_Updated</tt></td>
                     <td>64.00</td>
-                    <td>82.00</td>
                     <td>64.00</td>
                     <td>70.00</td>
+                    <td>82.00</td>
                   </tr>
                 </region>
               </tbody>
@@ -1545,7 +1545,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             Table <see ref="tbl:publicInterfaceResults" /> lists the per-project results of running the Public Interfacer Comparer tool on the IUTs to obtain their number of public interface changes - or differences - relative to the base source code.
 
             <table placement="htbp">
-              <tbody spec="p{0.29\textwidth} | R{0.12\textwidth} R{0.12\textwidth} R{0.18\textwidth} R{0.18\textwidth}">
+              <tbody spec="p{0.29\textwidth} | R{0.12\textwidth} R{0.18\textwidth} R{0.18\textwidth} R{0.12\textwidth}">
                 <tr>
                   <td />
                   <td multicolumn="{4}{c}">Strategies</td>
@@ -1553,9 +1553,9 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                 <tr>
                   <td>Projects</td>
                   <td><tt>base</tt></td>
-                  <td><tt>manual</tt></td>
                   <td><tt>visibility<raw>\newline</raw>-state</tt></td>
                   <td><tt>visibility</tt></td>
+                  <td><tt>manual</tt></td>
                 </tr>
                 <hline />
                 <tr>
@@ -1590,7 +1590,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             Table <see ref="tbl:percentageConcolicCoverage" /> lists the results of measuring the code coverage percentage achieved by the tests generated by Pex.
 
             <table placement="htbp">
-              <tbody spec="p{0.32\textwidth} | R{0.115\textwidth} R{0.115\textwidth} R{0.175\textwidth} R{0.175\textwidth}">
+              <tbody spec="p{0.32\textwidth} | R{0.115\textwidth} R{0.175\textwidth} R{0.175\textwidth} R{0.115\textwidth}">
                 <tr>
                   <td />
                   <td multicolumn="{4}{c}">Strategies</td>
@@ -1598,31 +1598,31 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                 <tr>
                   <td>Projects</td>
                   <td><tt>base</tt></td>
-                  <td><tt>manual</tt></td>
                   <td><tt>visibility<raw>\newline</raw>-state</tt></td>
                   <td><tt>visibility</tt></td>
+                  <td><tt>manual</tt></td>
                 </tr>
                 <hline />
                 <tr>
                   <td><tt>Textile</tt></td>
                   <td>59.79%</td>
-                  <td>67.02%</td>
                   <td>60.61%</td>
                   <td>64.13%</td>
+                  <td>67.02%</td>
                 </tr>
                 <tr>
                   <td><tt>KeePassLib</tt></td>
                   <td>45.90%</td>
-                  <td>49.18%</td>
                   <td>46.00%</td>
                   <td>48.33%</td>
+                  <td>49.18%</td>
                 </tr>
                 <tr>
                   <td><tt>AtomicCms</tt></td>
                   <td>50.24%</td>
-                  <td>55.23%</td>
                   <td>50.24%</td>
                   <td>57.85%</td>
+                  <td>55.23%</td>
                 </tr>
               </tbody>
               <command name="caption" param="Percentage of branch code coverage achieved by concolic testing per project, per strategy." />
