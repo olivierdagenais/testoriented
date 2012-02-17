@@ -928,12 +928,12 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               <raw>\end{tabular}</raw>
             </region>
 
-            Such a concept need not be implemented at the language level and could instead be implemented by a static code analysis (SCA) tool with the help of a designated decoration implemented, for example, as an attribute in .NET or as an annotation in Java.  Listing <see ref="lst:StatelessStatelessAttribute" /> shows a C# implementation of the proposed <tt>Stateless</tt> attribute and a sample of its use.
+            Such a concept need not be implemented at the language level and could instead be implemented by a static code analysis (SCA) tool with the help of a designated decoration implemented, for example, as an attribute in .NET or as an annotation in Java.  Listing <see ref="lst:StatelessStatelessAttribute" /> shows a C# implementation of the proposed <tt>Stateless</tt> attribute (lines 1-5) and a sample of its use (line 12).  By placing the line <tt>[Stateless]</tt> above the <tt>FormatIso8601Utc()</tt> method definition, the C# compiler will include the reference to <tt>StatelessAttribute</tt> in the bytecode such that its presence on the method can be queried by SCA tools.
           </command>
           <command name="subsection" param="Identifying immutable instances">
             A type which contains no mutable state is said to be <em>immutable</em>.  Any state an immutable type has can only be set during construction - through the parameters of constructors or factory methods - and all its instance methods either return that state directly or perform computations with it, possibly including the method's parameters, in a manner very much like stateless methods.  Immutable types can make it easier to implement SME better because there exists, by definition, no sequence of method calls on their instances that can modify their state and therefore there can be no side-effects as a result of using immutable types as inputs to stateless methods.  As discussed in section <see ref="subsec:Step4" />, immutable types are considered "simple" and can therefore provide stateless methods with convenient groupings of related input parameters, instead of specifying them separately.  The use of immutable types can thus provide additional readability in unit tests at the expense of a constructor call.
 
-            Similar to the <tt>Stateless</tt> decoration suggested in sub-section <see ref="subsec:IdentifyStateless" />, a decoration could be defined to identify types that are immutable and thus safe to use as constants or input parameters.  Listing <see ref="lst:StatelessImmutableAttribute" /> shows a C# implementation of the proposed <tt>Immutable</tt> attribute and a sample of its use.  This idea was further developed by Bazuzi and Pilch-Bisson <see cite="pilch07enforcingimmutability" />.
+            Similar to the <tt>Stateless</tt> decoration suggested in sub-section <see ref="subsec:IdentifyStateless" />, a decoration could be defined to identify types that are immutable and thus safe to use as constants or input parameters.  Listing <see ref="lst:StatelessImmutableAttribute" /> shows a C# implementation of the proposed <tt>Immutable</tt> attribute (lines 1-6) and a sample of its use (line 8).  By placing the line <tt>[Immutable]</tt> above the <tt>EarthLocation</tt> class definition, the C# compiler will include the reference to the <tt>ImmutableAttribute</tt> in the bytecode such that its presence on the class can be queried by SCA tools.  This idea was further developed by Bazuzi and Pilch-Bisson <see cite="pilch07enforcingimmutability" />.
 
             These proposed <tt>Stateless</tt> and <tt>Immutable</tt> decorations have the additional benefit that they could also be exploited by an optimizing compiler to inline the stateless methods (and apply other such performance improvements) in release mode due to the new guarantees of immutability and invariance they provide by being enforced by the compiler and/or SCA.
           </command>
@@ -1034,7 +1034,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               The tool used for evaluating the complexity of the manually-written unit tests is the <em>Visual Studio Code Metrics PowerTool 10.0</em> <see cite="ms11codemetrics" /> (CMPT).  It can compute, among others, a <em>Maintainability Index</em> (MI) that is derived and adapted <see cite="morrison07maintainabilityindex" /> from the Carnegie Mellon University's Software Engineering Institute metric of the same name <see cite="vandoren97maintainabilityindex" />.  In short, the tool combines a few metrics obtained by scanning the byte code and scales the result between 0 and 100.  Higher values are better.
               <!-- TODO: talk about which variant of the metric is used, what counts toward the score and what does not, which tool was used and how the results were extracted -->
               
-              The CMPT is also used to evaluate the IUT of each strategy, to see if the transformations performed as part the respective strategies adversely affected the maintainability of the code being tested.  This result will not be included in the unit test complexity evaluation and is recorded more as a "canary in a coal mine" to detect undesireable transformations. <!-- TODO: should the MI IUT become an official evaluation? -->
+              The CMPT is also used to evaluate the IUT of each strategy, to see if the transformations performed as part the respective strategies adversely affected the maintainability of the code being tested.  Because this metric is not part of the goal, its results will not be included in the unit test complexity evaluation and are recorded more as a "canary in a coal mine" to detect undesireable transformations. <!-- TODO: should the MI IUT become an official evaluation? -->
             </command>
             <command name="subsubsection" param="Number of changes to the class under test's public interface">
               <command name="label" param="subsubsec:changesPublicInterface" />
@@ -1057,7 +1057,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               No transformations are to be performed to the IUT, the source code will be used as-is to establish a baseline.  Henceforth referred to as <tt>base</tt>.
             </command>
             <command name="subsubsection" param="Extract stateless methods">
-              The very approach proposed by this thesis; stateless methods are extracted - through a manual process - where good candidate blocks are identified.  Henceforth referred to as <tt>manual</tt>.
+              This is the very approach proposed by this thesis; stateless methods are extracted - through a manual process - where good candidate blocks are identified.  Henceforth referred to as <tt>manual</tt>.
             </command>
             <command name="subsubsection" param="Increase state visibility">
               All the fields (both instance and static fields) in all the classes had their visiblity increased through a manual transformation that converted fields with a visibility (explicit or otherwise) of <tt>private</tt> to <tt>internal</tt> and <tt>protected</tt> to <tt>protected internal</tt>.  Henceforth referred to as <tt>visibility-state</tt>.
@@ -1240,7 +1240,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               The console NUnit runner executes all the unit tests that Pex generated while NCover monitors the execution to collect code coverage data for the IUT.  It is not important whether the tests pass, fail or end in error - Pex by its very nature will generate tests that throw or expect to throw <tt>ArgumentException</tt> instances - it is only important to record code coverage.  The NCover tool emits a coverage report in each project's working folder as the file <tt>coverage.xml</tt>.
             </command>
             <command name="subsubsection" param="Record results">
-              Results are collected from the various reports and submitted to an online spreadsheet <footnote>The spreadsheet can be seen at <url>https://docs.google.com/spreadsheet/ccc?key=0Ag6eugnyWA09dG9zQnFtTlQ0Z1dGUjI5TUlFMnpFWWc</url></footnote>.  Its columns are explained in table <see ref="tbl:SpreadsheetColumns" />.  The spreadsheet contains every row submitted to it by this step, with many of these rows created by investigating various tests and tweaks.  Notes were occasionally added in the "Notes" column to explain the test or tweak being investigated.
+              Results are collected from the various reports and submitted to an online spreadsheet <footnote>The spreadsheet can be seen at <url>https://docs.google.com/spreadsheet/ccc?key=0Ag6eugnyWA09dG9zQnFtTlQ0Z1dGUjI5TUlFMnpFWWc</url></footnote>, a copy of which can be found in Appendix <see ref="appendix:Spreadsheet" />.  Its columns are explained in table <see ref="tbl:SpreadsheetColumns" />.  The spreadsheet contains every row submitted to it by this step, with many of these rows created by investigating various tests and tweaks.  Notes were occasionally added in the "Notes" column to explain the test or tweak being investigated.
               <table placement="htbp">
                 <tbody spec="p{0.2\textwidth} p{0.75\textwidth}">
                   <tr><td>Column name</td><td>Description</td></tr>
@@ -1851,6 +1851,10 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
       <command name="chapter" param="Public Interface Comparer tool">
         <command name="label" param="chapter:PublicInterfaceComparer" />
         TODO: explain the tool, point to its location in source control and maybe include some source code, if not of the implementation, then of its tests
+      </command>
+      <command name="chapter" param="Raw data spreadsheet">
+        <command name="label" param="appendix:Spreadsheet" />
+        TODO: insert spreadsheet pages
       </command>
     </command>
     <command name="bibliographystyle" param="abbrv" />
