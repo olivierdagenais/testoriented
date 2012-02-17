@@ -1673,7 +1673,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             <tbody spec="p{0.2\textwidth} | R{0.2\textwidth} R{0.2\textwidth} | R{0.2\textwidth}">
               <tr>
                 <td />
-                <td multicolumn="{2}{c}">Strategies</td>
+                <td multicolumn="{2}{c|}">Strategies</td>
                 <td />
               </tr>
               <tr>
