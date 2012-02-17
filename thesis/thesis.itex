@@ -41,6 +41,7 @@ http://tex.stackexchange.com/questions/10270/
     </region>
     <command name="usepackage" param="nameref" />
     <command name="usepackage" param="multirow" />
+    <command name="usepackage" param="pdfpages" />
   </preamble>
   <document>
     <region name="Title page">
@@ -1214,6 +1215,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             </command>
           </command>
           <command name="subsection" param="How it works">
+            <command name="label" param="subsec:HowItWorks" />
             The evaluation is conducted automatically using a small program written with NAnt <see cite="shaw06nant" />.  The major steps are as follows:
             <command name="subsubsection" param="Create a working copy">
               Pex modifies the test project file as part of its test generation process.  To make the evaluations repeatable, a copy is made, at the start of the evaluation, of each strategy folder of each project, erasing the previous run's folders as necessary.  Pex can then operate in each working copy without chance of interference from the artifacts of any previous runs.
@@ -1240,24 +1242,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               The console NUnit runner executes all the unit tests that Pex generated while NCover monitors the execution to collect code coverage data for the IUT.  It is not important whether the tests pass, fail or end in error - Pex by its very nature will generate tests that throw or expect to throw <tt>ArgumentException</tt> instances - it is only important to record code coverage.  The NCover tool emits a coverage report in each project's working folder as the file <tt>coverage.xml</tt>.
             </command>
             <command name="subsubsection" param="Record results">
-              Results are collected from the various reports and submitted to an online spreadsheet <footnote>The spreadsheet can be seen at <url>https://docs.google.com/spreadsheet/ccc?key=0Ag6eugnyWA09dG9zQnFtTlQ0Z1dGUjI5TUlFMnpFWWc</url></footnote>, a copy of which can be found in Appendix <see ref="appendix:Spreadsheet" />.  Its columns are explained in table <see ref="tbl:SpreadsheetColumns" />.  The spreadsheet contains every row submitted to it by this step, with many of these rows created by investigating various tests and tweaks.  Notes were occasionally added in the "Notes" column to explain the test or tweak being investigated.
-              <table placement="htbp">
-                <tbody spec="p{0.2\textwidth} p{0.75\textwidth}">
-                  <tr><td>Column name</td><td>Description</td></tr>
-                  <hline />
-                  <tr><td>Timestamp</td><td>The date and time the result row was inserted</td></tr>
-                  <tr><td>Batch #</td><td>The revision of the Subversion repository or <tt>private</tt> if run for testing purposes instead of in a batch</td></tr>
-                  <tr><td>Project</td><td>The name of the project</td></tr>
-                  <tr><td>Strategy</td><td>The name of the strategy employed</td></tr>
-                  <tr><td>TSP</td><td>Total Sequence Points, the denominator for code coverage percentage calculation</td></tr>
-                  <tr><td>VSP</td><td>Visited Sequence Points, the numerator for code coverage percentage calculation</td></tr>
-                  <tr><td>PIC</td><td>Public Interface Changes</td></tr>
-                  <tr><td>MI IUT</td><td>Maintainability Index of the Implementation Under Test</td></tr>
-                  <tr><td>MI MT</td><td>Maintainability Index of the Manually-written unit Tests</td></tr>
-                </tbody>
-                <command name="caption" param="Names and descriptions of the columns in the ``Raw data&quot; sheet of the online results spreadsheet." />
-                <command name="label" param="tbl:SpreadsheetColumns" />
-              </table>
+              Results are collected from the various reports and submitted to an online spreadsheet <footnote>The spreadsheet can be seen at <url>https://docs.google.com/spreadsheet/ccc?key=0Ag6eugnyWA09dG9zQnFtTlQ0Z1dGUjI5TUlFMnpFWWc</url></footnote>, an explanation and a copy of which can be found in Appendix <see ref="appendix:Spreadsheet" />.
             </command>
           </command>
         </command>
@@ -1854,7 +1839,26 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
       </command>
       <command name="chapter" param="Raw data spreadsheet">
         <command name="label" param="appendix:Spreadsheet" />
-        TODO: insert spreadsheet pages
+        The following pages reproduce the "Raw data" sheet of the online spreadsheet<footnote>The online spreadsheet can be seen at <url>https://docs.google.com/spreadsheet/ccc?key=0Ag6eugnyWA09dG9zQnFtTlQ0Z1dGUjI5TUlFMnpFWWc</url>
+        </footnote>, which was used by the "Record results" step described in section <see ref="subsec:HowItWorks" />.  The spreadsheet contains every row submitted to it by this step, with many of these rows created by investigating various tests and tweaks.  Its columns are explained in table <see ref="tbl:SpreadsheetColumns" />.  Notes were occasionally added in the "Notes" column to explain the test or tweak being investigated.
+        <table placement="htbp">
+          <tbody spec="p{0.2\textwidth} p{0.75\textwidth}">
+            <tr><td>Column name</td><td>Description</td></tr>
+            <hline />
+            <tr><td>Timestamp</td><td>The date and time the result row was inserted</td></tr>
+            <tr><td>Batch #</td><td>The revision of the Subversion repository or <tt>private</tt> if run for testing purposes instead of in a batch</td></tr>
+            <tr><td>Project</td><td>The name of the project</td></tr>
+            <tr><td>Strategy</td><td>The name of the strategy employed</td></tr>
+            <tr><td>TSP</td><td>Total Sequence Points, the denominator for code coverage percentage calculation</td></tr>
+            <tr><td>VSP</td><td>Visited Sequence Points, the numerator for code coverage percentage calculation</td></tr>
+            <tr><td>PIC</td><td>Public Interface Changes</td></tr>
+            <tr><td>MI IUT</td><td>Maintainability Index of the Implementation Under Test</td></tr>
+            <tr><td>MI MT</td><td>Maintainability Index of the Manually-written unit Tests</td></tr>
+          </tbody>
+          <command name="caption" param="Names and descriptions of the columns in the ``Raw data&quot; sheet of the online results spreadsheet." />
+          <command name="label" param="tbl:SpreadsheetColumns" />
+        </table>
+        <command name="includepdf" param="RawDataSpreadsheet.pdf" opt="pages={-},fitpaper=true" />
       </command>
     </command>
     <command name="bibliographystyle" param="abbrv" />
