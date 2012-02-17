@@ -128,8 +128,8 @@ public class IntermediateFootNoteFormatterState
 
   protected override void OnContextAcquired()
   {
-    string input = Tag;
-    Match m = Regex.Match(input, @"^fn(?<id>[0-9]+)");
+    string tag = Tag;
+    Match m = Regex.Match(tag, @"^fn(?<id>[0-9]+)");
     int result = Int32.Parse(m.Groups["id"].Value);
     m_noteID = result;
   }

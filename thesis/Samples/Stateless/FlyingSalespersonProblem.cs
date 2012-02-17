@@ -10,16 +10,14 @@ public struct LatLon
   public double Lon { get { return _lon; } }
 }
 
-public class FlyingSalespersonProblem
-{
+public class FlyingSalespersonProblem {
   private const double AverageEarthRadius = 6372.8;
   private readonly int _numberOfCities;
   private readonly IDictionary<int, LatLon> _cities;
   private readonly IList<int> _visitingOrder;
 
   public FlyingSalespersonProblem
-    (ICollection<double[]> cities)
-  {
+    (ICollection<double[]> cities) {
     _numberOfCities = cities.Count;
     _cities =
       new Dictionary<int, LatLon>(_numberOfCities);
@@ -35,8 +33,7 @@ public class FlyingSalespersonProblem
   public IList<int> VisitingOrder
   { get { return _visitingOrder; } }
 
-  public double ComputeTourLength()
-  {
+  public double ComputeTourLength() {
     double tourLength = 0;
     for (int i = 0; i < _numberOfCities; i++)
     {
@@ -51,8 +48,7 @@ public class FlyingSalespersonProblem
 
   internal static double CalculateGreatCircleDistance
     (double fromLat, double fromLon,
-    double toLat, double toLon)
-  {
+    double toLat, double toLon) {
     var delta1 = ToRadians(fromLat);
     var lambda1 = ToRadians(fromLon);
     var delta2 = ToRadians(toLat);
@@ -67,8 +63,7 @@ public class FlyingSalespersonProblem
       );
   }
 
-  internal static double ToRadians(double degrees)
-  {
+  internal static double ToRadians(double degrees) {
     return Math.PI * degrees / 180.0;
   }
 }
