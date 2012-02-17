@@ -993,16 +993,17 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           <command name="subsection" param="Overview">
             The goal of stateless method extraction is to improve the testability of source code, especially that of classes with hidden mutable state.
             <command name="subsubsection" param="Strategies">
-              To validate SME's effectiveness, it is compared to the following strategies:
+              SME will be compared to three other strategies, for a total of four:
               <block param="enumerate">
                 <command name="item"> Do nothing</command>
-                <command name="item"> Increase visibility of mutable state</command>
-                <command name="item"> Increase visibility of state and methods</command>
+                <command name="item"> Extract stateless methods</command>
+                <command name="item"> Increase state visibility</command>
+                <command name="item"> Increase state and method visibility</command>
               </block>
             </command>
 
             <command name="subsubsection" param="Projects">
-              The evaluation makes use of the source code from the following C# open-source projects:
+              The evaluation makes use of the source code from the following C# open-source projects, selected by the author based on his familiarity with them:
               <block param="enumerate">
                 <command name="item"> Textile.NET, changeset 26030 <see cite="chabant09textilenet" />, henceforth referred to as <tt>Textile</tt></command>
                 <command name="item"> KeePass, version 2.10 <see cite="reichl10keepass" />, henceforth referred to as <tt>KeePassLib</tt></command>
