@@ -1012,8 +1012,8 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               </block>
             </command>
 
-            <command name="subsubsection" param="Evaluations">
-              The following evaluations are performed for each of the competing strategies on each of the open-source projects:
+            <command name="subsubsection" param="Metrics">
+              The goal's validation metrics (see section <see ref="sec:Goal" />) are repeated here and are evaluated for each of the competing strategies on each of the open-source projects:
               <block param="enumerate">
                 <command name="item"> Complexity of the unit tests.</command>
                 <command name="item"> Number of changes to the class under test's public interface.</command>
@@ -1021,9 +1021,9 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               </block>
             </command>
 
-            The evaluations are now explained in further detail, followed by the strategies, the selected methods from the open-source projects and finally how the evaluations were conducted.
+            The metrics are now explained in further detail, followed by the strategies, the selected methods from the open-source projects and finally how the evaluation was conducted.
           </command>
-          <command name="subsection" param="Evaluations">
+          <command name="subsection" param="Metrics">
             <command name="subsubsection" param="Complexity of the unit tests">
               <command name="label" param="subsubsec:complexity" />
               <block param="quote">
@@ -1033,10 +1033,10 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               </block>
               There appears to be consensus regarding the minimization of unit tests' sizes <see cite="feathers05unittesting, osherove06writemaintainable, stewart10testsizes" />.  Keeping unit tests small is generally with the intention of reducing the friction related to writing said unit tests (as noted above by Binder) as well as increasing the readability and maintainability of the source code <see cite="graham93onlisp" />.
 
-              The tool used for evaluating the complexity of the manually-written unit tests is the <em>Visual Studio Code Metrics PowerTool 10.0</em> <see cite="ms11codemetrics" /> (CMPT).  It can compute, among others, a <em>Maintainability Index</em> (MI) that is derived and adapted <see cite="morrison07maintainabilityindex" /> from the Carnegie Mellon University's Software Engineering Institute metric of the same name <see cite="vandoren97maintainabilityindex" />.  In short, the tool combines a few metrics obtained by scanning the byte code and scales the result between 0 and 100.  Higher values are better.
+              The tool used for evaluating the complexity of the manually-written unit tests is the <em>Visual Studio Code Metrics PowerTool 10.0</em> <see cite="ms11codemetrics" /> (CMPT).  It can compute, among others, a <em>Maintainability Index</em> (MI) that is derived and adapted <see cite="morrison07maintainabilityindex" /> from the Carnegie Mellon University's Software Engineering Institute metric of the same name <see cite="vandoren97maintainabilityindex" />.  In short, the tool combines a few low-level metrics obtained by scanning the byte code and scales the result between 0 and 100.  Higher values are better.
               <!-- TODO: talk about which variant of the metric is used, what counts toward the score and what does not, which tool was used and how the results were extracted -->
               
-              The CMPT is also used to evaluate the IUT of each strategy, to see if the transformations performed as part the respective strategies adversely affected the maintainability of the code being tested.  Because this metric is not part of the goal, its results will not be included in the unit test complexity evaluation and are recorded more as a "canary in a coal mine" to detect undesireable transformations. <!-- TODO: should the MI IUT become an official evaluation? -->
+              The CMPT is also used to evaluate the IUT of each strategy, to see if the transformations performed as part the respective strategies adversely affected the maintainability of the code being tested.  Because this metric is not part of the goal, its results will not be included in the unit test complexity metric and are recorded more as a "canary in a coal mine" to detect undesireable transformations. <!-- TODO: should the MI IUT become an official metric? -->
             </command>
             <command name="subsubsection" param="Number of changes to the class under test's public interface">
               <command name="label" param="subsubsec:changesPublicInterface" />
@@ -1046,11 +1046,11 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                 <command name="item"> The class must implement a specific interface; a technological variation of the previous reason.</command>
                 <command name="item"> Exposing instance state as directly mutable might allow callers to violate some constraints or invariants.</command>
               </block>
-              This second evaluation, therefore, counts how often each strategy causes a change to the public interface of the class under test, compared to the original version.  This metric will be referred to as the <em>Public Interface Changes</em> (PIC) metric.  Lower values are better, with zero being ideal.  The tool used is the <em>Public Interface Comparer</em> and it is further described in Appendix <see ref="chapter:PublicInterfaceComparer" />.
+              This second metric, therefore, counts how often each strategy causes a change to the public interface of the class under test, compared to the original version.  This metric will be referred to as the <em>Public Interface Changes</em> (PIC) metric.  Lower values are better, with zero being ideal.  The tool used is the <em>Public Interface Comparer</em> and it is further described in Appendix <see ref="chapter:PublicInterfaceComparer" />.
             </command>
             <command name="subsubsection" param="Percentage of branches covered using concolic testing">
               <command name="label" param="subsubsec:codeCoverageConcolic" />
-              The Pex tool <see cite="tillman08pex" /> is a concolic, constraint solver-based test generator that can be used to analyze a specified project and generate unit tests to exercise as much of that project's source code as it can.  Pex's ability to exercise the CUT's methods in an automated and unattended fashion provides a very good objective evaluation of testability.  This ability is measured by the code coverage reported when executing the generated unit tests with a code coverage tool.  Higher values are better.  Version 0.91.50418.0 of Pex is used, along with NUnit <see cite="poole00nunit" /> version 2.4.8 to run the unit tests and NCover <see cite="waldschmidt04ncover" /> version 1.5.8 to measure the code coverage.
+              The Pex tool <see cite="tillman08pex" /> is a concolic, constraint solver-based test generator that can be used to analyze a specified project and generate unit tests to exercise as much of that project's source code as it can.  Pex's ability to exercise the CUT's methods in an automated and unattended fashion provides a very good objective measure of testability.  This ability is measured by the code coverage reported when executing the generated unit tests with a code coverage tool.  Higher values are better.  Version 0.91.50418.0 of Pex is used, along with NUnit <see cite="poole00nunit" /> version 2.4.8 to run the unit tests and NCover <see cite="waldschmidt04ncover" /> version 1.5.8 to measure the code coverage.
             </command>
           </command>
           <command name="subsection" param="Strategies">
@@ -1065,10 +1065,10 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               All the fields (both instance and static fields) in all the classes had their visiblity increased through a manual transformation that converted fields with a visibility (explicit or otherwise) of <tt>private</tt> to <tt>internal</tt> and <tt>protected</tt> to <tt>protected internal</tt>.  Henceforth referred to as <tt>visibility-state</tt>.
             </command>
             <command name="subsubsection" param="Increase state and method visibility">
-              Similar to the previous strategy, all the fields and all the methods (both instance and static) in all the classes had their visiblity increased through a manual transformation that converted fields and methods with a visibility (explicit or otherwise) of <tt>private</tt> to <tt>internal</tt> and <tt>protected</tt> to <tt>protected internal</tt>.  This strategy helps to understand the effectiveness of the Pex-related code coverage evaluation.  Henceforth referred to as <tt>visibility</tt>.
+              Similar to the previous strategy, all the fields and all the methods (both instance and static) in all the classes had their visiblity increased through a manual transformation that converted fields and methods with a visibility (explicit or otherwise) of <tt>private</tt> to <tt>internal</tt> and <tt>protected</tt> to <tt>protected internal</tt>.  This strategy helps to understand the effectiveness of the Pex-related code coverage metric.  Henceforth referred to as <tt>visibility</tt>.
             </command>
           </command>
-          <command name="subsection" param="Selected methods for maintainability evaluation">
+          <command name="subsection" param="Selected methods for maintainability metric">
             Table <see ref="tbl:InterestingMethods" /> lists the methods that have been selected because they are interesting from a unit testing perspective and/or represent testability challenges.  Unit tests were written to target these methods for each strategy, exploiting the respective transformations to the IUT to simplify the tests where possible.  It is for the manually-written tests of these methods that the "complexity of the unit tests" metric will be computed.
             <table placement="htbp">
               <tabular spec="l l l l">
@@ -1203,7 +1203,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               Any existing automated tests were removed, otherwise Pex would be able to trivially reach areas of the CUTs through their tests, defeating the purpose of that part of the evaluation.
             </command>
             <command name="subsubsection" param="Add two empty test projects">
-              To help Pex generate unit tests, a corresponding empty test project was created for each project (suffixed with <tt>.Tests</tt>), as was another empty test project created for the complexity evaluations (suffixed with <tt>.ManualTests</tt>).  Each empty test project was configured to reference its associated project.  The test projects are ready to have test classes added to them.
+              To help Pex generate unit tests, a corresponding empty test project was created for each project (suffixed with <tt>.Tests</tt>), as was another empty test project created for the complexity metric (suffixed with <tt>.ManualTests</tt>).  Each empty test project was configured to reference its associated project.  The test projects are ready to have test classes added to them.
             </command>
             <command name="subsubsection" param="Expose internal members to Pex">
               Each project was configured to make any methods marked as <tt>internal</tt> visible to both the empty test projects and to Pex itself, using the <tt>InternalsVisibleTo</tt> attribute.
@@ -1219,7 +1219,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             <command name="label" param="subsec:HowItWorks" />
             The evaluation is conducted automatically using a small program written with NAnt <see cite="shaw06nant" />.  The major steps are as follows:
             <command name="subsubsection" param="Create a working copy">
-              Pex modifies the test project file as part of its test generation process.  To make the evaluations repeatable, a copy is made, at the start of the evaluation, of each strategy folder of each project, erasing the previous run's folders as necessary.  Pex can then operate in each working copy without chance of interference from the artifacts of any previous runs.
+              Pex modifies the test project file as part of its test generation process.  To make the evaluation repeatable, a copy is made, at the start of the run, of each strategy folder of each project, erasing the previous run's folders as necessary.  Pex can then operate in each working copy without chance of interference from the artifacts of any previous runs.
             </command>
             <command name="subsubsection" param="Compile">
               All the analysis tools (CMPT, Public Interface Comparer and Pex) work by analyzing the byte code of the projects (as opposed to their source code) and thus the next step is to compile the projects.
@@ -1231,7 +1231,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               The PIC metric is computed on each project's IUT and the report is stored in the project's working folder as the file <tt>PublicInterfaceDifferences.txt</tt>.  Each line of the report represents a public interface difference between the base code and the code of a strategy and therefore the number of public interface differences is the number of lines in the report.  By definition, the report for the <tt>base</tt> strategy will always contain 0 lines.
             </command>
             <command name="subsubsection" param="Evaluate maintainability of IUT and manual tests">
-              The CMPT is launched to compute the MI metric for both the IUT and the manually-written unit tests (henceforth known as MT).  This allows an objective evaluation of the maintainability of the IUT in the face of testability transformations as well as an evaluation of maintainability of the corresponding MT.  The CMPT emits the reports respectively as <tt>CodeMetrics.Iut.xml</tt> and <tt>CodeMetrics.Mt.xml</tt> in each working folder.  A quick post-processing step converts the absolute paths in the reports into relative paths to simplify comparisons, producing the files <tt>CodeMetrics.Iut.xml.filtered</tt> and <tt>CodeMetrics.Mt.xml.fitered</tt>.
+              The CMPT is launched to compute the MI metric for both the IUT and the manually-written unit tests (henceforth known as MT).  This allows an objective measure of the maintainability of the IUT in the face of testability transformations as well as a measure of maintainability of the corresponding MT.  The CMPT emits the reports respectively as <tt>CodeMetrics.Iut.xml</tt> and <tt>CodeMetrics.Mt.xml</tt> in each working folder.  A quick post-processing step converts the absolute paths in the reports into relative paths to simplify comparisons, producing the files <tt>CodeMetrics.Iut.xml.filtered</tt> and <tt>CodeMetrics.Mt.xml.fitered</tt>.
             </command>
             <command name="subsubsection" param="Invoke Pex Wizard">
               Pex first needs to first run in "Wizard" mode, which inspects the IUT and generates test helper methods called "parameterized unit tests".  Unfortunately, there are some defects in Pex that garble the test project files and must then be repaired.  This is done using the Extensible Stylesheet Language (XSL) transformation file <tt>FixPexWizard.xsl</tt> located in the <tt>Tools</tt> folder.  Lastly, the projects are recompiled so that Pex may perform the next step by inspecting the new byte code.
@@ -1249,7 +1249,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
         </command>
         <command name="section" param="Results">
           <command name="label" param="sec:Results" />
-          Table <see ref="tbl:SummaryResults" /> summarizes the results of the evaluations, which have been averaged across the participating open-source projects.  The table is assembled from the results of running the suitability evaluation against the source code as of revision 424.  Detailed results are presented in the following section, although it is clear that, in general, SME performed no worse and often better than the other strategies.
+          Table <see ref="tbl:SummaryResults" /> summarizes the results of the metrics, which have been averaged across the participating open-source projects.  The table is assembled from the results of running the suitability evaluation against the source code as of revision 424.  Detailed results are presented in the following section, although it is clear that, in general, SME performed no worse and often better than the other strategies.
           <table placement="htbp">
             <tbody spec="p{0.42\textwidth} R{0.11\textwidth} R{0.11\textwidth} R{0.08\textwidth} R{0.12\textwidth}">
               <tr>
@@ -1289,13 +1289,13 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                 <td>56.35%</td>
               </tr>
             </tbody>
-            <command name="caption" param="Summary results of the evaluations" />
+            <command name="caption" param="Summary results of the metrics" />
             <command name="label" param="tbl:SummaryResults" />
           </table>
         </command>
         <command name="section" param="Detailed results">
           <command name="label" param="sec:DetailedResults" />
-          The following sub-sections illustrate the results of the invidual evaluations identified in section <see ref="sec:Goal" /> and discuss some observations made while running the suitability evaluation.
+          The following sub-sections illustrate the results of the individual metrics identified in section <see ref="sec:Goal" /> and discuss some observations made while running the suitability evaluation.
           <command name="subsection" param="Complexity of the unit tests">
             Table <see ref="tbl:complexityResults" /> lists the per-project overall results of running the CMPT tool on the manually-written unit tests to obtain their maintainability index.
 
@@ -1711,11 +1711,11 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             <command name="item"> Zero changes to the public interface of the class under test were necessary.</command>
             <command name="item"> The percentage of branches covered using concolic testing went up.</command>
           </block>
-          Given the three evaluation metrics are better than or equal to the baseline, the goal of this thesis to improve the testability of classes that suffer from the "state problem" can thus be said to have been validated.
+          Given the three metrics are better than or equal to the baseline, the goal of this thesis to improve the testability of classes that suffer from the "state problem" can thus be said to have been validated.
           <!-- Cross-reference with Scope and discuss observed trade-offs of other potential approaches -->
         </command>
         <command name="section" param="Summary">
-          This chapter introduced the mechanism used to compare SME against two other strategies, the open-source projects with which the experiments and evaluations were carried out as well as what tools were used and how.  The results showed how well SME performed and how the goal was validated.
+          This chapter introduced the mechanism used to compare SME against two other strategies, the open-source projects with which the experiments and metrics were carried out as well as what tools were used and how.  The results showed how well SME performed and how the goal was validated.
         </command>
       </command>
       <command name="chapter" param="Summary of work, Conclusion and Future work">
@@ -1752,15 +1752,15 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               </command>
               <command name="item"> Manually-written tests.
 
-                The tests that were written for the complexity evaluation suffer from the author's bias and ability.  One way to mitigate this bias - and at the same time reduce the amount of manual labor involved in the evaluations - is to avoid the need for human-generated tests in the first place and to evaluate the complexity of the tests generated by a computer, such as those by Pex.  This may not be ideal, either, as Pex-generated tests may not necessarily be written to be maintained by humans, but it would have the advantage of objectivity.
+                The tests that were written for the complexity evaluation suffer from the author's bias and ability.  One way to mitigate this bias - and at the same time reduce the amount of manual labor involved in the evaluation - is to avoid the need for human-generated tests in the first place and to measure the complexity of the tests generated by a computer, such as those by Pex.  This may not be ideal, either, as Pex-generated tests may not necessarily be written to be maintained by humans, but it would have the advantage of objectivity.
               </command>
               <command name="item"> The goal's metrics and the tools used to evaluate them.
 
-                Although the CMPT implements a slight variation of the industry-standard Maintainability Index, said metric is a bit dated (it was originally released in 1997) and has been declared "legacy" by Carnegie Mellon University's Software Engineering Institute.  Nevertheless, the notion of <em>complexity</em> may vary from maintainer to maintainer and thus the evaluation of the <em>complexity of the unit tests</em> is probably best left to the maintainer(s) of each project, even at the expense of the objectivity of a completely-automated evaluation.
+                Although the CMPT implements a slight variation of the industry-standard Maintainability Index, said metric is a bit dated (it was originally released in 1997) and has been declared "legacy" by Carnegie Mellon University's Software Engineering Institute.  Nevertheless, the notion of <em>complexity</em> may vary from maintainer to maintainer and thus the measure of the <em>complexity of the unit tests</em> metric is probably best left to the maintainer(s) of each project, even at the expense of the objectivity of a completely-automated evaluation.
 
                 The <em>Public Interface Comparer</em> tool was written by the author (see Appendix <see ref="chapter:PublicInterfaceComparer" />) and could contain defects that affect the accuracy of the results.  Some further testing of the tool could reduce its threats to validity.
 
-                The choice of Pex - a <em>concolic testing</em> tool - as a test generator may not be optimal given the <em>state problem</em> was originally reported for <em>evolutionary testing</em> tools.  The unavailability of an ET tool for the .NET platform lead to the use of Pex as a stand-in.  This threat to validity could be reduced by repeating the evaluations in a language or on a platform where an ET tool is available, although new open-source projects would have to be selected and the other parts of the evaluation would have to be ported or replaced with equivalents, such as using JUnit instead of NUnit and Emma instead of NCover.
+                The choice of Pex - a <em>concolic testing</em> tool - as a test generator may not be optimal given the <em>state problem</em> was originally reported for <em>evolutionary testing</em> tools.  The unavailability of an ET tool for the .NET platform lead to the use of Pex as a stand-in.  This threat to validity could be reduced by repeating the evaluation in a language or on a platform where an ET tool is available, although new open-source projects would have to be selected and the other parts of the evaluation would have to be ported or replaced with equivalents, such as using JUnit instead of NUnit and Emma instead of NCover.
               </command>
               <command name="item"> Stochastic behaviour of concolic testing.
 
