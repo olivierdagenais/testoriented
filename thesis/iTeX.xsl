@@ -200,13 +200,19 @@
         <xsl:text>$</xsl:text><xsl:value-of select="." /><xsl:text>$</xsl:text>
     </xsl:template>
     <xsl:template match="tt">
-        <xsl:text>\texttt{</xsl:text><xsl:value-of select="." /><xsl:text>}</xsl:text>
+        <xsl:text>\texttt{</xsl:text>
+        <xsl:apply-templates select="* | node() | comment()" />
+        <xsl:text>}</xsl:text>
     </xsl:template>
     <xsl:template match="em">
-        <xsl:text>\emph{</xsl:text><xsl:value-of select="." /><xsl:text>}</xsl:text>
+        <xsl:text>\emph{</xsl:text>
+        <xsl:apply-templates select="* | node() | comment()" />
+        <xsl:text>}</xsl:text>
     </xsl:template>
     <xsl:template match="u">
-        <xsl:text>\underline{</xsl:text><xsl:value-of select="." /><xsl:text>}</xsl:text>
+        <xsl:text>\underline{</xsl:text>
+        <xsl:apply-templates select="* | node() | comment()" />
+        <xsl:text>}</xsl:text>
     </xsl:template>
 
     <xsl:template match="url">
