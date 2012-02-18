@@ -1837,12 +1837,22 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
       </command>
       <command name="chapter" param="Public Interface Comparer tool">
         <command name="label" param="chapter:PublicInterfaceComparer" />
-        TODO: explain the tool, point to its location in source control and maybe include some source code, if not of the implementation, then of its tests
+        The Public Interface Comparer <footnote>The source code for the Public Interface Tool can be found in the public Subversion repository at <url>http://testoriented.googlecode.com/svn/pic/trunk/</url></footnote> is a tool written specifically to measure the <em>Public Interface Changes</em> metric.  This appendix explains how it works and gives a few examples of its use.
+        
+        <command name="section" param="How it works">
+          The tool is a command-line program that accepts three arguments: the path to the <tt>baselineFile</tt>, the path to the <tt>challengerFile</tt> and the path to the <tt>reportFile</tt>.  For each of the assemblies (byte code binary files) pointed to by <tt>baselineFile</tt> and <tt>challengerFile</tt>, the <tt>PublicInterfaceScanner</tt> class uses the reflection features of .NET to find all the publicly-visible types (classes and structs) and, for each of those, finds all their publicly-visible members (fields, properties, events and methods).  Each such member is converted into a canonical string representation of its definition and added to a list.  When all members of an assembly have been added to the list, the list is sorted alphabetically and returned to the main program.
+          
+          Public visibility is defined as the application programming interface (API) intentionally exposed by the authors of the library for consumption by third-party programs.  In .NET and Java, the mechanism for doing so is to decorate a member with the visibility keywords of <tt>public</tt> or <tt>protected</tt>.
+          
+          When the program has received both lists of publicly-visible members, the creation of the difference report - which will be written to the file pointed to by <tt>reportFile</tt> - is a matter of finding differences between the two lists.  This is done in a single pass in a manner similar to merging.
+        </command>
+        <command name="section" param="Examples">
+        TODO
+        </command>
       </command>
       <command name="chapter" param="Raw data spreadsheet">
         <command name="label" param="appendix:Spreadsheet" />
-        The following pages reproduce the "Raw data" sheet of the online spreadsheet<footnote>The online spreadsheet can be seen at <url>https://docs.google.com/spreadsheet/ccc?key=0Ag6eugnyWA09dG9zQnFtTlQ0Z1dGUjI5TUlFMnpFWWc</url>
-        </footnote>, which was used by the "Record results" step described in section <see ref="subsec:HowItWorks" />.  The spreadsheet contains every row submitted to it by this step, with many of these rows created by investigating various tests and tweaks.  Its columns are explained in table <see ref="tbl:SpreadsheetColumns" />.  Notes were occasionally added in the "Notes" column to explain the test or tweak being investigated.
+        The following pages reproduce the "Raw data" sheet of the online spreadsheet<footnote>The online spreadsheet can be seen at <url>https://docs.google.com/spreadsheet/ccc?key=0Ag6eugnyWA09dG9zQnFtTlQ0Z1dGUjI5TUlFMnpFWWc</url></footnote>, which was used by the "Record results" step described in section <see ref="subsec:HowItWorks" />.  The spreadsheet contains every row submitted to it by this step, with many of these rows created by investigating various tests and tweaks.  Its columns are explained in table <see ref="tbl:SpreadsheetColumns" />.  Notes were occasionally added in the "Notes" column to explain the test or tweak being investigated.
         <table placement="htbp">
           <tbody spec="p{0.2\textwidth} p{0.75\textwidth}">
             <tr><td>Column name</td><td>Description</td></tr>
