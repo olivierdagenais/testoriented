@@ -1,0 +1,2 @@
+Textile.BlockModifier protected Void .ctor()
+Textile.BlockModifier public System.String Conclude(System.String)
