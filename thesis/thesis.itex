@@ -1733,7 +1733,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
 
           The stateless method extraction approach was designed and discussed, with many source code examples presented.
 
-          An evaluation mechanism was described, and the proposed approach, as well as two others, were applied on three open-source projects.  Empirical summary and detailed results were presented and discussed.  Lastly, the results were cross-referenced with the goal's metrics and were shown to validate the proposed approach.
+          An evaluation mechanism was described, and the proposed approach, as well as two others, were applied on three open-source projects so that each approach could be compared against each other as well as against the baseline source code.  Empirical summary and detailed results were presented and discussed.  Lastly, the results were cross-referenced with the goal's metrics and were shown to validate the proposed approach through concolic testing code coverage increases between 3 to 7 percent, unit test complexity decreases between 6 and 11 points and no changes to the public interface.
         </command>
         <command name="section" param="Discussion">
           <!-- list of inferences made -->
