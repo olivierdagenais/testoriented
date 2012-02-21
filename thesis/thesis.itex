@@ -1382,16 +1382,19 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             In the case of the <tt>Textile</tt> project, the slightly lower MI scores for the <tt>visibility</tt> and <tt>visibility-state</tt> strategies are owed to the tests written for <tt>FootNoteFormatterState</tt> and the fact that the increase in visibility allowed for <em>two</em> slightly more precise tests to be written, instead of the <em>one</em> general and indirect test possible in <tt>base</tt>.  Two tests mean more lines of code and therefore a lower overall MI score, but this limitation of the CMPT can be avoided by comparing the MI scores on a per-method basis, as shown in table <see ref="tbl:complexityDetailedResults" />.  There we see that every test method written with a strategy was at least equal to and most of the time better than <tt>base</tt>.  We also see that the <tt>manual</tt> strategy fared much better because it was able to test the most precise parts of the processing involved in the <tt>Enter()</tt> and <tt>OnContextAcquired()</tt> methods in just two lines per test and with less class coupling.
 
             <table placement="htbp">
-              <tbody spec="p{0.01\textwidth} p{0.01\textwidth} p{0.45\textwidth} | @{} R{0.12\textwidth} @{} R{0.12\textwidth} @{} R{0.12\textwidth} @{} R{0.12\textwidth}">
+              <command name="small" />
+              <tbody spec="p{0.004\textwidth} p{0.004\textwidth} p{0.39\textwidth} | @{} R{0.08\textwidth} @{} R{0.10\textwidth} @{} R{0.10\textwidth} @{} R{0.10\textwidth} | @{} R{0.13\textwidth}">
                 <tr>
                   <td multicolumn="{3}{l|}">Projects</td>
-                  <td multicolumn="{4}{c}">Strategies</td>
+                  <td multicolumn="{4}{c|}">Strategies</td>
+                  <td />
                 </tr>
                 <tr>
                   <td />
                   <td multicolumn="{2}{l|}">Test classes</td>
                   <td multicolumn="{2}{r@{}}"><tt>visibility</tt></td>
                   <td><tt>visib-</tt></td>
+                  <td />
                   <td />
                 </tr>
                 <tr>
@@ -1402,6 +1405,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                   <td><tt>-state</tt></td>
                   <td><tt>ility</tt></td>
                   <td><tt>manual</tt></td>
+                  <td>Difference <footnote>Difference between <tt>manual</tt> and <tt>base</tt></footnote></td>
                 </tr>
                 <hline />
                 <region name="Textile">
@@ -1411,10 +1415,12 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                     <td />
                     <td />
                     <td />
+                    <td />
                   </tr>
                   <tr>
                     <td />
                     <td multicolumn="{2}{l|}"><tt>CodeBlocksModifierTest</tt></td>
+                    <td />
                     <td />
                     <td />
                     <td />
@@ -1428,6 +1434,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                     <td>78.00</td>
                     <td>78.00</td>
                     <td>84.00</td>
+                    <td>+6.00</td>
                   </tr>
                   <tr>
                     <td />
@@ -1437,6 +1444,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                     <td>78.00</td>
                     <td>78.00</td>
                     <td>84.00</td>
+                    <td>+6.00</td>
                   </tr>
                   <tr>
                     <td />
@@ -1446,10 +1454,12 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                     <td>78.00</td>
                     <td>78.00</td>
                     <td>82.00</td>
+                    <td>+4.00</td>
                   </tr>
                   <tr>
                     <td />
                     <td multicolumn="{2}{l|}"><tt>FootNoteFormatterStateTest</tt></td>
+                    <td />
                     <td />
                     <td />
                     <td />
@@ -1463,6 +1473,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                     <td>65.00</td>
                     <td>65.00</td>
                     <td>83.00</td>
+                    <td>+18.00</td>
                   </tr>
                   <tr>
                     <td />
@@ -1472,6 +1483,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                     <td>65.00</td>
                     <td>69.00</td>
                     <td>84.00</td>
+                    <td>+19.00</td>
                   </tr>
                 </region>
                 <region name="KeePassLib">
@@ -1481,10 +1493,12 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                     <td />
                     <td />
                     <td />
+                    <td />
                   </tr>
                   <tr>
                     <td />
                     <td multicolumn="{2}{l|}"><tt>PatternBasedGeneratorTest</tt></td>
+                    <td />
                     <td />
                     <td />
                     <td />
@@ -1498,10 +1512,12 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                     <td>63.00</td>
                     <td>84.00</td>
                     <td>84.00</td>
+                    <td>+21.00</td>
                   </tr>
                   <tr>
                     <td />
                     <td multicolumn="{2}{l|}"><tt>XorredBufferTest</tt></td>
+                    <td />
                     <td />
                     <td />
                     <td />
@@ -1515,6 +1531,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                     <td>59.00</td>
                     <td>59.00</td>
                     <td>61.00</td>
+                    <td>+2.00</td>
                   </tr>
                 </region>
                 <region name="AtomicCms">
@@ -1524,10 +1541,12 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                     <td />
                     <td />
                     <td />
+                    <td />
                   </tr>
                   <tr>
                     <td />
                     <td multicolumn="{2}{l|}"><tt>AdminMenuItemControllerTest</tt></td>
+                    <td />
                     <td />
                     <td />
                     <td />
@@ -1541,6 +1560,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                     <td>64.00</td>
                     <td>70.00</td>
                     <td>84.00</td>
+                    <td>+20.00</td>
                   </tr>
                   <tr>
                     <td />
@@ -1550,6 +1570,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                     <td>64.00</td>
                     <td>70.00</td>
                     <td>82.00</td>
+                    <td>+18.00</td>
                   </tr>
                 </region>
               </tbody>
