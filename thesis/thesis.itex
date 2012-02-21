@@ -1275,9 +1275,13 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           <command name="label" param="sec:Results" />
           Table <see ref="tbl:SummaryResults" /> summarizes the results of the metrics, which have been averaged across the participating open-source projects.  The table is assembled from the results of running the suitability evaluation against the source code as of revision 424 in the public Subversion repository.  Detailed results are presented in the following section, although it is clear that, in general, SME performed no worse and often better than the other strategies.
           <table placement="htbp">
-            <tbody spec="p{0.42\textwidth} R{0.11\textwidth} R{0.11\textwidth} R{0.08\textwidth} R{0.12\textwidth}">
+            <tbody spec="p{0.42\textwidth} | R{0.11\textwidth} R{0.11\textwidth} R{0.08\textwidth} R{0.12\textwidth}">
               <tr>
-                <td>Strategy</td>
+                <td />
+                <td multicolumn="{4}{c}">Metrics</td>
+              </tr>
+              <tr>
+                <td>Strategies</td>
                 <td>MI IUT<footnote>Maintainability Index of the Implementation Under Test.</footnote></td>
                 <td>MI MT<footnote>Maintainability Index of the Manually-written unit Tests.  See <see nameref="subsubsec:complexity" /> in section <see ref="subsubsec:complexity" />.</footnote></td>
                 <td>PIC<footnote>Public Interface Changes.  See <see nameref="subsubsec:changesPublicInterface" /> in section <see ref="subsubsec:changesPublicInterface" />.</footnote></td>
@@ -1311,6 +1315,14 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                 <td>85.33</td>
                 <td>0</td>
                 <td>57.92%</td>
+              </tr>
+              <hline />
+              <tr>
+                <td>Difference between <tt>manual</tt> and <tt>base</tt></td>
+                <td>+0.33</td>
+                <td>+8.00</td>
+                <td>0</td>
+                <td>+5.00%</td>
               </tr>
             </tbody>
             <command name="caption" param="Summary results of the metrics" />
