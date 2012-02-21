@@ -42,6 +42,8 @@ http://tex.stackexchange.com/questions/10270/
     <command name="usepackage" param="nameref" />
     <command name="usepackage" param="multirow" />
     <command name="usepackage" param="pdfpages" />
+    <command name="usepackage" param="float" />
+    <raw>\newfloat{pseudoCode}{htbp}{lop}</raw>
   </preamble>
   <document>
     <region name="Title page">
@@ -489,9 +491,11 @@ references as well.
             </block>
             Refer to listing <see ref="lst:Procedure" /> for a pseudo-code version of the stateless method extraction procedure.  The following sub-sections will cover the individual steps in greater detail.
             <!-- TODO: should this be an "algorithmic" block, instead? -->
-            <listing label="lst:Procedure" style="pseudoCode" file="Procedure.pc">
-              Pseudo-code showing the general procedure for extracting stateless methods
-            </listing>
+            <block param="pseudoCode">
+              <listing label="lst:Procedure" style="pseudoCode" file="Procedure.pc">
+                Pseudo-code showing the general procedure for extracting stateless methods
+              </listing>
+            </block>
           </command>
           <command name="subsection" param="Step 1: Identification of a candidate block">
             <command name="label" param="subsec:Step1" />
