@@ -451,6 +451,7 @@ references as well.
           This chapter describes the SME algorithm along with examples of its use, followed by discussions around when SME can be used as well as how, concluding with a discussion of decisions made.
         </command>
         <command name="section" param="Design">
+          <command name="label" param="sec:Design" />
           Stateless method extraction's intent is to separate the interaction between the hidden mutable state in a class and the inputs and outputs of said class' instance methods.  This decoupling allows programmers to first focus their unit tests on the pure computation aspects, then on the object-oriented layer above the stateless methods.
 
           It is important to note that SME relies on the fact that all its steps will only modify the source code in ways that will not alter any of the behaviours and functionality present before SME was performed.  That is to say, all the operations performed should be pure refactorings <see cite="fowler00refactoring" /> and no functionality changes are to be performed during the process.  These rules help ensure the use of SME is invisible to end-users and has the least chance of introducing defects or regressions in the affected methods.
@@ -1248,6 +1249,28 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             </command>
           </command>
         </command>
+        <command name="section" param="Representative SME applications">
+          What follows are a few representative method transformations applying SME - as discussed in section <see ref="sec:Design" /> - to the noted open source projects.  The remaining method transformations are listed in Appendix <see ref="appendix:SmeApplication" />.
+
+          <tabular spec="p{0.45\textwidth} p{0.45\textwidth}">
+            <tr>
+              <td>
+                TODO: MUT before
+              </td>
+              <td>
+                TODO: MUT after
+              </td>
+            </tr>
+            <tr>
+              <td>
+                TODO: MT before
+              </td>
+              <td>
+                TODO: MT after
+              </td>
+            </tr>
+          </tabular>
+        </command>
         <command name="section" param="Results">
           <command name="label" param="sec:Results" />
           Table <see ref="tbl:SummaryResults" /> summarizes the results of the metrics, which have been averaged across the participating open-source projects.  The table is assembled from the results of running the suitability evaluation against the source code as of revision 424 in the public Subversion repository.  Detailed results are presented in the following section, although it is clear that, in general, SME performed no worse and often better than the other strategies.
@@ -1873,6 +1896,10 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
 
           As we can see in listing <see ref="lst:BlockModifierPIC" />, the constructor (line 1) and the <tt>Conclude()</tt> method (line 2) were identified as public interface changes between the two versions of the <tt>BlockModifier</tt> class.
         </command>
+      </command>
+      <command name="chapter" param="SME applications">
+        <command name="label" param="appendix:SmeApplication" />
+        TODO
       </command>
       <command name="chapter" param="Raw data spreadsheet">
         <command name="label" param="appendix:Spreadsheet" />
