@@ -69,6 +69,7 @@ http://tex.stackexchange.com/questions/10270/
     </command>
     <command name="mainmatter">
       <command name="chapter" param="Introduction">
+        <command name="label" param="chapter:Introduction" />
         <command name="section" param="Introduction">
           This chapter introduces the problem and the motivation for solving it, as well as the overall goal and specific objectives.  It concludes with an overview of the rest of the document.
         </command>
@@ -102,6 +103,7 @@ http://tex.stackexchange.com/questions/10270/
           An example of the state problem can be seen in listings <see ref="lst:StatefulSmokeDetector" /> and <see ref="lst:StatefulSmokeDetectorTest" />.  This demonstrates how having all the instance fields private forces any test wishing to bring the object to a certain state - such as "alarm sounds while detection decays" - to repeatedly call the <tt>Cycle()</tt> method with various values provided to the <tt>level</tt> parameter.  By the same token, the only observable state for verification is the return value of the method, although, in this particular instance, this should be sufficient for most test scenarios.
         </command>
         <command name="section" param="Motivation">
+          <command name="label" param="sec:Motivation" />
           <!-- TODO:
           = should I motivate [unit] testing more, like I did in my paper?
           = how about talking about the applicability to code that is currently without tests or with insufficient tests
@@ -198,6 +200,7 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
           -->
         </command>
         <command name="section" param="Objectives">
+          <command name="label" param="sec:Objectives" />
           <!-- (what you will produce to meet your goal)
           action items to address goal -->
           To fulfill the general goal of improving testability of HMS-afflicted code, the following specific objectives are proposed:
@@ -908,6 +911,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
         </command>
 
         <command name="section" param="Applicability">
+          <command name="label" param="sec:Applicability" />
           In general, SME is most applicable to existing or legacy projects that were built with few or no unit tests.  As a result, their source code was not written with testability in mind, nor is it possible (for various reasons) to make large, sweeping testability-related changes.  The prospect of fixing defects or adding features to such a project without sufficient tests to catch regressions would seem risky.  SME could be used to introduce easily-testable methods - along with some unit tests - to the affected source code before making each fix or adding each new feature, thereby establishing a functionality baseline, if only a partial one.
 
           As noted in section <see ref="sec:Suitability" />, SME is suitable for more than HMS and, by the same token, can also be applied to more than legacy projects.  Sometimes there are technological reasons that impede the testability of a class or method.  For example, some frameworks force the introduction of a parameterless constructor to be able to create an instance of a class for the purposes of serialization.  Such frameworks may introduce mutable state where none would be present otherwise and SME can then be used to help keep the unit tests simple.
@@ -950,6 +954,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
         </command>
 
         <command name="section" param="Decisions made">
+          <command name="label" param="sec:Decisions" />
           <region name="Candidate block identification">
           The candidate block identification step in section <see ref="subsec:Step1" /> requires that blocks contain only stateless statements, because statelessness is a transitive property and the presence of any operation that causes side-effects in a method will disqualify all methods that call such a method from claiming statelessness.  A stateless method must therefore only call stateless methods, otherwise the effort is defeated.
 
@@ -982,6 +987,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           This chapter describes an experiment with which SME's efficiency at improving testability can be measured and compared against other strategies.  The results of this experiment are summarized and also presented in great detail, concluding with the relation of the results with the metrics of the goal.
         </command>
         <command name="section" param="Evaluation design">
+          <command name="label" param="sec:EvaluationDesign" />
           <!-- TODO: should we move a few words from the overview section up here? -->
         <!--
         = TODO: regarding the motivation for CGT in our case
@@ -1739,6 +1745,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           -->
         </command>
         <command name="section" param="Validation">
+          <command name="label" param="sec:Validation" />
           To help meet the goal, the proposed SME testability refactoring was applied on selected parts of three open-source projects and then compared against two other strategies as well as the baseline.
 
           <table placement="htbp">
@@ -1863,18 +1870,16 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
         </command>
         <command name="section" param="Synopsis">
           <!-- Can be thought of as the companion to the "Outline" section or maybe the Abstract chapter -->
-          The "state problem" was introduced as a specific problem in the general field of software testing.  Its importance as a research topic was motivated and then the goal of this thesis was introduced:  to improve the testability of classes that suffer from the state problem - because they contain hidden, mutable state - while minimally affecting functionality, maintainability and the public interface of the code under test.  Three metrics were introduced to evaluate the effectiveness of any proposed approach and finally a plan was presented to address this problem with, as objectives, the development and application of an approach that addresses the goal, as well an evaluation mechanism to validate the proposed approach.
+          In chapter <see ref="chapter:Introduction" />, the "state problem" was introduced as a specific problem in the general field of software testing.  Section <see ref="sec:Motivation" /> motivated the importance of the "state problem" as a research topic as section <see ref="sec:Goal" /> introduced the goal of this thesis:  to improve the testability of classes that suffer from the state problem - because they contain hidden, mutable state - while minimally affecting functionality, maintainability and the public interface of the code under test.  These three conditions were converted into three metrics from which the effectiveness of any proposed approach could be evaluated:  complexity of the unit tests, number of changes to the public interface of the class under test and percentage of branches covered using concolic testing.  The chapter concluded with the following objectives in section <see ref="sec:Objectives" />: the development of an approach that addresses the goal, the development of an automated evaluation mechanism to validate the proposed approach, the application of the approach (as well as two others, for relative comparison purposes) on select open-source projects and the application of the evaluation on the modified open-source projects.
 
-          Related background and work was presented to explain the problem space, establish context and cover previous attempts at solving similar problems in the fields of test generation and program transformation.
+          Related background and work was presented in chapter <see ref="chapter:Background" /> to explain the problem space, establish context and cover previous attempts at solving similar problems in the fields of test generation and program transformation.
 
-          The stateless method extraction approach was designed and discussed, with many source code examples presented.
+          Chapter <see ref="chapter:Approach" /> describes the stateless method extraction approach in section <see ref="sec:Design" />, with many source code examples presented.  Suitability is then discussed in section <see ref="sec:Suitability" />, covering cases other than HMS where SME can be used, followed by SME's best conditions for applicability in section <see ref="sec:Applicability" /> and concluding with a discussion of intents and their associated consequences in section <see ref="sec:Decisions" />.
 
-          An evaluation mechanism was described, and the proposed approach, as well as two others, were applied on three open-source projects so that each approach could be compared against each other as well as against the baseline source code.  Empirical summary and detailed results were presented and discussed.  Lastly, the results were cross-referenced with the goal's metrics and were shown to validate the proposed approach through concolic testing code coverage increases between 3 to 7 percent, unit test complexity decreases between 6 and 11 points and no changes to the public interface.
+          In chapter <see ref="chapter:ResultsValidation" />, an evaluation mechanism was described in section <see ref="sec:EvaluationDesign" /> after which the proposed approach, as well as two others, were applied on three open-source projects so that each approach could be compared against each other as well as against the baseline source code.  Empirical summary and detailed results were presented in sections <see ref="sec:Results" /> and <see ref="sec:DetailedResults" />, respectively.  Lastly, in section <see ref="sec:Validation" /> the results were cross-referenced with the goal's metrics and were shown to validate the proposed approach through concolic testing code coverage increases between 3 to 7 percent, unit test complexity decreases between 6 and 11 points and no changes to the public interface.
         </command>
         <command name="section" param="Discussion">
           <!-- list of inferences made -->
-          Given the objectives were implemented and the goal's metrics shown to be improved as a result of applying SME, the goal can be said to be fulfilled.
-          
           <command name="subsection" param="Bias">
             <command name="label" param="subsec:threats" />
             The following examples identify ways to mitigate bias and its corresponding risk to our results.
