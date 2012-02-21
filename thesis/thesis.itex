@@ -1742,39 +1742,103 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           To help meet the goal, the proposed SME testability refactoring was applied on selected parts of three open-source projects and then compared against two other strategies as well as the baseline.
 
           <table placement="htbp">
-            <tbody spec="p{0.2\textwidth} | R{0.2\textwidth} R{0.2\textwidth} | R{0.2\textwidth}">
+            <tbody spec="p{0.01\textwidth} p{0.24\textwidth} | R{0.15\textwidth} R{0.15\textwidth} | R{0.15\textwidth}">
               <tr>
-                <td />
+                <td multicolumn="{2}{l|}">Metrics</td>
                 <td multicolumn="{2}{c|}">Strategies</td>
                 <td />
               </tr>
               <tr>
-                <td>Metrics</td>
+                <td />
+                <td>Projects</td>
                 <td>Do nothing</td>
                 <td>SME</td>
                 <td>Difference</td>
               </tr>
               <hline />
               <tr>
-                <td>MI MT <footnote>Complexity of unit tests: A higher number indicates better maintainability and, consequently, lower complexity.</footnote></td>
+                <td multicolumn="{2}{l|}">MI MT <footnote>Complexity of unit tests: A higher number indicates better maintainability and, consequently, lower complexity.</footnote> (average)</td>
                 <td>77.33</td>
                 <td>85.33</td>
                 <td>+8.00</td>
               </tr>
               <tr>
-                <td>PIC <footnote>Public interface changes: A lower number is better.</footnote></td>
+                <td />
+                <td><tt>Textile</tt></td>
+                <td>78.00</td>
+                <td>85.00</td>
+                <td>+7.00</td>
+              </tr>
+              <tr>
+                <td />
+                <td><tt>KeePassLib</tt></td>
+                <td>70.00</td>
+                <td>81.00</td>
+                <td>+11.00</td>
+              </tr>
+              <tr>
+                <td />
+                <td><tt>AtomicCms</tt></td>
+                <td>84.00</td>
+                <td>90.00</td>
+                <td>+6.00</td>
+              </tr>
+              <tr>
+                <td multicolumn="{2}{l|}">PIC <footnote>Public interface changes: A lower number is better.</footnote> (average)</td>
                 <td>0</td>
                 <td>0</td>
                 <td>0</td>
               </tr>
               <tr>
-                <td>VSP/TSP <footnote>The percentage of branches covered using concolic testing. A higher number is better.</footnote></td>
+                <td />
+                <td><tt>Textile</tt></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td />
+                <td><tt>KeePassLib</tt></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td />
+                <td><tt>AtomicCms</tt></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td multicolumn="{2}{l|}">VSP/TSP <footnote>The percentage of branches covered using concolic testing. A higher number is better.</footnote> (average)</td>
                 <td>52.92%</td>
                 <td>57.92%</td>
                 <td>+5.00%</td>
               </tr>
+              <tr>
+                <td />
+                <td><tt>Textile</tt></td>
+                <td>59.79%</td>
+                <td>67.02%</td>
+                <td>+7.23%</td>
+              </tr>
+              <tr>
+                <td />
+                <td><tt>KeePassLib</tt></td>
+                <td>45.90%</td>
+                <td>49.18%</td>
+                <td>+3.28%</td>
+              </tr>
+              <tr>
+                <td />
+                <td><tt>AtomicCms</tt></td>
+                <td>50.24%</td>
+                <td>55.23%</td>
+                <td>+4.99%</td>
+              </tr>
             </tbody>
-            <command name="caption" param="Comparison of the results between \texttt{base} and \texttt{manual}." />
+            <command name="caption" param="Comparison of the results between \texttt{base} and \texttt{manual}, on average and per-project." />
             <command name="label" param="tbl:TransposedResults" />
           </table>
 
