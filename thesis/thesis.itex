@@ -114,7 +114,7 @@ http://tex.stackexchange.com/questions/10270/
           <region name="table and two stateful code listings">
             <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
             <listing label="lst:StatefulSmokeDetector" style="realCode" file="Stateful/SmokeDetector.cs">
-              C# showing the <tt>SmokeDetector</tt> class with hidden mutable state
+              C# showing the <tt>SmokeDetector</tt> class with HMS
             </listing>
             <raw>&amp;</raw>
             <listing label="lst:StatefulSmokeDetectorTest" style="realCode" file="Stateful/SmokeDetectorTest.cs">
