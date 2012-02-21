@@ -1336,10 +1336,10 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             Table <see ref="tbl:complexityResults" /> lists the per-project overall results of running the CMPT tool on the manually-written unit tests to obtain their maintainability index.
 
             <table placement="htbp">
-              <tbody spec="p{0.29\textwidth} | R{0.12\textwidth} R{0.18\textwidth} R{0.18\textwidth} R{0.12\textwidth}">
+              <tbody spec="p{0.16\textwidth} | R{0.10\textwidth} R{0.17\textwidth} R{0.17\textwidth} R{0.10\textwidth} | R{0.13\textwidth}">
                 <tr>
                   <td />
-                  <td multicolumn="{4}{c}">Strategies</td>
+                  <td multicolumn="{4}{c|}">Strategies</td>
                 </tr>
                 <tr>
                   <td>Projects</td>
@@ -1347,6 +1347,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                   <td><tt>visibility<raw>\newline</raw>-state</tt></td>
                   <td><tt>visibility</tt></td>
                   <td><tt>manual</tt></td>
+                  <td>Difference <footnote>Difference between <tt>manual</tt> and <tt>base</tt></footnote></td>
                 </tr>
                 <hline />
                 <tr>
@@ -1355,6 +1356,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                   <td>76.00</td>
                   <td>76.00</td>
                   <td>85.00</td>
+                  <td>+7.00</td>
                 </tr>
                 <tr>
                   <td><tt>KeePassLib</tt></td>
@@ -1362,6 +1364,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                   <td>70.00</td>
                   <td>80.00</td>
                   <td>81.00</td>
+                  <td>+11.00</td>
                 </tr>
                 <tr>
                   <td><tt>AtomicCms</tt></td>
@@ -1369,6 +1372,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                   <td>84.00</td>
                   <td>75.00</td>
                   <td>90.00</td>
+                  <td>+6.00</td>
                 </tr>
               </tbody>
               <command name="caption" param="Overall Maintainability Index of the unit tests in the \texttt{ManualTests} project per evaluation project, per strategy" />
