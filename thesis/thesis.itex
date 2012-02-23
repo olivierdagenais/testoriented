@@ -74,17 +74,17 @@ http://tex.stackexchange.com/questions/10270/
       <command name="chapter" param="Introduction">
         <command name="label" param="chapter:Introduction" />
         <command name="section" param="Introduction">
-          This chapter introduces the problem and the motivation for solving it, as well as the overall goal and specific objectives.  It concludes with an overview of the rest of the document.
+          This chapter introduces the problem the thesis addresses and the motivation for solving it, as well as the overall thesis goal and specific objectives. It concludes with an overview of the rest of the thesis.
         </command>
         <command name="section" param="Problem">
-          Software has advanced considerably in the last several years, but has software quality kept up?  We do not always know how good a program or component is or if it is free of defects, if only those defects that will affect us, directly or otherwise.  Software defects can range from the benign, such as incorrect colors and typographical errors in the interface or output, to very serious, such as causing the destruction of a rocket carrying four satellites <see cite="lions96ariane, esa05clustermission" /> or causing the death of several patients <see cite="leveson95medicaldevices" />.
+          Software has advanced considerably in the last several years, but has software quality kept up?  We do not always know how good a program or component is or if it is free of defects, and if those defects will affect the program, directly or otherwise.  Software defects can range from the benign, such as incorrect colors and typographical errors in the interface or output, to very serious, such as causing the destruction of a rocket carrying four satellites <see cite="lions96ariane, esa05clustermission" /> or causing the death of several patients <see cite="leveson95medicaldevices" />.
 
           Programming languages and compilers evolved to add features that make it easier to write code, although those features do not always make it easier to test the same code.  Object-oriented programming (OOP), for example, has introduced constructs and paradigms designed to make abstraction, inheritance and polymorphism easier, but at the same time introduced a feature that can make testing more difficult:  encapsulation (information hiding) in the form of instance state.  Encapsulation allows an object to hide its implementation details so as to present a simpler interface to callers.  Indeed, Alan Kay describes this simpler, higher-level interaction between objects as "goals", replacing low-level assignments: "Again, the whole point of OOP is <u>not</u> to have to worry about what is <em>inside</em> an object." <see cite="kay93earlyhistory" />
 
           Hidden and mutable instance state poses a problem for automated unit testing because that instance state may come into play when exercising a specific scenario <see cite="binder00testharness" />.  Since the instance state is mutable, the values may not be initialized at instance construction or can change as instance methods are called.  Because the instance state is hidden, there exists, by definition, no way to manipulate this instance state directly.  Separately, hidden (but immutable) instance state or mutable (but visible) instance state do not provide too many difficulties for test writing.  It is the combination of the hidden and mutable properties that makes it difficult to write tests.
 
           <command name="subsection" param="Hidden mutable state, described">
-            Hidden mutable state (HMS) manifests itself in a few different forms:
+            Hidden mutable state (HMS) manifests itself in different forms:
             <block param="itemize">
               <command name="item"> Instance state that cannot be set from the constructor or a factory method.</command>
               <command name="item"> Instance state that cannot be directly set from a setter method or property.</command>
@@ -103,7 +103,7 @@ http://tex.stackexchange.com/questions/10270/
 
           In the process of testing a method that uses hidden instance state (as input, output or both), it usually becomes necessary to write the unit test such that it will indirectly orchestrate said instance state so that specific scenarios can be implemented.  This makes the test method difficult to maintain because the test will be more unwieldy and less obvious - especially in the "arrange" phase <see cite="reehal10arrangeact" /> - which may discourage the creation of such tests.
 
-          An example of the state problem can be seen in listings <see ref="lst:StatefulSmokeDetector" /> and <see ref="lst:StatefulSmokeDetectorTest" />.  This demonstrates how having all the instance fields private forces any test wishing to bring the object to a certain state - such as "alarm sounds while detection decays" - to repeatedly call the <tt>Cycle()</tt> method with various values provided to the <tt>level</tt> parameter.  By the same token, the only observable state for verification is the return value of the method, although, in this particular instance, this should be sufficient for most test scenarios.
+          An example of the state problem can be seen in listings <see ref="lst:StatefulSmokeDetector" /> and <see ref="lst:StatefulSmokeDetectorTest" />.  They demonstrate how having all the instance fields private forces any test wishing to bring the object to a certain state - such as "alarm sounds while detection decays" - to repeatedly call the <tt>Cycle()</tt> method with various values provided to the <tt>level</tt> parameter.  By the same token, the only observable state for verification is the return value of the method, although, in this particular instance, this should be sufficient for most test scenarios.
         </command>
         <command name="section" param="Motivation">
           <command name="label" param="sec:Motivation" />
@@ -118,7 +118,7 @@ http://tex.stackexchange.com/questions/10270/
               C# showing the <tt>SmokeDetector</tt> class with HMS
             </listing>
             <listing label="lst:StatefulSmokeDetectorTest" style="realCode" file="Stateful/SmokeDetectorTest.cs">
-              C# showing the test class for the <tt>SmokeDetector</tt>
+              C# showing the test class for the <tt>SmokeDetector</tt>, with the repeated calls to the <tt>Cycle()</tt> method
             </listing>
           </region>
 
@@ -135,12 +135,14 @@ http://tex.stackexchange.com/questions/10270/
 
           <region name="two stateless code listings">
             <listing label="lst:StatelessSmokeDetector" style="realCode" file="Stateless/SmokeDetector.cs">
-              C# showing the <tt>SmokeDetector</tt> class with a stateless method extracted
+              C# showing the <tt>SmokeDetector</tt> class with the static <tt>Cycle()</tt> method overload extracted
             </listing>
             <listing label="lst:StatelessSmokeDetectorTest" style="realCode" file="Stateless/SmokeDetectorTest.cs">
               C# showing the test class for <tt>SmokeDetector</tt> exploiting the new <tt>Cycle()</tt> method overload
             </listing>
           </region>
+          
+          If we could surmount the unit testing obstacles brought on by HMS, we would be able to write more and better tests, thus enhancing our safety net for catching regressions as our software projects evolve and saving time and effort.
         </command>
         <command name="section" param="Goal">
           <command name="label" param="sec:Goal" />
@@ -217,7 +219,7 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
           </block>
         </command>
         <command name="section" param="Outline">
-          This document is organized as follows:  chapter <see ref="chapter:Background" /> introduces the problem domain, describes related concepts, related work and concludes with how the work fits in context.  Chapter <see ref="chapter:Approach" /> covers the design, suitability and applicability of the proposed testability refactoring, including many examples.  Chapter <see ref="chapter:ResultsValidation" /> introduces a mechanism by which to evaluate the proposed testability refactoring, followed by the results of the evaluation and their correlation to the goal.  The document ends with chapter <see ref="chapter:Conclusion" /> where the work is summarized, the results discussed and further work is proposed.
+          The remainder of the thesis is organized as follows:  chapter <see ref="chapter:Background" /> introduces the problem domain, describes related concepts, related work and concludes with how the work fits in context.  Chapter <see ref="chapter:Approach" /> covers the design, suitability and applicability of the proposed testability refactoring, including many examples.  Chapter <see ref="chapter:ResultsValidation" /> introduces a mechanism by which to evaluate the proposed testability refactoring, followed by the results of the evaluation and their correlation to the goal.  The document ends with chapter <see ref="chapter:Conclusion" /> where the work is summarized, the results discussed and further work is proposed.
         </command>
         <command name="section" param="Summary">
           <!-- key points of what was presented and linkage to next chapter -->
@@ -285,14 +287,14 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
           More details about the various flavours and uses of computer-generated tests are provided in the following sections.
         </command>
         <command name="section" param="Approaches to Computer-Generated Tests">
-          There are three major approaches in generating tests <see cite="lakhotia10empiricalinvestigation" />.
+          There are three major approaches in generating tests:  Random Testing, Search Based Software Testing and Concolic Testing <see cite="lakhotia10empiricalinvestigation" />, each described in the following sections.
           <command name="subsection" param="Random Testing">
             Random testing (RT), as the name implies, consists of generating inputs based on random numbers and is thus undirected.  RT does not perform as well as ET <see cite="wegener01evolutionarytest" />, although it has been used as a baseline for comparing other test generators <see cite="lakhotia10empiricalinvestigation" />.
           </command>
           <command name="subsection" param="Search Based Software Testing">
             Search-based software testing (SBST) is the application of a metaheuristic search technique (MST) to the problem of generating test inputs <see cite="mcminn04searchbased" />.  The technique is based around optimization of an <em>objective function</em>, trying to improve an initial solution based on feedback by said objective function - either by maximizing or minimizing its value, depending on the desired outcome - effectively making it a guided quest for global optima in the search space.
 
-            For test input generation, the search space is the domain of the test inputs and the objective function is carefully constructed to reward interesting and relevant test inputs.  The nature of "interesting and relevant" depends on the <em>intent</em> of the testing exercise.  Consult the following section for the major intents, but suffice it to say that the biggest difficulty of SBST lies in the definition of the objective function <see cite="baresel02fitnessfunction" />.
+            For test input generation, the search space is the domain of the test inputs and the objective function is carefully constructed to reward interesting and relevant test inputs.  The nature of "interesting and relevant" depends on the <em>intent</em> of the testing exercise.  Consult the following section for the major intents, but in general the biggest difficulty of SBST lies in the definition of the objective function <see cite="baresel02fitnessfunction" />.
 
             The general flow of MST implementations is to start with one or more "initial solutions", created either with domain knowledge or at random, and apply the objective function on the solution(s) to establish a solution score.  If no solution score exceeds a pre-defined threshold, tweak the solution(s) according to some heuristic and repeat the process with the new solution(s) until either no improvement in score is detected or some pre-defined time or iteration threshold is reached.
 
@@ -312,20 +314,20 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
         </command>
         <command name="section" param="Intents of Computer-Generated Tests">
           There are four major uses for Computer-Generated Tests (CGT).  They differ mostly in the choice of executable statement(s) to target and are not usually specific to any CGT approach in particular.  The exception is non-functional testing, which does not target any executable statement in particular and is more suited to an optimization approach (such as SBST).
-          <command name="subsection" param="Structural Testing">
+          <command name="subsection" param="Structural Testing Intent">
             Coupling an automated test generator with a code coverage tool makes it possible to discover which inputs can be used to reach otherwise hard-to-cover areas as well as areas of the code where no inputs can be found to reach them (within a pre-defined search time).  This could indicate that the code is unreachable because it contains, for example, conflicting pre-conditions.  Structural testing will generally attempt to execute all statements of an IUT at least once.
           </command>
-          <command name="subsection" param="Functional Testing">
+          <command name="subsection" param="Functional Testing Intent">
             Functional testing is a form of verification that uses a machine-readable form of the specification <see cite="mcminn04searchbased" />.  One way of doing so is with a formal specification expressed as disjunctions that represent <em>routes</em> (or paths) through the program.  These routes can then be tested individually using structural testing.
 
             An easier approach is to automatically turn the specification into pre-conditions and post-conditions.  The objective is then to find test inputs that conform to all pre-conditions but that cause post-conditions to fail, in effect targeting the fault branch of the post-conditions.
 
             A third approach is to encode the specification's requirements as a component of a simulator.  For example, Bühler and Wegener evaluated the functionality of a brake assist system using a simulator to find instances where the system either did not enhance the driver's brake torque in a critical situation or provided too much braking in a non-critical situation <see cite="buehler08evolutionaryfunctional" />.
           </command>
-          <command name="subsection" param="Grey-Box Testing">
+          <command name="subsection" param="Grey-Box Testing Intent">
             The objectives of grey-box testing are to attempt to get assertions already embedded in a program to be violated and to trigger exception conditions.  Some of the work even temporarily turned specially-formatted comments into executable assertions for the purposes of targeting their fault branches for execution <see cite="mcminn04searchbased" />.
           </command>
-          <command name="subsection" param="Non-Functional Testing">
+          <command name="subsection" param="Non-Functional Testing Intent">
             Non-functional testing concerns itself with verifying non-functional requirements, such as constraints on execution time, working memory, long-term storage and processor load, usually for embedded and real-time systems.  Test inputs are sought which cause the program to exceed pre-defined thresholds, such as taking more time than usual or consuming more memory than expected.  This can be measured by instrumentation external to the IUT, such as the operating system's timers and counters, or by using a simulator <see cite="sthamer02usingevolutionary" />.
           </command>
         </command>
@@ -378,7 +380,7 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
           We are not interested in any particular intent described in that section, since that applies only to CGT.
           Should we "score" the approaches by the cases in the related work section?  How does each approach help towards functional programming, towards transforming the IUT for testability purposes (which I guess we already have) and if the approach helps to improve simplicity of IUT or corresponding unit tests.
           -->
-          The present thesis focuses on addressing the glass-box unit testing difficulties introduced by hidden mutable state, in the context of object-oriented software, through the use of stateless method extraction.  In other words, the implementation under test is available for inspection as tests are written on a per-method basis for classes that contain private instance fields whose values are altered by calls to instance methods.
+          The thesis focuses on addressing the glass-box unit testing difficulties introduced by hidden mutable state, in the context of object-oriented software, through the use of stateless method extraction.  In other words, the implementation under test is available for inspection as tests are written on a per-method basis for classes that contain private instance fields whose values are altered by calls to instance methods.
 
           Considerations outside the scope of this thesis therefore include:
           <block param="itemize">
@@ -395,7 +397,7 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
             <!-- Is the last one really reasonable since the basis of this thesis was the ET-related "state problem"?  Shouldn't I be able to show some progress on that front? -->
           </block>
 
-          Stateless method extraction is to be compared against 3 other strategies for unit testing OO software containing hidden mutable state;  consult table <see ref="tbl:ScopeTable" /> to see which strategies are covered.
+          Stateless method extraction is to be compared against 3 other strategies for unit testing OO software containing hidden mutable state;  table <see ref="tbl:ScopeTable" /> describes precisely the strategies covered.
 
           <table placement="htbp">
             <tabular spec="l | >{\centering}m{2cm} >{\centering}m{2cm} | >{\centering}m{2cm}">
@@ -407,7 +409,7 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
               <tr><td>Making mutable state visible</td><td>IUT</td><td>N</td><td>Y</td></tr>
               <tr><td>Making state and methods visible</td><td>IUT</td><td>N</td><td>Y</td></tr>
               <tr><td>Making hidden state immutable</td><td>IUT</td><td>Y</td><td>N</td></tr>
-              <tr><td>Extracting test helper methods</td><td>tests</td><td>Y</td><td>N</td></tr>
+              <tr><td>Extracting test helper methods</td><td>tests</td><td>N</td><td>N</td></tr>
               <tr><td> "Private Access Driver"</td><td>IUT</td><td>N</td><td>N</td></tr>
               <tr><td> "Test Control Interface"</td><td>both</td><td>N</td><td>N</td></tr>
               <tr><td> "Drone"</td><td>tests</td><td>N</td><td>N</td></tr>
@@ -439,14 +441,14 @@ references as well.
         </command>
         <command name="section" param="Summary">
           <!-- key points of what was presented and linkage to next chapter -->
-          This chapter introduced the reader to some terminology and domain concepts before describing some more advanced concepts, related work and finally how the present thesis fits around existing research.
+          This chapter introduced the reader to representative terminology and domain concepts before describing more advanced concepts, related work and finally how the thesis fits into the existing research.
         </command>
       </command>
       <command name="chapter" param="Approach">
         <command name="label" param="chapter:Approach" />
         <command name="section" param="Introduction">
           <!-- what the chapter is about -->
-          This chapter describes the SME algorithm along with examples of its use, followed by discussions around when SME can be used as well as how, concluding with a discussion of decisions made.
+          > This chapter describes our approach to improving the testability of classes that suffer from the state problem.  Our approach takes the form of our SME algorithm and we described several examples of its use, followed by discussions on when SME can be used as well as how.  We conclude with a discussion of important decisions made.
         </command>
         <command name="section" param="Design">
           <command name="label" param="sec:Design" />
@@ -482,7 +484,7 @@ references as well.
                 This reverses the actions of step #3 so the refactor has as little impact on the original code as possible and only contains the necessary changes.
               </command>
             </block>
-            Refer to listing <see ref="lst:Procedure" /> for a pseudo-code version of the stateless method extraction procedure.  The following sub-sections will cover the individual steps in greater detail.
+            Listing <see ref="lst:Procedure" /> shows a pseudo-code version of the stateless method extraction procedure.  The following sub-sections will cover the individual steps in greater detail.
             <!-- TODO: should this be an "algorithmic" block, instead? -->
             <block param="pseudoCode">
               <listing label="lst:Procedure" style="pseudoCode" file="Procedure.pc">
@@ -501,9 +503,7 @@ references as well.
                 Stateless statements are defined as depending directly on their inputs and without side-effects.  Statements that interpret input parameters to interact with the environment (such as reading/writing files and sending/receiving network traffic) are not considered stateless.  Statements may produce effects (such as assignment and return values) but may not cause other values to change as a result of execution (such as modifying HMS), as this would defeat the purpose.  Section <see ref="subsec:Step2" /> describes how to deal with non-stateless statements.
               </command>
               <command name="item"> Inputs (local variables, fields and/or method parameters): at least 1 but no more than 6.</command>
-              <command name="item"> Outputs (local variables, fields and/or return values): at least 1 but no more than 3.
-                <br />
-                At least one non-trivial result must be produced by processing the input(s).
+              <command name="item"> Outputs (local variables, fields and/or return values): at least 1 but no more than 3.  At least one non-trivial result must be produced by processing the input(s).
               </command>
             </block>
             Categories of interesting candidate blocks include:
@@ -674,7 +674,7 @@ references as well.
                 C# showing the unit test for the original <tt>OnContextAcquired()</tt> method
               </listing>
 
-              Armed with the information gathered by this analysis, we can now write a unit test, which can be seen in listing <see ref="lst:StatefulFootNoteFormatterStateTest" />.  As we can see, the <tt>arrange</tt> phase is rather complex, given it must initialize five variables to satisfy the requirements for all the methods involved.  Notice also how the <tt>assert</tt> phase can verify that the <tt>1</tt> we provided as part of the input on line 10 was indeed parsed out by the <tt>OnContextAcquired()</tt> method and then formatted again into the string that was written - through the <tt>Enter()</tt> method - to the <tt>TextWriter</tt>-compatible instance we provided on line 6.  This level of indirection is at best maddening and at worse a sufficient obstacle to prevent such unit tests to be written in the first place, encouraging more involved and/or fragile integration tests, if any.
+              Armed with the information gathered by this analysis, we can now write a unit test, which can be seen in listing <see ref="lst:StatefulFootNoteFormatterStateTest" />.  As we can see, the <tt>arrange</tt> phase is rather complex, given it must initialize five variables to satisfy the requirements for all the methods involved.  Notice also how the <tt>assert</tt> phase can verify that the substring <tt>"1"</tt> we provided inside the <tt>input</tt> string on line 10 was indeed parsed out by the <tt>OnContextAcquired()</tt> method and then formatted again as the substring <tt>"&lt;sup&gt;1&lt;/sup&gt;"</tt> into the string that was written - through the <tt>Enter()</tt> method - to the <tt>TextWriter</tt>-compatible instance we provided on line 6.  This level of indirection is at best maddening and at worse a sufficient obstacle to prevent such unit tests to be written in the first place, encouraging more involved and/or fragile integration tests, if any.
             </command>
             <command name="subsubsection" param="Identification of a candidate block">
               Keeping with our focus on the <tt>OnContextAcquired()</tt> method, the first step of SME would identify almost all the processing that takes place, since matching a regular expression, extracting one of the captured groups and converting a string into an integer are all "stateless statements" and together they produce a non-trivial result.  We can also identify one input - the value of the <tt>Tag</tt> property - and one output - assignment to the <tt>m_noteID</tt> field.
@@ -847,7 +847,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
 
           As noted in section <see ref="sec:Suitability" />, SME is suitable for more than HMS and, by the same token, can also be applied to more than legacy projects.  Sometimes there are technological reasons that impede the testability of a class or method.  For example, some frameworks force the introduction of a parameterless constructor to be able to create an instance of a class for the purposes of serialization.  Such frameworks may introduce mutable state where none would be present otherwise and SME can then be used to help keep the unit tests simple.
 
-          It would seem that any software project with insufficient testing coverage is fair game, although as the following sub-sections discuss, there are conditions under which SME could deliver more value than others.
+          It would seem that any software project with insufficient testing coverage is fair game, although as the following sub-sections discuss, there are conditions under which SME could deliver greater value than other techniques.
 
           <command name="subsection" param="Identifying stateless methods">
             <command name="label" param="subsec:IdentifyStateless" />
@@ -886,7 +886,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           <region name="Candidate block identification">
           The candidate block identification step in section <see ref="subsec:Step1" /> requires that blocks contain only stateless statements, because statelessness is a transitive property and the presence of any operation that causes side-effects in a method will disqualify all methods that call such a method from claiming statelessness.  A stateless method must therefore only call stateless methods, otherwise the effort is defeated.
 
-          The candidate block identification also calls for selecting computations that use 1 to 6 inputs because a method that accepts no parameters would have to return a constant (otherwise it could not be considered stateless) while 6 was selected as a suggested maximum number of inputs as a matter of experience, since too many inputs might make it difficult to write tests, defeating the goal of this thesis.  <!-- TODO: a stateless method with a single parameter could be implemented as an extension method or hanging off that class, as mentioned with Vector's [Dot|Cross]Product --> <!-- TODO: Binder p.172 "Suppose a small function has 6 or fewer variables.", p. 389 "It is effective for small methods: roughly [cyclomatic complexity] of 10 or less, six or fewer instance variables." -->
+          The candidate block identification also requires selecting computations that use 1 to 6 inputs because a method that accepts no parameters would have to return a constant (otherwise it could not be considered stateless) while 6 was selected as a suggested maximum number of inputs as a matter of experience, since too many inputs might make it difficult to write tests, defeating the goal of this thesis.  <!-- TODO: a stateless method with a single parameter could be implemented as an extension method or hanging off that class, as mentioned with Vector's [Dot|Cross]Product --> <!-- TODO: Binder p.172 "Suppose a small function has 6 or fewer variables.", p. 389 "It is effective for small methods: roughly [cyclomatic complexity] of 10 or less, six or fewer instance variables." -->
 
           The last criterion in block candidacy is selecting computations that produce 1 to 3 outputs because a method that does not return any results likely causes side-effects - thus can not be considered stateless - and side-effects are not trivial to observe during unit testing.  The suggested maximum number of outputs was also selected from experience and is again intended to keep unit tests simple, mostly because very few programming languages support returning more than one value at once.  Returning multiple values at once is often emulated by using a container for the values, either through a specialized type (such as <tt>Vector</tt> in listings <see ref="lst:StatefulVector" /> and <see ref="lst:StatelessVector" /> or <tt>EarthLocation</tt> in listing <see ref="lst:StatelessImmutableAttribute" />) or an anonymous one, such as a tuple <see cite="msdn10tupleclass, python08datastructures" />.  <!-- TODO: talk about experimental tuple unpacking in Mono: http://tirania.org/blog/archive/2009/Dec-23.html --> <!-- TODO: "returning" more than one value can be done with a call-back/functor -->
           </region>
@@ -905,14 +905,14 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
         </command>
         <command name="section" param="Summary">
           <!-- key points of what was presented and linkage to next chapter -->
-          This chapter introduced the steps of the SME algorithm, along with samples of the associated source code transformations.  The suitability of SME for more than HMS was discussed, as well as the conditions under which SME would work best, concluding with the motivations behind the ideas of SME.
+          This chapter introduced our approach, describing the steps of the SME algorithm, along with samples of the associated source code transformations.  The suitability of SME for more than HMS was discussed, as well as the conditions under which SME would work best, concluding with the motivations behind the decisions made in the SME.
         </command>
       </command>
       <command name="chapter" param="Results and Validation">
         <command name="label" param="chapter:ResultsValidation" />
         <command name="section" param="Introduction">
           <!-- what the chapter is about -->
-          This chapter describes an experiment with which SME's efficiency at improving testability can be measured and compared against other strategies.  The results of this experiment are summarized and also presented in great detail, concluding with the relation of the results with the metrics of the goal.
+          This chapter describes experiments with which SME's efficiency at improving testability can be measured and compared against other strategies.  The results of the experiments are summarized and also presented in great detail, concluding with the relation of the results with the metrics of the goal.
         </command>
         <command name="section" param="Evaluation design">
           <command name="label" param="sec:EvaluationDesign" />
@@ -1765,7 +1765,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           <!-- Cross-reference with Scope and discuss observed trade-offs of other potential approaches -->
         </command>
         <command name="section" param="Summary">
-          This chapter introduced the mechanism used to compare SME against two other strategies, the open-source projects with which the experiments and metrics were carried out as well as what tools were used and how.  The results showed how well SME performed and how the goal was validated.
+          This chapter introduced the mechanism used to compare SME against two other strategies, the open-source projects with which the experiments and metrics were carried out as well as what tools were used and how.  The results showed that SME improved testing and how the goal was validated.
         </command>
       </command>
       <command name="chapter" param="Conclusion">
