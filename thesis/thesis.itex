@@ -457,7 +457,7 @@ references as well.
         <command name="label" param="chapter:Approach" />
         <command name="section" param="Introduction">
           <!-- what the chapter is about -->
-          > This chapter describes our approach to improving the testability of classes that suffer from the state problem.  Our approach takes the form of our SME algorithm and we described several examples of its use, followed by discussions on when SME can be used as well as how.  We conclude with a discussion of important decisions made.
+          This chapter describes our approach to improving the testability of classes that suffer from the state problem.  Our approach takes the form of our SME algorithm and we described several examples of its use, followed by discussions on when SME can be used as well as how.  We conclude with a discussion of important decisions made.
         </command>
         <command name="section" param="Design">
           <command name="label" param="sec:Design" />
