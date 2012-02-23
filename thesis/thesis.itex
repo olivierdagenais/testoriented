@@ -15,8 +15,9 @@
 
     <region comment='the "listings" package is used for source code snippets'>
       <command name="usepackage" param="listings" />
+      <command name="usepackage" param="setspace" />
       <command name="lstset" param="tabsize=2" />
-      <command name="lstdefinestyle" param="realCode}{basicstyle=\tiny\ttfamily, numbers=left, numberstyle=\tiny\ttfamily" />
+      <command name="lstdefinestyle" param="realCode}{basicstyle=\footnotesize\ttfamily, xleftmargin=2em, numbers=left, numberstyle=\footnotesize\ttfamily" />
       <command name="lstdefinestyle" param="pseudoCode}{basicstyle=\small, numbers=none" />
       <!-- Override the lstinputlisting command to surround it inside braces,
       otherwise the style parameter does not work:
@@ -112,17 +113,13 @@ http://tex.stackexchange.com/questions/10270/
           -->
           Lest we could somehow perform the practically impossible "complete testing" (in other words, exhaustively trying all possible inputs), testing can only show the presence of defects and not their absence <see cite="dijkstra69structuredprogramming" />.  A good set of automated tests, on the other hand, can catch software regressions that may be introduced through the addition of a feature or the removal of a defect.  Finding - and fixing - regressions as early as possible ensures the fixing cost is minimized <see cite="spolsky00joeltest, patton05softwaretesting" />.  A good set of automated tests is henceforth defined as one that can catch most software regressions.
 
-          <!-- TODO: should the listings use a figure with subfloats, instead? -->
-          <region name="table and two stateful code listings">
-            <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
+          <region name="two stateful code listings">
             <listing label="lst:StatefulSmokeDetector" style="realCode" file="Stateful/SmokeDetector.cs">
               C# showing the <tt>SmokeDetector</tt> class with HMS
             </listing>
-            <raw>&amp;</raw>
             <listing label="lst:StatefulSmokeDetectorTest" style="realCode" file="Stateful/SmokeDetectorTest.cs">
               C# showing the test class for the <tt>SmokeDetector</tt>
             </listing>
-            <raw>\end{tabular}</raw>
           </region>
 
           A metric commonly used to represent confidence in a set of automated tests is code coverage percentage, usually in the form of statement coverage <see cite="sink06advocatingcoverage" />.  Code that is covered might be - but is not necessarily - tested, but uncovered code is definitely untested code <see cite="binder00classes" />.  Shipping software with untested code is like serving a dish that has not yet been tasted. <!-- can quote [Rapps+85, 367], which is reprinted in Binder, page 67 -->
@@ -136,17 +133,13 @@ http://tex.stackexchange.com/questions/10270/
 
           One perhaps less obvious option is the extraction of a subset of the state<em>ful</em> functionality in the form of a state<em>less</em> method which has all its inputs and outputs available to the test driver, while sourcing those inputs and outputs from and to the very instance fields they represent within the implementation itself.  An example of this can be seen in listings <see ref="lst:StatelessSmokeDetector" /> and <see ref="lst:StatelessSmokeDetectorTest" />.  The original implementation of the <tt>Cycle()</tt> method has been trivially extracted into a static overload that accepts all its input and emits all its output through parameters and the method return value<footnote>The <tt>ref</tt> keyword in C# causes the method argument to be passed by reference, such that "any change to the parameter in the method is reflected in the underlying argument variable in the calling method."<see cite="msdn10ref"/></footnote>.  The <tt>AccumulateDetection()</tt> test method can then be written to supply values for all parameters, while keeping the fields that the parameters would be initialized from safe from modification.  Indeed, the previous test is still there, unchanged, since the <tt>SmokeDetector</tt>'s public interface did not change as a result of performing this transformation.
 
-          <!-- TODO: should the listings use a figure with subfloats, instead? -->
-          <region name="table and two stateless code listings">
-            <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
+          <region name="two stateless code listings">
             <listing label="lst:StatelessSmokeDetector" style="realCode" file="Stateless/SmokeDetector.cs">
               C# showing the <tt>SmokeDetector</tt> class with a stateless method extracted
             </listing>
-            <raw>&amp;</raw>
             <listing label="lst:StatelessSmokeDetectorTest" style="realCode" file="Stateless/SmokeDetectorTest.cs">
               C# showing the test class for <tt>SmokeDetector</tt> exploiting the new <tt>Cycle()</tt> method overload
             </listing>
-            <raw>\end{tabular}</raw>
           </region>
         </command>
         <command name="section" param="Goal">
@@ -532,31 +525,20 @@ references as well.
               </command>
             </block>
 
-            <tabular spec="p{0.45\textwidth} p{0.45\textwidth}">
-              <tr>
-                <td>
-                  <listing label="lst:StatefulFlyingSalesPerson" style="realCode" linerange="13-58" file="Stateful/FlyingSalespersonProblem.cs">
-                    C# showing the <tt>ComputeTourLength()</tt> method in the <tt>FlyingSalespersonProblem</tt> class with some inlined mathematical formulas
-                  </listing>
-                </td>
-                <td>
-                  <listing label="lst:StatelessComputeTourLength" style="realCode" linerange="13-69" file="Stateless/FlyingSalespersonProblem.cs">
-                    C# showing the <tt>FlyingSalespersonProblem</tt> class after the <tt>ToRadians()</tt> and <tt>CalculateGreatCircleDistance()</tt> methods were extracted
-                  </listing>
-                </td>
-              </tr>
-            </tabular>
+            <listing label="lst:StatefulFlyingSalesPerson" style="realCode" linerange="13-58" file="Stateful/FlyingSalespersonProblem.cs">
+              C# showing the <tt>ComputeTourLength()</tt> method in the <tt>FlyingSalespersonProblem</tt> class with some inlined mathematical formulas
+            </listing>
+            <listing label="lst:StatelessComputeTourLength" style="realCode" linerange="13-69" file="Stateless/FlyingSalespersonProblem.cs">
+              C# showing the <tt>FlyingSalespersonProblem</tt> class after the <tt>ToRadians()</tt> and <tt>CalculateGreatCircleDistance()</tt> methods were extracted
+            </listing>
             
-            <region name="table and two code listings for partial loop block extraction">
-              <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
+            <region name="two code listings for partial loop block extraction">
               <listing label="lst:StatefulGenerateXml" style="realCode" linerange="40-78" file="Stateful/ImageCollection.cs">
                 C# showing the <tt>GenerateXml()</tt> method with a candidate block between lines 19-30
               </listing>
-              <raw>&amp;</raw>
               <listing label="lst:StatelessGenerateXml" style="realCode" linerange="40-87" file="Stateless/ImageCollection.cs">
                 C# showing the <tt>GenerateXml()</tt> method with the candidate block extracted as the <tt>GenerateItemNode()</tt> method
               </listing>
-              <raw>\end{tabular}</raw>
             </region>
             It follows that there are uninteresting categories of blocks, such as:
             <block param="itemize">
@@ -582,16 +564,13 @@ references as well.
             <command name="label" param="subsec:Step2" />
             The second SME step is about finding and, if necessary, moving statements that are either unrelated to a computation or statements that are not stateless (such as those that cause side-effects) out of the candidate block, but only if the original instance method's functionality will not be adversely affected by the move.  If the functionality would indeed be adversely affected by the re-ordering of unrelated or non-stateless statements, the candidate block should be split such that its new endpoint is just before said unrelated or non-stateless statement, and a subsequent candidate block could be attempted just after.
 
-            <region name="table and two code listings for operation re-ordering">
-              <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
+            <region name="two code listings for operation re-ordering">
               <listing label="lst:StatefulGenerateXmlIntermixed" style="realCode" linerange="80-118" file="Stateful/ImageCollection.cs">
                 C# showing the <tt>GenerateXmlIntermixed()</tt> method with a candidate block between lines 18-33
               </listing>
-              <raw>&amp;</raw>
               <listing label="lst:StatefulGenerateXmlUnmixed" style="realCode" linerange="40-78" file="Stateful/ImageCollection.cs">
                 C# showing the <tt>GenerateXml()</tt> method with a shorter candidate block between lines 19-30
               </listing>
-              <raw>\end{tabular}</raw>
             </region>
 
             An example of unrelated statements can be seen in listing <see ref="lst:StatefulGenerateXmlIntermixed" />, specifically in the candidate block identified between lines 18 and 33.  The majority of the operations in the block concern themselves with the creation and configuration of the <tt>itemNode</tt> instance while at least 3 of them perform tasks incidental to the <tt>itemNode</tt> configuration:  lines 21, 23 and 25.  Line 20 does augment <tt>itemNode</tt>, but does so with a trivial operation (the <tt>Add()</tt> method call) and so its inclusion in the candidate block could be argued either way.  For the purposes of this example, line 20 will be considered incidental.  The candidate block could be shrunk by re-ordering all the operations identified as incidental without affecting the functionality.  In particular, the <tt>mortonNumber++;</tt> operation on line 23 is only sensitive to ordering insofar as <tt>itemNode.SetAttributeValue("N", mortonNumber);</tt> on line 22 is concerned and thus could be moved down and out of the candidate block.  Lines 20 and 21 depend on one another as well as line 19 (the creation of the <tt>itemNode</tt> instance), but the behaviour would be the same if they appeared at the end of the block (the XML API used in the example guarantees this) and therefore, because they have no advantage being located immediately after the creation of <tt>itemNode</tt>, they can be safely moved out of the candidate block.  The last incidental operation is <tt>maxPostId = Math.Max(maxPostId, postId);</tt> on line 25.  Its only dependency is the <tt>postId</tt> loop variable and thus could be moved up to be the very first operation in the loop.  Listing <see ref="lst:StatefulGenerateXmlUnmixed" /> illustrates the result of re-ordering the lines containing incidental operations and the smaller, simpler candidate block obtained between lines 19 and 30.
@@ -601,30 +580,24 @@ references as well.
 
             An example of a non-stateless method in the middle of a candidate block can be seen at line 22 of listing <see ref="lst:StatefulSubversionClient" />.  The <tt>ExecuteSvn()</tt> method, defined at line 48, starts a sub-process and returns the contents of <tt>StandardOutput</tt> and thus is said to interact with the environment, making it definitely non-stateless.  In this particular case, because the <tt>ExecuteSvn()</tt> method depends on the computations immediately above it and provides input needed by the computations immediately below it, it can not be moved before or after the candidate block (lines 14-42).  This causes the original candidate block to be split into parts excluding the immovable, non-stateless method with the first half being lines 14-20 and the second half lines 24-42.  Listing  <see ref="lst:StatelessSubversionClient" /> shows the two stateless methods that were extracted, respectively, from the first and second candidate blocks: <tt>CreateInfoArguments()</tt> and <tt>ParseInfoFromXml()</tt>.
 
-            <region name="table and two code listings for candidate block splitting">
-              <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
+            <region name="two code listings for candidate block splitting">
               <listing label="lst:StatefulSubversionClient" style="realCode" linerange="6-66" file="Stateful/SubversionClient.cs">
                 C# showing the <tt>LoadInfo()</tt> method with a candidate block between lines 14-42
               </listing>
-              <raw>&amp;</raw>
               <listing label="lst:StatelessSubversionClient" style="realCode" linerange="6-62" file="Stateless/SubversionClient.cs">
                 C# showing the two stateless methods that were extracted from the <tt>LoadInfo()</tt> method
               </listing>
-              <raw>\end{tabular}</raw>
             </region>
 
             It could also be the case that the original instance method is computing several outputs simultaneously and such statements are intermixed.  If the outputs are independently-computed (or their computations share some intermediate results, then diverge), it may be worth investigating the separation of their computations by re-ordering statements such that they can then be extracted, and subsequently unit tested, independently.  An example of intermixed computations can be seen in listing <see ref="lst:StatefulCartesianCoordinate" /> between lines 18 and 23, while another version of the method with the computations separated through re-ordering can be seen in listing <see ref="lst:StatelessCartesianCoordinate" />.
 
-            <region name="table and two code listings for math re-ordering">
-              <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
+            <region name="two code listings for math re-ordering">
               <listing label="lst:StatefulCartesianCoordinate" style="realCode" linerange="3-27" file="Stateful/CartesianCoordinate.cs">
                 C# showing the <tt>ToPolar()</tt> method with interleaved computations for <tt>r</tt> and <tt>theta</tt>
               </listing>
-              <raw>&amp;</raw>
               <listing label="lst:StatelessCartesianCoordinate" style="realCode" linerange="3-27" file="Stateless/CartesianCoordinate.cs">
                 C# showing the <tt>ToPolar()</tt> method with the computations for <tt>r</tt> and <tt>theta</tt> separated into their own consecutive sequences
               </listing>
-              <raw>\end{tabular}</raw>
             </region>
 
             Incidental operation re-ordering can be considered a form of program slicing <see cite="tip95surveyslicing" /> in that data dependency analysis <see cite="korel05datadependence" /> can be used to identify a subset of computations of a method responsible for one of the outputs and isolate them.  Assuming all the discarded operations were stateless, it would be safe to say that the remaining operations can execute one immediately after the other and still produce the same result, the same way lines 18, 20 and 22 in listing <see ref="lst:StatefulCartesianCoordinate" /> are necessary for the computation of <tt>r</tt> and can be re-arranged to be consecutive, as seen in lines 18, 19 and 20 in listing <see ref="lst:StatelessCartesianCoordinate" />.
@@ -639,44 +612,35 @@ references as well.
             <command name="label" param="subsec:Step4" />
             Stateless method extraction's fourth step entails finding the simplest types that can be used for the parameters and return values without causing an undue increase in their numbers.  Any type with an easy construction (a single call to a constructor or a factory method) and without side-effects while reading its component values (typical of an immutable instance) is considered "simple" for the purpose of SME.
 
-            <region name="table and two code listings for Vector math">
-              <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
+            <region name="two code listings for Vector math">
               <listing label="lst:StatefulVector" style="realCode" linerange="3-39" file="Stateful/Plane.cs">
                 C# showing the original <tt>Vector</tt> and <tt>Plane</tt> classes
               </listing>
-              <raw>&amp;</raw>
               <listing label="lst:StatelessVector" style="realCode" linerange="3-41" file="Stateless/Plane.cs">
                 C# showing the <tt>Plane</tt> class with two stateless methods extracted from it
               </listing>
-              <raw>\end{tabular}</raw>
             </region>
 
             As a first example of possible input simplification, suppose the candidate block's purpose is to compute the dot product of two 3D vectors and the parameters are currently two instances of a <tt>Vector</tt> type (refer to lines 33-34 of listing <see ref="lst:StatefulVector" /> for the candidate block and lines 36-38 of listing <see ref="lst:StatelessVector" /> for the extracted version).  The stateless method could also be written to accept 6 parameters representing both triplets of the vectors' values.  Assuming a <tt>Vector</tt> instance can be created in one statement (a call to its constructor, in this case) and reading its component values can cause no side-effects, it may be worth keeping the input parameters as two <tt>Vector</tt> instances for readability reasons.  It is worth noting that an argument could also be made to make the new <tt>DotProduct()</tt> method accept the 6 component values so that the method could be subsequently re-used to calculate dot products of vectors not expressed using instances of <tt>Vector</tt>.
 
-            <region name="table and two code listings for Match-based formatting">
-              <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
+            <region name="two code listings for Match-based formatting">
               <listing label="lst:StatefulCodeFormatMatchEvaluator" style="realCode" linerange="35-64" file="Stateful/CodeBlockModifier.cs">
                 C# showing the original <tt>CodeBlockModifier</tt> class
               </listing>
-              <raw>&amp;</raw>
               <listing label="lst:StatelessCodeFormatMatchEvaluator" style="realCode" linerange="35-78" file="Stateless/CodeBlockModifier.cs">
                 C# showing the <tt>CodeBlockModifier</tt> class with testability extractions
               </listing>
-              <raw>\end{tabular}</raw>
             </region>
 
             On the other hand, suppose the candidate block's purpose is to reformat text based on the results of a regular expression match, as shown between lines 22-27 in listing <see ref="lst:StatefulCodeFormatMatchEvaluator" />.  In this case, because the input parameter is of a type that is difficult to create <footnote>The <tt>Match</tt> class has no visible constructors.  The only way to create an instance is through the return value of the <tt>Match()</tt> method overloads on the <tt>Regex</tt> class.</footnote>, it is easy to argue that the method's parameters should be four strings (consult lines 34-43 of listing <see ref="lst:StatelessCodeFormatMatchEvaluator" /> to see the extracted method) instead of one <tt>Match</tt> instance, given how trivial strings are to create versus the complexity involved in creating said <tt>Match</tt> instance.  Indeed, as listings <see ref="lst:StatefulCodeFormatMatchEvaluatorTest" /> and <see ref="lst:StatelessCodeFormatMatchEvaluatorTest" /> show, the original method must either be tested indirectly (through calling the <tt>ModifyLine()</tt> method) or by creating a <tt>Match</tt> instance (in a rather pathological way, lest the original regular expression pattern is refactored for re-use as in lines 12-13 of listing <see ref="lst:StatelessCodeFormatMatchEvaluator" />), while the extracted stateless <tt>BuildCodeElementString()</tt> method can be tested directly.
 
-            <region name="table and two code listings for Match-based formatting tests">
-              <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
+            <region name="two code listings for Match-based formatting tests">
               <listing label="lst:StatefulCodeFormatMatchEvaluatorTest" style="realCode" linerange="7-36" file="Stateful/CodeBlockModifierTest.cs">
                 C# showing two ways to test the <tt>CodeFormatMatchEvaluator()</tt> method
               </listing>
-              <raw>&amp;</raw>
               <listing label="lst:StatelessCodeFormatMatchEvaluatorTest" style="realCode" linerange="19-50" file="Stateless/CodeBlockModifierTest.cs">
                 C# showing the parsing and formatting functionality tested directly and separately
               </listing>
-              <raw>\end{tabular}</raw>
             </region>
           </command>
           <command name="subsection" param="Step 5: Extraction of the candidate block into a method">
@@ -695,20 +659,12 @@ references as well.
             The following example demonstrates the application of SME on a simplified version of the <tt>FootNoteFormatterState</tt> class from the <em>Textile.NET</em> open-source project <see cite="chabant09textilenet" />.  First, the original implementation is presented in listing <see ref="lst:StatefulFootNoteFormatterState" />, along with the source code to its parent class in listing <see ref="lst:StatefulSimpleBlockFormatterState" />.  Second, a unit test will be attempted against the original implementation.  SME will then be applied and finally new unit tests will be written against the transformed implementation.
 
             <command name="subsubsection" param="Analysis and corresponding unit test">
-              <tabular spec="p{0.45\textwidth} p{0.45\textwidth}">
-                <tr>
-                  <td>
-                    <listing label="lst:StatefulFootNoteFormatterState" style="realCode" linerange="60-95" file="Stateful/FootNoteFormatterState.cs">
-                      C# showing the original <tt>FootNoteFormatterState</tt> class
-                    </listing>
-                  </td>
-                  <td>
-                    <listing label="lst:StatefulSimpleBlockFormatterState" style="realCode" linerange="25-58" file="Stateful/FootNoteFormatterState.cs">
-                      C# showing the <tt>SimpleBlockFormatterState</tt> base class
-                    </listing>
-                  </td>
-                </tr>
-              </tabular>
+              <listing label="lst:StatefulFootNoteFormatterState" style="realCode" linerange="60-95" file="Stateful/FootNoteFormatterState.cs">
+                C# showing the original <tt>FootNoteFormatterState</tt> class
+              </listing>
+              <listing label="lst:StatefulSimpleBlockFormatterState" style="realCode" linerange="25-58" file="Stateful/FootNoteFormatterState.cs">
+                C# showing the <tt>SimpleBlockFormatterState</tt> base class
+              </listing>
 
               As we can see in listing <see ref="lst:StatefulFootNoteFormatterState" />, the <tt>FootNoteFormatterState</tt> class is part of a framework and must fulfill a contract by implementing some methods from its base class, <tt>SimpleBlockFormatterState</tt> (see listing <see ref="lst:StatefulSimpleBlockFormatterState" />).  One of these methods is <tt>OnContextAcquired()</tt> (see lines 31-35 of listing <see ref="lst:StatefulFootNoteFormatterState" />), which reads from the <tt>Tag</tt> property, parses it with a regular expression and writes the result to the <tt>m_noteID</tt> field, a classic example of interaction with HMS.  We will focus on this method for the purposes of testing it, starting with an analysis of its inputs and outputs, so that we can feed it test data and verify its results.
               
@@ -760,39 +716,21 @@ references as well.
           <command name="subsection" param="Accelerated walkthrough">
             The following example demonstrates the application of SME for the purposes of testing the functionality of the <tt>Enter()</tt> method of the <tt>FootNoteFormatterState</tt> class in listing <see ref="lst:StatefulFootNoteFormatterState" />.  We are able to re-use the analysis we used for the <tt>OnContextAcquired()</tt> method and find that a test written against the original version of the class would look a lot like the one we came up with in listing <see ref="lst:StatefulFootNoteFormatterStateTest" />.  The rest of this sub-section will feature listings <see ref="lst:StatefulEnterFootNoteFormatterState" />, <see ref="lst:StatefulIntermediateEnterFootNoteFormatterState" />, <see ref="lst:StatelessIntermediateEnterFootNoteFormatterState" />, <see ref="lst:StatelessEnterFootNoteFormatterState" /> and <see ref="lst:StatelessFormatFootNoteTest" /> that illustrate - without narrative - the SME steps applied to increase the testability of the <tt>Enter()</tt> method and the unit test that can be written against the newly-extracted <tt>FormatFootNote()</tt> method.
 
-            <tabular spec="p{0.45\textwidth} p{0.45\textwidth}">
-              <tr>
-                <td>
-                  <listing label="lst:StatefulEnterFootNoteFormatterState" style="realCode" linerange="70-78" file="Stateful/FootNoteFormatterState.cs">
-                    C# showing the original <tt>Enter()</tt> method
-                  </listing>
-                </td>
-                <td>
-                  <listing label="lst:StatefulIntermediateEnterFootNoteFormatterState" style="realCode" linerange="107-117" file="Stateful/FootNoteFormatterState.cs">
-                    C# showing the <tt>Enter()</tt> method with temporary variables introduced
-                  </listing>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <listing label="lst:StatelessIntermediateEnterFootNoteFormatterState" style="realCode" linerange="119-135" file="Stateless/FootNoteFormatterState.cs">
-                    C# showing the <tt>FormatFootNote()</tt> method that was extracted from the <tt>Enter()</tt> method
-                  </listing>
-                </td>
-                <td>
-                  <listing label="lst:StatelessEnterFootNoteFormatterState" style="realCode" linerange="70-85" file="Stateless/FootNoteFormatterState.cs">
-                    C# showing the temporary variables re-inlined in the <tt>Enter()</tt> method
-                  </listing>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <listing label="lst:StatelessFormatFootNoteTest" style="realCode" linerange="8-20" file="Stateless/FootNoteFormatterStateTest.cs">
-                    C# showing the unit test for the <tt>FormatFootNote()</tt> method
-                  </listing>
-                </td>
-              </tr>
-            </tabular>
+            <listing label="lst:StatefulEnterFootNoteFormatterState" style="realCode" linerange="70-78" file="Stateful/FootNoteFormatterState.cs">
+              C# showing the original <tt>Enter()</tt> method
+            </listing>
+            <listing label="lst:StatefulIntermediateEnterFootNoteFormatterState" style="realCode" linerange="107-117" file="Stateful/FootNoteFormatterState.cs">
+              C# showing the <tt>Enter()</tt> method with temporary variables introduced
+            </listing>
+            <listing label="lst:StatelessIntermediateEnterFootNoteFormatterState" style="realCode" linerange="119-135" file="Stateless/FootNoteFormatterState.cs">
+              C# showing the <tt>FormatFootNote()</tt> method that was extracted from the <tt>Enter()</tt> method
+            </listing>
+            <listing label="lst:StatelessEnterFootNoteFormatterState" style="realCode" linerange="70-85" file="Stateless/FootNoteFormatterState.cs">
+              C# showing the temporary variables re-inlined in the <tt>Enter()</tt> method
+            </listing>
+            <listing label="lst:StatelessFormatFootNoteTest" style="realCode" linerange="8-20" file="Stateless/FootNoteFormatterStateTest.cs">
+              C# showing the unit test for the <tt>FormatFootNote()</tt> method
+            </listing>
           </command>
             <!-- examples
 sum-of-squares is an excellent example of statlessness that can be exploited for parallel processing after seperating the computation from the looping
@@ -852,20 +790,12 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             <command name="label" param="subsec:UnwieldyArrangePhase" />
             If a unit test method has an <em>arrange</em> phase that is longer than 50% of the test method, it is probably an indication that there are too many parameters, the parameters are too difficult to create and/or the functionality under test is buried too deep.  SME would help isolate the functionality that is intended to be tested and thus reduce the number of parameters, since candidate blocks are selected to use between 1 and 6 parameters.  SME would also help reduce the complexity of the parameters - the input simplification step takes care of this - and expose the computation as a single, direct method call.  The arrange phase would then be shrunk considerably, if not entirely removed, leading to simpler unit tests.  An example of an unwieldy arrange phase was seen in listing <see ref="lst:StatefulFootNoteFormatterStateTest" /> and can also be seen in listing <see ref="lst:StatefulCalculateGreatCircleDistanceTest" /> whereby a test for the <em>great circle distance</em> formula <see cite="weisstein99greatcircle" /> in the <tt>FlyingSalespersonProblem</tt> class (refer back to listing <see ref="lst:StatefulFlyingSalesPerson" />) must initialize a list of cities, an instance of the <tt>FlyingSalespersonProblem</tt> class and a visiting order.  Contrast this with the test for the <tt>CalculateGreatCircleDistance()</tt> stateless method in listing <see ref="lst:StatelessCalculateGreatCircleDistanceTest" /> which only needs to supply the coordinates of the two points. <!-- TODO: the CalculateGreatCircleDistance() method is a great building block to write and test on its own, leading to the construction of the ComputeTourLength() method, which can still be tested -->
 
-            <tabular spec="p{0.45\textwidth} p{0.45\textwidth}">
-              <tr>
-                <td>
-                  <listing label="lst:StatefulCalculateGreatCircleDistanceTest" linerange="12-31" file="Stateful/FlyingSalespersonProblemTest.cs" style="realCode">
-                    C# showing an indirect test of the <em>great circle distance</em> formula used by the <tt>ComputeTourLength()</tt> method
-                  </listing>
-                </td>
-                <td>
-                  <listing label="lst:StatelessCalculateGreatCircleDistanceTest" linerange="54-61" file="Stateless/FlyingSalespersonProblemTest.cs" style="realCode">
-                    C# showing a direct test of the <em>great circle distance</em> formula by calling the <tt>CalculateGreatCircleDistance()</tt> stateless method
-                  </listing>
-                </td>
-              </tr>
-            </tabular>
+            <listing label="lst:StatefulCalculateGreatCircleDistanceTest" linerange="12-31" file="Stateful/FlyingSalespersonProblemTest.cs" style="realCode">
+              C# showing an indirect test of the <em>great circle distance</em> formula used by the <tt>ComputeTourLength()</tt> method
+            </listing>
+            <listing label="lst:StatelessCalculateGreatCircleDistanceTest" linerange="54-61" file="Stateless/FlyingSalespersonProblemTest.cs" style="realCode">
+              C# showing a direct test of the <em>great circle distance</em> formula by calling the <tt>CalculateGreatCircleDistance()</tt> stateless method
+            </listing>
           </command>
 
           <command name="subsection" param="Computation coupling">
@@ -873,16 +803,13 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
 
             In this particular case, the SME technique was extended to include two other extractions:  the compile-time <tt>Pattern</tt> string constant representing the regular expression pattern and the <tt>CodeBlockRegex</tt> run-time constant representing the compiled regular expression.  This provided the unit tests with access to the same functionality used for performing the work, thereby enhancing the unit tests' realism and relevance.  Finally, SME's candidate block identification enabled the separation of parsing and formatting, which allowed both to be tested separately as units, as well as together since the public-facing functionality did not change as a result of the refactorings.
 
-            <region name="table and two code listings for computation coupling">
-              <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
+            <region name="two code listings for computation coupling">
               <listing label="lst:StatefulMortonLayout" style="realCode" linerange="4-27" file="Stateful/MortonLayout.cs">
                 C# showing the original <tt>Decode()</tt> method computing the values of <tt>x</tt> and <tt>y</tt> simultaneously
               </listing>
-              <raw>&amp;</raw>
               <listing label="lst:StatelessMortonLayout" style="realCode" linerange="4-31" file="Stateless/MortonLayout.cs">
                 C# showing the <tt>Decode()</tt> method with the <tt>DecodeAxis()</tt> method extracted out of it
               </listing>
-              <raw>\end{tabular}</raw>
             </region>
 
             Computation de-coupling might not always be addressable through SME as there could be computations that are tightly-coupled for readability or performance reasons and separating them would lead to a readability or performance loss.  An example of two computations that would be worse if separated can be seen in listing <see ref="lst:StatefulMortonLayout" />, where we can see that <tt>x</tt> and <tt>y</tt> are computed simultaneously.  Compare this to listing <see ref="lst:StatelessMortonLayout" />, where <tt>x</tt> and <tt>y</tt> are computed separately, meaning two runs through the loop on <tt>bits</tt> instead of one.  It is also less obvious, in the second case, that the values of <tt>x</tt> and <tt>y</tt> were obtained by interpreting interleaved bits of the Morton Layout's <tt>index</tt> <see cite="msdn08deepzoom" />.
@@ -926,16 +853,13 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             <command name="label" param="subsec:IdentifyStateless" />
             SME will work best if the programming language or toolkit used has a concept of a <em>stateless</em> method.  This would ensure that each method marked as such only reads from its input parameters, only writes to its return values, does not read from or write to any instance or static fields (reading from constants is acceptable, as long as they represent immutable instances), does not interact with the environment (such as reading a file, sending data across a network or updating a database) and only calls methods similarly identified as stateless.
 
-            <region name="table and two code listings for the proposed attributes">
-              <raw>\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}</raw>
+            <region name="two code listings for the proposed attributes">
               <listing label="lst:StatelessStatelessAttribute" style="realCode" linerange="3-24" file="Stateless/StatelessAttribute.cs">
                 C# showing a proposed <tt>Stateless</tt> attribute with a sample of its use
               </listing>
-              <raw>&amp;</raw>
               <listing label="lst:StatelessImmutableAttribute" style="realCode" linerange="3-24" file="Stateless/ImmutableAttribute.cs">
                 C# showing a proposed <tt>Immutable</tt> attribute with a sample of its use
               </listing>
-              <raw>\end{tabular}</raw>
             </region>
 
             Such a concept need not be implemented at the language level and could instead be implemented by a static code analysis (SCA) tool with the help of a designated decoration implemented, for example, as an attribute in .NET or as an annotation in Java.  Listing <see ref="lst:StatelessStatelessAttribute" /> shows a C# implementation of the proposed <tt>Stateless</tt> attribute (lines 1-5) and a sample of its use (line 12).  By placing the line <tt>[Stateless]</tt> above the <tt>FormatIso8601Utc()</tt> method definition, the C# compiler will include the reference to <tt>StatelessAttribute</tt> in the bytecode such that its presence on the method can be queried by SCA tools.
@@ -1262,24 +1186,10 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
         <command name="section" param="Representative SME applications">
           What follows are a few representative method transformations applying SME - as discussed in section <see ref="sec:Design" /> - to the noted open source projects.  The remaining method transformations are listed in Appendix <see ref="appendix:SmeApplication" />.
 
-          <tabular spec="p{0.45\textwidth} p{0.45\textwidth}">
-            <tr>
-              <td>
-                TODO: MUT before
-              </td>
-              <td>
-                TODO: MUT after
-              </td>
-            </tr>
-            <tr>
-              <td>
-                TODO: MT before
-              </td>
-              <td>
-                TODO: MT after
-              </td>
-            </tr>
-          </tabular>
+          TODO: MUT before
+          TODO: MUT after
+          TODO: MT before
+          TODO: MT after
         </command>
         <command name="section" param="Results">
           <command name="label" param="sec:Results" />
@@ -1596,20 +1506,12 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             
             The <tt>visibility-state</tt> strategy was again ineffective in the <tt>AtomicCms</tt> project because HMS was not the biggest unit testing obstacle.  The <tt>visibility</tt> strategy fared better because it could directly call the method under test, but still needed an arrange phase because an instance of the class needed to be created and the MUT had not benefited from input simplification like it did with the <tt>manual</tt> strategy.
 
-            <tabular spec="p{0.45\textwidth} p{0.45\textwidth}">
-              <tr>
-                <td>
-                  <listing label="lst:StatefulAdminMenuItemControllerTest" style="realCode" linerange="109-163" file="Stateful/AdminMenuItemControllerTest.cs">
-                    C# showing two <tt>AtomicCms</tt> unit tests in the <tt>base</tt> version
-                  </listing>
-                </td>
-                <td>
-                  <listing label="lst:StatelessAdminMenuItemControllerTest" style="realCode" linerange="12-36" file="Stateless/AdminMenuItemControllerTest.cs">
-                    C# showing the same two <tt>AtomicCms</tt> unit tests in the <tt>manual</tt> version
-                  </listing>
-                </td>
-              </tr>
-            </tabular>
+            <listing label="lst:StatefulAdminMenuItemControllerTest" style="realCode" linerange="109-163" file="Stateful/AdminMenuItemControllerTest.cs">
+              C# showing two <tt>AtomicCms</tt> unit tests in the <tt>base</tt> version
+            </listing>
+            <listing label="lst:StatelessAdminMenuItemControllerTest" style="realCode" linerange="12-36" file="Stateless/AdminMenuItemControllerTest.cs">
+              C# showing the same two <tt>AtomicCms</tt> unit tests in the <tt>manual</tt> version
+            </listing>
           </command>
           <command name="subsection" param="Number of changes to the public interface of the class under test">
             Table <see ref="tbl:publicInterfaceResults" /> lists the per-project results of running the Public Interfacer Comparer tool on the IUTs to obtain their number of public interface changes - or differences - relative to the base source code.
@@ -1994,27 +1896,15 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
         <command name="section" param="Examples">
           An example use of the Public Interface Comparer tool is presented below, where listing <see ref="lst:StatefulBlockModifier" /> shows one version of the <tt>BlockModifier</tt> class while listing <see ref="lst:StatelessBlockModifier" /> shows another with a few differences in visibilities.
 
-          <tabular spec="p{0.45\textwidth} p{0.45\textwidth}">
-            <tr>
-              <td>
-                <listing label="lst:StatefulBlockModifier" linerange="1-19" file="Stateful/BlockModifier.cs" style="realCode">
-                  C# showing the <tt>BlockModifier</tt> class from the <tt>Textile</tt> project after the <tt>visibility</tt> strategy was applied
-                </listing>
-              </td>
-              <td>
-                <listing label="lst:StatelessBlockModifier" linerange="1-19" file="Stateless/BlockModifier.cs" style="realCode">
-                  C# showing the <tt>BlockModifier</tt> class from the <tt>Textile</tt> project after some illustrative visibility changes were applied
-                </listing>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <listing label="lst:BlockModifierPIC" file="PIC-BlockModifier.txt" style="realCode">
-                  Sample report of the public interface differences between the code in listing <see ref="lst:StatefulBlockModifier" /> and that of listing <see ref="lst:StatelessBlockModifier" />
-                </listing>
-              </td>
-            </tr>
-          </tabular>
+          <listing label="lst:StatefulBlockModifier" linerange="1-19" file="Stateful/BlockModifier.cs" style="realCode">
+            C# showing the <tt>BlockModifier</tt> class from the <tt>Textile</tt> project after the <tt>visibility</tt> strategy was applied
+          </listing>
+          <listing label="lst:StatelessBlockModifier" linerange="1-19" file="Stateless/BlockModifier.cs" style="realCode">
+            C# showing the <tt>BlockModifier</tt> class from the <tt>Textile</tt> project after some illustrative visibility changes were applied
+          </listing>
+          <listing label="lst:BlockModifierPIC" file="PIC-BlockModifier.txt" style="realCode">
+            Sample report of the public interface differences between the code in listing <see ref="lst:StatefulBlockModifier" /> and that of listing <see ref="lst:StatelessBlockModifier" />
+          </listing>
 
           As we can see in listing <see ref="lst:BlockModifierPIC" />, the constructor (line 1) and the <tt>Conclude()</tt> method (line 2) were identified as public interface changes between the two versions of the <tt>BlockModifier</tt> class.
         </command>
