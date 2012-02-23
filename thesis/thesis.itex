@@ -1933,7 +1933,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           <command name="caption" param="Names and descriptions of the columns in the ``Raw data&quot; sheet of the online results spreadsheet." />
           <command name="label" param="tbl:SpreadsheetColumns" />
         </table>
-        <command name="includepdf" param="RawDataSpreadsheet.pdf" opt="pages={-},fitpaper=true" />
+        <command name="includepdf" param="RawDataSpreadsheet.pdf" opt="scale=0.8,offset=1.5em 0,pages={-},fitpaper=true,pagecommand=\thispagestyle{plain}" />
       </command>
     </command>
     <command name="bibliographystyle" param="abbrv" />
