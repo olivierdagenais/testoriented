@@ -340,7 +340,7 @@
       \MakeUppercase{#1}%
    \endgroup%
 }
-\newcommand{\dal@titlepage}{%
+\newcommand{\daltitlepage}{%
    \thispagestyle{empty}%
    \ifdal@draft@mode
      \begin{center}
@@ -438,14 +438,11 @@
    \typeout{Unavoidable over/underfulls may occur in the first^^J%
             few pages of dalthesis. These can usually be ignored.^^J%
             However, if uncorrectable errors occur, notify staff.}
-   \pagenumbering{roman}
    \pagestyle{plain}
    \dal@in@prefacetrue
    \ifdal@title@page
       \dal@set@textheight{\dal@textheight@default}
-      \dal@titlepage
-   \else
-      \addtocounter{page}{1}
+      \daltitlepage
    \fi
    \dal@set@textheight{\dal@textheight@footer}
    \ifdal@dedication
