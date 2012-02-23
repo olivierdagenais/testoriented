@@ -161,7 +161,7 @@
 \newcommand{\properpagestyle}{%
    \pagestyle{myheadings}\markboth{}{}\markright{}}
 \brokenpenalty=10000
-\linespread{1.37}\normalsize
+\linespread{2.0}\normalsize
 \renewenvironment{figure}
                {\linespread{1}\@float{figure}}
                {\end@float}
