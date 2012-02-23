@@ -53,6 +53,7 @@ http://tex.stackexchange.com/questions/10270/
       <command name="submitdate" param="February 29, 2012" />
       <command name="copyrightyear" param="2012" />
       <command name="degree" param="Master of Computer Science" />
+      <command name="nolistoffigures" />
       <!-- Prevent automatic title page in frontmatter -->
       <command name="notitlepage" />
       <!-- ...because we invoke it here -->
