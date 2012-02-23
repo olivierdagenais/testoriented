@@ -349,11 +349,13 @@
           <xsl:text>},style=</xsl:text>
           <xsl:value-of select="@style" />
         </xsl:variable>
+        <xsl:text>\begin{spacing}{1}</xsl:text>
         <xsl:call-template name="command">
             <xsl:with-param name="name" select="'lstinputlisting'" />
             <xsl:with-param name="opt" select="$opt" />
             <xsl:with-param name="param" select="@file" />
         </xsl:call-template>
+        <xsl:text>\end{spacing}</xsl:text>
     </xsl:template>
 
     <!-- Pass-through (identity transform) template -->
