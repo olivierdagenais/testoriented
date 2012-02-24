@@ -330,12 +330,22 @@
 
     <xsl:template match="listing">
       <!--
-      <listing label="lst:StatefulSmokeDetector" style="realCode" file="Stateful/SmokeDetector.cs">
+      <listing label="lst:StatefulSmokeDetector" style="realCode" file="Stateful/SmokeDetector.cs" placement="ht">
           SmokeDetector class with hidden mutable state
       </listing>
       
       \lstinputlisting[label=lst:StatefulSmokeDetector,caption=SmokeDetector class with hidden mutable state,style=realCode]{Stateful/SmokeDetector.cs}
       -->
+        <xsl:variable name="placement">
+          <xsl:choose>
+            <xsl:when test="@placement">
+              <xsl:value-of select="@placement" />
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:text>htbp</xsl:text>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:variable>
         <xsl:variable name="opt">
           <xsl:text>label=</xsl:text>
           <xsl:value-of select="@label" />
@@ -349,13 +359,16 @@
           <xsl:text>},style=</xsl:text>
           <xsl:value-of select="@style" />
         </xsl:variable>
-        <xsl:text>\begin{spacing}{1}</xsl:text>
+        <xsl:text>\begin{code}[</xsl:text>
+        <xsl:value-of select="$placement" />
+        <xsl:text>]</xsl:text>
+        <xsl:text>\singlespacing</xsl:text>
         <xsl:call-template name="command">
             <xsl:with-param name="name" select="'lstinputlisting'" />
             <xsl:with-param name="opt" select="$opt" />
             <xsl:with-param name="param" select="@file" />
         </xsl:call-template>
-        <xsl:text>\end{spacing}</xsl:text>
+        <xsl:text>\end{code}</xsl:text>
     </xsl:template>
 
     <!-- Pass-through (identity transform) template -->
