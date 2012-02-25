@@ -1063,8 +1063,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             </command>
           </command>
           <command name="subsection" param="Selected methods for maintainability metric">
-            Table <see ref="tbl:InterestingMethods" /> lists the methods that have been selected because they were identified as particularly suitable for SME as per the criteria in section <see ref="sec:Suitability" />, such as interacting with HMS or computing several results simultaneously.  This selection forms a representative sample of the testing difficulties associated with HMS and care was taken to exclude methods that were deemed to already be trivially testable or too similar to those already selected.  Unit tests were written to target these methods for each strategy, exploiting the respective transformations to the IUT to simplify the tests where possible.  It is for the manually-written tests of these methods that the "complexity of the unit tests" metric will be computed.
-            <table placement="h">
+            <table placement="t">
               <tabular spec="p{0.01\textwidth} p{0.01\textwidth} p{0.01\textwidth} l">
                 <tr>
                   <td>Project</td>
@@ -1197,6 +1196,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               <command name="caption" param="Methods targetted for manually-written unit tests" />
               <command name="label" param="tbl:InterestingMethods" />
             </table>
+            Table <see ref="tbl:InterestingMethods" /> lists the methods that have been selected because they were identified as particularly suitable for SME as per the criteria in section <see ref="sec:Suitability" />, such as interacting with HMS or computing several results simultaneously.  This selection forms a representative sample of the testing difficulties associated with HMS and care was taken to exclude methods that were deemed to already be trivially testable or too similar to those already selected.  Unit tests were written to target these methods for each strategy, exploiting the respective transformations to the IUT to simplify the tests where possible.  It is for the manually-written tests of these methods that the "complexity of the unit tests" metric will be computed.
           </command>
           <command name="subsection" param="Preparing the projects for the evaluation">
             <region comment="Intro">
