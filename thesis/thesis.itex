@@ -1017,7 +1017,17 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               </block>
               There appears to be consensus regarding the minimization of unit tests' sizes <see cite="feathers05unittesting, osherove06writemaintainable, stewart10testsizes" />.  Keeping unit tests small is generally with the intention of reducing the friction related to writing said unit tests (as noted above by Binder) as well as increasing the readability and maintainability of the source code <see cite="graham93onlisp" />.
 
-              The tool used for evaluating the complexity of the manually-written unit tests is the <em>Visual Studio Code Metrics PowerTool 10.0</em> <see cite="ms11codemetrics" /> (CMPT).  It can compute, among others, a <em>Maintainability Index</em> (MI) that is derived and adapted <see cite="morrison07maintainabilityindex" /> from the Carnegie Mellon University's Software Engineering Institute metric of the same name <see cite="vandoren97maintainabilityindex" />.  In short, the tool combines a few low-level metrics obtained by scanning the byte code and scales the result between 0 and 100.  Higher values are better.
+              The tool used for evaluating the complexity of the manually-written unit tests is the <em>Visual Studio Code Metrics PowerTool 10.0</em> <see cite="ms11codemetrics" /> (CMPT).  It can compute, among others, a <em>Maintainability Index</em> (MI) that is derived and adapted from the Carnegie Mellon University's Software Engineering Institute metric of the same name <see cite="vandoren97maintainabilityindex" />.  In short, the tool combines a few low-level metrics obtained by scanning the byte code and scales the result between 0 and 100.  Higher values are better.  The modifications Microsoft made are as follows:
+              
+              <block param="quote">
+                "The metric originally was calculated as follows: <m>Maintainability Index = 171 - 5.2 \times ln(Halstead Volume) - 0.23 \times (Cyclomatic Complexity) - 16.2 \times ln(Lines Of Code)</m>
+
+                This meant that it ranged from 171 to an unbounded negative number.  We noticed that as code tended toward 0 it was clearly hard to maintain code and the difference between code at 0 and some negative value was not useful. (...) As a result of the decreasing usefulness of the negative numbers and a desire to keep the metric as clear as possible we decided to treat all 0 or less indexes as 0 and then re-base the 171 or less range to be from 0 to 100. Thus, the formula we use is:
+
+                <m>Maintainability Index = MAX(0,(171 - 5.2 \times ln(Halstead Volume) - 0.23 \times (Cyclomatic Complexity) - 16.2 \times ln(Lines Of Code)) \times 100 / 171)</m>" <see cite="morrison07maintainabilityindex" />
+              </block>
+
+
               <!-- TODO: talk about which variant of the metric is used, what counts toward the score and what does not, which tool was used and how the results were extracted -->
               
               The CMPT is also used to evaluate the IUT of each strategy, to see if the transformations performed as part the respective strategies adversely affected the maintainability of the code being tested.  Because this metric is not part of the goal, its results will not be included in the unit test complexity metric and are recorded more as a "canary in a coal mine" to detect undesireable transformations. <!-- TODO: should the MI IUT become an official metric? -->
