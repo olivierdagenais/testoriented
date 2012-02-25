@@ -220,6 +220,10 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
 
             The evaluation will measure the three metrics of the goal on each of 3 open-source projects, for each of the 4 strategies.
             </command>
+            <command name="item"> Implement the Public Interface Comparer tool.
+            
+            As a suitable tool to enumerate the changes in public interface between two versions of a .NET project output could not be found, one will be written.
+            </command>
             <command name="item"> Independently apply testability refactorings on the open-source projects.
 
             SME and 2 other testability refactorings will be applied to evaluate their relative effectivenesses.
@@ -611,9 +615,9 @@ references as well.
           </command>
           <command name="subsection" param="Step 3: Assignment of inputs and outputs to local variables">
             <command name="label" param="subsec:Step3" />
-            The third step concerns the temporary introduction of local variables for each of the input and output parameters, as per the "introduce explaining variable" refactoring <see cite="fowler00introducevariable" />.  This makes the upcoming stateless method parameters and return values explicit so that it is easier to provide them with suitable names, easier to evaluate their simplicity (consult Section <see ref="subsec:Step4" /> for details) and to more clearly delineate the candidate block so that it will be easier to extract it using existing "extract method" refactoring tools.
+            The third step concerns the temporary introduction of local variables for each of the input and output parameters, as per the "introduce explaining variable" refactoring <see cite="fowler00introducevariable" />.  This makes the upcoming stateless method parameters and return values explicit so that it is easier to provide them with suitable names, easier to evaluate their simplicity (consult section <see ref="subsec:Step4" /> for details) and to more clearly delineate the candidate block so that it will be easier to extract it using existing "extract method" refactoring tools.
 
-            The local variables introduced during this step should be remembered to allow their re-inlining to be performed again at the end of the current iteration, as described in Section <see ref="subsec:Step6" />.
+            The local variables introduced during this step should be remembered to allow their re-inlining to be performed again at the end of the current iteration, as described in section <see ref="subsec:Step6" />.
           </command>
           <command name="subsection" param="Step 4: Simplification of inputs">
             <command name="label" param="subsec:Step4" />
@@ -888,6 +892,33 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
         -->
         </command>
 
+        <command name="section" param="Public Interface Comparer tool">
+          <command name="label" param="sec:PublicInterfaceComparer" />
+          The Public Interface Comparer <footnote>The source code for the Public Interface Comparer Tool can be found in the public Subversion repository at <url>http://testoriented.googlecode.com/svn/pic/trunk/</url></footnote> is a tool written specifically to measure the <em>Public Interface Changes</em> metric.  This section explains how it works and gives a few examples of its use.
+          
+          <command name="subsection" param="How it works">
+            The tool is a command-line program that accepts three arguments: the path to the <tt>baselineFile</tt>, the path to the <tt>challengerFile</tt> and the path to the <tt>reportFile</tt>.  For each of the assemblies (byte code binary files) pointed to by <tt>baselineFile</tt> and <tt>challengerFile</tt>, the <tt>PublicInterfaceScanner</tt> class uses the reflection features of .NET to find all the publicly-visible types (classes and structs) and, for each of those, finds all their publicly-visible members (fields, properties, events and methods).  Each such member is converted into a canonical string representation of its definition and added to a list.  When all members of an assembly have been added to the list, the list is sorted alphabetically and returned to the main program.
+            
+            Public visibility is defined as the application programming interface (API) intentionally exposed by the authors of the library for consumption by third-party programs.  In .NET and Java, the mechanism for doing so is to decorate a member with the visibility keywords of <tt>public</tt> or <tt>protected</tt>.
+            
+            When the program has received both lists of publicly-visible members, the creation of the difference report - which will be written to the file pointed to by <tt>reportFile</tt> - is a matter of finding differences between the two lists.  This is done in a single pass in a manner similar to merging.
+          </command>
+          <command name="subsection" param="Examples">
+            An example use of the Public Interface Comparer tool is presented below, where listing <see ref="lst:StatefulBlockModifier" /> shows one version of the <tt>BlockModifier</tt> class while listing <see ref="lst:StatelessBlockModifier" /> shows another with a few differences in visibilities.
+
+            <listing label="lst:StatefulBlockModifier" linerange="1-19" file="Stateful/BlockModifier.cs" style="realCode">
+              C# showing the <tt>BlockModifier</tt> class from the <tt>Textile</tt> project after the <tt>visibility</tt> strategy was applied
+            </listing>
+            <listing label="lst:StatelessBlockModifier" linerange="1-19" file="Stateless/BlockModifier.cs" style="realCode">
+              C# showing the <tt>BlockModifier</tt> class from the <tt>Textile</tt> project after some illustrative visibility changes were applied
+            </listing>
+            <listing label="lst:BlockModifierPIC" file="PIC-BlockModifier.txt" style="realCode">
+              Sample report of the public interface differences between the code in listing <see ref="lst:StatefulBlockModifier" /> and that of listing <see ref="lst:StatelessBlockModifier" />
+            </listing>
+
+            As we can see in listing <see ref="lst:BlockModifierPIC" />, the constructor (line 1) and the <tt>Conclude()</tt> method (line 2) were identified as public interface changes between the two versions of the <tt>BlockModifier</tt> class.
+          </command>
+        </command>
         <command name="section" param="Decisions made">
           <command name="label" param="sec:Decisions" />
           <region name="Candidate block identification">
@@ -912,7 +943,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
         </command>
         <command name="section" param="Summary">
           <!-- key points of what was presented and linkage to next chapter -->
-          This chapter introduced our approach, describing the steps of the SME algorithm, along with samples of the associated source code transformations.  The suitability of SME for more than HMS was discussed, as well as the conditions under which SME would work best, concluding with the motivations behind the decisions made in the SME.
+          This chapter introduced our approach, describing the steps of the SME algorithm, along with samples of the associated source code transformations.  The suitability of SME for more than HMS was discussed, as well as the conditions under which SME would work best, concluding with a description of the PIC tool and the motivations behind the decisions made in the SME.
         </command>
       </command>
       <command name="chapter" param="Results and Validation">
@@ -989,7 +1020,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                 <command name="item"> The class must implement a specific interface; a technological variation of the previous reason.</command>
                 <command name="item"> Exposing instance state as directly mutable might allow callers to violate some constraints or invariants.</command>
               </block>
-              This second metric, therefore, counts how often each strategy causes a change to the public interface of the class under test, compared to the original version.  This metric will be referred to as the <em>Public Interface Changes</em> (PIC) metric.  Lower values are better, with zero being ideal.  The tool used is the <em>Public Interface Comparer</em> and it is further described in Appendix <see ref="chapter:PublicInterfaceComparer" />.
+              This second metric, therefore, counts how often each strategy causes a change to the public interface of the class under test, compared to the original version.  This metric will be referred to as the <em>Public Interface Changes</em> (PIC) metric.  Lower values are better, with zero being ideal.  The tool used is the <em>Public Interface Comparer</em> that was described in section <see ref="sec:PublicInterfaceComparer" />.
             </command>
             <command name="subsubsection" param="Percentage of branches covered using concolic testing">
               <command name="label" param="subsubsec:codeCoverageConcolic" />
@@ -1795,11 +1826,11 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
         </command>
         <command name="section" param="Synopsis">
           <!-- Can be thought of as the companion to the "Outline" section or maybe the Abstract chapter -->
-          In chapter <see ref="chapter:Introduction" />, the "state problem" was introduced as a specific problem in the general field of software testing.  Section <see ref="sec:Motivation" /> motivated the importance of the "state problem" as a research topic as section <see ref="sec:Goal" /> introduced the goal of this thesis:  to improve the testability of classes that suffer from the state problem - because they contain hidden, mutable state - while minimally affecting functionality, maintainability and the public interface of the code under test.  These three conditions were converted into three metrics from which the effectiveness of any proposed approach could be evaluated:  complexity of the unit tests, number of changes to the public interface of the class under test and percentage of branches covered using concolic testing.  The chapter concluded with the following objectives in section <see ref="sec:Objectives" />: the development of an approach that addresses the goal, the development of an automated evaluation mechanism to validate the proposed approach, the application of the approach (as well as two others, for relative comparison purposes) on select open-source projects and the application of the evaluation on the modified open-source projects.
+          In chapter <see ref="chapter:Introduction" />, the "state problem" was introduced as a specific problem in the general field of software testing.  Section <see ref="sec:Motivation" /> motivated the importance of the "state problem" as a research topic as section <see ref="sec:Goal" /> introduced the goal of this thesis:  to improve the testability of classes that suffer from the state problem - because they contain hidden, mutable state - while minimally affecting functionality, maintainability and the public interface of the code under test.  These three conditions were converted into three metrics from which the effectiveness of any proposed approach could be evaluated:  complexity of the unit tests, number of changes to the public interface of the class under test and percentage of branches covered using concolic testing.  The chapter concluded with the following objectives in section <see ref="sec:Objectives" />: the development of an approach that addresses the goal, the development of an automated evaluation mechanism to validate the proposed approach, the development of the PIC tool, the application of the approach (as well as two others, for relative comparison purposes) on select open-source projects and the application of the evaluation on the modified open-source projects.
 
           Related background and work was presented in chapter <see ref="chapter:Background" /> to explain the problem space, establish context and cover previous attempts at solving similar problems in the fields of test generation and program transformation.
 
-          Chapter <see ref="chapter:Approach" /> describes the stateless method extraction approach in section <see ref="sec:Design" />, with many source code examples presented.  Suitability is then discussed in section <see ref="sec:Suitability" />, covering cases other than HMS where SME can be used, followed by SME's best conditions for applicability in section <see ref="sec:Applicability" /> and concluding with a discussion of intents and their associated consequences in section <see ref="sec:Decisions" />.
+          Chapter <see ref="chapter:Approach" /> describes the stateless method extraction approach in section <see ref="sec:Design" />, with many source code examples presented.  Suitability is then discussed in section <see ref="sec:Suitability" />, covering cases other than HMS where SME can be used, followed by SME's best conditions for applicability in section <see ref="sec:Applicability" />.  The PIC tool was described in section <see ref="sec:PublicInterfaceComparer" /> and the chapter concluded with a discussion of intents and their associated consequences in section <see ref="sec:Decisions" />.
 
           In chapter <see ref="chapter:ResultsValidation" />, an evaluation mechanism was described in section <see ref="sec:EvaluationDesign" /> after which the proposed approach, as well as two others, were applied on three open-source projects so that each approach could be compared against each other as well as against the baseline source code.  Empirical summary and detailed results were presented in sections <see ref="sec:Results" /> and <see ref="sec:DetailedResults" />, respectively.  Lastly, in section <see ref="sec:Validation" /> the results were cross-referenced with the goal's metrics and were shown to validate the proposed approach through concolic testing code coverage increases between 3 to 7 percent, unit test complexity decreases between 6 and 11 points and no changes to the public interface.
         </command>
@@ -1825,7 +1856,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
 
                 Although the CMPT implements a slight variation of the industry-standard Maintainability Index, said metric is a bit dated (it was originally released in 1997) and has been declared "legacy" by Carnegie Mellon University's Software Engineering Institute.  Nevertheless, the notion of <em>complexity</em> may vary from maintainer to maintainer and thus the measure of the <em>complexity of the unit tests</em> metric is probably best left to the maintainer(s) of each project, even at the expense of the objectivity of a completely-automated evaluation.
 
-                The <em>Public Interface Comparer</em> tool was written by the author (see Appendix <see ref="chapter:PublicInterfaceComparer" />) and could contain defects that affect the accuracy of the results.  Some further testing of the tool could reduce its threats to validity.
+                The <em>Public Interface Comparer</em> tool was written by the author (see section <see ref="sec:PublicInterfaceComparer" />) and could contain defects that affect the accuracy of the results.  Some further testing of the tool could reduce its threats to validity.
 
                 The choice of Pex - a <em>concolic testing</em> tool - as a test generator may not be optimal given the <em>state problem</em> was originally reported for <em>evolutionary testing</em> tools.  The unavailability of an ET tool for the .NET platform lead to the use of Pex as a stand-in.  This threat to validity could be reduced by repeating the evaluation in a language or on a platform where an ET tool is available, although new open-source projects would have to be selected and the other parts of the evaluation would have to be ported or replaced with equivalents, such as using JUnit instead of NUnit and Emma instead of NCover.
               </command>
@@ -1900,33 +1931,6 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           <command name="item" opt="SME"> Stateless Method Extraction</command>
           <command name="item" opt="XSL"> Extensible Stylesheet Language</command>
         </block>
-      </command>
-      <command name="chapter" param="Public Interface Comparer tool">
-        <command name="label" param="chapter:PublicInterfaceComparer" />
-        The Public Interface Comparer <footnote>The source code for the Public Interface Comparer Tool can be found in the public Subversion repository at <url>http://testoriented.googlecode.com/svn/pic/trunk/</url></footnote> is a tool written specifically to measure the <em>Public Interface Changes</em> metric.  This appendix explains how it works and gives a few examples of its use.
-        
-        <command name="section" param="How it works">
-          The tool is a command-line program that accepts three arguments: the path to the <tt>baselineFile</tt>, the path to the <tt>challengerFile</tt> and the path to the <tt>reportFile</tt>.  For each of the assemblies (byte code binary files) pointed to by <tt>baselineFile</tt> and <tt>challengerFile</tt>, the <tt>PublicInterfaceScanner</tt> class uses the reflection features of .NET to find all the publicly-visible types (classes and structs) and, for each of those, finds all their publicly-visible members (fields, properties, events and methods).  Each such member is converted into a canonical string representation of its definition and added to a list.  When all members of an assembly have been added to the list, the list is sorted alphabetically and returned to the main program.
-          
-          Public visibility is defined as the application programming interface (API) intentionally exposed by the authors of the library for consumption by third-party programs.  In .NET and Java, the mechanism for doing so is to decorate a member with the visibility keywords of <tt>public</tt> or <tt>protected</tt>.
-          
-          When the program has received both lists of publicly-visible members, the creation of the difference report - which will be written to the file pointed to by <tt>reportFile</tt> - is a matter of finding differences between the two lists.  This is done in a single pass in a manner similar to merging.
-        </command>
-        <command name="section" param="Examples">
-          An example use of the Public Interface Comparer tool is presented below, where listing <see ref="lst:StatefulBlockModifier" /> shows one version of the <tt>BlockModifier</tt> class while listing <see ref="lst:StatelessBlockModifier" /> shows another with a few differences in visibilities.
-
-          <listing label="lst:StatefulBlockModifier" linerange="1-19" file="Stateful/BlockModifier.cs" style="realCode">
-            C# showing the <tt>BlockModifier</tt> class from the <tt>Textile</tt> project after the <tt>visibility</tt> strategy was applied
-          </listing>
-          <listing label="lst:StatelessBlockModifier" linerange="1-19" file="Stateless/BlockModifier.cs" style="realCode">
-            C# showing the <tt>BlockModifier</tt> class from the <tt>Textile</tt> project after some illustrative visibility changes were applied
-          </listing>
-          <listing label="lst:BlockModifierPIC" file="PIC-BlockModifier.txt" style="realCode">
-            Sample report of the public interface differences between the code in listing <see ref="lst:StatefulBlockModifier" /> and that of listing <see ref="lst:StatelessBlockModifier" />
-          </listing>
-
-          As we can see in listing <see ref="lst:BlockModifierPIC" />, the constructor (line 1) and the <tt>Conclude()</tt> method (line 2) were identified as public interface changes between the two versions of the <tt>BlockModifier</tt> class.
-        </command>
       </command>
       <command name="chapter" param="SME applications">
         <command name="label" param="appendix:SmeApplication" />
