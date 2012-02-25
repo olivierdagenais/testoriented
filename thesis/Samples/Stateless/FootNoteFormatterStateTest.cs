@@ -26,8 +26,7 @@ public void ParseFootNoteId()
   var input = "fn1{color:red}. This is the footnote";
 
   // act
-  var actual =
-    FootNoteFormatterState.ParseFootNoteId(input);
+  var actual = FootNoteFormatterState.ParseFootNoteId(input);
 
   // assert
   Assert.AreEqual(1, actual);
