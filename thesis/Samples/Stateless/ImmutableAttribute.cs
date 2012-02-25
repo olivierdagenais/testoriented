@@ -1,7 +1,6 @@
 ﻿using System;
 
-[AttributeUsage(AttributeTargets.Class |
-                AttributeTargets.Struct,
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct,
   AllowMultiple = false, Inherited = true)]
 public class ImmutableAttribute : Attribute
 {
