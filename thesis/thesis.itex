@@ -151,7 +151,7 @@ http://tex.stackexchange.com/questions/10270/
             </listing>
           </region>
           
-          If we could surmount the unit testing obstacles brought on by HMS, we would be able to write more and better tests, thus enhancing our safety net for catching regressions as our software projects evolve and saving time and effort.
+          If we could overcome the unit testing obstacles brought on by HMS, we would be able to write more and better tests, thus enhancing our ability for catching regressions as our software projects evolve and saving time and effort.
         </command>
         <command name="section" param="Goal">
           <command name="label" param="sec:Goal" />
@@ -218,7 +218,7 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
             </command>
             <command name="item"> Design and implement an automated evaluation.
 
-            The evaluation will measure the three metrics of the goal on each of 3 open-source projects, for each of SME, 2 other strategies and the baseline of each project.
+            The evaluation will measure the three metrics of the goal on each of 3 open-source projects, for each of the 4 strategies.
             </command>
             <command name="item"> Independently apply testability refactorings on the open-source projects.
 
@@ -1014,11 +1014,23 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           <command name="subsection" param="Selected methods for maintainability metric">
             Table <see ref="tbl:InterestingMethods" /> lists the methods that have been selected because they were identified as particularly suitable for SME as per the criteria in section <see ref="sec:Suitability" />, such as interacting with HMS or computing several results simultaneously.  This selection forms a representative sample of the testing difficulties associated with HMS and care was taken to exclude methods that were deemed to already be trivially testable or too similar to those already selected.  Unit tests were written to target these methods for each strategy, exploiting the respective transformations to the IUT to simplify the tests where possible.  It is for the manually-written tests of these methods that the "complexity of the unit tests" metric will be computed.
             <table placement="htbp">
-              <tabular spec="l l l l">
+              <tabular spec="p{0.01\textwidth} p{0.01\textwidth} p{0.01\textwidth} l">
                 <tr>
                   <td>Project</td>
+                </tr>
+                <tr>
+                  <td />
                   <td>Namespace</td>
+                </tr>
+                <tr>
+                  <td />
+                  <td />
                   <td>Class</td>
+                </tr>
+                <tr>
+                  <td />
+                  <td />
+                  <td />
                   <td>Method</td>
                 </tr>
                 <command name="hline" />
@@ -1131,7 +1143,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                   </tr>
                 </region>
               </tabular>
-              <command name="caption" param="Selected interesting methods" />
+              <command name="caption" param="Methods targetted for manually-written unit tests" />
               <command name="label" param="tbl:InterestingMethods" />
             </table>
           </command>
@@ -1659,7 +1671,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
         </command>
         <command name="section" param="Validation">
           <command name="label" param="sec:Validation" />
-          To help meet the goal, the proposed SME testability refactoring was applied on selected parts of three open-source projects and then compared against two other strategies as well as the baseline.
+          To help meet the goal, the proposed SME testability refactoring was applied on selected parts of three open-source projects and then compared against three other strategies.
 
           <table placement="htbp">
             <tbody spec="p{0.01\textwidth} p{0.24\textwidth} | R{0.15\textwidth} R{0.15\textwidth} | R{0.15\textwidth}">
@@ -1772,7 +1784,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           <!-- Cross-reference with Scope and discuss observed trade-offs of other potential approaches -->
         </command>
         <command name="section" param="Summary">
-          This chapter introduced the mechanism used to compare SME against two other strategies, the open-source projects with which the experiments and metrics were carried out as well as what tools were used and how.  The results showed that SME improved testing and how the goal was validated.
+          This chapter introduced the mechanism used to compare SME against three other strategies, the open-source projects with which the experiments and metrics were carried out as well as what tools were used and how.  The results showed that SME improved testing and how the goal was validated.
         </command>
       </command>
       <command name="chapter" param="Conclusion">
