@@ -4,7 +4,6 @@ using System.Drawing;
 public class MortonLayout
 {
   private const int NumberOfBits = 32;
-
   public static Point Decode(int index)
   {
     var bits = new BitArray(new[] {index});
@@ -13,17 +12,14 @@ public class MortonLayout
     var result = new Point(x, y);
     return result;
   }
-
-  internal static int DecodeAxis
-    (BitArray bits, int offset)
+  internal static int DecodeAxis(BitArray bits, int offset)
   {
     var result = 0;
-    for (int o = 1, powerOfTwo = 1;
-        o < NumberOfBits; o += 2, powerOfTwo <<= 1)
+    for (int o = 1, power = 1; o < NumberOfBits; o += 2, power <<= 1)
     {
       if (bits[o - offset])
       {
-        result += powerOfTwo;
+        result += power;
       }
     }
     return result;

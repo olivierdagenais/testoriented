@@ -30,9 +30,7 @@ public void InnerFormatResultMessage_Updated()
       InnerFormatResultMessage(42, 42);
 
   // assert
-  Assert.AreEqual(
-    "Items was successfully updated",
-    actual);
+  Assert.AreEqual("Items was successfully updated", actual);
 }
   }
 }

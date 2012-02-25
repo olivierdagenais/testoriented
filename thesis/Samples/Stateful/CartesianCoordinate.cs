@@ -1,7 +1,6 @@
 ﻿using System;
 
-public class PolarCoordinate
-{
+public class PolarCoordinate {
   private readonly double _r, _theta;
   public PolarCoordinate(double r, double theta)
   { _r = r; _theta = theta; }
@@ -9,14 +8,12 @@ public class PolarCoordinate
   public double Theta { get { return _theta; } }
 }
 
-public class CartesianCoordinate
-{
+public class CartesianCoordinate {
   private readonly double _x, _y;
   public CartesianCoordinate(double x, double y)
   { _x = x; _y = y; }
 
-  public PolarCoordinate ToPolar()
-  {
+  public PolarCoordinate ToPolar() {
     var xSquared = _x * _x;
     var radians = Math.Atan2(_y, _x);
     var ySquared = _y * _y;
