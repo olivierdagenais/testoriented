@@ -33,22 +33,24 @@ public class FlyingSalespersonProblem {
   public IList<int> VisitingOrder
   { get { return _visitingOrder; } }
 
-  public double ComputeTourLength() {
+  public double ComputeTourLength()
+  {
     double tourLength = 0;
     for (int i = 0; i < _numberOfCities; i++)
     {
       int j = (i + 1) % _numberOfCities;
       var from = _cities[_visitingOrder[i]];
       var to = _cities[_visitingOrder[j]];
-      tourLength += CalculateGreatCircleDistance(
+      tourLength += 
+        CalculateGreatCircleDistance(
           from.Lat, from.Lon, to.Lat, to.Lon);
     }
     return tourLength;
   }
 
   internal static double CalculateGreatCircleDistance
-    (double fromLat, double fromLon,
-    double toLat, double toLon) {
+    (double fromLat, double fromLon, double toLat, double toLon)
+  {
     var delta1 = ToRadians(fromLat);
     var lambda1 = ToRadians(fromLon);
     var delta2 = ToRadians(toLat);
@@ -63,7 +65,8 @@ public class FlyingSalespersonProblem {
       );
   }
 
-  internal static double ToRadians(double degrees) {
+  internal static double ToRadians(double degrees)
+  {
     return Math.PI * degrees / 180.0;
   }
 }
