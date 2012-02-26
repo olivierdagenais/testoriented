@@ -89,49 +89,49 @@ namespace KeePassLib.Security
 			return m_pbData;
 		}
 
-		/// <summary>
-		/// Change the protection key for this <c>XorredBuffer</c> object.
-		/// The data will first be decrypted using the old key and then
-		/// re-encrypted using the new key. This operation doesn't reveal
-		/// the plain-text in the process memory.
-		/// </summary>
-		/// <param name="pbNewXorPad">New protection pad. Must contain exactly
-		/// the same number of bytes as the length of the currently protected data.
-		/// Use the <c>Length</c> property of the <c>XorredBuffer</c> to query
-		/// the data length and pass a correct number of bytes to <c>ChangeKey</c>.</param>
-		/// <returns>New protected data (encrypted using the new XOR pad).</returns>
-		/// <exception cref="System.ArgumentNullException">Thrown if the input
-		/// parameter is <c>null</c>.</exception>
-		/// <exception cref="System.ArgumentException">Thrown if the input
-		/// byte array doesn't have the correct size.</exception>
-		public byte[] ChangeKey(byte[] pbNewXorPad)
-		{
-			Debug.Assert(pbNewXorPad != null); if(pbNewXorPad == null) throw new ArgumentNullException("pbNewXorPad");
+/// <summary>
+/// Change the protection key for this <c>XorredBuffer</c> object.
+/// The data will first be decrypted using the old key and then
+/// re-encrypted using the new key. This operation doesn't reveal
+/// the plain-text in the process memory.
+/// </summary>
+/// <param name="pbNewXorPad">New protection pad. Must contain exactly
+/// the same number of bytes as the length of the currently protected data.
+/// Use the <c>Length</c> property of the <c>XorredBuffer</c> to query
+/// the data length and pass a correct number of bytes to <c>ChangeKey</c>.</param>
+/// <returns>New protected data (encrypted using the new XOR pad).</returns>
+/// <exception cref="System.ArgumentNullException">Thrown if the input
+/// parameter is <c>null</c>.</exception>
+/// <exception cref="System.ArgumentException">Thrown if the input
+/// byte array doesn't have the correct size.</exception>
+public byte[] ChangeKey(byte[] pbNewXorPad)
+{
+	Debug.Assert(pbNewXorPad != null); if(pbNewXorPad == null) throw new ArgumentNullException("pbNewXorPad");
 
-            m_pbData = InternalChangeKey(m_pbData, m_pbXorPad, pbNewXorPad);
+        m_pbData = InternalChangeKey(m_pbData, m_pbXorPad, pbNewXorPad);
 
-			m_pbXorPad = pbNewXorPad;
-			return m_pbData;
-		}
+	m_pbXorPad = pbNewXorPad;
+	return m_pbData;
+}
 
-        internal static byte[] InternalChangeKey(byte[] pbData, byte[] pbXorPad, byte[] pbNewXorPad)
-	    {
-	        var result = new byte[pbData.Length];
-	        Debug.Assert(pbNewXorPad.Length == pbData.Length);
-	        if(pbNewXorPad.Length != pbData.Length) throw new ArgumentException();
+internal static byte[] InternalChangeKey(byte[] pbData, byte[] pbXorPad, byte[] pbNewXorPad)
+{
+    var result = new byte[pbData.Length];
+    Debug.Assert(pbNewXorPad.Length == pbData.Length);
+    if(pbNewXorPad.Length != pbData.Length) throw new ArgumentException();
 
-	        if(pbXorPad.Length == pbData.Length) // Data is protected
-	        {
-	            for(int i = 0; i < pbData.Length; ++i)
-	                result[i] = (byte)(pbData[i] ^ (pbXorPad[i] ^ pbNewXorPad[i]));
-	        }
-	        else // Data is unprotected
-	        {
-	            for(int i = 0; i < pbData.Length; ++i)
-	                result[i] = (byte)(pbData[i] ^ pbNewXorPad[i]);
-	        }
-	        return result;
-	    }
+    if(pbXorPad.Length == pbData.Length) // Data is protected
+    {
+        for(int i = 0; i < pbData.Length; ++i)
+            result[i] = (byte)(pbData[i] ^ (pbXorPad[i] ^ pbNewXorPad[i]));
+    }
+    else // Data is unprotected
+    {
+        for(int i = 0; i < pbData.Length; ++i)
+            result[i] = (byte)(pbData[i] ^ pbNewXorPad[i]);
+    }
+    return result;
+}
 
 	    /// <summary>
 		/// XOR all bytes in a data buffer with a pad. Both byte arrays must
