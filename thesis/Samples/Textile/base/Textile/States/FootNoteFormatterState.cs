@@ -30,14 +30,14 @@ namespace Textile.States
         {
         }
 
-        public override void Enter()
-        {
-            Formatter.Output.Write(
-                string.Format("<p id=\"fn{0}\"{1}><sup>{2}</sup> ",
-                    m_noteID,
-                    FormattedStylesAndAlignment(),
-                    m_noteID));
-        }
+public override void Enter()
+{
+    Formatter.Output.Write(
+        string.Format("<p id=\"fn{0}\"{1}><sup>{2}</sup> ",
+            m_noteID,
+            FormattedStylesAndAlignment(),
+            m_noteID));
+}
 
         public override void Exit()
         {
@@ -53,11 +53,11 @@ namespace Textile.States
         {
             return true;
         }
-        protected override void OnContextAcquired()
-        {
-            Match m = Regex.Match(Tag, @"^fn(?<id>[0-9]+)");
-            m_noteID = Int32.Parse(m.Groups["id"].Value);
-        }
+protected override void OnContextAcquired()
+{
+    Match m = Regex.Match(Tag, @"^fn(?<id>[0-9]+)");
+    m_noteID = Int32.Parse(m.Groups["id"].Value);
+}
 
         public override bool ShouldNestState(FormatterState other)
         {

@@ -30,19 +30,19 @@ namespace Textile.States
         {
         }
 
-        public override void Enter()
-        {
-            Formatter.Output.Write(
-                FormatFootNote(m_noteID, FormattedStylesAndAlignment()));
-        }
+public override void Enter()
+{
+    Formatter.Output.Write(
+        FormatFootNote(m_noteID, FormattedStylesAndAlignment()));
+}
 
-        internal static string FormatFootNote(int noteId, string formattedStylesAndAlignment)
-        {
-            return string.Format("<p id=\"fn{0}\"{1}><sup>{2}</sup> ",
-                noteId,
-                formattedStylesAndAlignment,
-                noteId);
-        }
+internal static string FormatFootNote(int noteId, string formattedStylesAndAlignment)
+{
+    return string.Format("<p id=\"fn{0}\"{1}><sup>{2}</sup> ",
+        noteId,
+        formattedStylesAndAlignment,
+        noteId);
+}
 
         public override void Exit()
         {
@@ -58,16 +58,16 @@ namespace Textile.States
         {
             return true;
         }
-        protected override void OnContextAcquired()
-        {
-            m_noteID = ParseFootNoteId(Tag);
-        }
+protected override void OnContextAcquired()
+{
+    m_noteID = ParseFootNoteId(Tag);
+}
 
-        internal static int ParseFootNoteId(string input)
-        {
-            Match m = Regex.Match(input, @"^fn(?<id>[0-9]+)");
-            return Int32.Parse(m.Groups["id"].Value);
-        }
+internal static int ParseFootNoteId(string input)
+{
+    Match m = Regex.Match(input, @"^fn(?<id>[0-9]+)");
+    return Int32.Parse(m.Groups["id"].Value);
+}
 
         public override bool ShouldNestState(FormatterState other)
         {
