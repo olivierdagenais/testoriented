@@ -44,6 +44,8 @@ http://tex.stackexchange.com/questions/10270/
     <command name="usepackage" param="multirow" />
     <command name="usepackage" param="pdfpages" />
     <command name="usepackage" param="float" />
+    <!-- http://www.tex.ac.uk/cgi-bin/texfaq2html?label=tmupfl -->
+    <command name="usepackage" param="morefloats" />
     <command name="usepackage" param="lscape" />
     <!-- Comment out the line above and uncomment the line below to see the landscape code samples rotated in the PDF viewer, but with a chance of mis-print.
 http://tex.stackexchange.com/questions/20303/xelatex-forces-readers-to-rotate-their-heads-90-degrees
@@ -2096,10 +2098,10 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                     <td></td>
                     <td></td>
                     <td><tt>string ExpandPattern(string)</tt></td>
-                    <td><see ref="lst:BaseCodeBlockModifierModifyLine" /></td>
-                    <td><see ref="lst:ManualCodeBlockModifierModifyLine" /></td>
-                    <td><see ref="lst:BaseCodeBlockModifierModifyLineTest" /></td>
-                    <td><see ref="lst:ManualCodeBlockModifierModifyLineTest" /></td>
+                    <td><see ref="lst:BasePatternBasedGeneratorExpandPattern" /></td>
+                    <td><see ref="lst:ManualPatternBasedGeneratorExpandPattern" /></td>
+                    <td><see ref="lst:BasePatternBasedGeneratorExpandPatternTest" /></td>
+                    <td><see ref="lst:ManualPatternBasedGeneratorExpandPatternTest" /></td>
                   </tr>
                 </region>
                 <region name="KeePassLib.Security">
@@ -2117,10 +2119,10 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                     <td></td>
                     <td></td>
                     <td><tt>byte[] ChangeKey(byte[])</tt></td>
-                    <td><see ref="lst:BaseCodeBlockModifierModifyLine" /></td>
-                    <td><see ref="lst:ManualCodeBlockModifierModifyLine" /></td>
-                    <td><see ref="lst:BaseCodeBlockModifierModifyLineTest" /></td>
-                    <td><see ref="lst:ManualCodeBlockModifierModifyLineTest" /></td>
+                    <td><see ref="lst:BaseXorredBufferChangeKey" /></td>
+                    <td><see ref="lst:ManualXorredBufferChangeKey" /></td>
+                    <td><see ref="lst:BaseXorredBufferChangeKeyTest" /></td>
+                    <td><see ref="lst:ManualXorredBufferChangeKeyTest" /></td>
                   </tr>
                 </region>
                 <tr><td multicolumn="{4}{l|}"><tt>AtomicCms</tt></td></tr>
@@ -2206,6 +2208,34 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               </listing>
               <listing label="lst:ManualFootNoteFormatterStateOnContextAcquiredTest" file="Textile/manual/Textile.ManualTests/States/FootNoteFormatterStateTest.cs" linerange="28-36" style="realCode">
                 C# showing the test for the <tt>manual</tt> version of the <tt>OnContextAcquired()</tt> method.
+              </listing>
+            </region>
+            <region name="string ExpandPattern(string)">
+              <listing label="lst:BasePatternBasedGeneratorExpandPattern" file="KeePassLib/base/KeePassLib/Cryptography/PasswordGenerator/PatternBasedGenerator.cs" linerange="129-157" style="realCode" placement="p">
+                C# showing the <tt>base</tt> version of the <tt>ExpandPattern()</tt> method of the <tt>PatternBasedGenerator</tt> class of the <tt>KeePassLib</tt> project.
+              </listing>
+              <listing label="lst:ManualPatternBasedGeneratorExpandPattern" file="KeePassLib/manual/KeePassLib/Cryptography/PasswordGenerator/PatternBasedGenerator.cs" linerange="129-157" style="realCode" placement="p">
+                C# showing the <tt>manual</tt> version of the <tt>ExpandPattern()</tt> method, after SME.
+              </listing>
+              <listing label="lst:BasePatternBasedGeneratorExpandPatternTest" file="KeePassLib/base/KeePassLib.ManualTests/Cryptography/PasswordGenerator/PatternBasedGeneratorTest.cs" linerange="14-32" style="realCode">
+                C# showing the test for the <tt>base</tt> version of the <tt>ExpandPattern()</tt> method.
+              </listing>
+              <listing label="lst:ManualPatternBasedGeneratorExpandPatternTest" file="KeePassLib/manual/KeePassLib.ManualTests/Cryptography/PasswordGenerator/PatternBasedGeneratorTest.cs" linerange="12-17" style="realCode">
+                C# showing the test for the <tt>manual</tt> version of the <tt>ExpandPattern()</tt> method.
+              </listing>
+            </region>
+            <region name="byte[] ChangeKey(byte[])">
+              <listing label="lst:BaseXorredBufferChangeKey" file="KeePassLib/base/KeePassLib/Security/XorredBuffer.cs" linerange="107-127" style="realCode" placement="p">
+                C# showing the <tt>base</tt> version of the <tt>ChangeKey()</tt> method of the <tt>XorredBuffer</tt> class of the <tt>KeePassLib</tt> project.
+              </listing>
+              <listing label="lst:ManualXorredBufferChangeKey" file="KeePassLib/manual/KeePassLib/Security/XorredBuffer.cs" linerange="107-134" style="realCode" placement="p">
+                C# showing the <tt>manual</tt> version of the <tt>ChangeKey()</tt> method, after SME.
+              </listing>
+              <listing label="lst:BaseXorredBufferChangeKeyTest" file="KeePassLib/base/KeePassLib.ManualTests/Security/XorredBufferTest.cs" linerange="12-36" style="realCode">
+                C# showing the test for the <tt>base</tt> version of the <tt>ChangeKey()</tt> method.
+              </listing>
+              <listing label="lst:ManualXorredBufferChangeKeyTest" file="KeePassLib/manual/KeePassLib.ManualTests/Security/XorredBufferTest.cs" linerange="12-34" style="realCode">
+                C# showing the test for the <tt>manual</tt> version of the <tt>ChangeKey()</tt> method.
               </listing>
             </region>
           </block>

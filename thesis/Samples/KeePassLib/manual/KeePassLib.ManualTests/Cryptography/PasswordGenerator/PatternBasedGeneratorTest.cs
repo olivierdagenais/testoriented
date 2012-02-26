@@ -9,11 +9,11 @@ namespace KeePassLib.ManualTests.Cryptography.PasswordGenerator
     [TestFixture]
     public class PatternBasedGeneratorTest
     {
-        [Test]
-        public void ExpandPattern()
-        {
-            var actual = PatternBasedGenerator.ExpandPattern("g{5}");
-            Assert.AreEqual("ggggg", actual);
-        }
+[Test]
+public void ExpandPattern()
+{
+    var actual = PatternBasedGenerator.ExpandPattern("g{5}");
+    Assert.AreEqual("ggggg", actual);
+}
     }
 }

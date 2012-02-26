@@ -126,34 +126,34 @@ namespace KeePassLib.Cryptography.PasswordGenerator
 			return PwgError.Success;
 		}
 
-		internal static string ExpandPattern(string strPattern)
+internal static string ExpandPattern(string strPattern)
+{
+	Debug.Assert(strPattern != null); if(strPattern == null) return string.Empty;
+	string str = strPattern;
+
+	while(true)
+	{
+		int nOpen = str.IndexOf('{');
+		int nClose = str.IndexOf('}');
+
+		if((nOpen >= 0) && (nOpen < nClose))
 		{
-			Debug.Assert(strPattern != null); if(strPattern == null) return string.Empty;
-			string str = strPattern;
+			string strCount = str.Substring(nOpen + 1, nClose - nOpen - 1);
+			str = str.Remove(nOpen, nClose - nOpen + 1);
 
-			while(true)
+			uint uRepeat;
+			if(StrUtil.TryParseUInt(strCount, out uRepeat) && (nOpen >= 1))
 			{
-				int nOpen = str.IndexOf('{');
-				int nClose = str.IndexOf('}');
-
-				if((nOpen >= 0) && (nOpen < nClose))
-				{
-					string strCount = str.Substring(nOpen + 1, nClose - nOpen - 1);
-					str = str.Remove(nOpen, nClose - nOpen + 1);
-
-					uint uRepeat;
-					if(StrUtil.TryParseUInt(strCount, out uRepeat) && (nOpen >= 1))
-					{
-						if(uRepeat == 0)
-							str = str.Remove(nOpen - 1, 1);
-						else
-							str = str.Insert(nOpen, new string(str[nOpen - 1], (int)uRepeat - 1));
-					}
-				}
-				else break;
+				if(uRepeat == 0)
+					str = str.Remove(nOpen - 1, 1);
+				else
+					str = str.Insert(nOpen, new string(str[nOpen - 1], (int)uRepeat - 1));
 			}
-
-			return str;
 		}
+		else break;
+	}
+
+	return str;
+}
 	}
 }
