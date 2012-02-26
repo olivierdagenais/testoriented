@@ -63,18 +63,18 @@ namespace AtomicCms.Web.Controllers
                                     new {id = menuItem.Id});
         }
 
-        private void FormatResultMessage(IMenuItem menuItem, int? id)
-        {
-            if (null == id || 0 == id)
-            {
-                TempData["SaveResult"] = string.Format("Items was successfully created with Id = {0}",
-                                                       menuItem.Id);
-            }
-            else
-            {
-                TempData["SaveResult"] = "Items was successfully updated";
-            }
-        }
+private void FormatResultMessage(IMenuItem menuItem, int? id)
+{
+    if (null == id || 0 == id)
+    {
+        TempData["SaveResult"] = string.Format("Items was successfully created with Id = {0}",
+                                               menuItem.Id);
+    }
+    else
+    {
+        TempData["SaveResult"] = "Items was successfully updated";
+    }
+}
 
         private void LoadEntryToCurrentMenuItem(NameValueCollection form, IMenuItem menuItem)
         {

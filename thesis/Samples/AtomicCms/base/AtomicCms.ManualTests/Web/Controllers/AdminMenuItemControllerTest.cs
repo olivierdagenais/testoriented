@@ -111,31 +111,31 @@ namespace AtomicCms.ManualTests.Web.Controllers
             #endregion
         }
 
-        [Test]
-        public void FormatResultMessage_Created()
+[Test]
+public void FormatResultMessage_Created()
+{
+    // arrange
+    var serviceFactory = new TestServiceFactory
+    {
+        MenuService = new MenuServiceMole
         {
-            // arrange
-            var serviceFactory = new TestServiceFactory
-            {
-                MenuService = new MenuServiceMole
-                {
-                    SaveMenuItem = i => { },
-                },
-            };
-            var iut = new AdminMenuItemController(serviceFactory);
-            var item = new MenuItem
-            {
-                Id = 42,
-            };
-            var formCollection = new FormCollection();
+            SaveMenuItem = i => { },
+        },
+    };
+    var iut = new AdminMenuItemController(serviceFactory);
+    var item = new MenuItem
+    {
+        Id = 42,
+    };
+    var formCollection = new FormCollection();
 
-            // act - EditMenuItem eventually calls FormatResultMessage
-            iut.EditMenuItem(null, item, formCollection);
+    // act - EditMenuItem eventually calls FormatResultMessage
+    iut.EditMenuItem(null, item, formCollection);
 
-            // assert
-            var actual = iut.TempData["SaveResult"];
-            Assert.AreEqual("Items was successfully created with Id = 42", actual);
-        }
+    // assert
+    var actual = iut.TempData["SaveResult"];
+    Assert.AreEqual("Items was successfully created with Id = 42", actual);
+}
 
         [Test]
         public void FormatResultMessage_Updated()
