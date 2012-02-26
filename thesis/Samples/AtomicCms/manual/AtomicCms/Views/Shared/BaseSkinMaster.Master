@@ -1,0 +1,30 @@
+﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
+
+<%@ Import Namespace="AtomicCms.Core.ViewModels" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>
+        <asp:ContentPlaceHolder ID="TitleContent" runat="server" />
+    </title>
+    <link rel="alternate" type="application/atom+xml" title="<%=((ViewModelHome) Model).Attributes.GetValue("SiteLogo") %> - Atom"
+        href="/atom/" />
+    <link rel="alternate" type="application/rss+xml" title="<%=((ViewModelHome) Model).Attributes.GetValue("SiteLogo") %> - RSS"
+        href="/rss/" />
+
+    <script type="text/javascript" src="<%=Url.Content("~/scripts/email-protector.js") %>"></script>
+
+    <meta name="keywords" content="<%=((ViewModelHome)Model).Entry.MetaKeywords %>" />
+    <meta name="description" content="<%=((ViewModelHome)Model).Entry.MetaDescription %>" />
+    <asp:ContentPlaceHolder runat="server" ID="HeadContent" />
+</head>
+<body>
+    <asp:ContentPlaceHolder ID="PageHeaderContent" runat="server" />
+    <asp:ContentPlaceHolder ID="BodyContent" runat="server" />
+    <asp:ContentPlaceHolder ID="PageFooterContent" runat="server" />
+    
+    <div style="text-align:center;"><%Html.RenderPartial("Links"); %></div>
+     
+    <%Html.RenderPartial("TrackingScripts"); %>
+</body>
+</html>
