@@ -44,6 +44,11 @@ http://tex.stackexchange.com/questions/10270/
     <command name="usepackage" param="multirow" />
     <command name="usepackage" param="pdfpages" />
     <command name="usepackage" param="float" />
+    <command name="usepackage" param="lscape" />
+    <!-- Comment out the line above and uncomment the line below to see the landscape code samples rotated in the PDF viewer, but with a chance of mis-print.
+http://tex.stackexchange.com/questions/20303/xelatex-forces-readers-to-rotate-their-heads-90-degrees
+    -->
+    <!-- <command name="usepackage" param="pdflscape" /> -->
     <raw>\newfloat{code}{htbp}{loc}</raw>
   </preamble>
   <document>
@@ -1254,14 +1259,27 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             </command>
           </command>
         </command>
-        <command name="section" param="Representative SME applications">
-          What follows are a few representative method transformations applying SME - as discussed in section <see ref="sec:Design" /> - to the noted open source projects.  The remaining method transformations are listed in Appendix <see ref="appendix:SmeApplication" />.
-
-          TODO: MUT before
-          TODO: MUT after
-          TODO: MT before
-          TODO: MT after
+        <command name="section" param="Representative SME application">
+          The following listings show the first of the 8 methods targeted for manually-written unit tests - listed in table <see ref="tbl:InterestingMethods" /> - before the application of SME (listing <see ref="lst:BaseCodeBlockModifierModifyLine" />) and after the application of SME (listing <see ref="lst:ManualCodeBlockModifierModifyLine" />), as well as the manually-written unit test targeting the original method (listing <see ref="lst:BaseCodeBlockModifierModifyLineTest" />) and the manually-written unit test targeting the extracted stateless method (listing <see ref="lst:ManualCodeBlockModifierModifyLineTest" />).
+          
+          Similar quartets of listings for the remaining 7 methods targeted for manually-written unit tests can be found in Appendix <see ref="appendix:RepresentativeSmeApplications" /> while a list of all the methods transformed in all 3 open-source projects can be found in Appendix <see ref="appendix:AllSmeApplications" />.
+          <command name="newpage" />
+          <block param="landscape">
+            <listing label="lst:BaseCodeBlockModifierModifyLine" file="Textile/base/Textile/Blocks/CodeBlockModifier.cs" linerange="25-43" style="realCode" placement="p">
+              C# showing the <tt>base</tt> version of the <tt>ModifyLine()</tt> method of the <tt>CodeBlockModifier</tt> class of the <tt>Textile</tt> project.
+            </listing>
+            <listing label="lst:ManualCodeBlockModifierModifyLine" file="Textile/manual/Textile/Blocks/CodeBlockModifier.cs" linerange="25-51" style="realCode" placement="p">
+              C# showing the <tt>manual</tt> version of the <tt>ModifyLine()</tt> method, after SME plus a few more "introduce variable" refactorings.
+            </listing>
+            <listing label="lst:BaseCodeBlockModifierModifyLineTest" file="Textile/base/Textile.ManualTests/Blocks/CodeBlockModifierTest.cs" linerange="13-19" style="realCode" placement="h">
+              C# showing the test for the <tt>base</tt> version of the <tt>ModifyLine()</tt> method.
+            </listing>
+            <listing label="lst:ManualCodeBlockModifierModifyLineTest" file="Textile/manual/Textile.ManualTests/Blocks/CodeBlockModifierTest.cs" linerange="23-28" style="realCode" placement="h">
+              C# showing the test for the <tt>manual</tt> version of the <tt>ModifyLine()</tt> method.
+            </listing>
+          </block>
         </command>
+        <command name="newpage" />
         <command name="section" param="Results">
           <command name="label" param="sec:Results" />
           Table <see ref="tbl:SummaryResults" /> summarizes the results of the metrics, which have been averaged across the participating open-source projects.  The table is assembled from the results of running the suitability evaluation against the source code as of revision 424 in the public Subversion repository.  Detailed results are presented in the following section, although it is clear that, in general, SME performed no worse and often better than the other strategies.
@@ -1953,9 +1971,250 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           <command name="item" opt="XSL"> Extensible Stylesheet Language</command>
         </block>
       </command>
+      <command name="chapter" param="Representative SME applications">
+        <command name="label" param="appendix:RepresentativeSmeApplications" />
+          This appendix contains code samples illustrating the application of SME on the methods targeted for manually-written unit tests - listed in table <see ref="tbl:InterestingMethods" /> - as well as the unit tests targeting the original methods and those targeting the extracted stateless methods.  Table <see ref="tbl:ListingsOfInterestingMethods" /> provides a guide to the code listings.
+          <block param="landscape">
+            <table placement="p">
+              <tabular spec="p{0.005\textwidth} p{0.005\textwidth} p{0.005\textwidth} p{0.7\textwidth} | p{0.07\textwidth} p{0.07\textwidth} p{0.07\textwidth} p{0.07\textwidth}">
+                <tr>
+                  <td multicolumn="{4}{l|}">Project</td>
+                </tr>
+                <tr>
+                  <td />
+                  <td multicolumn="{3}{l|}">Namespace</td>
+                  <td multicolumn="{4}{c}">Listings</td>
+                </tr>
+                <tr>
+                  <td />
+                  <td />
+                  <td multicolumn="{2}{l|}">Class</td>
+                  <td>MUT</td>
+                  <td>MUT</td>
+                  <td>Test</td>
+                  <td>Test</td>
+                </tr>
+                <tr>
+                  <td />
+                  <td />
+                  <td />
+                  <td>Method</td>
+                  <td>Before</td>
+                  <td>After</td>
+                  <td>Before</td>
+                  <td>After</td>
+                </tr>
+                <command name="hline" />
+                <tr><td multicolumn="{4}{l|}"><tt>Textile</tt></td></tr>
+                <region name="Textile.Blocks">
+                  <tr>
+                    <td></td>
+                    <td multicolumn="{3}{l|}"><tt>Textile.Blocks</tt></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td multicolumn="{2}{l|}"><tt>CodeBlockModifier</tt></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><tt>string ModifyLine(string)</tt></td>
+                    <td><see ref="lst:BaseCodeBlockModifierModifyLine" /></td>
+                    <td><see ref="lst:ManualCodeBlockModifierModifyLine" /></td>
+                    <td><see ref="lst:BaseCodeBlockModifierModifyLineTest" /></td>
+                    <td><see ref="lst:ManualCodeBlockModifierModifyLineTest" /></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><tt>string Conclude(string)</tt></td>
+                    <td><see ref="lst:BaseCodeBlockModifierConclude" /></td>
+                    <td><see ref="lst:ManualCodeBlockModifierConclude" /></td>
+                    <td><see ref="lst:BaseCodeBlockModifierConcludeTest" /></td>
+                    <td><see ref="lst:ManualCodeBlockModifierConcludeTest" /></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><tt>string CodeFormatMatchEvaluator(Match)</tt></td>
+                    <td><see ref="lst:BaseCodeBlockModifierCodeFormatMatchEvaluator" /></td>
+                    <td><see ref="lst:ManualCodeBlockModifierCodeFormatMatchEvaluator" /></td>
+                    <td><see ref="lst:BaseCodeBlockModifierCodeFormatMatchEvaluatorTest" /></td>
+                    <td><see ref="lst:ManualCodeBlockModifierCodeFormatMatchEvaluatorTest" /></td>
+                  </tr>
+                </region>
+
+                <region name="Textile.States">
+                  <tr>
+                    <td></td>
+                    <td multicolumn="{3}{l|}"><tt>Textile.States</tt></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td multicolumn="{2}{l|}"><tt>FootNoteFormatterState</tt></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><tt>void Enter()</tt></td>
+                    <td><see ref="lst:BaseFootNoteFormatterStateEnter" /></td>
+                    <td><see ref="lst:ManualFootNoteFormatterStateEnter" /></td>
+                    <td><see ref="lst:BaseFootNoteFormatterStateEnterTest" /></td>
+                    <td><see ref="lst:ManualFootNoteFormatterStateEnterTest" /></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><tt>void OnContextAcquired()</tt></td>
+                    <td><see ref="lst:BaseFootNoteFormatterStateOnContextAcquired" /></td>
+                    <td><see ref="lst:ManualFootNoteFormatterStateOnContextAcquired" /></td>
+                    <td><see ref="lst:BaseFootNoteFormatterStateOnContextAcquiredTest" /></td>
+                    <td><see ref="lst:ManualFootNoteFormatterStateOnContextAcquiredTest" /></td>
+                  </tr>
+                </region>
+
+                <tr><td multicolumn="{4}{l|}"><tt>KeePassLib</tt></td></tr>
+                <region name="KeePassLib.Cryptography.PasswordGenerator">
+                  <tr>
+                    <td></td>
+                    <td multicolumn="{3}{l|}"><tt>KeePassLib.Cryptography.PasswordGenerator</tt></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td multicolumn="{2}{l|}"><tt>PatternBasedGenerator</tt></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><tt>string ExpandPattern(string)</tt></td>
+                    <td><see ref="lst:BaseCodeBlockModifierModifyLine" /></td>
+                    <td><see ref="lst:ManualCodeBlockModifierModifyLine" /></td>
+                    <td><see ref="lst:BaseCodeBlockModifierModifyLineTest" /></td>
+                    <td><see ref="lst:ManualCodeBlockModifierModifyLineTest" /></td>
+                  </tr>
+                </region>
+                <region name="KeePassLib.Security">
+                  <tr>
+                    <td></td>
+                    <td multicolumn="{3}{l|}"><tt>KeePassLib.Security</tt></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td multicolumn="{2}{l|}"><tt>XorredBuffer</tt></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><tt>byte[] ChangeKey(byte[])</tt></td>
+                    <td><see ref="lst:BaseCodeBlockModifierModifyLine" /></td>
+                    <td><see ref="lst:ManualCodeBlockModifierModifyLine" /></td>
+                    <td><see ref="lst:BaseCodeBlockModifierModifyLineTest" /></td>
+                    <td><see ref="lst:ManualCodeBlockModifierModifyLineTest" /></td>
+                  </tr>
+                </region>
+                <tr><td multicolumn="{4}{l|}"><tt>AtomicCms</tt></td></tr>
+                <region name="AtomicCms.Web.Controllers">
+                  <tr>
+                    <td />
+                    <td multicolumn="{3}{l|}"><tt>AtomicCms.Web.Controllers</tt></td>
+                  </tr>
+                  <tr>
+                    <td />
+                    <td />
+                    <td multicolumn="{2}{l|}"><tt>AdminMenuItemController</tt></td>
+                  </tr>
+                  <tr>
+                    <td />
+                    <td />
+                    <td />
+                    <td><tt>void FormatResultMessage(IMenuItem, int?)</tt></td>
+                    <td><see ref="lst:BaseCodeBlockModifierModifyLine" /></td>
+                    <td><see ref="lst:ManualCodeBlockModifierModifyLine" /></td>
+                    <td><see ref="lst:BaseCodeBlockModifierModifyLineTest" /></td>
+                    <td><see ref="lst:ManualCodeBlockModifierModifyLineTest" /></td>
+                  </tr>
+                </region>
+              </tabular>
+              <command name="caption" param="Methods targeted for manually-written unit tests and their corresponding listings" />
+              <command name="label" param="tbl:ListingsOfInterestingMethods" />
+            </table>
+          </block>
+          <command name="newpage" />
+          <block param="landscape">
+            <region name="string Conclude(string)">
+              <listing label="lst:BaseCodeBlockModifierConclude" file="Textile/base/Textile/Blocks/CodeBlockModifier.cs" linerange="45-53" style="realCode" placement="t">
+                C# showing the <tt>base</tt> version of the <tt>Conclude()</tt> method of the <tt>CodeBlockModifier</tt> class of the <tt>Textile</tt> project.
+              </listing>
+              <listing label="lst:ManualCodeBlockModifierConclude" file="Textile/manual/Textile/Blocks/CodeBlockModifier.cs" linerange="53-66" style="realCode" placement="b">
+                C# showing the <tt>manual</tt> version of the <tt>Conclude()</tt> method, after SME.
+              </listing>
+              <listing label="lst:BaseCodeBlockModifierConcludeTest" file="Textile/base/Textile.ManualTests/Blocks/CodeBlockModifierTest.cs" linerange="21-28" style="realCode">
+                C# showing the test for the <tt>base</tt> version of the <tt>Conclude()</tt> method.
+              </listing>
+              <listing label="lst:ManualCodeBlockModifierConcludeTest" file="Textile/manual/Textile.ManualTests/Blocks/CodeBlockModifierTest.cs" linerange="30-36" style="realCode">
+                C# showing the test for the <tt>manual</tt> version of the <tt>Conclude()</tt> method.
+              </listing>
+            </region>
+            <region name="string CodeFormatMatchEvaluator(Match)">
+              <listing label="lst:BaseCodeBlockModifierCodeFormatMatchEvaluator" file="Textile/base/Textile/Blocks/CodeBlockModifier.cs" linerange="55-62" style="realCode" placement="t">
+                C# showing the <tt>base</tt> version of the <tt>CodeFormatMatchEvaluator()</tt> method of the <tt>CodeBlockModifier</tt> class of the <tt>Textile</tt> project.
+              </listing>
+              <listing label="lst:ManualCodeBlockModifierCodeFormatMatchEvaluator" file="Textile/manual/Textile/Blocks/CodeBlockModifier.cs" linerange="68-84" style="realCode" placement="b">
+                C# showing the <tt>manual</tt> version of the <tt>CodeFormatMatchEvaluator()</tt> method, after SME.
+              </listing>
+              <listing label="lst:BaseCodeBlockModifierCodeFormatMatchEvaluatorTest" file="Textile/base/Textile.ManualTests/Blocks/CodeBlockModifierTest.cs" linerange="30-42" style="realCode">
+                C# showing the test for the <tt>base</tt> version of the <tt>CodeFormatMatchEvaluator()</tt> method.
+              </listing>
+              <listing label="lst:ManualCodeBlockModifierCodeFormatMatchEvaluatorTest" file="Textile/manual/Textile.ManualTests/Blocks/CodeBlockModifierTest.cs" linerange="38-43" style="realCode">
+                C# showing the test for the <tt>manual</tt> version of the <tt>CodeFormatMatchEvaluator()</tt> method.
+              </listing>
+            </region>
+            <region name="void Enter()">
+              <listing label="lst:BaseFootNoteFormatterStateEnter" file="Textile/base/Textile/States/FootNoteFormatterState.cs" linerange="33-40" style="realCode" placement="t">
+                C# showing the <tt>base</tt> version of the <tt>Enter()</tt> method of the <tt>FootNoteFormatterState</tt> class of the <tt>Textile</tt> project.
+              </listing>
+              <listing label="lst:ManualFootNoteFormatterStateEnter" file="Textile/manual/Textile/States/FootNoteFormatterState.cs" linerange="33-45" style="realCode" placement="b">
+                C# showing the <tt>manual</tt> version of the <tt>Enter()</tt> method, after SME.
+              </listing>
+              <listing label="lst:BaseFootNoteFormatterStateEnterTest" file="Textile/base/Textile.ManualTests/States/FootNoteFormatterStateTest.cs" linerange="13-30" style="realCode">
+                C# showing the test for the <tt>base</tt> version of the <tt>Enter()</tt> method.
+              </listing>
+              <listing label="lst:ManualFootNoteFormatterStateEnterTest" file="Textile/manual/Textile.ManualTests/States/FootNoteFormatterStateTest.cs" linerange="15-23" style="realCode">
+                C# showing the test for the <tt>manual</tt> version of the <tt>Enter()</tt> method.
+              </listing>
+            </region>
+            <region name="void OnContextAcquired()">
+              <listing label="lst:BaseFootNoteFormatterStateOnContextAcquired" file="Textile/base/Textile/States/FootNoteFormatterState.cs" linerange="56-60" style="realCode" placement="t">
+                C# showing the <tt>base</tt> version of the <tt>OnContextAcquired()</tt> method of the <tt>FootNoteFormatterState</tt> class of the <tt>Textile</tt> project.
+              </listing>
+              <listing label="lst:ManualFootNoteFormatterStateOnContextAcquired" file="Textile/manual/Textile/States/FootNoteFormatterState.cs" linerange="61-70" style="realCode" placement="b">
+                C# showing the <tt>manual</tt> version of the <tt>OnContextAcquired()</tt> method, after SME.
+              </listing>
+              <listing label="lst:BaseFootNoteFormatterStateOnContextAcquiredTest" file="Textile/base/Textile.ManualTests/States/FootNoteFormatterStateTest.cs" linerange="13-30" style="realCode">
+                C# showing the test for the <tt>base</tt> version of the <tt>OnContextAcquired()</tt> method.
+              </listing>
+              <listing label="lst:ManualFootNoteFormatterStateOnContextAcquiredTest" file="Textile/manual/Textile.ManualTests/States/FootNoteFormatterStateTest.cs" linerange="28-36" style="realCode">
+                C# showing the test for the <tt>manual</tt> version of the <tt>OnContextAcquired()</tt> method.
+              </listing>
+            </region>
+          </block>
+      </command>
       <command name="chapter" param="SME applications">
-        <command name="label" param="appendix:SmeApplication" />
-        TODO
+        <command name="label" param="appendix:AllSmeApplications" />
+        The following pages list all the methods that were transformed with SME, notes regarding the transformation and the revision in the Subversion repository where the changes took place.
+        <!-- TODO: could explain the URL looks like <url>http://code.google.com/p/testoriented/source/detail?r=535</url> -->
+        <command name="includepdf" param="SmeApplications.pdf" opt="scale=0.8,offset=1.5em 0,pages={-},fitpaper=true,pagecommand=\thispagestyle{plain}" />
       </command>
       <command name="chapter" param="Raw data spreadsheet">
         <command name="label" param="appendix:Spreadsheet" />
