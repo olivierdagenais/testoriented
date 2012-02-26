@@ -2141,10 +2141,10 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                     <td />
                     <td />
                     <td><tt>void FormatResultMessage(IMenuItem, int?)</tt></td>
-                    <td><see ref="lst:BaseCodeBlockModifierModifyLine" /></td>
-                    <td><see ref="lst:ManualCodeBlockModifierModifyLine" /></td>
-                    <td><see ref="lst:BaseCodeBlockModifierModifyLineTest" /></td>
-                    <td><see ref="lst:ManualCodeBlockModifierModifyLineTest" /></td>
+                    <td><see ref="lst:BaseAdminMenuItemControllerFormatResultMessage" /></td>
+                    <td><see ref="lst:ManualAdminMenuItemControllerFormatResultMessage" /></td>
+                    <td><see ref="lst:BaseAdminMenuItemControllerFormatResultMessageTest" /></td>
+                    <td><see ref="lst:ManualAdminMenuItemControllerFormatResultMessageTest" /></td>
                   </tr>
                 </region>
               </tabular>
@@ -2236,6 +2236,21 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               </listing>
               <listing label="lst:ManualXorredBufferChangeKeyTest" file="KeePassLib/manual/KeePassLib.ManualTests/Security/XorredBufferTest.cs" linerange="12-34" style="realCode">
                 C# showing the test for the <tt>manual</tt> version of the <tt>ChangeKey()</tt> method.
+              </listing>
+            </region>
+            <command name="newpage" />
+            <region name="void FormatResultMessage(IMenuItem, int?)">
+              <listing label="lst:BaseAdminMenuItemControllerFormatResultMessage" file="AtomicCms/base/AtomicCms/Controllers/AdminMenuItemController.cs" linerange="66-77" style="realCode" placement="t">
+                C# showing the <tt>base</tt> version of the <tt>FormatResultMessage()</tt> method of the <tt>AdminMenuItemController</tt> class of the <tt>AtomicCms</tt> project.
+              </listing>
+              <listing label="lst:ManualAdminMenuItemControllerFormatResultMessage" file="AtomicCms/manual/AtomicCms/Controllers/AdminMenuItemController.cs" linerange="66-84" style="realCode" placement="b">
+                C# showing the <tt>manual</tt> version of the <tt>FormatResultMessage()</tt> method, after SME.
+              </listing>
+              <listing label="lst:BaseAdminMenuItemControllerFormatResultMessageTest" file="AtomicCms/base/AtomicCms.ManualTests/Web/Controllers/AdminMenuItemControllerTest.cs" linerange="114-138" style="realCode">
+                C# showing the test for the <tt>base</tt> version of the <tt>FormatResultMessage()</tt> method.
+              </listing>
+              <listing label="lst:ManualAdminMenuItemControllerFormatResultMessageTest" file="AtomicCms/manual/AtomicCms.ManualTests/Web/Controllers/AdminMenuItemControllerTest.cs" linerange="12-20" style="realCode">
+                C# showing the test for the <tt>manual</tt> version of the <tt>FormatResultMessage()</tt> method.
               </listing>
             </region>
           </block>

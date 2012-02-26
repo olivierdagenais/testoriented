@@ -9,15 +9,15 @@ namespace AtomicCms.ManualTests.Web.Controllers
     [TestFixture]
     public class AdminMenuItemControllerTest
     {
-        [Test]
-        public void InnerFormatResultMessage_Created()
-        {
-            // act
-            var actual = AdminMenuItemController.InnerFormatResultMessage(null, 42);
+[Test]
+public void InnerFormatResultMessage_Created()
+{
+    // act
+    var actual = AdminMenuItemController.InnerFormatResultMessage(null, 42);
 
-            // assert
-            Assert.AreEqual("Items was successfully created with Id = 42", actual);
-        }
+    // assert
+    Assert.AreEqual("Items was successfully created with Id = 42", actual);
+}
 
         [Test]
         public void InnerFormatResultMessage_Updated()
