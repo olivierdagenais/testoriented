@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="AtomicCms.Core.DomainObjectsImp.Menu, AtomicCms.Core" table="ac_MenuTypes" lazy="false">
+    <id name="Id" column="Id" type="int" unsaved-value="0">
+      <generator class="native">
+      </generator>
+    </id>
+    <property name="Title" column="Title" type="String"/>
+    <property name="Type" column="Type" type="String"/>
+    <property name="Description" column="Description" type="String"/>
+    <bag name="MenuItems" lazy="false" order-by="Ordering" >
+      <key column="MenuId"></key>
+      <one-to-many class="AtomicCms.Core.DomainObjectsImp.MenuItem, AtomicCms.Core"/>
+    </bag>
+  </class>
+</hibernate-mapping>
+

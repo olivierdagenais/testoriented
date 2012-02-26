@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="AtomicCms.Common.Dto.LegacyUrl, AtomicCms.Common" table="ac_LegacyUrlMapping" lazy="false">
+    <id name="Id" column="Id" type="int" unsaved-value="0">
+      <generator class="native">
+      </generator>
+    </id>
+    <property name="OldUrl" column="OldUrl" type="String"/>
+    <property name="NewUrl" column="NewUrl" type="String"/>
+  </class>
+</hibernate-mapping>
+
