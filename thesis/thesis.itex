@@ -30,7 +30,7 @@
 
     <region comment="URLs and references are hyperlinked">
       <command name="usepackage" param="url" />
-      <command name="usepackage" param="hyperref" opt="pdftitle={Stateless Programming And Testing: Extracting a functional layer from object-oriented code},pdfauthor={Olivier Dagenais},colorlinks=true,linkcolor=black,anchorcolor=black,citecolor=black,citecolor=black,urlcolor=black,pdftex=true" />
+      <command name="usepackage" param="hyperref" opt="pdftitle={Improving testability with Stateless Method Extraction},pdfauthor={Olivier Dagenais},colorlinks=true,linkcolor=black,anchorcolor=black,citecolor=black,citecolor=black,urlcolor=black,pdftex=true" />
     </region>
 
     <region comment="Define column type for results tables">
@@ -55,7 +55,7 @@ http://tex.stackexchange.com/questions/20303/xelatex-forces-readers-to-rotate-th
   </preamble>
   <document>
     <region name="Title page">
-      <command name="title" param="Stateless Method Extraction" />
+      <command name="title" param="Improving testability with stateless method extraction" />
       <command name="author" param="Olivier Dagenais" />
       <command name="submitdate" param="February 29, 2012" />
       <command name="copyrightyear" param="2012" />
