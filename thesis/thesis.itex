@@ -103,7 +103,7 @@ http://tex.stackexchange.com/questions/20303/xelatex-forces-readers-to-rotate-th
 
           Hidden and mutable instance state poses a problem for automated unit testing because that instance state may come into play when exercising a specific scenario <see cite="binder00testharness" />.  Since the instance state is mutable, the values may not be initialized at instance construction or can change as instance methods are called.  Because the instance state is hidden, there exists, by definition, no way to manipulate this instance state directly.  Separately, hidden (but immutable) instance state or mutable (but visible) instance state do not provide too many difficulties for test writing.  It is the combination of the hidden and mutable properties that makes it difficult to write tests.
 
-          <command name="subsection" param="Hidden mutable state, described">
+          <command name="subsection" param="Hidden Mutable State, Described">
             Hidden mutable state (HMS) manifests itself in different forms:
             <block param="itemize">
               <command name="item"> Instance state that cannot be set from the constructor or a factory method.</command>
@@ -277,7 +277,7 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
             </block>
           </command>
         </command>
-        <command name="section" param="Automated testing">
+        <command name="section" param="Automated Testing">
           A proper introduction to automated testing, especially as it pertains to OO programs, would fill a book and indeed it has.  The reader is encouraged to consult <em>Testing Object-Oriented Systems</em> by Robert V. Binder <see cite="binder00testharness" /> for details beyond this chapter's overview.
 
           Generally, a test is said to be automated if there exists a program that can: start the IUT or a subset thereof, initialize some suitable inputs for the scenario to be verified, provide these inputs to the IUT and then verify the resulting output, without any intervening assistance.
@@ -357,9 +357,9 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
             Non-functional testing concerns itself with verifying non-functional requirements, such as constraints on execution time, working memory, long-term storage and processor load, usually for embedded and real-time systems.  Test inputs are sought which cause the program to exceed pre-defined thresholds, such as taking more time than usual or consuming more memory than expected.  This can be measured by instrumentation external to the IUT, such as the operating system's timers and counters, or by using a simulator <see cite="sthamer02usingevolutionary" />.
           </command>
         </command>
-        <command name="section" param="Related work">
+        <command name="section" param="Related Work">
           The following sub-sections are introduced by quotes relevant to their topic.
-          <command name="subsection" param="The state problem">
+          <command name="subsection" param="The State Problem">
             <block param="quote">
               "Side-effects, by which I mean changes to the values stored in fields of objects or elements of arrays, are clearly intended to be used frequently in Java. However, the presence of side-effects can make it harder to reason about a program, because there is invisble [sic] state to the side of computations which changes. That means a reader needs to keep track of both the visible aspects of a program and the hidden values off to the side that may change." <see cite="haahr99programmingstyle" />
 
@@ -374,7 +374,7 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
             Binder suggests four approaches to work around a programming language's visibility constraints: "Private Access Driver", "Test Control Interface", "Drone" and "Built-in Test Driver"  <see cite="binder00testharness" />.
             <!-- TODO: discuss Microsoft's PrivateObject -->
           </command>
-          <command name="subsection" param="The case for functional programming">
+          <command name="subsection" param="The Case for Functional Programming">
             <block param="quote">
              "However, the functional style is also perfectly adapted to incremental testing:  programs written in this style can also be <em>tested</em> one function at a time.  When a function neither examines nor alters external state, any bugs will appear immediately. Such a function can affect the outside world only through its return values. Insofar as these are what you expected, you can trust the code which produced them." <see cite="graham93onlisp" />
             </block>
@@ -384,7 +384,7 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
 
             Hevery, on the other hand, appears to disagree with our approach <see cite="hevery08staticmethods" /> and argues for a pure object-oriented approach <see cite="hevery09thinkoo" />.  Haahr nevertheless argues for "referential transparency" <see cite="haahr99programmingstyle" /> to not only make computations easier to understand but also easier to parallelise.
           </command>
-          <command name="subsection" param="The case for testability transformations">
+          <command name="subsection" param="The Case for Testability Transformations">
             <block param="quote">
               "It could be said that the algorithm for side-effect removal creates an `almost functional' language, in which all state changes are expressed using the assignment statement. This would return the programming paradigm to that considered by the initial work on the Axiomatic Method, where axiomatic semantics is comparatively elegant and easy to define and use. This, perhaps, provides further additional anecdotal evidence that side-effects are hard to reason about and that their removal is worthwhile for comprehension." <see cite="harman01sideeffect" />
             </block>
@@ -392,7 +392,7 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
 
             The general idea of testability transformation was further developed by Korel et al. <see cite="korel05datadependence" /> as well as McMinn et al. <see cite="mcminn08empiricalevaluation" />, among others.  Program slicing could also be considered a testability transformation <see cite="harman09aop" />.  Harman eventually goes one step further and suggests "testability refactoring": a permanent program transformation that has the simultaneous goals of making the program easier to test and better (or at least no worse) for the programmer <see cite="harman11refactoringtestability" />.
           </command>
-          <command name="subsection" param="The case for simplicity">
+          <command name="subsection" param="The Case for Simplicity">
             <block param="quote">
               "A low cyclomatic complexity generally indicates a method that is easy to understand, test, and maintain." <see cite="msdn10avoidcomplexity" />
             </block>
@@ -518,7 +518,7 @@ references as well.
             </listing>
           </command>
           <command name="newpage" />
-          <command name="subsection" param="Step 1: Identification of a candidate block">
+          <command name="subsection" param="Step 1: Identification of a Candidate Block">
             <command name="label" param="subsec:Step1" />
             The first step of SME consists of identifying, in an instance method, one or more functionality subsets that would be good candidates for extraction and subsequent unit testing.  That is to say, it is not necessary to extract the entire body of an instance method if there are parts of the method that would be more suitable to extract and unit test separately.  It is also possible a method will contain no candidate blocks to extract; the technique need not be forcibly applied if no unit testing advantages can be realized.
 
@@ -586,7 +586,7 @@ references as well.
               </command>
             </block>
           </command>
-          <command name="subsection" param="Step 2: Re-ordering of incidental operations">
+          <command name="subsection" param="Step 2: Re-ordering of Incidental Operations">
             <command name="label" param="subsec:Step2" />
             The second SME step is about finding and, if necessary, moving statements that are either unrelated to a computation or statements that are not stateless (such as those that cause side-effects) out of the candidate block.  This should only take place if the original instance method's functionality will not be adversely affected by the move.  If the functionality would indeed be adversely affected by the re-ordering of unrelated or non-stateless statements, the candidate block should be split such that its new endpoint is just before said unrelated or non-stateless statement.  A subsequent candidate block could be attempted just after the unrelated or non-stateless statement.
 
@@ -638,13 +638,13 @@ references as well.
 
             Incidental operation re-ordering can be considered a form of program slicing <see cite="tip95surveyslicing" /> in that data dependency analysis <see cite="korel05datadependence" /> can be used to identify a subset of computations of a method responsible for one of the outputs and isolate them.  Assuming all the discarded operations were stateless, it would be safe to say that the remaining operations can execute one immediately after the other and still produce the same result, the same way lines 15, 17 and 19 in listing <see ref="lst:StatefulCartesianCoordinate" /> are necessary for the computation of <tt>r</tt> and can be re-arranged to be consecutive, as seen in lines 15, 16 and 17 in listing <see ref="lst:StatelessCartesianCoordinate" />.
           </command>
-          <command name="subsection" param="Step 3: Assignment of inputs and outputs to local variables">
+          <command name="subsection" param="Step 3: Assignment of Inputs and Outputs to Local Variables">
             <command name="label" param="subsec:Step3" />
             The third step concerns the temporary introduction of local variables for each of the input and output parameters, as per the "introduce explaining variable" refactoring <see cite="fowler00introducevariable" />.  This makes the upcoming stateless method parameters and return values explicit so that it is easier to provide them with suitable names, easier to evaluate their simplicity (consult section <see ref="subsec:Step4" /> for details) and to more clearly delineate the candidate block so that it will be easier to extract it using existing "extract method" refactoring tools.
 
             The local variables introduced during this step should be remembered to allow their re-inlining to be performed again at the end of the current iteration, as described in section <see ref="subsec:Step6" />.
           </command>
-          <command name="subsection" param="Step 4: Simplification of inputs">
+          <command name="subsection" param="Step 4: Simplification of Inputs">
             <command name="label" param="subsec:Step4" />
             Stateless method extraction's fourth step entails finding the simplest types that can be used for the parameters and return values without causing an undue increase in their numbers.  Any type with an easy construction (a single call to a constructor or a factory method) and without side-effects while reading its component values (typical of an immutable instance) is considered "simple" for the purpose of SME.
 
@@ -680,7 +680,7 @@ references as well.
               </listing>
             </region>
           </command>
-          <command name="subsection" param="Step 5: Extraction of the candidate block into a method">
+          <command name="subsection" param="Step 5: Extraction of the Candidate Block Into a Method">
             <command name="label" param="subsec:Step5" />
             The fifth step consists of replacing the candidate block with a call to a new method into which the contents of the candidate block was moved.  The names and types of the parameters will come from the local variables introduced in step 3, as will the names and types of the new method's local variables representing the return values.  The name of the extracted method should describe how the parameters are processed to produce the return values, although the new method could become an overload of the original method.
 
@@ -688,11 +688,11 @@ references as well.
 
             The "extract method" refactoring <see cite="fowler00extractmethod" /> is implemented as a built-in interactive tool in development environments <see cite="msdn05extractmethod, eclipse08extractmethod" />, which makes this step almost trivial.
           </command>
-          <command name="subsection" param="Step 6: Re-inline any variables created to facilitate a refactor">
+          <command name="subsection" param="Step 6: Re-inline any Variables Created to Facilitate a Refactor">
             <command name="label" param="subsec:Step6" />
             The SME technique's sixth and final step cleans up the temporary refactoring performed as part of step 3.  This is done by performing the "inline temp" refactoring <see cite="fowler00inlinetemp" />, an inline expansion of the local variables introduced to represent the new method's input parameters and return values.
           </command>
-          <command name="subsection" param="End-to-end detailed walk-through">
+          <command name="subsection" param="End-to-end Detailed Walk-through">
             The following example demonstrates the application of SME on a simplified version of the <tt>FootNoteFormatterState</tt> class from the <em>Textile.NET</em> open-source project <see cite="chabant09textilenet" />.  First, the original implementation is presented in listing <see ref="lst:StatefulFootNoteFormatterState" />, along with the source code to its parent class in listing <see ref="lst:StatefulSimpleBlockFormatterState" />.  Second, a unit test will be attempted against the original implementation.  SME will then be applied and finally new unit tests will be written against the transformed implementation.
 
             <command name="subsubsection" param="Analysis and corresponding unit test">
@@ -749,7 +749,7 @@ references as well.
               </listing>
             </command>
           </command>
-          <command name="subsection" param="Accelerated walk-through">
+          <command name="subsection" param="Accelerated Walk-through">
             The following example demonstrates the application of SME for the purposes of testing the functionality of the <tt>Enter()</tt> method of the <tt>FootNoteFormatterState</tt> class in listing <see ref="lst:StatefulFootNoteFormatterState" />.  We are able to re-use the analysis we used for the <tt>OnContextAcquired()</tt> method and find that a test written against the original version of the class would look a lot like the one we came up with in listing <see ref="lst:StatefulFootNoteFormatterStateTest" />.  The rest of this sub-section will feature listings <see ref="lst:StatefulEnterFootNoteFormatterState" />, <see ref="lst:StatefulIntermediateEnterFootNoteFormatterState" />, <see ref="lst:StatelessIntermediateEnterFootNoteFormatterState" />, <see ref="lst:StatelessEnterFootNoteFormatterState" /> and <see ref="lst:StatelessFormatFootNoteTest" /> that illustrate - without narrative - the SME steps applied to increase the testability of the <tt>Enter()</tt> method and the unit test that can be written against the newly-extracted <tt>FormatFootNote()</tt> method.
 
             <listing label="lst:StatefulEnterFootNoteFormatterState" style="realCode" linerange="70-78" file="Stateful/FootNoteFormatterState.cs">
@@ -823,7 +823,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           <command name="label" param="sec:Suitability" />
           Although designed to work around the difficulties introduced by HMS, SME is suitable for methods that are difficult to test - even in the absence of HMS - due to unwieldy arrange phases, computation coupling, the presence of side-effects and/or restrictions of visibility.  These additional suitabilities are addressed in the following sub-sections.
 
-          <command name="subsection" param="Unwieldy arrange phase">
+          <command name="subsection" param="Unwieldy Arrange Phase">
             <command name="label" param="subsec:UnwieldyArrangePhase" />
             If a unit test method has an <em>arrange</em> phase that is longer than 50% of the test method, it is probably an indication that there are too many parameters, the parameters are too difficult to create and/or the functionality under test is buried too deep.  SME would help isolate the functionality that is intended to be tested and thus reduce the number of parameters, since candidate blocks are selected to use between 1 and 6 parameters.  SME would also help reduce the complexity of the parameters - the input simplification step takes care of this - and expose the computation as a single, direct method call.  The arrange phase would then be shrunk considerably, if not entirely removed, leading to simpler unit tests.  An example of an unwieldy arrange phase was seen in listing <see ref="lst:StatefulFootNoteFormatterStateTest" /> and can also be seen in listing <see ref="lst:StatefulCalculateGreatCircleDistanceTest" /> whereby a test for the <em>great circle distance</em> formula <see cite="weisstein99greatcircle" /> in the <tt>FlyingSalespersonProblem</tt> class (refer back to listing <see ref="lst:StatefulFlyingSalesPerson" />) must initialize a list of cities, an instance of the <tt>FlyingSalespersonProblem</tt> class and a visiting order.  Contrast this with the test for the <tt>CalculateGreatCircleDistance()</tt> stateless method in listing <see ref="lst:StatelessCalculateGreatCircleDistanceTest" /> which only needs to supply the coordinates of the two points. <!-- TODO: the CalculateGreatCircleDistance() method is a great building block to write and test on its own, leading to the construction of the ComputeTourLength() method, which can still be tested -->
 
@@ -835,7 +835,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             </listing>
           </command>
 
-          <command name="subsection" param="Computation coupling">
+          <command name="subsection" param="Computation Coupling">
             A method may be performing several computations in such a way to make it difficult to unit test any such computation on an individual basis, usually due to operations that make it difficult to observe intermediate results.  We call this <em>computation coupling</em>.  For example, the <tt>ModifyLine()</tt> method in listing <see ref="lst:StatefulCodeFormatMatchEvaluator" /> combines parsing and formatting in a single operation <footnote>The <tt>Replace()</tt> method will call the <tt>CodeFormatMatchEvaluator()</tt> method to re-format every match.</footnote> while listing <see ref="lst:StatelessCodeFormatMatchEvaluator" /> shows how exposing the <tt>CodeBlockRegex</tt> object and the <tt>BuildCodeElementString()</tt> method makes the functionality more directly reachable.  Indeed, consult listing <see ref="lst:StatelessCodeFormatMatchEvaluatorTest" /> to see how this decoupling enables the unit testing of the parsing and the formatting, seen in the <tt>ParseZone()</tt> and <tt>BuildCodeElementString()</tt> test methods, respectively, without needing to always perform both at once.  Contrast this to the <tt>ModifyLine()</tt> test method in listing <see ref="lst:StatefulCodeFormatMatchEvaluatorTest" />, which must exercise the parsing and the formatting simultaneously.
 
             In this particular case, the SME technique was extended to include two other extractions:  the compile-time <tt>Pattern</tt> string constant representing the regular expression pattern and the <tt>CodeBlockRegex</tt> run-time constant representing the compiled regular expression.  This provided the unit tests with access to the same functionality used for performing the work, thereby enhancing the unit tests' realism and relevance.  Finally, SME's candidate block identification enabled the separation of parsing and formatting, which allowed both to be tested separately as units, as well as together since the public-facing functionality did not change as a result of the refactorings.
@@ -854,7 +854,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             An example of two computations that would be worse if separated can be seen in listing <see ref="lst:StatefulMortonLayout" />, where we can see that <tt>x</tt> and <tt>y</tt> are computed simultaneously.  Compare this to listing <see ref="lst:StatelessMortonLayout" />, where <tt>x</tt> and <tt>y</tt> are computed separately, meaning two runs through the loop on <tt>bits</tt> instead of one.  It is also less obvious, in the second case, that the values of <tt>x</tt> and <tt>y</tt> were obtained by interpreting interleaved bits of the Morton Layout's <tt>index</tt> <see cite="msdn08deepzoom" />.
           </command>
 
-          <command name="subsection" param="The presence of side-effects">
+          <command name="subsection" param="The Presence of Side-effects">
             A method may not suffer from the state problem (it neither reads from nor writes to instance fields), but nevertheless has side-effects that increase the difficulty when writing unit tests, such as the modification of input parameters or interactions with the environment.  Stateless method extraction could potentially still take place, provided some candidate blocks can be identified around the code causing said side-effects.  This would allow some simple unit tests to be written against the simple stateless methods extracted, while still allowing more involved integration tests against the original method.
 
             <listing label="lst:StatefulMutableVector" style="realCode" linerange="3-32" file="Stateful/MutableVector.cs" placement="t">
@@ -864,7 +864,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             An example of a method producing a result and causing side-effects can be seen in listing <see ref="lst:StatefulMutableVector" />.  The <tt>CalculateAngle()</tt> method calls the <tt>Normalize()</tt> method on <tt>MutableVector</tt>, which irreversibly scales the parameters to be unit vectors.  SME's candidate block identification would exclude both calls to <tt>Normalize()</tt> and would allow a version of the <tt>CalculateAngle()</tt> method to be created that had no side-effects but assumed both parameters were of unit length.
           </command>
 
-          <command name="subsection" param="Visibility or access restrictions">
+          <command name="subsection" param="Visibility or Access Restrictions">
             An instance method may already be stateless, but, because of its nature, may be difficult to reach with unit tests.  This situation can manifest itself when the class under test subclasses another class to override some of its methods, but said methods are only visible to the superclass and subclasses thereof.  This is usually achieved with a visibility or accessibility of <tt>protected</tt>.  This can also happen when the class under test explicitly implements an interface (when using C#): the explicitly-implemented interface members will not be visible from the class' default interface <see cite="msdn10explicitinterface" />.
 
             In both cases, SME can help extract one or more stateless methods that will not require an instance of the class to be created and can be directly unit tested, while keeping the original methods with the visibility and accessibility they require.
@@ -888,7 +888,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
 
           It would seem that any software project with insufficient testing coverage is fair game, although as the following sub-sections discuss, there are conditions under which SME could deliver greater value than other techniques.
 
-          <command name="subsection" param="Identifying stateless methods">
+          <command name="subsection" param="Identifying Stateless Methods">
             <command name="label" param="subsec:IdentifyStateless" />
             SME will work best if the programming language or toolkit used has a concept of a <em>stateless</em> method.  This would ensure that each method marked as a stateless method only reads from its input parameters, only writes to its return values, does not read from or write to any instance or static fields (reading from constants is acceptable, as long as they represent immutable instances), does not interact with the environment (such as reading a file, sending data across a network or updating a database) and only calls methods similarly identified as stateless.
 
@@ -903,14 +903,14 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
 
             Such a concept need not be implemented at the language level and could instead be implemented by a static code analysis (SCA) tool with the help of a designated decoration.  For example, this decoration could be implemented as an attribute in .NET or an annotation in Java.  Listing <see ref="lst:StatelessStatelessAttribute" /> shows a C# implementation of the proposed <tt>Stateless</tt> attribute (lines 1-5) and a sample of its use (line 12).  By placing the line <tt>[Stateless]</tt> above the <tt>FormatIso8601Utc()</tt> method definition, the C# compiler will include the reference to <tt>StatelessAttribute</tt> in the byte code such that its presence on the method can be queried by SCA tools.
           </command>
-          <command name="subsection" param="Identifying immutable instances">
+          <command name="subsection" param="Identifying Immutable Instances">
             A class which contains no mutable state is said to be <em>immutable</em>.  Any state an immutable class has can only be set during construction - through the parameters of constructors or factory methods - and all its instance methods either return that state directly or perform computations with it (possibly including the method's parameters), in a manner very much like stateless methods.  Immutable classes can make it easier to implement SME because there exists, by definition, no sequence of method calls on their instances that can modify their state.  Instances of immutable classes therefore make excellent inputs to stateless methods.  As discussed in section <see ref="subsec:Step4" />, immutable classes are considered "simple" and can therefore provide stateless methods with convenient groupings of related input parameters, instead of specifying them separately.  The use of immutable classes can thus provide additional readability in unit tests at the expense of a constructor call.
 
             Similar to the <tt>Stateless</tt> decoration suggested in sub-section <see ref="subsec:IdentifyStateless" />, a decoration could be defined to identify classes that are immutable and thus safe to use as constants or input parameters.  Listing <see ref="lst:StatelessImmutableAttribute" /> shows a C# implementation of the proposed <tt>Immutable</tt> attribute (lines 1-5) and a sample of its use (line 7).  By placing the line <tt>[Immutable]</tt> above the <tt>EarthLocation</tt> class definition, the C# compiler will include the reference to the <tt>ImmutableAttribute</tt> in the byte code such that its presence on the class can be queried by SCA tools.  This idea was further developed by Bazuzi and Pilch-Bisson <see cite="pilch07enforcingimmutability" />.
 
             These proposed <tt>Stateless</tt> and <tt>Immutable</tt> decorations have the additional benefit that they could also be exploited by an optimizing compiler to inline the stateless methods (and apply other such performance improvements) in release mode, due to the new guarantees of immutability and invariance they provide by being enforced by the compiler and/or SCA.
           </command>
-          <command name="subsection" param="Controlling visibility">
+          <command name="subsection" param="Controlling Visibility">
             The SME technique will work best if the programming language has features to control the visibility of methods to ensure that the newly-introduced stateless methods do not pollute the public interface of the affected classes.  C# has the <tt>internal</tt> access modifier <see cite="msdn10internal" />, which, when combined with the <tt>InternalsVisibleTo</tt> attribute <see cite="msdn10internalsvisible" />, can expose the stateless methods to a unit test project, but not to consumers of the API, which, in effect, hides the results of SME from end-users.  Java has a similar concept with its packages <see cite="java96packages" />.  Indeed, unless the <tt>public</tt> or <tt>private</tt> access modifiers are used, a method will be visible from within the package it was defined <see cite="java96names" />, which means unit tests in the same package will have access to the newly-extracted stateless methods, but consumers of the API will not.
 
             An alternative to visibility controls or access modifiers - especially for programming languages without such features - is to place the extracted methods in a separate class (possibly named after the original class, but suffixed with <tt>Stateless</tt>) or even not attached to any class, provided the language makes this possible.  It may even be the case that, upon further consideration, a newly-extracted method should really belong in the class of one of its parameters.  For example, the <tt>CrossProduct()</tt> and <tt>DotProduct()</tt> methods extracted from the <tt>Plane</tt> class in listing <see ref="lst:StatelessVector" /> would probably be best located in the <tt>Vector</tt> class.
@@ -920,11 +920,11 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
         -->
         </command>
 
-        <command name="section" param="Public Interface Comparer tool">
+        <command name="section" param="Public Interface Comparer Tool">
           <command name="label" param="sec:PublicInterfaceComparer" />
           The Public Interface Comparer <footnote>The source code for the Public Interface Comparer Tool can be found in the public Subversion repository at <url>http://testoriented.googlecode.com/svn/pic/trunk/</url></footnote> is a tool written specifically to measure the <em>Public Interface Changes</em> metric.  This section explains how it works and gives a few examples of its use.
           
-          <command name="subsection" param="How it works">
+          <command name="subsection" param="How it Works">
             The tool is a command-line program that accepts three arguments: the path to the <tt>baselineFile</tt>, the path to the <tt>challengerFile</tt> and the path to the <tt>reportFile</tt>.  For each of the assemblies (byte code binary files) pointed to by <tt>baselineFile</tt> and <tt>challengerFile</tt>, the <tt>PublicInterfaceScanner</tt> class uses the reflection features of .NET to find all the publicly-visible types (classes and structs) and, for each of those, finds all their publicly-visible members (fields, properties, events and methods).  Each such member is converted into a canonical string representation of its definition and added to a list.  When all members of an assembly have been added to the list, the list is sorted alphabetically and returned to the main program.
             
             Public visibility is defined as the application programming interface (API) intentionally exposed by the authors of the library for consumption by third-party programs.  In .NET and Java, the mechanism for doing so is to decorate a member with the visibility keywords of <tt>public</tt> or <tt>protected</tt>.
@@ -949,7 +949,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             As we can see in listing <see ref="lst:BlockModifierPIC" />, the constructor (line 1) and the <tt>Conclude()</tt> method (line 2) were identified as public interface changes between the two versions of the <tt>BlockModifier</tt> class.
           </command>
         </command>
-        <command name="section" param="Decisions made">
+        <command name="section" param="Decisions Made">
           <command name="label" param="sec:Decisions" />
           <region name="Candidate block identification">
           The candidate block identification step in section <see ref="subsec:Step1" /> requires that blocks contain only stateless statements, because statelessness is a transitive property and the presence of any operation that causes side-effects in a method will disqualify all methods that call such a method from claiming statelessness.  A stateless method must therefore only call stateless methods, otherwise the effort is defeated.
@@ -987,7 +987,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           <!-- what the chapter is about -->
           This chapter describes experiments with which SME's efficiency at improving testability can be measured and compared against other strategies.  The results of the experiments are summarized and also presented in great detail, concluding with the relation of the results with the metrics of the goal.
         </command>
-        <command name="section" param="Evaluation design">
+        <command name="section" param="Evaluation Design">
           <command name="label" param="sec:EvaluationDesign" />
           <!-- TODO: should we move a few words from the overview section up here? -->
         <!--
@@ -1033,7 +1033,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           </command>
           <command name="subsection" param="Metrics">
             <command name="label" param="subsec:Metrics" />
-            <command name="subsubsection" param="Complexity of the unit tests">
+            <command name="subsubsection" param="Complexity of the Unit Tests">
               <command name="label" param="subsubsec:complexity" />
               <block param="quote">
                 "If the effort to produce and run tests is high, however, less testing will be done." <see cite="binder00testharness" /> <!-- page 1043 -->
@@ -1057,7 +1057,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               
               The CMPT is also used to evaluate the IUT of each strategy, to see if the transformations performed as part the respective strategies adversely affected the maintainability of the code being tested.  Because this metric is not part of the goal, its results will not be included in the unit test complexity metric and are recorded more as a "canary in a coal mine" to detect undesirable transformations. <!-- TODO: should the MI IUT become an official metric? -->
             </command>
-            <command name="subsubsection" param="Number of changes to the class under test's public interface">
+            <command name="subsubsection" param="Number of Changes to the Class Under Test's Public Interface">
               <command name="label" param="subsubsec:changesPublicInterface" />
               It could be undesirable to make changes to the CUT's public interface simply to increase its testability.  Reasons for not wanting any such changes include:
               <block param="enumerate">
@@ -1067,7 +1067,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               </block>
               This second metric counts how often each strategy causes a change to the public interface of the class under test, compared to the original version.  This metric will be referred to as the <em>Public Interface Changes</em> (PIC) metric.  Lower values are better, with zero being ideal.  The tool used is the <em>Public Interface Comparer</em> that was described in section <see ref="sec:PublicInterfaceComparer" />.
             </command>
-            <command name="subsubsection" param="Percentage of branches covered using concolic testing">
+            <command name="subsubsection" param="Percentage of Branches Covered Using Concolic Testing">
               <command name="label" param="subsubsec:codeCoverageConcolic" />
               The Pex tool <see cite="tillman08pex" /> is a concolic, constraint solver-based test generator that can be used to analyze a specified project and generate unit tests to exercise as much of that project's source code as it can.  Pex's ability to exercise the CUT's methods in an automated and unattended fashion provides a very good objective measure of testability.  This ability is measured by the code coverage reported when executing the generated unit tests with a code coverage tool.  Higher values are better.  Version 0.91.50418.0 of Pex is used, along with NUnit <see cite="poole00nunit" /> version 2.4.8 to run the unit tests and NCover <see cite="waldschmidt04ncover" /> version 1.5.8 to measure the code coverage.
             </command>
@@ -1077,17 +1077,17 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             <command name="subsubsection" param="Do nothing">
               No transformations are to be performed to the IUT, the source code will be used as-is to establish a baseline.  Henceforth referred to as <tt>base</tt>.
             </command>
-            <command name="subsubsection" param="Increase state visibility">
+            <command name="subsubsection" param="Increase State Visibility">
               All the fields (both instance and static fields) in all the classes had their visibility increased through a manual transformation that converted fields with a visibility (explicit or otherwise) of <tt>private</tt> to <tt>internal</tt> and <tt>protected</tt> to <tt>protected internal</tt>.  Henceforth referred to as <tt>visibility-state</tt>.
             </command>
-            <command name="subsubsection" param="Increase state and method visibility">
+            <command name="subsubsection" param="Increase State and Method Visibility">
               Similar to the previous strategy, all the fields and all the methods (both instance and static) in all the classes had their visibility increased through a manual transformation that converted fields and methods with a visibility (explicit or otherwise) of <tt>private</tt> to <tt>internal</tt> and <tt>protected</tt> to <tt>protected internal</tt>.  This strategy helps to understand the effectiveness of the Pex-related code coverage metric.  Henceforth referred to as <tt>visibility</tt>.
             </command>
-            <command name="subsubsection" param="Extract stateless methods">
+            <command name="subsubsection" param="Extract Stateless Methods">
               This is the very approach proposed by this thesis; stateless methods are extracted - through a manual process - where good candidate blocks are identified.  Henceforth referred to as <tt>manual</tt>.
             </command>
           </command>
-          <command name="subsection" param="Selected methods for maintainability metric">
+          <command name="subsection" param="Selected Methods for Maintainability Metric">
             <table placement="t">
               <tabular spec="p{0.01\textwidth} p{0.01\textwidth} p{0.01\textwidth} l">
                 <tr>
@@ -1223,45 +1223,45 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             </table>
             Table <see ref="tbl:InterestingMethods" /> lists the methods that have been selected because they were identified as particularly suitable for SME as per the criteria in section <see ref="sec:Suitability" />, such as interacting with HMS or computing several results simultaneously.  This selection forms a representative sample of the testing difficulties associated with HMS and care was taken to exclude methods that were deemed to already be trivially testable or too similar to those already selected.  Unit tests were written to target these methods for each strategy, exploiting the respective transformations to the IUT to simplify the tests where possible.  It is for the manually-written tests of these methods that the "complexity of the unit tests" metric will be computed.
           </command>
-          <command name="subsection" param="Preparing the projects for the evaluation">
+          <command name="subsection" param="Preparing the Projects for the Evaluation">
             <region comment="Intro">
             The source code to the projects was imported into a public source control repository <footnote>The files used for the suitability evaluation of this thesis are available inside the Subversion repository at <url>https://testoriented.googlecode.com/svn/suitability/trunk</url></footnote>.  Each project gets its own folder and the imported version (which serves as a baseline) is placed in a sub-folder called <tt>base</tt>.  Some slight modifications were made to the source code to simplify the evaluation, detailed as follows:
             </region>
-            <command name="subsubsection" param="Consolidate projects">
+            <command name="subsubsection" param="Consolidate Projects">
               If a project consisted of many sub-projects, the source files for those sub-projects were combined into a single project, to simplify the configuration of Pex.
             </command>
-            <command name="subsubsection" param="Remove provided tests">
+            <command name="subsubsection" param="Remove Provided Tests">
               Any existing automated tests were removed, otherwise Pex would be able to trivially reach areas of the CUTs through their tests, defeating the purpose of that part of the evaluation.
             </command>
-            <command name="subsubsection" param="Add two empty test projects">
+            <command name="subsubsection" param="Add Two Empty Test Projects">
               To help Pex generate unit tests, a corresponding empty test project was created for each project (suffixed with <tt>.Tests</tt>), as was another empty test project created for the complexity metric (suffixed with <tt>.ManualTests</tt>).  Each empty test project was configured to reference its associated project.  The test projects are ready to have test classes added to them.
             </command>
-            <command name="subsubsection" param="Expose internal members to Pex">
+            <command name="subsubsection" param="Expose Internal Members to Pex">
               Each project was configured to make any methods marked as <tt>internal</tt> visible to both the empty test projects and to Pex itself, using the <tt>InternalsVisibleTo</tt> attribute.
             </command>
-            <command name="subsubsection" param="Disable functionality that interferes with the evaluation">
+            <command name="subsubsection" param="Disable Functionality That Interferes With the Evaluation">
               The <tt>KeePassLib</tt> project contains code to show a modal message box dialog that must be dismissed by an end-user.  This is undesirable for an unattended evaluation and therefore the body of the <tt>SafeShowMessageBox()</tt> method in the <tt>MessageService</tt> class was removed, as was that of the <tt>SafeShowMessageBoxInternal()</tt> method in the <tt>MessageService</tt> class.  Also, to prevent assertions in the projects from interrupting the automated evaluation in the same way, the compilation options were modified to use the <em>Release</em> configuration with optimizations disabled and full debug symbols enabled <footnote>Assertions will only display a dialog if the <tt>DEBUG</tt> constant is defined and it is not defined when using the Release configuration.  Disabling optimizations and enabling debug symbols is done to help keep the static code analysis as representative to the original source code as possible.</footnote>.
             </command>
-            <command name="subsubsection" param="Create a copy for each strategy">
+            <command name="subsubsection" param="Create a Copy for Each Strategy">
               Now that we have a baseline for each project, we can create a copy of the <tt>base</tt> folder for each strategy we wish to compare against.  As such, the following folders were created:  <tt>manual</tt> (manual application of SME), <tt>visibility-state</tt> (increasing the visibility of state members, such as fields) and <tt>visibility</tt> (increasing the visibility of both fields and methods).  The corresponding transformations were then performed in their respective folders, isolated from one another and from the baseline.
             </command>
           </command>
-          <command name="subsection" param="How it works">
+          <command name="subsection" param="How it Works">
             <command name="label" param="subsec:HowItWorks" />
             The evaluation is conducted automatically using a small program written with NAnt <see cite="shaw06nant" />.  The major steps are as follows:
-            <command name="subsubsection" param="Create a working copy">
+            <command name="subsubsection" param="Create a Working Copy">
               Pex modifies the test project file as part of its test generation process.  To make the evaluation repeatable, a copy is made, at the start of the run, of each strategy folder of each project, erasing the previous run's folders as necessary.  Pex can then operate in each working copy without chance of interference from the artifacts of any previous runs.
             </command>
             <command name="subsubsection" param="Compile">
               All the analysis tools (CMPT, Public Interface Comparer and Pex) work by analyzing the byte code of the projects (as opposed to their source code) and thus the next step is to compile the projects.
             </command>
-            <command name="subsubsection" param="Run manual tests">
+            <command name="subsubsection" param="Run Manual Tests">
               As a sanity check, the tests written to be evaluated for their complexity are run to make sure they all pass.
             </command>
-            <command name="subsubsection" param="Determine public interface differences">
+            <command name="subsubsection" param="Determine Public Interface Differences">
               The PIC metric is computed on each project's IUT and the report is stored in the project's working folder as the file <tt>PublicInterfaceDifferences.txt</tt>.  Each line of the report represents a public interface difference between the base code and the code of a strategy and therefore the number of public interface differences is the number of lines in the report.  By definition, the report for the <tt>base</tt> strategy will always contain 0 lines.
             </command>
-            <command name="subsubsection" param="Evaluate maintainability of IUT and manual tests">
+            <command name="subsubsection" param="Evaluate Maintainability of IUT and Manual Tests">
               The CMPT is launched to compute the MI metric for both the IUT and the manually-written unit tests (henceforth known as MT).  This allows an objective measure of the maintainability of the IUT in the face of testability transformations as well as a measure of maintainability of the corresponding MT.  The CMPT emits the reports respectively as <tt>CodeMetrics.Iut.xml</tt> and <tt>CodeMetrics.Mt.xml</tt> in each working folder.  A quick post-processing step converts the absolute paths in the reports into relative paths to simplify comparisons, producing the files <tt>CodeMetrics.Iut.xml.filtered</tt> and <tt>CodeMetrics.Mt.xml.fitered</tt>.
             </command>
             <command name="subsubsection" param="Invoke Pex Wizard">
@@ -1270,15 +1270,15 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             <command name="subsubsection" param="Invoke Pex Generator">
               Pex is now run in "Generate" mode, which produces the actual unit tests by using the helpers it generated in the previous step.  Again, some Pex defects call for the repair of the affected test project files, this time using the <tt>FixPexGenerator.xsl</tt> XSL transformation file.  The projects are recompiled one last time in preparation for running the generated tests.
             </command>
-            <command name="subsubsection" param="Run generated tests with coverage">
+            <command name="subsubsection" param="Run Generated Tests With Coverage">
               The console NUnit runner executes all the unit tests that Pex generated while NCover monitors the execution to collect code coverage data for the IUT.  It is not important whether the tests pass, fail or end in error - Pex by its very nature will generate tests that throw or expect to throw <tt>ArgumentException</tt> instances - it is only important to record code coverage.  The NCover tool emits a coverage report in each project's working folder as the file <tt>coverage.xml</tt>.
             </command>
-            <command name="subsubsection" param="Record results">
+            <command name="subsubsection" param="Record Results">
               Results are collected from the various reports and submitted to an online spreadsheet <footnote>The spreadsheet can be seen at <url>https://docs.google.com/spreadsheet/ccc?key=0Ag6eugnyWA09dG9zQnFtTlQ0Z1dGUjI5TUlFMnpFWWc</url></footnote>, an explanation and a copy of which can be found in Appendix <see ref="appendix:Spreadsheet" />.
             </command>
           </command>
         </command>
-        <command name="section" param="Representative SME application">
+        <command name="section" param="Representative SME Application">
           The following listings show the first of the 8 methods targeted for manually-written unit tests - listed in table <see ref="tbl:InterestingMethods" /> - before the application of SME (listing <see ref="lst:BaseCodeBlockModifierModifyLine" />) and after the application of SME (listing <see ref="lst:ManualCodeBlockModifierModifyLine" />), as well as the manually-written unit test targeting the original method (listing <see ref="lst:BaseCodeBlockModifierModifyLineTest" />) and the manually-written unit test targeting the extracted stateless method (listing <see ref="lst:ManualCodeBlockModifierModifyLineTest" />).
           
           Similar quartets of listings for the remaining 7 methods targeted for manually-written unit tests can be found in Appendix <see ref="appendix:RepresentativeSmeApplications" /> while a list of all the methods transformed in all 3 open-source projects can be found in Appendix <see ref="appendix:AllSmeApplications" />.
@@ -1357,10 +1357,10 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             <command name="label" param="tbl:SummaryResults" />
           </table>
         </command>
-        <command name="section" param="Detailed results">
+        <command name="section" param="Detailed Results">
           <command name="label" param="sec:DetailedResults" />
           The following sub-sections illustrate the results of the individual metrics described in sub-section <see ref="subsec:Metrics" /> and discuss some observations made while running the suitability evaluation.
-          <command name="subsection" param="Complexity of the unit tests">
+          <command name="subsection" param="Complexity of the Unit Tests">
             Table <see ref="tbl:complexityResults" /> lists the per-project overall results of running the CMPT tool on the manually-written unit tests to obtain their maintainability index.
 
             <table placement="htbp">
@@ -1621,7 +1621,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             
             The <tt>visibility-state</tt> strategy was again ineffective in the <tt>AtomicCms</tt> project because HMS was not the biggest unit testing obstacle.  The <tt>visibility</tt> strategy fared better because it could directly call the method under test, but still needed an arrange phase because an instance of the class needed to be created and the MUT had not benefited from input simplification like it did with the <tt>manual</tt> strategy.
           </command>
-          <command name="subsection" param="Number of changes to the public interface of the class under test">
+          <command name="subsection" param="Number of Changes to the Public Interface of the Class Under Test">
             Table <see ref="tbl:publicInterfaceResults" /> lists the per-project results of running the Public Interface Comparer tool on the IUTs to obtain their number of public interface changes - or differences - relative to the base source code.
 
             <table placement="htbp">
@@ -1666,7 +1666,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
 
             This evaluation was mostly to ensure that none of the strategies would transform the IUT in such a way that could change the public interface exposed by the IUT to third-party programs.  It did come in handy during development to correct errors introduced during transformations and the presence of zeros across the results is a testament that all three strategies can be implemented without any changes that would be noticed by consumers of the end-result binaries.
           </command>
-          <command name="subsection" param="Percentage of branches covered using concolic testing">
+          <command name="subsection" param="Percentage of Branches Covered Using Concolic Testing">
             Table <see ref="tbl:percentageConcolicCoverage" /> lists the results of measuring the code coverage percentage achieved by the tests generated by Pex.
 
             <table placement="htbp">
@@ -1929,7 +1929,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           = 
           -->
         </command>
-        <command name="section" param="Future work">
+        <command name="section" param="Future Work">
           <!-- best ideas of next steps -->
           As was seen in sub-section <see ref="subsec:Strategies" />, there is more than one possible strategy for addressing HMS and there are very likely more strategies, both competing and complementing to SME.  It would be interesting to compare SME to a non-trivial HMS-oriented testability refactoring, both head-to-head and working together.  Example strategies include Binder's "Built-in Test Driver" and "Private Access Driver" <see cite="binder00testharness" />, extracting test "helper" methods <footnote>A variant on SME, the "test helper method extraction" idea adds methods to the test class, abstracting out the unwieldy arrange phase.</footnote> and introducing more "testing seams" <see cite="hevery08staticmethods" />.
           
@@ -1990,7 +1990,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           <command name="item" opt="XSL"> Extensible Stylesheet Language</command>
         </block>
       </command>
-      <command name="chapter" param="Representative SME applications">
+      <command name="chapter" param="Representative SME Applications">
         <command name="label" param="appendix:RepresentativeSmeApplications" />
           This appendix contains code samples illustrating the application of SME on the methods targeted for manually-written unit tests - listed in table <see ref="tbl:InterestingMethods" /> - as well as the unit tests targeting the original methods and those targeting the extracted stateless methods.  Table <see ref="tbl:ListingsOfInterestingMethods" /> provides a guide to the code listings.
           <block param="landscape">
@@ -2272,13 +2272,13 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             </region>
           </block>
       </command>
-      <command name="chapter" param="SME applications">
+      <command name="chapter" param="SME Applications">
         <command name="label" param="appendix:AllSmeApplications" />
         The following pages list all the methods that were transformed with SME, notes regarding the transformation and the revision in the Subversion repository where the changes took place.
         <!-- TODO: could explain the URL looks like <url>http://code.google.com/p/testoriented/source/detail?r=535</url> -->
         <command name="includepdf" param="SmeApplications.pdf" opt="scale=0.8,offset=1.5em 0,pages={-},fitpaper=true,pagecommand=\thispagestyle{plain}" />
       </command>
-      <command name="chapter" param="Raw data spreadsheet">
+      <command name="chapter" param="Raw Data Spreadsheet">
         <command name="label" param="appendix:Spreadsheet" />
         The following pages reproduce the "Raw data" sheet of the online spreadsheet<footnote>The online spreadsheet can be seen at <url>https://docs.google.com/spreadsheet/ccc?key=0Ag6eugnyWA09dG9zQnFtTlQ0Z1dGUjI5TUlFMnpFWWc</url></footnote>, which was used by the "Record results" step described in section <see ref="subsec:HowItWorks" />.  The spreadsheet contains every row submitted to it by this step, with many of these rows created by investigating various tests and tweaks.  Its columns are explained in table <see ref="tbl:SpreadsheetColumns" />.  Notes were occasionally added in the "Notes" column to explain the test or tweak being investigated.
         <table placement="htbp">
