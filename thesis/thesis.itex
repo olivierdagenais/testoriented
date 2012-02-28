@@ -72,7 +72,7 @@ http://tex.stackexchange.com/questions/20303/xelatex-forces-readers-to-rotate-th
       <block param="abstract">
         <!-- An abstract is required in all theses. -->
         <!-- No more than 150 words -->
-        The unit testing of object-oriented classes may sometimes be complicated by the presence of hidden mutable state, since the state of an instance may depend on the entire history of input to said instance.  This difficulty is known as "the state problem" and causes unit tests to contain a lot of test set-up code, making them more fragile and complex.  This thesis presents the <em>stateless method extraction</em> "testability refactoring", which is designed to overcome the state problem by extracting simple methods that operate only on their parameters, communicate results only through their return values, have no side-effects and whose functionality can be directly verified by unit tests.  An empirical evaluation compares our approach to three other strategies, using three open-source projects and measuring three metrics for each combination.  Our approach produces the best results on average, improving the testability of the classes under test while keeping their public interface intact.
+        The unit testing of object-oriented classes is complicated by the presence of hidden mutable state, since the state of an instance may depend on the entire history of input to said instance.  This difficulty is known as "the state problem" and causes unit tests to contain a lot of test set-up code, making them more fragile and complex.  This thesis presents the <em>stateless method extraction</em> "testability refactoring", which is designed to overcome the state problem by extracting simple methods that operate only on their parameters, communicate results only through their return values, have no side-effects and whose functionality can be directly verified by unit tests.  An empirical evaluation compares our approach to three other strategies, using three open-source projects and measuring three metrics for each combination.  Our approach produces the best results on average, improving the testability of the classes under test while keeping their public interface intact.
       </block>
       <block param="acknowledgements">
         <!-- This is the acknowledgements. -->
@@ -219,7 +219,7 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
           <command name="label" param="sec:Objectives" />
           <!-- (what you will produce to meet your goal)
           action items to address goal -->
-          To fulfill the general goal of improving testability of HMS-afflicted code, the following specific objectives are proposed:
+          To fulfill the general goal of improving testability of HMS-afflicted code, we have the following objectives:
           
           <block param="enumerate">
             <command name="item"> Design and develop a testability refactoring <see cite="harman11refactoringtestability" /> algorithm called "stateless method extraction" (SME).
