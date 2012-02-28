@@ -8,10 +8,10 @@ Procedure extract_stateless_method(instance_method)
         split_block(block)
       End If
     End If
-    introduce_local_variables_for_parameters_and_return_values(block)
-    Until method_parameters_and_return_values_are_simple_types(block)
+    introduce_local_variables(block)
+    Until parameters_and_return_values_are_simple_types(block)
       shrink_candidate_block(block)
-      introduce_local_variables_for_parameters_and_return_values(block)
+      introduce_local_variables(block)
     Repeat
     extract_candidate_block(block)
     re-inline_local_variables(instance_method)
