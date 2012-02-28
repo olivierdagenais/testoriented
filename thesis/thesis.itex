@@ -129,7 +129,7 @@ http://tex.stackexchange.com/questions/20303/xelatex-forces-readers-to-rotate-th
             </listing>
           </region>
 
-          An example of the state problem can be seen in listings <see ref="lst:StatefulSmokeDetector" /> and <see ref="lst:StatefulSmokeDetectorTest" />.  They demonstrate how having all the instance fields private forces any test wishing to bring the object to a certain state - such as "alarm sounds while detection decays" - to repeatedly call the <tt>Cycle()</tt> method with various values provided to the <tt>level</tt> parameter.  By the same token, the only observable state for verification is the return value of the method, although, in this particular instance, this should be sufficient for most test scenarios.
+          An example of the state problem can be seen in listings <see ref="lst:StatefulSmokeDetector" /> and <see ref="lst:StatefulSmokeDetectorTest" />.  They demonstrate how having all the instance fields marked as <tt>private</tt> forces any test wishing to bring the object to a certain state - such as "alarm sounds while detection decays" - to repeatedly call the <tt>Cycle()</tt> method with various values provided to the <tt>level</tt> parameter.  By the same token, the only observable state for verification is the return value of the method, although, in this particular instance, this should be sufficient for most test scenarios.
         </command>
         <command name="newpage" />
         <command name="section" param="Motivation">
@@ -147,9 +147,9 @@ http://tex.stackexchange.com/questions/20303/xelatex-forces-readers-to-rotate-th
             "States can cause a variety of problems for ET, since test goals involving states can be dependent on the entire history of input to the test object, as well as just the current input." <see cite="mcminn03thestate" />
           </block>
 
-          Although it is possible to work around some HMS with a noteworthy "arrange" phase, this is not always desirable as it can increase the maintenance overhead and costs to write the unit tests, both for human- and computer-generated tests.  There are other obvious options available, such as increasing the visibility of the mutable state or converting the state from mutable to read-only.  While it is possible to perform the former without changing the public interface of the IUT, the latter would very likely change the public interface, not to mention the associated risk in performing non-trivial modifications without the safety net of sufficient tests.  Besides, as we will see, there exists an option with better results.
+          Although it is possible to work around some HMS with a noteworthy "arrange" phase, this is not always desirable as it can increase the maintenance overhead and costs to write the unit tests, both for human- and computer-generated tests.  There are other obvious options available, such as increasing the visibility of the mutable state or converting the state from mutable to read-only.  While it is possible to perform the former without changing the public interface of the IUT, the latter would very likely change the public interface, not to mention the associated risk in performing non-trivial modifications without the safety net of sufficient tests.  Fortunately, there exists an option with better results.
 
-          One perhaps less obvious option is the extraction of a subset of the state<em>ful</em> functionality in the form of a state<em>less</em> method which has all its inputs and outputs available to the test driver, while sourcing those inputs and outputs from and to the very instance fields they represent within the implementation itself.  An example of this can be seen in listings <see ref="lst:StatelessSmokeDetector" /> and <see ref="lst:StatelessSmokeDetectorTest" />.  The original implementation of the <tt>Cycle()</tt> method has been trivially extracted into a static overload that accepts all its input and emits all its output through parameters and the method return value<footnote>The <tt>ref</tt> keyword in C# causes the method argument to be passed by reference, such that "any change to the parameter in the method is reflected in the underlying argument variable in the calling method."<see cite="msdn10ref"/></footnote>.  The <tt>AccumulateDetection()</tt> test method can then be written to supply values for all parameters, while keeping the fields that the parameters would be initialized from safe from modification.  Indeed, the previous test is still there, unchanged, since the <tt>SmokeDetector</tt>'s public interface did not change as a result of performing this transformation.
+          One perhaps less obvious option is the extraction of a subset of the state<em>ful</em> functionality in the form of a state<em>less</em> method which has all its inputs and outputs available to the test driver, while sourcing those inputs from and outputs to the very instance fields they represent within the implementation itself.  An example of this can be seen in listings <see ref="lst:StatelessSmokeDetector" /> and <see ref="lst:StatelessSmokeDetectorTest" />.  The original implementation of the <tt>Cycle()</tt> method has been trivially extracted into a static overload that accepts all its input and emits all its output through parameters and the method return value<footnote>The <tt>ref</tt> keyword in C# causes the method argument to be passed by reference, such that "any change to the parameter in the method is reflected in the underlying argument variable in the calling method."<see cite="msdn10ref"/></footnote>.  The <tt>AccumulateDetection()</tt> test method can then be written to supply values for all parameters, while keeping the fields that the parameters would be initialized from safe from modification.  Indeed, the previous test is still there, unchanged, since the <tt>SmokeDetector</tt>'s public interface did not change as a result of performing this transformation.
 
           <region name="two stateless code listings">
             <listing label="lst:StatelessSmokeDetector" style="realCode" file="Stateless/SmokeDetector.cs">
@@ -246,7 +246,7 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
         </command>
         <command name="section" param="Summary">
           <!-- key points of what was presented and linkage to next chapter -->
-          This chapter introduced and motivated the state problem, then presented a goal along with related metrics and objectives.  It concluded with an overview of the rest of this thesis.
+          In this chapter, we introduced the state problem, the specific difficulties related to hidden mutable state and our approach as a possible solution.  We also described the three metrics we will be using to evaluate our approach along with specific objectives for the design of the approach and its evaluation.  We concluded with an overview of the rest of this thesis.
         </command>
       </command>
       <command name="chapter" param="Background">
@@ -255,7 +255,7 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
           This chapter presents an overview of the related concepts from object-oriented (OO) programming to automated testing to computer-generated tests, introduces related work, establishes context within that work and defines the scope of the thesis.
         </command>
         <command name="section" param="Object Oriented Programming">
-          This thesis focuses on testing programs written with OO languages, as opposed to procedural or functional languages because the intent is to solve a problem specific to OO languages:  hidden mutable state.  Although procedural languages (such as C) allow programs to have mutable state, the state is not hidden.  Functional languages (such as Lisp) on the other hand, only allow programs to be written using immutable state through the use of set-once variables.
+          This thesis focuses on testing programs written with OO languages - as opposed to procedural or functional languages - because the intent is to solve a problem specific to OO languages:  hidden mutable state.  Although procedural languages (such as C) allow programs to have mutable state, the state is not usually hidden.  Functional languages (such as Lisp) on the other hand, only allow programs to be written using immutable state through the use of set-once variables.  Pure procedural and functional languages are therefore excluded from consideration.
 
           <command name="subsection" param="Terminology">
             OO languages will generally have a basic set of features, the most important of which are described here for clarity.
@@ -281,9 +281,9 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
           <command name="subsection" param="Testing frameworks">
             Automated testing frameworks provide developers with the ability to write and organize test scenarios, execute them sequentially and independently from one another and finally report on their successes.
 
-            This thesis focuses on testing frameworks <see cite="beck99simplesmalltalk" /> that allow the test development environment to be identical to the implementation development environment, collectively called XUnit <see cite="fowler06xunit" />.  A single test scenario can be implemented as a <em>test method</em> in a <em>test class</em>, exercising functionality in the method under test (MUT) in another class; the class under test (CUT).  A collection of test classes is known as a <em>test suite</em>.
+            This thesis focuses on testing frameworks <see cite="beck99simplesmalltalk" /> that allow the test development environment to be identical to the implementation development environment, collectively called XUnit <see cite="fowler06xunit" />.  A single test scenario can be implemented as a <em>test method</em> in a <em>test class</em>, exercising functionality in the method under test (MUT) in another class, the class under test (CUT).  A collection of test classes is known as a <em>test suite</em>.
 
-            Test methods will generally have three phases - arrange, act and assert - although the functionality is not always separated as such and might be intermixed or even be located elsewhere in the test class.  The <em>arrange</em> phase concerns itself with preparing the CUT and/or the environment, effectively setting the indirect inputs for the MUT and optionally initializing complex direct inputs.  The <em>act</em> phase contains code that calls the MUT with its direct inputs and collects the direct outputs, if any.  The <em>assert</em> phase derives any indirect outputs, if any, and verifies the <em>actual</em> outputs against the <em>expected</em> outputs, cleaning up the environment afterward, as necessary.
+            Test methods will generally have three phases: arrange, act and assert.  The functionality in a test method is not always separated as such and might instead be intermixed or even be located elsewhere in the test class.  The <em>arrange</em> phase concerns itself with preparing the CUT and/or the environment, effectively setting the indirect inputs for the MUT and optionally initializing complex direct inputs.  The <em>act</em> phase contains code that calls the MUT with its direct inputs and collects the direct outputs, if any.  The <em>assert</em> phase derives any indirect outputs, if any, and verifies the <em>actual</em> outputs against the <em>expected</em> outputs, cleaning up the environment afterward, as necessary.
 
             The terms <em>test inputs</em> and <em>test outputs</em> will henceforth be used to refer to both their direct and indirect sets.  It is worth noting that because exhaustive testing is not feasible, test suites will usually contain scenarios that sample only a fraction of the possible input space.  In those cases, the test inputs will have been selected to represent typical use, boundary conditions and other potential areas for defects.  Such classes of values for the test inputs earns them the "interesting and relevant" designation.
           </command>
@@ -291,9 +291,9 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
             As alluded to in the previous sub-section, this thesis concerns itself with automated testing at the lowest level by focusing the test scenarios on methods, which is also known as <em>unit testing</em>.  This is in contrast to <em>integration testing</em> which concerns itself with the interaction between a class and another class and/or some external environment such as a file system or a network, and <em>subsystem testing</em> which involves observing the interaction between a class and several other classes and/or external components such as a database or a web service.
           </command>
           <command name="subsection" param="Code coverage">
-            An IUT can be automatically <em>instrumented</em> to record which statements and expressions are executed during an automated test run.  The resulting report is known as <em>statement coverage</em> and will usually correlate its results with the original source code by highlighting the statements and expressions that were executed  <see cite="binder00classes" />.  This report will also include enough data to determine the coverage percentage - which is computed as the number of statements executed divided by the total number of statements - at the method, class, namespace and program levels <see cite="sink06advocatingcoverage" />.
+            An IUT can be automatically <em>instrumented</em> to record which statements and expressions (collectively known as <em>sequence points</em>) are executed - or <em>visited</em> - during an automated test run.  The resulting report is known as <em>statement coverage</em> and will usually correlate its results with the original source code by highlighting the statements and expressions that were executed  <see cite="binder00classes" />.  This report will also include enough data to determine the coverage percentage, which is computed as <em>visited sequence points</em> (VSP) divided by <em>total sequence points</em> (TSP).  The report usually aggregates this information at the method, class, namespace and program levels <see cite="sink06advocatingcoverage" />.
 
-            Code coverage can be used to determine the completeness of the test suite or, more precisely, to identify areas of the IUT that are untouched by the tests.  The presence of uncovered code can also reveal surprises in the implementation although its best use remains the identification of missing test scenarios.
+            Code coverage can be used to determine the completeness of the test suite or, more precisely, to identify areas of the IUT that are untouched by the tests.  The presence of uncovered code can also reveal surprises in the implementation, although its best use remains the identification of missing test scenarios.
           </command>
         </command>
         <command name="section" param="Motivation for Computer-Generated Tests">
@@ -310,18 +310,18 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
           More details about the various flavours and uses of computer-generated tests are provided in the following sections.
         </command>
         <command name="section" param="Approaches to Computer-Generated Tests">
-          There are three major approaches in generating tests:  Random Testing, Search Based Software Testing and Concolic Testing <see cite="lakhotia10empiricalinvestigation" />, each described in the following sections.
+          There are three major approaches in generating tests:  Random Testing, Search Based Software Testing and Concolic Testing <see cite="lakhotia10empiricalinvestigation" /> are described in the following sections.
           <command name="subsection" param="Random Testing">
             Random testing (RT), as the name implies, consists of generating inputs based on random numbers and is thus undirected.  RT does not perform as well as ET <see cite="wegener01evolutionarytest" />, although it has been used as a baseline for comparing other test generators <see cite="lakhotia10empiricalinvestigation" />.
           </command>
           <command name="subsection" param="Search Based Software Testing">
             Search-based software testing (SBST) is the application of a metaheuristic search technique (MST) to the problem of generating test inputs <see cite="mcminn04searchbased" />.  The technique is based around optimization of an <em>objective function</em>, trying to improve an initial solution based on feedback by said objective function - either by maximizing or minimizing its value, depending on the desired outcome - effectively making it a guided quest for global optima in the search space.
 
-            For test input generation, the search space is the domain of the test inputs and the objective function is carefully constructed to reward interesting and relevant test inputs.  The nature of "interesting and relevant" depends on the <em>intent</em> of the testing exercise.  Consult the following section for the major intents, but in general the biggest difficulty of SBST lies in the definition of the objective function <see cite="baresel02fitnessfunction" />.
+            For test input generation, the search space is the domain of the test inputs and the objective function is carefully constructed to reward interesting and relevant test inputs.  The nature of "interesting and relevant" depends on the <em>intent</em> of the testing exercise.  In general, the biggest difficulty of SBST lies in the definition of the objective function <see cite="baresel02fitnessfunction" />.  Consult the following section for the major intents of SBST.
 
             The general flow of MST implementations is to start with one or more "initial solutions", created either with domain knowledge or at random, and apply the objective function on the solution(s) to establish a solution score.  If no solution score exceeds a pre-defined threshold, tweak the solution(s) according to some heuristic and repeat the process with the new solution(s) until either no improvement in score is detected or some pre-defined time or iteration threshold is reached.
 
-            The simplest heuristic is called "hill climbing", a strategy that focuses on the best objective function value in the neighbourhood of the current solution's search space.  This greedy exploit-only strategy will often cause a hill climber to get stuck in local optima.
+            The simplest heuristic is called "hill climbing", a strategy that focuses on the best objective function value in the neighbourhood of the current solution's search space.  This greedy, exploit-only strategy will often cause a hill climber to get stuck in local optima.
 
             An improvement to hill climbing was proposed in the "simulated annealing" heuristic whereby solutions with worse objective function values will be considered with a probability decreasing with the number of iterations, allowing more of the search space to be explored in the beginning and ending with a hill climber-like exploitation.
 
@@ -345,7 +345,7 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
 
             An easier approach is to automatically turn the specification into pre-conditions and post-conditions.  The objective is then to find test inputs that conform to all pre-conditions but that cause post-conditions to fail, in effect targeting the fault branch of the post-conditions.
 
-            A third approach is to encode the specification's requirements as a component of a simulator.  For example, Bühler and Wegener evaluated the functionality of a brake assist system using a simulator to find instances where the system either did not enhance the driver's brake torque in a critical situation or provided too much braking in a non-critical situation <see cite="buehler08evolutionaryfunctional" />.
+            A third approach is to encode the specification's requirements as a component of a simulator.  For example, Bühler and Wegener evaluated the functionality of a brake assist system using a simulator <see cite="buehler08evolutionaryfunctional" />.  The simulator would report if the safety requirements were violated by the brake assist system, such as instances where the system either did not enhance the driver's brake torque in a critical situation or provided too much braking in a non-critical situation.
           </command>
           <command name="subsection" param="Grey-Box Testing Intent">
             The objectives of grey-box testing are to attempt to get assertions already embedded in a program to be violated and to trigger exception conditions.  Some of the work even temporarily turned specially-formatted comments into executable assertions for the purposes of targeting their fault branches for execution <see cite="mcminn04searchbased" />.
@@ -355,6 +355,7 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
           </command>
         </command>
         <command name="section" param="Related work">
+          The following sub-sections are introduced by quotes relevant to their topic.
           <command name="subsection" param="The state problem">
             <block param="quote">
               "Side-effects, by which I mean changes to the values stored in fields of objects or elements of arrays, are clearly intended to be used frequently in Java. However, the presence of side-effects can make it harder to reason about a program, because there is invisble [sic] state to the side of computations which changes. That means a reader needs to keep track of both the visible aspects of a program and the hidden values off to the side that may change." <see cite="haahr99programmingstyle" />
@@ -376,9 +377,9 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
             </block>
             "Imperative functional programming" is argued by Reddy <see cite="reddy96imperativefunctional" /> and appears to push the idea of a <em>public</em> functional programming interface built on top of imperative features.  This is in contrast to the present thesis, which would see an <em>internal</em> functional programming interface (built on top of imperative features) as a building block for a possibly pre-existing object-oriented interface.
 
-            Van-Roy and Haridi support the spirit of the proposed approach, declaring "We find that a good rule of thumb for complex systems is to keep as many components as possible declarative.  State should not be 'smeared out' over many components.  It should be concentrated in just a few carefully selected components." <see cite="vanroy04conceptstechniques" />  Support is also provided by Wampler: "Side-effect-free functions make excellent building blocks for reuse, since they don't depend on the context in which they run. Compared to functions with side effects, they are also easier to design, comprehend, optimize, and test." <see cite="wampler11functionalprogramming" />
+            Van-Roy and Haridi support the spirit of our approach, declaring "We find that a good rule of thumb for complex systems is to keep as many components as possible declarative.  State should not be 'smeared out' over many components.  It should be concentrated in just a few carefully selected components." <see cite="vanroy04conceptstechniques" />  Support is also provided by Wampler: "Side-effect-free functions make excellent building blocks for reuse, since they don't depend on the context in which they run. Compared to functions with side effects, they are also easier to design, comprehend, optimize, and test." <see cite="wampler11functionalprogramming" />
 
-            Hevery, on the other hand, appears to disagree with the proposed approach <see cite="hevery08staticmethods" /> and argues for a pure object-oriented approach <see cite="hevery09thinkoo" />.  Haahr nevertheless argues for "referential transparency" <see cite="haahr99programmingstyle" /> to not only make computations easier to understand but also easier to parallelise.
+            Hevery, on the other hand, appears to disagree with our approach <see cite="hevery08staticmethods" /> and argues for a pure object-oriented approach <see cite="hevery09thinkoo" />.  Haahr nevertheless argues for "referential transparency" <see cite="haahr99programmingstyle" /> to not only make computations easier to understand but also easier to parallelise.
           </command>
           <command name="subsection" param="The case for testability transformations">
             <block param="quote">
@@ -392,7 +393,7 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
             <block param="quote">
               "A low cyclomatic complexity generally indicates a method that is easy to understand, test, and maintain." <see cite="msdn10avoidcomplexity" />
             </block>
-            McCabe introduced the concept of "cyclomatic complexity" with the intention of evaluating the difficulty involved when testing programs based on their structure <see cite="mccabe76complexitymeasure" />.  Indeed, McCabe even discussed the possibility of reducing a program's structure to reduce the testing effort, in an effort to make software that is both testable and maintainable.  Basili et al. <see cite="basili96oodmetrics" /> showed that the <em>Response For a Class (RFC)</em> metric<footnote>RFC is defined as "The number of methods that can potentially be executed in response to a message received."</footnote> is correlated to the probability of finding faults for a class, suggesting smaller methods will be less likely to have defects.
+            McCabe introduced the concept of "cyclomatic complexity" with the intention of evaluating the difficulty involved when testing programs based on their structure <see cite="mccabe76complexitymeasure" />.  Indeed, McCabe even discussed the possibility of reducing a program's structure to reduce the testing effort, with the intent of writing software that is both testable and maintainable.  Basili et al. <see cite="basili96oodmetrics" /> showed that the <em>Response For a Class (RFC)</em> metric<footnote>RFC is defined as "The number of methods that can potentially be executed in response to a message received."</footnote> is correlated to the probability of finding faults for a class, suggesting smaller methods will be less likely to have defects.
 
             Hevery created the Testability Explorer tool to compute the "Non-Mockable Total Recursive Cyclomatic Complexity" metric, compute the "Demeter" metric as well as count the number of global mutable fields in Java programs <see cite="hevery08testabilityexplorer" />.  The first metric is an evolution of McCabe's metric for OO programs while the other two metrics also help to reduce the testing effort through smaller call chains (Demeter) and less "spooky action at a distance" (surprise side-effects) by reducing the use of mutable global fields <see cite="hevery08flawbrittle" />.  Hevery's technique of choice for increasing testability is the addition of "test seams" <see cite="hevery08staticmethods" />.
           </command>
@@ -471,7 +472,7 @@ references as well.
         <command name="label" param="chapter:Approach" />
         <command name="section" param="Introduction">
           <!-- what the chapter is about -->
-          This chapter describes our approach to improving the testability of classes that suffer from the state problem.  Our approach takes the form of our SME algorithm and we described several examples of its use, followed by discussions on when SME can be used as well as how.  We conclude with a discussion of important decisions made.
+          This chapter describes our approach to improving the testability of classes that suffer from the state problem.  Our approach takes the form of our SME algorithm and we describe several examples of its use, followed by discussions on when SME can be used as well as how.  We conclude with a discussion of important decisions made.
         </command>
         <command name="section" param="Design">
           <command name="label" param="sec:Design" />
@@ -570,7 +571,7 @@ references as well.
               </command>
               <command name="item"> Too many inputs and/or outputs.
                 <br />
-                This category could be considered a more general case of the previous category but there are instances where it may not make sense to break up some processing for readability, maintenance or performance reasons.
+                This category could be considered a more general case of the previous category, but there are instances where it may not make sense to break up some processing for readability, maintenance or performance reasons.
               </command>
               <command name="item"> Not enough outputs.
                 <br />
@@ -578,7 +579,7 @@ references as well.
               </command>
               <command name="item"> Too many interactions with the environment.
                 <br />
-                If an instance method consists mostly of, say, file system or database processing, there may be very little functionality left that is stateless and would benefit from extraction and isolated unit testing.
+                If an instance method consists mostly of interactions with external entities such as a file system or a database, there may be very little functionality left that is stateless and would benefit from extraction and isolated unit testing.
               </command>
             </block>
           </command>
@@ -600,31 +601,37 @@ references as well.
 
             A statement is said to be non-stateless if values or data not explicitly specified by parameters or the return value are modified as a result of execution.  This can be as simple as an instance method modifying hidden mutable state, a method modifying global state or a method interpreting its parameters for interaction with the environment, such as using a string parameter as the name of a file to create or delete, or the name of a database table to read from or write to.  Non-stateless operations will generally be more difficult to re-order because, by definition, they cause or depend on side-effects and standard data dependency analysis will be made difficult because it would have to be aware of private instance field changes.
 
-              <listing label="lst:CommonSubversionClient" style="realCode" linerange="6-30" file="Stateful/SubversionClient.cs" placement="b!">
-                C# showing common code used by listings <see ref="lst:StatefulSubversionClient" /> and <see ref="lst:StatelessSubversionClient" />
-              </listing>
-
             An example of a non-stateless method in the middle of a candidate block can be seen at line 15 of listing <see ref="lst:StatefulSubversionClient" />.  The <tt>ExecuteSvn()</tt> method, defined at line 10 of listing <see ref="lst:CommonSubversionClient" />, starts a sub-process and returns the contents of <tt>StandardOutput</tt> and thus is said to interact with the environment, making it definitely non-stateless.  In this particular case, because the call to the <tt>ExecuteSvn()</tt> method depends on the computations immediately above it and provides input needed by the computations immediately below it, it can not be moved before or after the candidate block (lines 7-32).  This causes the original candidate block to be split into parts excluding the immovable, non-stateless method with the first half being lines 7-13 and the second half lines 17-32.  Listing  <see ref="lst:StatelessSubversionClient" /> shows the two stateless methods that were extracted, respectively, from the first and second candidate blocks: <tt>CreateInfoArguments()</tt> and <tt>ParseInfoFromXml()</tt>.
 
+            <listing label="lst:CommonSubversionClient" style="realCode" linerange="6-30" file="Stateful/SubversionClient.cs" placement="p">
+              C# showing common code used by listings <see ref="lst:StatefulSubversionClient" /> and <see ref="lst:StatelessSubversionClient" />
+            </listing>
+
+            <command name="newpage" />
+
             <region name="two code listings for candidate block splitting">
-              <listing label="lst:StatefulSubversionClient" style="realCode" linerange="32-66" file="Stateful/SubversionClient.cs">
+              <listing label="lst:StatefulSubversionClient" style="realCode" linerange="32-66" file="Stateful/SubversionClient.cs" placement="t!">
                 C# showing the <tt>LoadInfo()</tt> method with a candidate block between lines 7-32
               </listing>
-              <listing label="lst:StatelessSubversionClient" style="realCode" linerange="32-76" file="Stateless/SubversionClient.cs">
+
+            <command name="newpage" />
+
+              <listing label="lst:StatelessSubversionClient" style="realCode" linerange="32-76" file="Stateless/SubversionClient.cs" placement="t!">
                 C# showing the <tt>CreateInfoArguments()</tt> and <tt>ParseInfoFromXml()</tt> stateless methods that were extracted from the <tt>LoadInfo()</tt> method
               </listing>
             </region>
 
+            <command name="newpage" />
+
+            <listing label="lst:StatefulCartesianCoordinate" style="realCode" linerange="3-24" file="Stateful/CartesianCoordinate.cs" placement="t">
+              C# showing the <tt>ToPolar()</tt> method with interleaved computations for <tt>r</tt> and <tt>theta</tt>
+            </listing>
+
             It could also be the case that the original instance method is computing several outputs simultaneously and such statements are intermixed.  If the outputs are independently-computed (or their computations share some intermediate results, then diverge), it may be worth investigating the separation of their computations by re-ordering statements such that they can then be extracted, and subsequently unit tested, independently.  An example of intermixed computations can be seen in listing <see ref="lst:StatefulCartesianCoordinate" /> between lines 15 and 19, while another version of the method with the computations separated through re-ordering can be seen in listing <see ref="lst:StatelessCartesianCoordinate" />.
 
-            <region name="two code listings for math re-ordering">
-              <listing label="lst:StatefulCartesianCoordinate" style="realCode" linerange="3-24" file="Stateful/CartesianCoordinate.cs" placement="h">
-                C# showing the <tt>ToPolar()</tt> method with interleaved computations for <tt>r</tt> and <tt>theta</tt>
-              </listing>
-              <listing label="lst:StatelessCartesianCoordinate" style="realCode" linerange="3-24" file="Stateless/CartesianCoordinate.cs" placement="h">
-                C# showing the <tt>ToPolar()</tt> method with the computations for <tt>r</tt> and <tt>theta</tt> separated into their own consecutive sequences
-              </listing>
-            </region>
+            <listing label="lst:StatelessCartesianCoordinate" style="realCode" linerange="3-24" file="Stateless/CartesianCoordinate.cs" placement="t">
+              C# showing the <tt>ToPolar()</tt> method with the computations for <tt>r</tt> and <tt>theta</tt> separated into their own consecutive sequences
+            </listing>
 
             Incidental operation re-ordering can be considered a form of program slicing <see cite="tip95surveyslicing" /> in that data dependency analysis <see cite="korel05datadependence" /> can be used to identify a subset of computations of a method responsible for one of the outputs and isolate them.  Assuming all the discarded operations were stateless, it would be safe to say that the remaining operations can execute one immediately after the other and still produce the same result, the same way lines 15, 17 and 19 in listing <see ref="lst:StatefulCartesianCoordinate" /> are necessary for the computation of <tt>r</tt> and can be re-arranged to be consecutive, as seen in lines 15, 16 and 17 in listing <see ref="lst:StatelessCartesianCoordinate" />.
           </command>
@@ -638,30 +645,31 @@ references as well.
             <command name="label" param="subsec:Step4" />
             Stateless method extraction's fourth step entails finding the simplest types that can be used for the parameters and return values without causing an undue increase in their numbers.  Any type with an easy construction (a single call to a constructor or a factory method) and without side-effects while reading its component values (typical of an immutable instance) is considered "simple" for the purpose of SME.
 
-            <region name="two code listings for Vector math">
-              <listing label="lst:StatefulVector" style="realCode" linerange="15-36" file="Stateful/Plane.cs">
-                C# showing the original <tt>Plane</tt> class
-              </listing>
-              <listing label="lst:StatelessVector" style="realCode" linerange="15-44" file="Stateless/Plane.cs">
-                C# showing the <tt>Plane</tt> class with the <tt>CrossProduct()</tt> and <tt>DotProduct()</tt> stateless methods extracted from it
-              </listing>
-            </region>
+            <listing label="lst:StatefulVector" style="realCode" linerange="15-36" file="Stateful/Plane.cs" placement="t">
+              C# showing the original <tt>Plane</tt> class computing a cross-product and a dot-product inline
+            </listing>
+            <listing label="lst:StatelessVector" style="realCode" linerange="15-44" file="Stateless/Plane.cs" placement="t">
+              C# showing the <tt>Plane</tt> class with the <tt>CrossProduct()</tt> and <tt>DotProduct()</tt> stateless methods extracted from it
+            </listing>
 
             As a first example of possible input simplification, suppose the candidate block's purpose is to compute the dot product of two 3D vectors and the parameters are currently two instances of a <tt>Vector</tt> type (refer to line 19 of listing <see ref="lst:StatefulVector" /> for the candidate block and lines 26-29 of listing <see ref="lst:StatelessVector" /> for the extracted version).  The stateless method could also be written to accept 6 parameters representing both triplets of the vectors' values.  Assuming a <tt>Vector</tt> instance can be created in one statement (a call to its constructor, in this case) and reading its component values can cause no side-effects, it may be worth keeping the input parameters as two <tt>Vector</tt> instances for readability reasons.  It is worth noting that an argument could also be made to make the new <tt>DotProduct()</tt> method accept the 6 component values so that the method could be subsequently re-used to calculate dot products of vectors not expressed using instances of <tt>Vector</tt>.
 
             <region name="two code listings for Match-based formatting">
-              <listing label="lst:StatefulCodeFormatMatchEvaluator" style="realCode" linerange="35-64" file="Stateful/CodeBlockModifier.cs">
+              <listing label="lst:StatefulCodeFormatMatchEvaluator" style="realCode" linerange="35-64" file="Stateful/CodeBlockModifier.cs" placement="t">
                 C# showing the original <tt>CodeBlockModifier</tt> class
               </listing>
-              <listing label="lst:StatelessCodeFormatMatchEvaluator" style="realCode" linerange="35-78" file="Stateless/CodeBlockModifier.cs">
-                C# showing the <tt>CodeBlockModifier</tt> class with testability extractions
+
+            <command name="newpage" />
+
+              <listing label="lst:StatelessCodeFormatMatchEvaluator" style="realCode" linerange="35-78" file="Stateless/CodeBlockModifier.cs" placement="t!">
+                C# showing the <tt>CodeBlockModifier</tt> class after SME
               </listing>
             </region>
 
             On the other hand, suppose the candidate block's purpose is to reformat text based on the results of a regular expression match, as shown between lines 22-27 in listing <see ref="lst:StatefulCodeFormatMatchEvaluator" />.  In this case, because the input parameter is of a type that is difficult to create <footnote>The <tt>Match</tt> class has no visible constructors.  The only way to create an instance is through the return value of the <tt>Match()</tt> method overloads on the <tt>Regex</tt> class.</footnote>, it is easy to argue that the method's parameters should be four strings (consult lines 34-43 of listing <see ref="lst:StatelessCodeFormatMatchEvaluator" /> to see the extracted method) instead of one <tt>Match</tt> instance, given how trivial strings are to create versus the complexity involved in creating said <tt>Match</tt> instance.  Indeed, as listing <see ref="lst:StatefulCodeFormatMatchEvaluatorTest" /> shows, the original method must either be tested indirectly (through calling the <tt>ModifyLine()</tt> method) or by creating a <tt>Match</tt> instance (in a rather pathological way, lest the original regular expression pattern is refactored for re-use as in lines 12-13 of listing <see ref="lst:StatelessCodeFormatMatchEvaluator" />), while listing <see ref="lst:StatelessCodeFormatMatchEvaluatorTest" /> shows the extracted stateless <tt>BuildCodeElementString()</tt> method can be tested directly.
 
             <region name="two code listings for Match-based formatting tests">
-              <listing label="lst:StatefulCodeFormatMatchEvaluatorTest" style="realCode" linerange="7-30" file="Stateful/CodeBlockModifierTest.cs">
+              <listing label="lst:StatefulCodeFormatMatchEvaluatorTest" style="realCode" linerange="7-30" file="Stateful/CodeBlockModifierTest.cs" placement="t">
                 C# showing two ways to test the <tt>CodeFormatMatchEvaluator()</tt> method
               </listing>
               <listing label="lst:StatelessCodeFormatMatchEvaluatorTest" style="realCode" linerange="17-41" file="Stateless/CodeBlockModifierTest.cs" placement="t">
@@ -700,7 +708,7 @@ references as well.
                 C# showing the unit test for the original <tt>OnContextAcquired()</tt> method
               </listing>
 
-              Armed with the information gathered by this analysis, we can now write a unit test, which can be seen in listing <see ref="lst:StatefulFootNoteFormatterStateTest" />.  As we can see, the <tt>arrange</tt> phase is rather complex, given it must initialize five variables to satisfy the requirements for all the methods involved.  Notice also how the <tt>assert</tt> phase can verify that the substring <tt>"1"</tt> we provided inside the <tt>input</tt> string on line 10 was indeed parsed out by the <tt>OnContextAcquired()</tt> method and then formatted again as the substring <tt>"&lt;sup&gt;1&lt;/sup&gt;"</tt> into the string that was written - through the <tt>Enter()</tt> method - to the <tt>TextWriter</tt>-compatible instance we provided on line 6.  This level of indirection is at best maddening and at worse a sufficient obstacle to prevent such unit tests to be written in the first place, encouraging more involved and/or fragile integration tests, if any.
+              Armed with the information gathered by this analysis, we can now write a unit test, which can be seen in listing <see ref="lst:StatefulFootNoteFormatterStateTest" />.  As we can see, the <tt>arrange</tt> phase is rather complex, given it must initialize five variables to satisfy the requirements for all the methods involved.  Notice also how the <tt>assert</tt> phase can verify that the substring <tt>"1"</tt> we provided inside the <tt>input</tt> string on line 10 was indeed parsed out by the <tt>OnContextAcquired()</tt> method and then formatted again as the substring <tt>"&lt;sup&gt;1&lt;/sup&gt;"</tt> into the string that was written - through the <tt>Enter()</tt> method - to the <tt>TextWriter</tt>-compatible instance we provided on line 6.  This level of indirection is at best frustrating and at worse a sufficient obstacle to prevent such unit tests to be written in the first place, encouraging more involved and/or fragile integration tests, if any.
             </command>
             <command name="subsubsection" param="Step 1: Identification of a candidate block">
               Keeping with our focus on the <tt>OnContextAcquired()</tt> method, the first step of SME would identify almost all the processing that takes place, since matching a regular expression, extracting one of the captured groups and converting a string into an integer are all "stateless statements" and together they produce a non-trivial result.  We can also identify one input - the value of the <tt>Tag</tt> property - and one output - assignment to the <tt>m_noteID</tt> field.
@@ -719,7 +727,7 @@ references as well.
               Our only input is a string and a string is considered one of the "simple" types and thus the fourth SME step results in no action being taken.
             </command>
             <command name="subsubsection" param="Step 5: Extraction of the candidate block into a method">
-              The application of SME's fifth step can be seen in listing <see ref="lst:StatelessIntermediateFootNoteFormatterState" />, where the <tt>ParseFootNoteId()</tt> stateless method was introduced based on the candidate block inside the <tt>OnContextAcquired()</tt> method.  Notice how the <tt>ParseFootNoteId()</tt> method has been decorated with the visibility of <tt>internal</tt> so that it is not visible to outside callers except the tests, and the scope of <tt>static</tt> because it no longer needs to read from or write to any instance fields or properties, nor call any instance methods <footnote>Microsoft recommends that methods which do not access instance members be marked as static for performance reasons.  This is documented as Code Analysis rule <em>CA1822: Mark members as static</em> at <url>http://msdn.microsoft.com/en-us/library/ms245046.aspx</url></footnote>.
+              The application of SME's fifth step can be seen in listing <see ref="lst:StatelessIntermediateFootNoteFormatterState" />, where the <tt>ParseFootNoteId()</tt> stateless method was introduced based on the candidate block inside the <tt>OnContextAcquired()</tt> method.  Notice how the <tt>ParseFootNoteId()</tt> method has been decorated with the visibility of <tt>internal</tt> so that it is not visible to outside callers, while still visible to the tests.  Notice also how the method was decorated with the scope of <tt>static</tt> because it no longer needs to read from or write to any instance fields or properties, nor call any instance methods <footnote>Microsoft recommends that methods which do not access instance members be marked as static for performance reasons.  This is documented as Code Analysis rule <em>CA1822: Mark members as static</em> at <url>http://msdn.microsoft.com/en-us/library/ms245046.aspx</url></footnote>.
 
               <listing label="lst:StatelessIntermediateFootNoteFormatterState" style="realCode" linerange="147-158" file="Stateless/FootNoteFormatterState.cs">
                 C# showing the <tt>OnContextAcquired()</tt> method with the <tt>ParseFootNoteId()</tt> method extracted
@@ -838,7 +846,9 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
               </listing>
             </region>
 
-            Computation de-coupling might not always be addressable through SME as there could be computations that are tightly-coupled for readability or performance reasons and separating them would lead to a readability or performance loss.  An example of two computations that would be worse if separated can be seen in listing <see ref="lst:StatefulMortonLayout" />, where we can see that <tt>x</tt> and <tt>y</tt> are computed simultaneously.  Compare this to listing <see ref="lst:StatelessMortonLayout" />, where <tt>x</tt> and <tt>y</tt> are computed separately, meaning two runs through the loop on <tt>bits</tt> instead of one.  It is also less obvious, in the second case, that the values of <tt>x</tt> and <tt>y</tt> were obtained by interpreting interleaved bits of the Morton Layout's <tt>index</tt> <see cite="msdn08deepzoom" />.
+            Computation de-coupling might not always be addressable through SME as there could be computations that are tightly-coupled for readability or performance reasons and separating them would lead to a readability or performance loss.
+            
+            An example of two computations that would be worse if separated can be seen in listing <see ref="lst:StatefulMortonLayout" />, where we can see that <tt>x</tt> and <tt>y</tt> are computed simultaneously.  Compare this to listing <see ref="lst:StatelessMortonLayout" />, where <tt>x</tt> and <tt>y</tt> are computed separately, meaning two runs through the loop on <tt>bits</tt> instead of one.  It is also less obvious, in the second case, that the values of <tt>x</tt> and <tt>y</tt> were obtained by interpreting interleaved bits of the Morton Layout's <tt>index</tt> <see cite="msdn08deepzoom" />.
           </command>
 
           <command name="subsection" param="The presence of side-effects">
@@ -869,7 +879,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
 
         <command name="section" param="Applicability">
           <command name="label" param="sec:Applicability" />
-          In general, SME is most applicable to existing or legacy projects that were built with few or no unit tests.  As a result, their source code was not written with testability in mind, nor is it possible (for various reasons) to make large, sweeping testability-related changes.  The prospect of fixing defects or adding features to such a project without sufficient tests to catch regressions would seem risky.  SME could be used to introduce easily-testable methods - along with some unit tests - to the affected source code before making each fix or adding each new feature, thereby establishing a functionality baseline, if only a partial one.
+          In general, SME is most applicable to existing or legacy projects that were built with few or no unit tests.  As a result, their source code was not written with testability in mind, nor is it possible (for various reasons) to make large, sweeping testability-related changes.  The prospect of fixing defects or adding features to such a project without sufficient tests to catch regressions would seem risky.  SME could be used to introduce small, easily-testable methods - along with some unit tests - to the affected source code before making each fix or adding each new feature, thereby establishing a functionality baseline, if only a partial one.
 
           As noted in section <see ref="sec:Suitability" />, SME is suitable for more than HMS and, by the same token, can also be applied to more than legacy projects.  Sometimes there are technological reasons that impede the testability of a class or method.  For example, some frameworks force the introduction of a parameterless constructor to be able to create an instance of a class for the purposes of serialization.  Such frameworks may introduce mutable state where none would be present otherwise and SME can then be used to help keep the unit tests simple.
 
@@ -880,7 +890,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             SME will work best if the programming language or toolkit used has a concept of a <em>stateless</em> method.  This would ensure that each method marked as such only reads from its input parameters, only writes to its return values, does not read from or write to any instance or static fields (reading from constants is acceptable, as long as they represent immutable instances), does not interact with the environment (such as reading a file, sending data across a network or updating a database) and only calls methods similarly identified as stateless.
 
             <region name="two code listings for the proposed attributes">
-              <listing label="lst:StatelessStatelessAttribute" style="realCode" linerange="3-24" file="Stateless/StatelessAttribute.cs">
+              <listing label="lst:StatelessStatelessAttribute" style="realCode" linerange="3-24" file="Stateless/StatelessAttribute.cs" placement="t">
                 C# showing a proposed <tt>Stateless</tt> attribute with a sample of its use
               </listing>
               <listing label="lst:StatelessImmutableAttribute" style="realCode" linerange="3-23" file="Stateless/ImmutableAttribute.cs">
@@ -891,14 +901,14 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             Such a concept need not be implemented at the language level and could instead be implemented by a static code analysis (SCA) tool with the help of a designated decoration implemented, for example, as an attribute in .NET or as an annotation in Java.  Listing <see ref="lst:StatelessStatelessAttribute" /> shows a C# implementation of the proposed <tt>Stateless</tt> attribute (lines 1-5) and a sample of its use (line 12).  By placing the line <tt>[Stateless]</tt> above the <tt>FormatIso8601Utc()</tt> method definition, the C# compiler will include the reference to <tt>StatelessAttribute</tt> in the bytecode such that its presence on the method can be queried by SCA tools.
           </command>
           <command name="subsection" param="Identifying immutable instances">
-            A type which contains no mutable state is said to be <em>immutable</em>.  Any state an immutable type has can only be set during construction - through the parameters of constructors or factory methods - and all its instance methods either return that state directly or perform computations with it, possibly including the method's parameters, in a manner very much like stateless methods.  Immutable types can make it easier to implement SME better because there exists, by definition, no sequence of method calls on their instances that can modify their state and therefore there can be no side-effects as a result of using immutable types as inputs to stateless methods.  As discussed in section <see ref="subsec:Step4" />, immutable types are considered "simple" and can therefore provide stateless methods with convenient groupings of related input parameters, instead of specifying them separately.  The use of immutable types can thus provide additional readability in unit tests at the expense of a constructor call.
+            A class which contains no mutable state is said to be <em>immutable</em>.  Any state an immutable class has can only be set during construction - through the parameters of constructors or factory methods - and all its instance methods either return that state directly or perform computations with it, possibly including the method's parameters, in a manner very much like stateless methods.  Immutable classes can make it easier to implement SME because there exists, by definition, no sequence of method calls on their instances that can modify their state.  Instances of immutable classes therefore make excellent inputs to stateless methods.  As discussed in section <see ref="subsec:Step4" />, immutable classes are considered "simple" and can therefore provide stateless methods with convenient groupings of related input parameters, instead of specifying them separately.  The use of immutable classes can thus provide additional readability in unit tests at the expense of a constructor call.
 
-            Similar to the <tt>Stateless</tt> decoration suggested in sub-section <see ref="subsec:IdentifyStateless" />, a decoration could be defined to identify types that are immutable and thus safe to use as constants or input parameters.  Listing <see ref="lst:StatelessImmutableAttribute" /> shows a C# implementation of the proposed <tt>Immutable</tt> attribute (lines 1-5) and a sample of its use (line 7).  By placing the line <tt>[Immutable]</tt> above the <tt>EarthLocation</tt> class definition, the C# compiler will include the reference to the <tt>ImmutableAttribute</tt> in the bytecode such that its presence on the class can be queried by SCA tools.  This idea was further developed by Bazuzi and Pilch-Bisson <see cite="pilch07enforcingimmutability" />.
+            Similar to the <tt>Stateless</tt> decoration suggested in sub-section <see ref="subsec:IdentifyStateless" />, a decoration could be defined to identify classes that are immutable and thus safe to use as constants or input parameters.  Listing <see ref="lst:StatelessImmutableAttribute" /> shows a C# implementation of the proposed <tt>Immutable</tt> attribute (lines 1-5) and a sample of its use (line 7).  By placing the line <tt>[Immutable]</tt> above the <tt>EarthLocation</tt> class definition, the C# compiler will include the reference to the <tt>ImmutableAttribute</tt> in the bytecode such that its presence on the class can be queried by SCA tools.  This idea was further developed by Bazuzi and Pilch-Bisson <see cite="pilch07enforcingimmutability" />.
 
             These proposed <tt>Stateless</tt> and <tt>Immutable</tt> decorations have the additional benefit that they could also be exploited by an optimizing compiler to inline the stateless methods (and apply other such performance improvements) in release mode due to the new guarantees of immutability and invariance they provide by being enforced by the compiler and/or SCA.
           </command>
           <command name="subsection" param="Controlling visibility">
-            The SME technique will work best if the programming language has features to control the visibility of methods to ensure that the newly-introduced stateless methods do not pollute the public interface of the affected classes.  C# has the <tt>internal</tt> access modifier <see cite="msdn10internal" />, which, when combined with the <tt>InternalsVisibleTo</tt> attribute <see cite="msdn10internalsvisible" />, can expose the stateless methods to a unit test project but not to consumers of the API, which, in effect, hides the results of SME from end-users.  Java has a similar concept with its packages <see cite="java96packages" />.  Indeed, unless the <tt>public</tt> or <tt>private</tt> access modifiers are used, a method will be visible from within the package it was defined <see cite="java96names" />, which means unit tests in the same package will have access to the newly-extracted stateless methods but consumers of the API will not.
+            The SME technique will work best if the programming language has features to control the visibility of methods to ensure that the newly-introduced stateless methods do not pollute the public interface of the affected classes.  C# has the <tt>internal</tt> access modifier <see cite="msdn10internal" />, which, when combined with the <tt>InternalsVisibleTo</tt> attribute <see cite="msdn10internalsvisible" />, can expose the stateless methods to a unit test project but not to consumers of the API, which, in effect, hides the results of SME from end-users.  Java has a similar concept with its packages <see cite="java96packages" />.  Indeed, unless the <tt>public</tt> or <tt>private</tt> access modifiers are used, a method will be visible from within the package it was defined <see cite="java96names" />, which means unit tests in the same package will have access to the newly-extracted stateless methods, but consumers of the API will not.
 
             An alternative to visibility controls or access modifiers - especially for programming languages without such features - is to place the extracted methods in a separate class (possibly named after the original class, but suffixed with <tt>Stateless</tt>) or even not attached to any class, provided the language makes this possible.  It may even be the case that, upon further consideration, a newly-extracted method should really belong in the class of one of its parameters.  For example, the <tt>CrossProduct()</tt> and <tt>DotProduct()</tt> methods extracted from the <tt>Plane</tt> class in listing <see ref="lst:StatelessVector" /> would probably be best located in the <tt>Vector</tt> class.
           </command>
@@ -919,9 +929,9 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             When the program has received both lists of publicly-visible members, the creation of the difference report - which will be written to the file pointed to by <tt>reportFile</tt> - is a matter of finding differences between the two lists.  This is done in a single pass in a manner similar to merging.
           </command>
           <command name="subsection" param="Examples">
-            An example use of the Public Interface Comparer tool is presented below, where listing <see ref="lst:StatefulBlockModifier" /> shows one version of the <tt>BlockModifier</tt> class while listing <see ref="lst:StatelessBlockModifier" /> shows another with a few differences in visibilities.
+            An example use of the Public Interface Comparer tool is presented here, where listing <see ref="lst:StatefulBlockModifier" /> shows one version of the <tt>BlockModifier</tt> class while listing <see ref="lst:StatelessBlockModifier" /> shows another with a few differences in visibilities.
 
-            <listing label="lst:StatefulBlockModifier" linerange="1-19" file="Stateful/BlockModifier.cs" style="realCode">
+            <listing label="lst:StatefulBlockModifier" linerange="1-19" file="Stateful/BlockModifier.cs" style="realCode" placement="t">
               C# showing the <tt>BlockModifier</tt> class from the <tt>Textile</tt> project after the <tt>visibility</tt> strategy was applied
             </listing>
             <listing label="lst:StatelessBlockModifier" linerange="1-19" file="Stateless/BlockModifier.cs" style="realCode" placement="h">
@@ -930,6 +940,8 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             <listing label="lst:BlockModifierPIC" file="PIC-BlockModifier.txt" style="realCode" placement="h">
               Sample report of the public interface differences between the code in listing <see ref="lst:StatefulBlockModifier" /> and that of listing <see ref="lst:StatelessBlockModifier" />
             </listing>
+
+            <command name="newpage" />
 
             As we can see in listing <see ref="lst:BlockModifierPIC" />, the constructor (line 1) and the <tt>Conclude()</tt> method (line 2) were identified as public interface changes between the two versions of the <tt>BlockModifier</tt> class.
           </command>
@@ -944,18 +956,20 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             "Suppose a small function has 6 or fewer variables, (...)" <see cite="binder00combinationalmodels" />
           </block>
 
-          The last criterion in block candidacy is selecting computations that produce 1 to 3 outputs because a method that does not return any results likely causes side-effects - thus can not be considered stateless - and side-effects are not trivial to observe during unit testing.  The suggested maximum number of outputs was also selected from experience and is again intended to keep unit tests simple, mostly because very few programming languages support returning more than one value at once.  Returning multiple values at once is often emulated by using a container for the values, either through a specialized type (such as <tt>Vector</tt> used in listings <see ref="lst:StatefulVector" /> and <see ref="lst:StatelessVector" /> or <tt>EarthLocation</tt> in listing <see ref="lst:StatelessImmutableAttribute" />) or an anonymous one, such as a tuple <see cite="msdn10tupleclass, python08datastructures" />.  <!-- TODO: talk about experimental tuple unpacking in Mono: http://tirania.org/blog/archive/2009/Dec-23.html --> <!-- TODO: "returning" more than one value can be done with a call-back/functor -->
+          The last criterion in block candidacy is selecting computations that produce 1 to 3 outputs, because a method that does not return any results likely causes side-effects - thus can not be considered stateless - and side-effects are not trivial to observe during unit testing.  The suggested maximum number of outputs was also selected from experience and is again intended to keep unit tests simple, mostly because very few programming languages support returning more than one value at once.  Returning multiple values at once is often emulated by using a container for the values, either through a specialized type (such as <tt>Vector</tt> used in listings <see ref="lst:StatefulVector" /> and <see ref="lst:StatelessVector" /> or <tt>EarthLocation</tt> in listing <see ref="lst:StatelessImmutableAttribute" />) or an anonymous one, such as a tuple <see cite="msdn10tupleclass, python08datastructures" />.  <!-- TODO: talk about experimental tuple unpacking in Mono: http://tirania.org/blog/archive/2009/Dec-23.html --> <!-- TODO: "returning" more than one value can be done with a call-back/functor -->
           </region>
 
-          The intent of incidental operation re-ordering is to maximize the number of operations in a candidate block while minimizing the number of inputs and outputs.  This is done to avoid extracting stateless methods that perform too few operations, which would cause unit testing to become a high-work and low-return activity. <!-- TODO: if an example is warranted, the best one is probably cartesian to polar coordinates: it makes no sense to extract (_x * _x) or (_y * _y) or (xSquared + ySquared) individually, but collectively, yes.  Similar for the computation of theta, especially if Math.Atan(y, x) wasn't available. -->  Although this incidental operation re-ordering step is automatable through data dependency analysis and program slicing, a programmer will likely be the best judge of which operations are considered related and if these operations collectively have a recognized or standard meaning.  For example, the expression <tt>new Vector(a.Y * b.Z - a.Z * b.Y, a.Z * b.X - a.X * b.Z, a.X * b.Y - a.Y * b.X)</tt> is better identified as a <tt>CrossProduct()</tt> method that accepts two <tt>Vector</tt> instances <tt>a</tt> and <tt>b</tt>.
+          The intent of incidental operation re-ordering is to maximize the number of operations in a candidate block while minimizing the number of inputs and outputs.  This is done to avoid extracting stateless methods that perform too few operations, which would cause unit testing to become a high-work and low-return activity. <!-- TODO: if an example is warranted, the best one is probably cartesian to polar coordinates: it makes no sense to extract (_x * _x) or (_y * _y) or (xSquared + ySquared) individually, but collectively, yes.  Similar for the computation of theta, especially if Math.Atan(y, x) wasn't available. -->  Although this incidental operation re-ordering step is automatable through data dependency analysis and program slicing, a programmer will likely be the best judge of which operations are considered related and if these operations collectively have a recognized or standard meaning.
+          
+          For example, the expression <tt>new Vector(a.Y * b.Z - a.Z * b.Y, a.Z * b.X - a.X * b.Z, a.X * b.Y - a.Y * b.X)</tt> is better identified as a <tt>CrossProduct()</tt> method that accepts two <tt>Vector</tt> instances <tt>a</tt> and <tt>b</tt>.
 
           Input simplification's intent is to minimize the amount of knowledge the stateless method will need to perform its processing or computation.  It does this by optimizing the inputs and outputs such that the upcoming unit tests (exercising the to-be-extracted stateless method) contain a minimal number of statements, while balancing the readability and maintainability of both the stateless method and said upcoming unit tests.  Another reason for favouring "simple" types - usually the language's built-in base types, such as strings, integers and floating-point numbers - is that they are immutable and/or passed by value, meaning their use from within a stateless method will not result in side-effects.  Although any type with instance fields that are set at construction time and are read-only thereafter is acceptable as an input parameter, readability and maintainability should be considered if less than the majority of its instance fields are used by the method under test.  For example, the use of a <tt>DateTime</tt> struct as a parameter when only its <tt>Year</tt> and <tt>Month</tt> properties are needed might suggest that two integer parameters for <tt>year</tt> and <tt>month</tt> would make for a better choice.
 
-          In the absence of programming language features to definitely identify and enforce a method as stateless, the <tt>static</tt> keyword is used to at least make it more difficult to access or manipulate HMS.  It should be noted that it is not always possible to restrict the use of HMS from a static method.  Making a stateless method static also makes it callable without first having to create an instance of a class.  Unfortunately, the <tt>static</tt> keyword does not prevent manipulation of static fields nor does it enforce that all method calls therein are also stateless.
+          In the absence of programming language features to definitely identify and enforce a method as stateless, the <tt>static</tt> keyword is used to at least make it more difficult to access or manipulate HMS.  It should be noted that it is not always possible to restrict the use of HMS from a static method.  Making a stateless method static also makes it callable without first having to create an instance of a class.  Unfortunately, the <tt>static</tt> keyword does not prevent manipulation of static fields, nor does it enforce that all method calls therein are also stateless.
 
           The stateless methods' visibility of <tt>package</tt> or <tt>internal</tt> was selected to make the use of SME invisible to end-users.  Indeed, having the test fixture in the same package as the class under test is the convention for JUnit <see cite="vogel07junittutorial" />.  Using MSTest to test methods marked as <tt>internal</tt> in another project is not only documented but also assisted by Visual Studio <see cite="msdn10settinginternals" />.
 
-          Sub-section <see ref="subsec:UnwieldyArrangePhase" /> argues for a threshold on the size of a unit test's <em>arrange</em> phase that should trigger an investigation into the content of said arrange phase, to see if simplification through SME or other means is possible.  The intent here is to minimize the size of unit tests to encourage their use.  Tests with long arrange phases are still valid but beyond a certain size might be considered <em>integration</em> tests more than <em>unit</em> tests.
+          Sub-section <see ref="subsec:UnwieldyArrangePhase" /> argues for a threshold of 50% on the size of a unit test's <em>arrange</em> phase, which should trigger an investigation into the content of said arrange phase when exceeded, to see if simplification through SME or other means is possible.  The intent here is to minimize the size of unit tests to encourage their use.  Tests with long arrange phases are still valid but beyond a certain size might be considered <em>integration</em> tests more than <em>unit</em> tests.
 
           The set of transformations performed during SME were designed to be low-impact in order to encourage their use and reduce the risk of introducing regressions in the very code to which unit tests added.  Indeed, "altering internal structure without changing external behaviour" is the very definition of refactoring <see cite="fowler00refactoring" /> and, as such, care should be taken to <em>only</em> perform the SME steps during the process and to resist the temptation to fix defects or add features at the same time.  Once SME has been performed, unit tests are written against the new method to establish a functionality baseline and both sets of changes are committed to source control.  Only then will it be safe to add unit tests to expose any potential defects or missing features encountered during SME and then fix the defects or add the features in the presence of the safety net added in the previous step.  Binder calls this approach <em>Incremental Testing</em> <see cite="binder00classes, binder00testharness" />.
         </command>
@@ -1867,64 +1881,49 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
         </command>
         <command name="section" param="Synopsis">
           <!-- Can be thought of as the companion to the "Outline" section or maybe the Abstract chapter -->
-          In chapter <see ref="chapter:Introduction" />, the "state problem" was introduced as a specific problem in the general field of software testing.  Section <see ref="sec:Motivation" /> motivated the importance of the "state problem" as a research topic as section <see ref="sec:Goal" /> introduced the goal of this thesis:  to improve the testability of classes that suffer from the state problem - because they contain hidden, mutable state - while minimally affecting functionality, maintainability and the public interface of the code under test.  These three conditions were converted into three metrics from which the effectiveness of any proposed approach could be evaluated:  complexity of the unit tests, number of changes to the public interface of the class under test and percentage of branches covered using concolic testing.  The chapter concluded with the following objectives in section <see ref="sec:Objectives" />: the development of an approach that addresses the goal, the development of an automated evaluation mechanism to validate the proposed approach, the development of the PIC tool, the application of the approach (as well as two others, for relative comparison purposes) on select open-source projects and the application of the evaluation on the modified open-source projects.
+          In chapter <see ref="chapter:Introduction" />, the "state problem" was introduced as a specific problem in the general field of software testing.  Section <see ref="sec:Motivation" /> motivated the importance of the "state problem" as a research topic and section <see ref="sec:Goal" /> introduced the goal of this thesis:  to improve the testability of classes that suffer from the state problem - because they contain hidden, mutable state - while minimally affecting functionality, maintainability and the public interface of the code under test.  These three conditions were converted into three metrics from which the effectiveness of any proposed approach could be evaluated:  complexity of the unit tests, number of changes to the public interface of the class under test and percentage of branches covered using concolic testing.  The chapter concluded with the following objectives in section <see ref="sec:Objectives" />: the development of an approach that addresses the goal, the development of an automated evaluation mechanism to validate the proposed approach, the development of the PIC tool, the application of the approach (as well as two others, for relative comparison purposes) on select open-source projects and the application of the evaluation on the modified open-source projects.
 
           Related background and work was presented in chapter <see ref="chapter:Background" /> to explain the problem space, establish context and cover previous attempts at solving similar problems in the fields of test generation and program transformation.
 
           Chapter <see ref="chapter:Approach" /> describes the stateless method extraction approach in section <see ref="sec:Design" />, with many source code examples presented.  Suitability is then discussed in section <see ref="sec:Suitability" />, covering cases other than HMS where SME can be used, followed by SME's best conditions for applicability in section <see ref="sec:Applicability" />.  The PIC tool was described in section <see ref="sec:PublicInterfaceComparer" /> and the chapter concluded with a discussion of intents and their associated consequences in section <see ref="sec:Decisions" />.
 
-          In chapter <see ref="chapter:ResultsValidation" />, an evaluation mechanism was described in section <see ref="sec:EvaluationDesign" /> after which the proposed approach, as well as two others, were applied on three open-source projects so that each approach could be compared against each other as well as against the baseline source code.  Empirical summary and detailed results were presented in sections <see ref="sec:Results" /> and <see ref="sec:DetailedResults" />, respectively.  Lastly, in section <see ref="sec:Validation" /> the results were cross-referenced with the goal's metrics and were shown to validate the proposed approach through concolic testing code coverage increases between 3 to 7 percent, unit test complexity decreases between 6 and 11 points and no changes to the public interface.
+          In chapter <see ref="chapter:ResultsValidation" />, an evaluation mechanism was described in section <see ref="sec:EvaluationDesign" /> after which the proposed approach, as well as two others, were applied on three open-source projects so that each approach could be compared against each other as well as against the baseline source code.  Empirical summary and detailed results were presented in sections <see ref="sec:Results" /> and <see ref="sec:DetailedResults" />, respectively.  Lastly, in section <see ref="sec:Validation" /> the results were cross-referenced with the goal's metrics and were shown to validate our approach through concolic testing code coverage increases between 3 to 7 percent, unit test complexity decreases between 6 and 11 points and no changes to the public interface.
         </command>
-        <command name="section" param="Discussion">
-          <!-- list of inferences made -->
-          <command name="subsection" param="Bias">
-            <command name="label" param="subsec:threats" />
-            The following examples identify ways to mitigate bias and its corresponding risk to our results.
-            <block param="enumerate">
-              <command name="item"> Selection of the open-source projects.
-              
-                If SME could be automated, it could be applied on a much larger selection of projects - at random or exhaustively - and thus could reduce the bias inherent in the author's selection.
-              </command>
-              <command name="item"> Selection of the "interesting methods" in said open-source projects.
-              
-                The methods listed in table <see ref="tbl:InterestingMethods" /> were selected at the author's discretion to be targeted for manually-written unit tests.  Writing tests for a random selection of methods or - time-permitting - all methods in all projects would reduce bias, but this could come at the expense of reducing bias in the selection of open-source projects because the writing of unit tests is a time-consuming process.
-              </command>
-              <command name="item"> Manually-written tests.
-
-                The tests that were written for the complexity evaluation suffer from the author's bias and ability.  One way to mitigate this bias - and at the same time reduce the amount of manual labour involved in the evaluation - is to avoid the need for human-generated tests in the first place and to measure the complexity of the tests generated by a computer, such as those by Pex.  This may not be ideal, either, as Pex-generated tests may not necessarily be written to be maintained by humans, but it would have the advantage of objectivity.
-              </command>
-              <command name="item"> The goal's metrics and the tools used to evaluate them.
-
-                Although the CMPT implements a slight variation of the industry-standard Maintainability Index, said metric is a bit dated (it was originally released in 1997) and has been declared "legacy" by Carnegie Mellon University's Software Engineering Institute.  Nevertheless, the notion of <em>complexity</em> may vary from maintainer to maintainer and thus the measure of the <em>complexity of the unit tests</em> metric is probably best left to the maintainer(s) of each project, even at the expense of the objectivity of a completely-automated evaluation.
-
-                The <em>Public Interface Comparer</em> tool was written by the author (see section <see ref="sec:PublicInterfaceComparer" />) and could contain defects that affect the accuracy of the results.  Some further testing of the tool could reduce its threats to validity.
-
-                The choice of Pex - a <em>concolic testing</em> tool - as a test generator may not be optimal given the <em>state problem</em> was originally reported for <em>evolutionary testing</em> tools.  The unavailability of an ET tool for the .NET platform lead to the use of Pex as a stand-in.  This threat to validity could be reduced by repeating the evaluation in a language or on a platform where an ET tool is available, although new open-source projects would have to be selected and the other parts of the evaluation would have to be ported or replaced with equivalents, such as using JUnit instead of NUnit and Emma instead of NCover.
-              </command>
-              <command name="item"> Stochastic behaviour of concolic testing.
-
-                Although not as severe as that of metaheuristic search techniques, the Pex tool did present some slight variations in its results due to the use of timeouts in the constraint solver and the nature of running the evaluation on non-dedicated hardware <footnote>Since Pex is configured to be single-threaded and will only saturate one CPU core per run, three independent runs were often scheduled simultaneously on the author's 4-core workstation computer to reduce the total amount of time to wait for the results.  It is likely the runs would have been competing for resources amongst themselves and other processes running on the computer.</footnote>.  The use of dedicated hardware could reduce the variability of the results, while an increase in the number of runs would allow the use of averages to smooth out variability.  However, given the standard deviation observed after 7 runs was no more than 0.28% and averaged 0.14%, this variability was deemed inconsequential compared to the difference between strategies, which was on the order of 3% to 7%.
-              </command>
-            </block>
+        <command name="section" param="Bias">
+          <command name="label" param="subsec:threats" />
+          The following examples identify ways to mitigate bias and its corresponding risk to our results.
+          <block param="enumerate">
+            <command name="item"> Selection of the open-source projects.
             
-            <!-- TODO:
-            = the evaluation design itself?  For example, an evaluation designed by someone else would probably be better.
-            = Lakhotia raises the issue of "stochastic behaviour of the metaheuristic search" and says he's repeated the experiments 30 times; we saw such a small variation with 5 times we didn't feel it was important to mention until now
-            = 
-            -->
-          </command>
-          <command name="subsection" param="Thoughts">
-            A belief behind this thesis is that a class that is difficult to test because of HMS can be worked around by mechanically transforming its implementation in such a way that simple tests are then trivial to write.  While transforming a class in a manner invisible to its consumers for the purposes of increasing its testability probably has the least overall impact, it is possible - even likely - a better design would provide even better testability.  Such a design change might be risky - or even impossible - depending on the project's non-functional requirements, life cycle, maturity, business pressures and other factors.  The game then becomes that of trade-offs and risks vs. rewards.
-
-            Still, at a higher level, since "testing can only show the presence of defects and not their absence" <see cite="dijkstra69structuredprogramming" />, is an increase in the quantity and/or quality of testing really the best way to address the problem of software quality, given that correctness proofs can be simpler and more powerful <see cite="dijkstra88crueltycomputing" />?  This is probably a question of compatibility:  if a software project was already built with a formal approach, a change in requirements (or formal functional specification) is probably best addressed with corresponding changes to both the program and the proof, whereas in a less formal setting, a similar change in requirements is probably best addressed with an equally informal approach.
+              If SME could be automated, it could be applied on a much larger selection of projects - at random or exhaustively - and thus could reduce the bias inherent in the author's selection.
+            </command>
+            <command name="newpage" />
+            <command name="item"> Selection of the representative methods in said open-source projects.
             
-            In a world where "worse is better" <see cite="gabriel89worsebetter" /> and "something is infinitely better than nothing" <see cite="christensen11reinventingit" />, there are pressures and requirements for incrementally making software better.  The next time a software project needs to be made better due to the presence of hidden, mutable state, there is now a strategy that can improve its testability with minimal impact.
-          </command>
+              The methods listed in table <see ref="tbl:InterestingMethods" /> were selected at the author's discretion to be targeted for manually-written unit tests.  Writing tests for a random selection of methods or - time-permitting - all methods in all projects would reduce bias, but this could come at the expense of increasing bias in the selection of open-source projects, because the writing of unit tests is a time-consuming process and less projects would have to be selected as a result.
+            </command>
+            <command name="item"> Manually-written tests.
+
+              The tests that were written for the complexity evaluation suffer from the author's bias and ability.  One way to mitigate this bias - and at the same time reduce the amount of manual labour involved in the evaluation - is to avoid the need for human-generated tests in the first place and to measure the complexity of the tests generated by a computer, such as those by Pex.  This may not be ideal, either, as Pex-generated tests may not necessarily be written to be maintained by humans, but it would have the advantage of objectivity.
+            </command>
+            <command name="item"> The goal's metrics and the tools used to evaluate them.
+
+              Although the CMPT implements a slight variation of the industry-standard Maintainability Index, said metric is a bit dated (it was originally released in 1997) and has been declared "legacy" by Carnegie Mellon University's Software Engineering Institute.  Nevertheless, the notion of <em>complexity</em> may vary from maintainer to maintainer and thus the measure of the <em>complexity of the unit tests</em> metric is probably best left to the maintainer(s) of each project, even at the expense of the objectivity of a completely-automated evaluation.
+
+              The <em>Public Interface Comparer</em> tool was written by the author (see section <see ref="sec:PublicInterfaceComparer" />) and could contain defects that affect the accuracy of the results.  Some further testing of the tool could reduce its threats to validity.
+
+              The choice of Pex - a <em>concolic testing</em> tool - as a test generator may not be optimal given the <em>state problem</em> was originally reported for <em>evolutionary testing</em> tools.  The unavailability of an ET tool for the .NET platform lead to the use of Pex as a stand-in.  This threat to validity could be reduced by repeating the evaluation in a language or on a platform where an ET tool is available, although new open-source projects would have to be selected and the other parts of the evaluation would have to be ported or replaced with equivalents, such as using JUnit instead of NUnit and Emma instead of NCover.
+            </command>
+            <command name="item"> Stochastic behaviour of concolic testing.
+
+              Although not as severe as that of metaheuristic search techniques, the Pex tool did present some slight variations in its results due to the use of timeouts in the constraint solver and the nature of running the evaluation on non-dedicated hardware <footnote>Since Pex is configured to be single-threaded and will only saturate one CPU core per run, three independent runs were often scheduled simultaneously on the author's 4-core workstation computer to reduce the total amount of time to wait for the results.  It is likely the runs would have been competing for resources amongst themselves and other processes running on the computer.</footnote>.  The use of dedicated hardware could reduce the variability of the results, while an increase in the number of runs would allow the use of averages to smooth out variability.  However, given the standard deviation observed after 7 runs was no more than 0.28% and averaged 0.14%, this variability was deemed inconsequential compared to the difference between strategies, which was on the order of 3% to 7%.
+            </command>
+          </block>
+          
           <!-- TODO:
-          = unsuitability of SME?
-          == under-engineered code (big ball of mud)
-          == over-engineered code (too many interactions between classes to isolate stateless functionality)
-          == not meant as a "extract all methods as statics" hammer
+          = the evaluation design itself?  For example, an evaluation designed by someone else would probably be better.
+          = Lakhotia raises the issue of "stochastic behaviour of the metaheuristic search" and says he's repeated the experiments 30 times; we saw such a small variation with 5 times we didn't feel it was important to mention until now
+          = 
           -->
         </command>
         <command name="section" param="Future work">
@@ -1939,6 +1938,19 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           <!-- TODO: as mentioned in the threats to validity, different approaches and their trade-offs could be discussed/compared. -->
           <!-- TODO: open-source software vs. closed-source, burdens of maintenance and contracts, etc. -->
         </command>
+        <command name="section" param="Thoughts">
+          A belief behind this thesis is that a class that is difficult to test because of HMS can be worked around by mechanically transforming its implementation in such a way that simple tests are then trivial to write.  While transforming a class in a manner invisible to its consumers for the purposes of increasing its testability probably has the least overall impact, it is possible - even likely - a better design would provide even better testability.  Such a design change might be risky - or even impossible - depending on the project's non-functional requirements, life cycle, maturity, business pressures and other factors.  The game then becomes that of trade-offs and risks vs. rewards.
+
+          On the other hand and at a higher level, since "testing can only show the presence of defects and not their absence" <see cite="dijkstra69structuredprogramming" />, is an increase in the quantity and/or quality of testing really the best way to address the problem of software quality, given that correctness proofs can be simpler and more powerful <see cite="dijkstra88crueltycomputing" />?  This is probably a question of compatibility:  if a software project was already built with a formal approach, a change in requirements (or formal functional specification) is probably best addressed with corresponding changes to both the program and the proof, whereas in a less formal setting, a similar change in requirements is probably best addressed with an equally informal approach.
+          
+          In a world where "worse is better" <see cite="gabriel89worsebetter" /> and "something is infinitely better than nothing" <see cite="christensen11reinventingit" />, there are pressures and requirements for incrementally making software better.  The next time a software project needs to be made better due to the presence of hidden, mutable state, there is now a strategy that can improve its testability with minimal impact: stateless method extraction.
+        </command>
+          <!-- TODO:
+          = unsuitability of SME?
+          == under-engineered code (big ball of mud)
+          == over-engineered code (too many interactions between classes to isolate stateless functionality)
+          == not meant as a "extract all methods as statics" hammer
+          -->
       </command>
     </command>
     <command name="appendix">
@@ -1970,6 +1982,8 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
           <command name="item" opt="SCA"> Static Code Analysis</command>
           <command name="item" opt="SE"> Symbolic Execution</command>
           <command name="item" opt="SME"> Stateless Method Extraction</command>
+          <command name="item" opt="TSP"> Total Sequence Points</command>
+          <command name="item" opt="VSP"> Visited Sequence Points</command>
           <command name="item" opt="XSL"> Extensible Stylesheet Language</command>
         </block>
       </command>
