@@ -91,7 +91,7 @@ http://tex.stackexchange.com/questions/20303/xelatex-forces-readers-to-rotate-th
       <command name="chapter" param="Introduction">
         <command name="label" param="chapter:Introduction" />
         <command name="section" param="Introduction">
-          This chapter introduces the problem the thesis addresses and the motivation for solving it, as well as the overall thesis goal and specific objectives. It concludes with an overview of the rest of the thesis.
+          Our thesis is that testability can be improved with stateless method extraction.  In this chapter, we introduce the "state problem" and the motivation for solving it.  We also introduce how we will be evaluating our stateless method extraction approach and the metrics we will use to evaluate and measure testability improvements using it.  We conclude with an overview of the rest of the thesis.
         </command>
         <command name="section" param="Problem">
           Software has advanced considerably in the last several years, but has software quality kept up?  We do not always know how good a program or component is or if it is free of defects, and if those defects will affect the program, directly or otherwise.  Software defects can range from the benign, such as incorrect colours and typographical errors in the interface or output, to very serious, such as causing the destruction of a rocket carrying four satellites <see cite="lions96ariane, esa05clustermission" /> or causing the death of several patients <see cite="leveson95medicaldevices" />.
