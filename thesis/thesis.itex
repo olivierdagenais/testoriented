@@ -225,9 +225,9 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
           To fulfill the general goal of improving testability of HMS-afflicted code, we have the following objectives:
           
           <block param="enumerate">
-            <command name="item"> Design and develop a testability refactoring <see cite="harman11refactoringtestability" /> algorithm called "stateless method extraction" (SME).
+            <command name="item"> Design and develop a testability refactoring <see cite="harman11refactoringtestability" /> called "stateless method extraction" (SME).
 
-            The SME algorithm would transform the source code of the implementation under test (IUT) to introduce a functional, or "externally state-free", software layer to specifically work around many of the testability problems of HMS and to generally increase the testability of the code under test.
+            The SME technique would transform the source code of the implementation under test (IUT) to introduce a functional, or "externally state-free", software layer to specifically work around many of the testability problems of HMS and to generally increase the testability of the code under test.
             </command>
             <command name="item"> Design and implement an automated evaluation.
 
@@ -475,7 +475,7 @@ references as well.
         <command name="label" param="chapter:Approach" />
         <command name="section" param="Introduction">
           <!-- what the chapter is about -->
-          This chapter describes our approach to improving the testability of classes that suffer from the state problem.  Our approach takes the form of our SME algorithm and we describe several examples of its use, followed by discussions on when SME can be used as well as how.  We conclude with a discussion of important decisions made.
+          This chapter describes our approach to improving the testability of classes that suffer from the state problem.  Our approach takes the form of our SME testability refactoring and we describe several examples of its use, followed by discussions on when SME can be used as well as how.  We conclude with a discussion of important decisions made.
         </command>
         <command name="section" param="Design">
           <command name="label" param="sec:Design" />
@@ -978,7 +978,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
         </command>
         <command name="section" param="Summary">
           <!-- key points of what was presented and linkage to next chapter -->
-          This chapter introduced our approach, describing the steps of the SME algorithm, along with samples of the associated source code transformations.  The suitability of SME for more than HMS was discussed, as well as the conditions under which SME would work best, concluding with a description of the PIC tool and the motivations behind the decisions made in the SME.
+          This chapter introduced our approach, describing the steps of the SME technique, along with samples of the associated source code transformations.  The suitability of SME for more than HMS was discussed, as well as the conditions under which SME would work best, concluding with a description of the PIC tool and the motivations behind the decisions made in the SME.
         </command>
       </command>
       <command name="chapter" param="Results and Validation">
