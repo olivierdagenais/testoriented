@@ -715,6 +715,171 @@
   url = {http://www.dcs.shef.ac.uk/~phil/pub/stateproblem.pdf}
 }
 
+@BOOK{meszaros07xunitpatterns,
+  title = {xUnit Test Patterns: Refactoring Test Code},
+  publisher = {Addison-Wesley},
+  year = {2007},
+  author = {Gerard Meszaros},
+  pages = {883},
+  series = {The Addison-Wesley Signature Series},
+  review = {* "The obvious solution to this problem was to factor out this [duplicated]
+	logic into a small set of Test Utility Methods (page 599)." (p. xxiii)
+	
+	* "long tests are often Obscure Tests (page 186) and tend not to provide
+	very good Defect Localization (see page 22) when they fail partway
+	through the test." (p. 5)
+	
+	* "We can strive for Defect Localization by ensuring that each test
+	is a Single-Condition Test (see page 45) that exercises a single
+	method or object in a single scenario." (p. 6)
+	
+	* "We begin by creating a Testcase Class for each class we are testing
+	(see Testcase Class per Class on page 617), with each test being
+	a separate Test Method on that class.  Each Test Method can use Delegated
+	Setup (page 411) to build a Minimal Fixture (page 302) that makes
+	the tests easily understood by calling well-named Creation Methods
+	(page 415) to build the objects required for each test fixture."
+	(p. 6)
+	
+	* "If we have Untested Code (see Production Bugs on page 268) because
+	we cannot find a way to execute the path through the code, we can
+	use a Test Stub (page 529) to gain control of the indirect inputs
+	of the SUT.  If there are Untested Requirements (see Production Bugs)
+	because not all of the system's behavior is observable via its public
+	interface, we can use a Mock Object (page 544) to intercept and verify
+	the indirect outputs of the SUT." (p. 6)
+	
+	* "Goal: Bug Repellent. Yes, tests find bugs--but that really isn't
+	what automated testing is about. Automated testing tries to prevent
+	bugs from being introduced. Think of automated tests as "bug repellent"
+	that keeps nasty little bugs from crawling back into our software
+	after we have made sure it doesn't contain any bugs. Wherever we
+	have regression tests, we won't have bugs because the tests will
+	point the bugs out before we even check in our code. (We are running
+	all tests before every check-in, aren't we?)" (p. 22)
+	
+	* "Goal: Defect Localization. Mistakes happen! Of course, some mistakes
+	are much more expensive to prevent than to fix.  Suppose a bug does
+	slip through somehow and shows up in the Integration Build [SCM].
+	 If our unit tests are fairly small (i.e., we test only a single
+	behavior in each one), we should be able to pinpoint the bug quickly
+	based on which test fails. This specificity is one of the major advantages
+	that unit tests enjoy over customer tests. The customer tests tell
+	us that some behavior expected by the customer isn't working; the
+	unit tests tell us why.  We call this phenomenon Defect Localization.
+	If a customer test fails but no unit tests fail, it indicates a Missing
+	Unit Test (see Production Bugs on page 268)." (p. 22)
+	
+	* "All of these benefits are wonderful--but we cannot achieve them
+	if we don't write tests for all possible scenarios that each unit
+	of software needs to cover.  Nor will we realize these benefits if
+	the tests themselves contain bugs. Clearly, it is crucial that we
+	keep the tests as simple as possible so that they can be easily seen
+	to be correct." (p. 23)
+	
+	* "Tests Should Be Easy to Write and Maintain. Coding is a fundamentally
+	difficult activity because we must keep a lot of information in our
+	heads as we work.  When we are writing tests, we should stay focused
+	on testing rather than coding of the tests. This means that tests
+	must be simple--simple to read and simple to write. They need to
+	be simple to read and understand because testing the automated tests
+	themselves is a complicated endeavor. They can be tested properly
+	only by introducing the very bugs that they are intended to detect
+	into the SUT; this is hard to do in an automated way so it is usually
+	done only once (if at all), when the test is first written. For these
+	reasons, we need to rely on our eyes to catch any problems that creep
+	into the tests, and that means we must keep the tests simple enough
+	to read quickly." (p. 27)
+	
+	* "Of course, if we are changing the behavior of part of the system,
+	we should expect a small number of tests to be affected by our modifications.
+	We want to Minimize Test Overlap so that only a few tests are affected
+	by any one change." (p. 27)
+	
+	* "Goal: Simple Tests. To avoid "biting off more than they can chew,"
+	our tests should be small and test one thing at a time.  Keeping
+	tests simple is particularly important during test-driven development
+	because code is written to pass one test at a time and we want each
+	test to introduce only one new bit of behavior into the SUT. We should
+	strive to Verify One Condition per Test by creating a separate Test
+	Method (page 348) for each unique combination of pre-test state and
+	input. Each Test Method should drive the SUT through a single code
+	path. There should be at least one Test Method for each unique path
+	through the code; often there will be several, one for each boundary
+	value of the equivalence class." (p. 28)
+	
+	* "Goal: Separation of Concerns. Separation of Concerns applies in
+	two dimensions: (1) We want to keep test code separate from our production
+	code (Keep Test Logic Out of Production Code) and (2) we want each
+	test to focus on a single concern (Test Concerns Separately) to avoid
+	Obscure Tests (page 186)." (p. 28)
+	
+	* "Principle: Design for Testability. Given the last principle, this
+	principle may seem redundant.  For developers who  choose to ignore
+	Write the Tests First, Design for Testability becomes an even more
+	important principle because they won't be able to write automated
+	tests after the fact if the testability wasn't designed in.  Anyone
+	who has tried to retrofit automated unit tests onto legacy software
+	can testify to the difficulty this raises.  Mike Feathers talks about
+	special techniques for introducing tests in this case in [WEwLC]."
+	(p. 40)
+	
+	* "Principle: Use the Front Door First.  Objects have several kinds
+	of interfaces.  There is the "public" interface that clients are
+	expected to use.  There may also be a "private" interface that only
+	close friends should use.  Many objects also have an "outgoing interface"
+	consisting of the used part of the interfaces of any object on which
+	they depend.  The types of interfaces we use influence the robustness
+	of our tests.  The use of Back Door Manipulation (page 327) to set
+	up the fixture or verify the expected outcome or a test can result
+	in Overcoupled Software (see Fragile Test on page 239) that needs
+	more frequent test maintenance.  Overuse of Behavior Verification
+	(page 468) and Mock Objects (page 544) can result in Overspecified
+	Software (see Fragile Test) and tests that are more brittle and may
+	discourage developers from doing desirable refactorings." (p. 40)
+	
+	* "Tests that contain a lot of code (Anything more than about ten
+	lines is getting to be too much.) or Conditional Test Logic (page
+	200) are usually Obscure Tests (page 186). They are much harder to
+	understand because we need to infer the "big picture" from all the
+	details.  This reverse engineering of meaning takes extra time whenever
+	we need to revisit the test either to maintain it or to use the Tests
+	as Documentation.  It also increases the cost of ownership of the
+	tests and reduces their return on investment." (p. 41)
+	
+	* "Tests can be made easier to understand and maintain if we Communicate
+	Intent.  We can do so by calling Test Utility Methods (page 599)
+	with Intent-Revealing Names [Smalltalk Best Practice Patterns, Kent
+	Beck, Prentice Hall, 1997, 0-13-476904-X] to set up our test fixture
+	and to verify that the expected outcome has been realized.  It should
+	be readily apparent within the Test Method (page 348) how the test
+	fixture influences the expected outcome of each test--that is, which
+	inputs result in which outputs.  A rich library of Test Utility Methods
+	also makes tests easier to write because we don't have to code the
+	details into every test." (p. 41)
+	
+	* "We design each test to have four distinct phases (see Four-Phase
+	Test on page 358) that are executed in sequence: fixture setup, exercise
+	SUT, result verification, and fixture teardown.
+	
+	** In the first phase, we set up the test fixture (the "before" picture)
+	that is required for the SUT to exhibit the expected behavior as
+	well as anything we need to put in place to observe the actual outcome
+	(such as using a Test Double).
+	
+	** In the second phase, we interact with the SUT to exercise whatever
+	behavior we are trying to verify.  This should be a single, distinct
+	behavior; if we try to exercise several parts of the SUT, we are
+	not writing a Single-Condition Test.
+	
+	** In the third phase, we do whatever is necessary to determine whether
+	the expected outcome has been obtained and fail the test if it has
+	not.
+	
+	** In the fourth phase, we tear down the test fixture and put the
+	world back into the state in which we found it." (p. 46)}
+}
+
 @ELECTRONIC{morrison07maintainabilityindex,
   author = {Conor Morrison},
   month = {November},
