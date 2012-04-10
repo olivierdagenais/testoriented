@@ -237,9 +237,9 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
             
             As a suitable tool to enumerate the changes in public interface between two versions of a .NET project output could not be found, one will be written.
             </command>
-            <command name="item"> Independently apply testability refactorings on the open-source projects.
+            <command name="item"> Independently apply techniques on the open-source projects.
 
-            SME and 2 other testability refactorings will be applied to evaluate their relative effectivenesses.
+            SME and 3 other techniques will be applied to evaluate their relative effectivenesses.  After the techniques have been applied to their respective copies of the IUT, unit tests will be written by the author for each copy, exploiting their relevant features in order to write the simplest tests possible.
             </command>
             <command name="item"> Run the evaluation and collect the results for comparison and discussion.</command>
           </block>
