@@ -225,9 +225,9 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
           To fulfill the general goal of improving testability of HMS-afflicted code, we have the following objectives:
           
           <block param="enumerate">
-            <command name="item"> Design and develop a testability refactoring <see cite="harman11refactoringtestability" /> called "stateless method extraction" (SME).
+            <command name="item"> Design and describe a testability refactoring <see cite="harman11refactoringtestability" /> called "stateless method extraction" (SME).
 
-            The SME technique would transform the source code of the implementation under test (IUT) to introduce a functional, or "externally state-free", software layer to specifically work around many of the testability problems of HMS and to generally increase the testability of the code under test.
+            The SME technique would transform the source code of the implementation under test (IUT) to introduce a functional, or "externally state-free", software layer to specifically work around many of the testability problems of HMS and to generally increase the testability of the code under test.  This technique will be applied manually by the author, although it should be possible to automate it.
             </command>
             <command name="item"> Design and implement an automated evaluation.
 
