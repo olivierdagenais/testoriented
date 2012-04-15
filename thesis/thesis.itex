@@ -344,21 +344,27 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
         </command>
         <command name="section" param="Intents of Computer-Generated Tests">
           There are four major uses for Computer-Generated Tests (CGT) described in the following sub-sections.  They differ mostly in the choice of executable statements to target and are not usually specific to any CGT approach in particular.  The exception is non-functional testing, which does not target any executable statement in particular and is more suited to an optimization approach (such as SBST).
-          <command name="subsection" param="Structural Testing Intent">
-            Coupling an automated test generator with a code coverage tool makes it possible to discover which inputs can be used to reach otherwise hard-to-cover areas as well as areas of the code where no inputs can be found to reach them (within a pre-defined search time).  This could indicate that the code is unreachable because it contains, for example, conflicting pre-conditions.  Structural testing will generally attempt to execute all statements of an IUT at least once.
+          <command name="subsection" param="Structural Testing">
+            <block param="quote">
+              testing that takes into account the internal mechanism of a system or component. Syn: glass-box testing, white-box testing <see cite="ieee10vocabulary" />
+            </block>
+            Coupling an automated test generator with a code coverage tool makes it possible to discover which inputs can be used to reach otherwise hard-to-cover areas as well as areas of the code where no inputs can be found to reach them (within a pre-defined search time).  This could indicate that the code is unreachable because it contains, for example, conflicting pre-conditions.  CGT intended for structural testing will generally attempt to execute all statements of an IUT at least once.
           </command>
-          <command name="subsection" param="Functional Testing Intent">
-            Functional testing is a form of verification that uses a machine-readable form of the specification <see cite="mcminn04searchbased" />.  One way of doing so is with a formal specification expressed as disjunctions that represent <em>routes</em> (or paths) through the program.  These routes can then be tested individually using structural testing.
-
-            An easier approach is to automatically turn the specification into pre-conditions and post-conditions.  The objective is then to find test inputs that conform to all pre-conditions but that cause post-conditions to fail, in effect targeting the fault branch of the post-conditions.
-
-            A third approach is to encode the specification's requirements as a component of a simulator.  For example, Bühler and Wegener evaluated the functionality of a brake assist system using a simulator <see cite="buehler08evolutionaryfunctional" />.  The simulator would report if the safety requirements were violated by the brake assist system, such as instances where the system either did not enhance the driver's brake torque in a critical situation or provided too much braking in a non-critical situation.
+          <command name="subsection" param="Functional Testing">
+            <block param="quote">
+              1. testing that ignores the internal mechanism of a system or component and focuses solely on the outputs generated in response to selected inputs and execution conditions  2. testing conducted to evaluate the compliance of a system or component with specified functional requirements. Syn: black-box testing  <see cite="ieee10vocabulary" />
+            </block>
+            Functional testing can even be performed by encoding the specification's requirements as a component of a simulator.  For example, Bühler and Wegener evaluated the functionality of a brake assist system using a simulator <see cite="buehler08evolutionaryfunctional" />.  The simulator would report if the safety requirements were violated by the brake assist system, such as instances where the system either did not enhance the driver's brake torque in a critical situation or provided too much braking in a non-critical situation.
           </command>
-          <command name="subsection" param="Grey-Box Testing Intent">
+          <command name="subsection" param="Grey-Box Testing">
+            <block param="quote">
+              Grey-box testing combines both structural and functional information for the
+purposes of testing. <see cite="mcminn04searchbased" />
+            </block>
             The objectives of grey-box testing are to attempt to get assertions, already embedded in a program, to be violated and to trigger exception conditions.  Some of this work even temporarily turned specially-formatted comments into executable assertions for the purposes of targeting their fault branches for execution <see cite="mcminn04searchbased" />.
           </command>
-          <command name="subsection" param="Non-Functional Testing Intent">
-            Non-functional testing concerns itself with verifying non-functional requirements, such as constraints on execution time, working memory, long-term storage and processor load, usually for embedded and real-time systems.  Test inputs are sought which cause the program to exceed pre-defined thresholds, such as taking more time than usual or consuming more memory than expected.  This can be measured by instrumentation external to the IUT, such as the operating system's timers and counters, or by using a simulator <see cite="sthamer02usingevolutionary" />.
+          <command name="subsection" param="Non-Functional Testing">
+            Non-functional testing concerns itself with verifying non-functional requirements <footnote>a software requirement that describes not what the software will do but how the software will do it. Syn: design constraints, nonfunctional requirement <see cite="ieee10vocabulary" /></footnote>, such as constraints on execution time, working memory, long-term storage and processor load, usually for embedded and real-time systems.  Test inputs are sought which cause the program to exceed pre-defined thresholds, such as taking more time than usual or consuming more memory than expected.  This can be measured by instrumentation external to the IUT, such as the operating system's timers and counters, or by using a simulator <see cite="sthamer02usingevolutionary" />.
           </command>
         </command>
         <command name="section" param="Related Work">
