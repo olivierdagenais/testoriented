@@ -381,8 +381,33 @@ purposes of testing. <see cite="mcminn04searchbased" />
 
             Another approach to generate tests for programs with state - specifically those written in OO programming languages - was proposed by Wappler and Wegener <see cite="wappler06evolutionaryunit" />.  Their two-phase technique, called "strongly-typed genetic programming", consists of first using genetic programming to generate a sequence of methods to call (creating instances of classes as necessary), then using a genetic algorithm to find suitable values for the parameters of the generated method calls.
             
-            Binder suggests four approaches to work around a programming language's visibility constraints: "Private Access Driver", "Test Control Interface", "Drone" and "Built-in Test Driver"  <see cite="binder00testharness" />.
-            <!-- TODO: discuss Microsoft's PrivateObject -->
+            Binder suggests the following four approaches to work around a programming language's visibility constraints:
+            <block param="enumerate">
+              <command name="item"> Private Access Driver
+                <block param="quote">
+                  "A Private Access Driver may be developed only in a language that offers the ability to bypass normal scoping/visibility rules, providing visibility of all elements of a class implementation to a client class or subclass." <see cite="binder00testharness" />
+                </block>
+                While C++ has the <tt>friend</tt> feature which can grant the test class full access to the CUT's members, Java and C# do not have such a feature.  The closest equivalent is a reflection-based solution to access hidden members <footnote>For example, Microsoft provides the <tt>PrivateObject</tt> class with the Visual Studio Testing Tools to simplify this approach: <url>http://msdn.microsoft.com/en-us/library/microsoft.visualstudio.testtools.unittesting.privateobject.aspx</url></footnote>.
+              </command>
+              <command name="item"> Test Control Interface
+                <block param="quote">
+                  "Use special-purpose language mechanisms that make all elements of a class's implementation visible to a driver to achieve necessary control of pretest state and observation of post-test state." <see cite="binder00testharness" />
+                </block>
+                This approach is applicable to Objective-C and Smalltalk/ENVY which make it possible to extend the CUT with methods that have access to the hidden members of the CUT.  The closest equivalent in C# would be the use of the <tt>partial</tt> keyword that allows classes to be defined across multiple files, however a parial-based CUT extension would have to be defined in the same project as the CUT, given that test classes are, by convention, defined in a separate project.
+              </command>
+              <command name="item"> Drone
+                <block param="quote">
+                  "Use multiple inheritance to compose a test package class that combines the driver and the class under test." <see cite="binder00testharness" />
+                </block>
+                This approach is very limited because it relies on a programming language having both multiple inheritance and private member access from subclasses.  It appears only Eiffel supports this approach.
+              </command>
+              <command name="item"> Built-in Test Driver
+                <block param="quote">
+                  "Implement a test suite and a test driver wholly containd within the class under test.  Provide an interface to activate and exercise the tests." <see cite="binder00testharness" />
+                </block>
+                Adding test methods directly to the CUT or to an inner class thereof is the main idea of this approach, which side-steps the hidden member problem (inner classes have access to all of their outer class's members) but also provides the potential for interference from the test code.
+              </command>
+            </block>
           </command>
           <command name="subsection" param="The Case for Functional Programming">
             <block param="quote">
