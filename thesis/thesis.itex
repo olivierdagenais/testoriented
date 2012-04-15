@@ -510,13 +510,13 @@ references as well.
         <command name="label" param="chapter:Approach" />
         <command name="section" param="Introduction">
           <!-- what the chapter is about -->
-          This chapter describes our approach to improving the testability of classes that suffer from the state problem.  Our approach takes the form of our SME testability refactoring and we describe several examples of its use, followed by discussions on when SME can be used as well as how.  We conclude with a discussion of important decisions made.
+          This chapter describes our approach to improving the testability of classes that suffer from the state problem.  Our approach takes the form of the manual application of our SME testability refactoring and we describe several examples of its use, followed by discussions on when SME can be used as well as how.  We conclude with a discussion of important decisions made.
         </command>
         <command name="section" param="Design">
           <command name="label" param="sec:Design" />
-          Stateless method extraction's intent is to separate the interaction between the hidden mutable state in a class and the inputs and outputs of said class' instance methods.  This decoupling allows programmers to first focus their unit tests on the pure computation aspects, then on the object-oriented layer above the stateless methods.
+          Stateless method extraction's intent is to increase the testability of an IUT by separating the interaction between the IUT's hidden mutable state and the inputs and outputs of that IUT's instance methods.  This decoupling allows programmers to first focus their unit tests on the pure computation aspects, then on the object-oriented layer above the stateless methods.  This document covers the former while the latter is out of scope, the domain of the likes of Spec Explorer <see cite="veanes08modeltesting" />.
 
-          It is important to note that SME relies on the fact that all its steps will only modify the source code in ways that will not alter any of the behaviours and functionality present before SME was performed.  That is to say, all the operations performed should be pure refactorings <see cite="fowler00refactoring" /> and no functionality changes are to be performed during the process.  These rules help ensure the use of SME is invisible to end-users and has the least chance of introducing defects or regressions in the affected methods.
+          It is important to note that SME relies on the fact that all its steps will only modify the IUT's source code in ways that will not alter any of the behaviours and functionality present before SME was performed.  That is to say, all the operations performed should be pure refactorings <see cite="fowler00refactoring" /> and no functionality changes are to be performed during the process.  These rules help ensure the use of SME is invisible to end-users and has the least chance of introducing defects or regressions in the affected methods.
 
           <command name="subsection" param="Overview">
             Stateless method extraction is performed in six high-level steps:
