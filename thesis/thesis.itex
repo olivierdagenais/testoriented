@@ -519,7 +519,7 @@ references as well.
           It is important to note that SME relies on the fact that all its steps will only modify the IUT's source code in ways that will not alter any of the behaviours and functionality present before SME was performed.  That is to say, all the operations performed should be pure refactorings <see cite="fowler00refactoring" /> and no functionality changes are to be performed during the process.  These rules help ensure the use of SME is invisible to end-users and has the least chance of introducing defects or regressions in the affected methods.
 
           <command name="subsection" param="Overview">
-            Stateless method extraction is performed in six high-level steps:
+            Stateless method extraction is performed in six high-level steps, applied repeatedly until no more candidate blocks can be identified:
             <block param="enumerate">
               <command name="item"> Identification of a candidate block.
                 <br />
