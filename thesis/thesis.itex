@@ -262,7 +262,7 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
           This chapter presents an overview of the related concepts from object-oriented (OO) programming to automated testing to computer-generated tests, introduces related work, establishes context within that work and defines the scope of the thesis.
         </command>
         <command name="section" param="Object Oriented Programming">
-          This thesis focuses on testing programs written with OO languages - as opposed to procedural or functional languages - because the intent is to solve a problem specific to OO languages:  hidden mutable state.  Although procedural languages (such as C) allow programs to have mutable state, the state is not usually hidden.  Functional languages (such as Lisp) on the other hand, only allow programs to be written using immutable state through the use of set-once variables.  Pure procedural and functional languages are therefore excluded from consideration.
+          This thesis focuses on testing programs written with OO languages - as opposed to procedural or functional languages - because the intent is to solve a problem specific to many OO languages:  hidden mutable state.  Although procedural languages (such as C) allow programs to have mutable state, the state is not usually hidden.  Functional languages (such as Lisp) on the other hand, only allow programs to be written using immutable state through the use of set-once variables.  Pure procedural and functional languages are therefore excluded from consideration.
 
           <command name="subsection" param="Terminology">
             OO languages will generally have a basic set of features, the most important of which are described here for clarity:
