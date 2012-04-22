@@ -303,68 +303,70 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
             Code coverage can be used to determine the completeness of the test suite or, more precisely, to identify areas of the IUT that are untouched by the tests.  The presence of uncovered code can also reveal surprises in the implementation, although its best use remains the identification of missing test scenarios.
           </command>
         </command>
-        <command name="section" param="Motivation for Computer-Generated Tests">
-          It may not always be possible or feasible to have a programmer write automated tests for a component or an implementation.  Reasons provided by Bühler and Wegener <see cite="buehler08evolutionaryfunctional" /> include the simultaneous satisfaction of functional, real-time and safety requirements as well as the very large test space resulting from the interaction of 50-70 independently-developed embedded systems.  The nature of the assembled system - in this case a premium vehicle - also makes manual testing, such as driving the vehicle in an environment suitable for each scenario, prohibitively expensive.  Bühler and Wegener go on to suggest generating tests automatically to work around these obstacles and thus reduce costs.  Evolutionary testing (ET), "the application of evolutionary computation to test automation" <see cite="buehler08evolutionaryfunctional" />, is therefore suggested to automatically and efficiently sample the test input space.  ET will usually be implemented using genetic algorithms (GA), which are well-suited to a mix of exploration and exploitation in the search space <see cite="mcminn04searchbased" />.
+        <command name="section" param="Computer-Generated Tests">
+          <command name="subsection" param="Motivation for Computer-Generated Tests">
+            It may not always be possible or feasible to have a programmer write automated tests for a component or an implementation.  Reasons provided by Bühler and Wegener <see cite="buehler08evolutionaryfunctional" /> include the simultaneous satisfaction of functional, real-time and safety requirements as well as the very large test space resulting from the interaction of 50-70 independently-developed embedded systems.  The nature of the assembled system - in this case a premium vehicle - also makes manual testing, such as driving the vehicle in an environment suitable for each scenario, prohibitively expensive.  Bühler and Wegener go on to suggest generating tests automatically to work around these obstacles and thus reduce costs.  Evolutionary testing (ET), "the application of evolutionary computation to test automation" <see cite="buehler08evolutionaryfunctional" />, is therefore suggested to automatically and efficiently sample the test input space.  ET will usually be implemented using genetic algorithms (GA), which are well-suited to a mix of exploration and exploitation in the search space <see cite="mcminn04searchbased" />.
 
-          Binder writes:
-          <block param="quote">
-            "Automatic test generation can be used without having to pregenerate expected results.  Although generating input values automatically is easy, generating the corresponding expected results automatically is usually difficult." <see cite="binder00assertions" />
-          </block>
-          Even if tests are automatically generated without the use of an oracle (human or otherwise), the generated test suite can still serve as a baseline and could be used to detect changes in the outputs as a result of adding features or fixing defects.  These changes in the outputs could indicate a regression, just as changes in the outputs of human-generated tests would.
-
-          In the present case, there's an additional reason computer-generated tests are interesting:  we can use an automatic structural test generator to objectively compare the testability of source code under various transformations.
-
-          More details about the various flavours and uses of computer-generated tests are provided in the following sections.
-        </command>
-        <command name="section" param="Approaches to Computer-Generated Tests">
-          There are three major approaches in generating tests:  Random Testing, Search Based Software Testing and Concolic Testing <see cite="lakhotia10empiricalinvestigation" /> are described in the following sections.
-          <command name="subsection" param="Random Testing">
-            Random testing (RT), as the name implies, consists of generating inputs based on random numbers and is thus undirected.  RT does not perform as well as ET <see cite="wegener01evolutionarytest" />, although it has been used as a baseline for comparing other test generators <see cite="lakhotia10empiricalinvestigation" />.
-          </command>
-          <command name="subsection" param="Search Based Software Testing">
-            Search-based software testing (SBST) is the application of a metaheuristic search technique (MST) to the problem of generating test inputs <see cite="mcminn04searchbased" />.  The technique is based around the optimization of an <em>objective function</em>, trying to improve an initial solution based on feedback from the objective function - either by maximizing or minimizing its value, depending on the desired outcome - effectively making it a guided quest for global optima in the search space.
-
-            For test input generation, the search space is the domain of the test inputs and the objective function is carefully constructed to reward interesting and relevant test inputs.  The nature of "interesting and relevant" depends on the <em>intent</em> of the testing exercise.  In general, the biggest difficulty of SBST lies in the definition of the objective function <see cite="baresel02fitnessfunction" />.  Consult the following section for the major intents of SBST.
-
-            The general flow of MST implementations is to start with one or more "initial solutions", created either with domain knowledge or at random, and apply the objective function on the solution(s) to establish a solution score.  If no solution score exceeds a pre-defined threshold, tweak the solution(s) according to some heuristic and repeat the process with the new solution(s) until either no improvement in score is detected or some pre-defined time or iteration threshold is reached.
-
-            The simplest heuristic is called "hill climbing", a strategy that focuses on the best objective function value in the neighbourhood of the current solution's search space.  This greedy, exploit-only strategy will often cause a hill climber to get stuck in local optima.
-
-            An improvement to hill climbing was proposed in the "simulated annealing" heuristic whereby solutions with worse objective function values will be considered with a probability decreasing with the number of iterations, allowing more of the search space to be explored in the beginning and ending with a hill climber-like exploitation.
-
-            One of the better MST heuristics is "genetic algorithms (GA)", a class of "evolutionary algorithms".  It is designed to simulate the process of natural selection (sometimes known as "survival of the fittest") by modelling a <em>population</em> of solutions as chromosomes and providing ways for pairs of solutions to "breed" through recombination (splicing part of one parent with part of the other and also combining the remaining two parts), providing the next generation of solutions.  The simulation is made more authentic through the use of mutations (random, low-probability alterations to the chromosome) and various reproduction selection mechanisms, such as fitness-proportional selection and tournament selection.  Through this simulation, solutions will appear to evolve across the generations and, given appropriately-tuned parameters, the population of solutions will be diverse and "fit", thus providing a good balance of exploration and exploitation of the search space.
-          </command>
-          <command name="subsection" param="Concolic Testing">
-            Concolic testing (CT) is the combination of concrete and symbolic execution applied to the problem of test data generation.  It is also known as dynamic symbolic execution <see cite="mcminn04searchbased" />.
-
-            Symbolic execution (SE) is a simulated execution of a given path through the program using symbols in place of input values, and keeping track of expressions instead of concrete values as assignments and operations take place <see cite="king76symbolicexecution" />.  For a program operating exclusively with integers, one could say SE is the algebraic equivalent of the arithmetic operations that would be evaluated with concrete execution.  The resulting output of SE is generally a system of constraints on the inputs for executing the given path.
-
-            Concrete execution - running an instrumented version of the program - can be combined with SE such that the two executions are correlated to verify the generated constraints against concrete values.  Often times, this correlation allows the simplification of these constraints, for example by removing non-linear sub-expressions <see cite="mcminn04searchbased" />.  A constraint solver can then be used to find test input values that cause the execution of specific paths through the IUT <see cite="tillman08pex" />.
-          </command>
-        </command>
-        <command name="section" param="Intents of Computer-Generated Tests">
-          There are four major uses for Computer-Generated Tests (CGT) described in the following sub-sections.  They differ mostly in the choice of executable statements to target and are not usually specific to any CGT approach in particular.  The exception is non-functional testing, which does not target any executable statement in particular and is more suited to an optimization approach (such as SBST).
-          <command name="subsection" param="Structural Testing">
+            Binder writes:
             <block param="quote">
-              testing that takes into account the internal mechanism of a system or component. Syn: glass-box testing, white-box testing <see cite="ieee10vocabulary" />
+              "Automatic test generation can be used without having to pregenerate expected results.  Although generating input values automatically is easy, generating the corresponding expected results automatically is usually difficult." <see cite="binder00assertions" />
             </block>
-            Coupling an automated test generator with a code coverage tool makes it possible to discover which inputs can be used to reach otherwise hard-to-cover areas as well as areas of the code where no inputs can be found to reach them (within a pre-defined search time).  This could indicate that the code is unreachable because it contains, for example, conflicting pre-conditions.  CGT intended for structural testing will generally attempt to execute all statements of an IUT at least once.
+            Even if tests are automatically generated without the use of an oracle (human or otherwise), the generated test suite can still serve as a baseline and could be used to detect changes in the outputs as a result of adding features or fixing defects.  These changes in the outputs could indicate a regression, just as changes in the outputs of human-generated tests would.
+
+            In the present case, there's an additional reason computer-generated tests are interesting:  we can use an automatic structural test generator to objectively compare the testability of source code under various transformations.
+
+            More details about the various flavours and uses of computer-generated tests are provided in the following sub-sections.
           </command>
-          <command name="subsection" param="Functional Testing">
-            <block param="quote">
-              1. testing that ignores the internal mechanism of a system or component and focuses solely on the outputs generated in response to selected inputs and execution conditions  2. testing conducted to evaluate the compliance of a system or component with specified functional requirements. Syn: black-box testing  <see cite="ieee10vocabulary" />
-            </block>
-            Functional testing can even be performed by encoding the specification's requirements as a component of a simulator.  For example, Bühler and Wegener evaluated the functionality of a brake assist system using a simulator <see cite="buehler08evolutionaryfunctional" />.  The simulator would report if the safety requirements were violated by the brake assist system, such as instances where the system either did not enhance the driver's brake torque in a critical situation or provided too much braking in a non-critical situation.
+          <command name="subsection" param="Approaches to Computer-Generated Tests">
+            There are three major approaches in generating tests:  Random Testing, Search Based Software Testing and Concolic Testing <see cite="lakhotia10empiricalinvestigation" /> are described in the following sub-sections.
+            <command name="subsubsection" param="Random Testing">
+              Random testing (RT), as the name implies, consists of generating inputs based on random numbers and is thus undirected.  RT does not perform as well as ET <see cite="wegener01evolutionarytest" />, although it has been used as a baseline for comparing other test generators <see cite="lakhotia10empiricalinvestigation" />.
+            </command>
+            <command name="subsubsection" param="Search Based Software Testing">
+              Search-based software testing (SBST) is the application of a metaheuristic search technique (MST) to the problem of generating test inputs <see cite="mcminn04searchbased" />.  The technique is based around the optimization of an <em>objective function</em>, trying to improve an initial solution based on feedback from the objective function - either by maximizing or minimizing its value, depending on the desired outcome - effectively making it a guided quest for global optima in the search space.
+
+              For test input generation, the search space is the domain of the test inputs and the objective function is carefully constructed to reward interesting and relevant test inputs.  The nature of "interesting and relevant" depends on the <em>intent</em> of the testing exercise.  In general, the biggest difficulty of SBST lies in the definition of the objective function <see cite="baresel02fitnessfunction" />.  Consult the following section for the major intents of SBST.
+
+              The general flow of MST implementations is to start with one or more "initial solutions", created either with domain knowledge or at random, and apply the objective function on the solution(s) to establish a solution score.  If no solution score exceeds a pre-defined threshold, tweak the solution(s) according to some heuristic and repeat the process with the new solution(s) until either no improvement in score is detected or some pre-defined time or iteration threshold is reached.
+
+              The simplest heuristic is called "hill climbing", a strategy that focuses on the best objective function value in the neighbourhood of the current solution's search space.  This greedy, exploit-only strategy will often cause a hill climber to get stuck in local optima.
+
+              An improvement to hill climbing was proposed in the "simulated annealing" heuristic whereby solutions with worse objective function values will be considered with a probability decreasing with the number of iterations, allowing more of the search space to be explored in the beginning and ending with a hill climber-like exploitation.
+
+              One of the better MST heuristics is "genetic algorithms (GA)", a class of "evolutionary algorithms".  It is designed to simulate the process of natural selection (sometimes known as "survival of the fittest") by modelling a <em>population</em> of solutions as chromosomes and providing ways for pairs of solutions to "breed" through recombination (splicing part of one parent with part of the other and also combining the remaining two parts), providing the next generation of solutions.  The simulation is made more authentic through the use of mutations (random, low-probability alterations to the chromosome) and various reproduction selection mechanisms, such as fitness-proportional selection and tournament selection.  Through this simulation, solutions will appear to evolve across the generations and, given appropriately-tuned parameters, the population of solutions will be diverse and "fit", thus providing a good balance of exploration and exploitation of the search space.
+            </command>
+            <command name="subsubsection" param="Concolic Testing">
+              Concolic testing (CT) is the combination of concrete and symbolic execution applied to the problem of test data generation.  It is also known as dynamic symbolic execution <see cite="mcminn04searchbased" />.
+
+              Symbolic execution (SE) is a simulated execution of a given path through the program using symbols in place of input values, and keeping track of expressions instead of concrete values as assignments and operations take place <see cite="king76symbolicexecution" />.  For a program operating exclusively with integers, one could say SE is the algebraic equivalent of the arithmetic operations that would be evaluated with concrete execution.  The resulting output of SE is generally a system of constraints on the inputs for executing the given path.
+
+              Concrete execution - running an instrumented version of the program - can be combined with SE such that the two executions are correlated to verify the generated constraints against concrete values.  Often times, this correlation allows the simplification of these constraints, for example by removing non-linear sub-expressions <see cite="mcminn04searchbased" />.  A constraint solver can then be used to find test input values that cause the execution of specific paths through the IUT <see cite="tillman08pex" />.
+            </command>
           </command>
-          <command name="subsection" param="Grey-Box Testing">
-            <block param="quote">
-              Grey-box testing combines both structural and functional information for the
-purposes of testing. <see cite="mcminn04searchbased" />
-            </block>
-            The objectives of grey-box testing are to attempt to get assertions, already embedded in a program, to be violated and to trigger exception conditions.  Some of this work even temporarily turned specially-formatted comments into executable assertions for the purposes of targeting their fault branches for execution <see cite="mcminn04searchbased" />.
-          </command>
-          <command name="subsection" param="Non-Functional Testing">
-            Non-functional testing concerns itself with verifying non-functional requirements <footnote>a software requirement that describes not what the software will do but how the software will do it. Syn: design constraints, nonfunctional requirement <see cite="ieee10vocabulary" /></footnote>, such as constraints on execution time, working memory, long-term storage and processor load, usually for embedded and real-time systems.  Test inputs are sought which cause the program to exceed pre-defined thresholds, such as taking more time than usual or consuming more memory than expected.  This can be measured by instrumentation external to the IUT, such as the operating system's timers and counters, or by using a simulator <see cite="sthamer02usingevolutionary" />.
+          <command name="subsection" param="Intents of Computer-Generated Tests">
+            There are four major uses for Computer-Generated Tests (CGT) described in the following sub-sections.  They differ mostly in the choice of executable statements to target and are not usually specific to any CGT approach in particular.  The exception is non-functional testing, which does not target any executable statement in particular and is more suited to an optimization approach (such as SBST).
+            <command name="subsubsection" param="Structural Testing">
+              <block param="quote">
+                testing that takes into account the internal mechanism of a system or component. Syn: glass-box testing, white-box testing <see cite="ieee10vocabulary" />
+              </block>
+              Coupling an automated test generator with a code coverage tool makes it possible to discover which inputs can be used to reach otherwise hard-to-cover areas as well as areas of the code where no inputs can be found to reach them (within a pre-defined search time).  This could indicate that the code is unreachable because it contains, for example, conflicting pre-conditions.  CGT intended for structural testing will generally attempt to execute all statements of an IUT at least once.
+            </command>
+            <command name="subsubsection" param="Functional Testing">
+              <block param="quote">
+                1. testing that ignores the internal mechanism of a system or component and focuses solely on the outputs generated in response to selected inputs and execution conditions  2. testing conducted to evaluate the compliance of a system or component with specified functional requirements. Syn: black-box testing  <see cite="ieee10vocabulary" />
+              </block>
+              Functional testing can even be performed by encoding the specification's requirements as a component of a simulator.  For example, Bühler and Wegener evaluated the functionality of a brake assist system using a simulator <see cite="buehler08evolutionaryfunctional" />.  The simulator would report if the safety requirements were violated by the brake assist system, such as instances where the system either did not enhance the driver's brake torque in a critical situation or provided too much braking in a non-critical situation.
+            </command>
+            <command name="subsubsection" param="Grey-Box Testing">
+              <block param="quote">
+                Grey-box testing combines both structural and functional information for the
+  purposes of testing. <see cite="mcminn04searchbased" />
+              </block>
+              The objectives of grey-box testing are to attempt to get assertions, already embedded in a program, to be violated and to trigger exception conditions.  Some of this work even temporarily turned specially-formatted comments into executable assertions for the purposes of targeting their fault branches for execution <see cite="mcminn04searchbased" />.
+            </command>
+            <command name="subsubsection" param="Non-Functional Testing">
+              Non-functional testing concerns itself with verifying non-functional requirements <footnote>a software requirement that describes not what the software will do but how the software will do it. Syn: design constraints, nonfunctional requirement <see cite="ieee10vocabulary" /></footnote>, such as constraints on execution time, working memory, long-term storage and processor load, usually for embedded and real-time systems.  Test inputs are sought which cause the program to exceed pre-defined thresholds, such as taking more time than usual or consuming more memory than expected.  This can be measured by instrumentation external to the IUT, such as the operating system's timers and counters, or by using a simulator <see cite="sthamer02usingevolutionary" />.
+            </command>
           </command>
         </command>
         <command name="section" param="Related Work">
