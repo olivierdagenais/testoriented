@@ -3,7 +3,7 @@
   <preamble><!-- !TEX TS-program = pdflatex -->
     <!-- !TEX encoding = UTF-8 Unicode -->
 
-    <command name="documentclass" opt="12pt" param="dalthesis" />
+    <command name="documentclass" opt="12pt" param="cu-thesis" />
 
     <region comment='disable turning "fi", "ff", etc. into one character'>
       <command name="usepackage" param="fontspec" />
