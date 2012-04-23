@@ -177,7 +177,7 @@ http://tex.stackexchange.com/questions/20303/xelatex-forces-readers-to-rotate-th
           Can be written retroactively, after the results have been written -->
           If we are to overcome the difficulties of HMS when testing business logic, can we do so with minimal changes to the public interface and with minimal risk of introducing regressions?  Can the unit tests be kept parsimonious, yet cover all the important edge cases?  Is there something we can do to make code containing hidden mutable state more easily testable?
 
-          The goal of this thesis is to improve the testability of business logic in classes that suffer from the "state problem" - because they contain HMS - while increasing the maintainability of the accompanying tests, as well as minimally affecting the functionality and the public interface of the code under test.  The goal is to be validated according to the following metrics:
+          The goal of this thesis is to improve the testability of business logic in classes that suffer from the "state problem" - because they contain HMS.  This is to be done by increasing the maintainability of the accompanying tests while minimally affecting the functionality and the public interface of the code under test.  The goal is to be validated according to the following metrics:
 
           <block param="enumerate">
             <command name="item"> Complexity of the unit tests.
@@ -520,7 +520,7 @@ references as well.
         </command>
         <command name="section" param="Design">
           <command name="label" param="sec:Design" />
-          Stateless method extraction's intent is to increase the testability of an IUT by separating the interaction between the IUT's hidden mutable state and the inputs and outputs of that IUT's instance methods.  This decoupling allows programmers to first focus their unit tests on the pure computation aspects, then on the object-oriented layer above the stateless methods.  This document covers the former while the latter is out of scope, the domain of the likes of Spec Explorer <see cite="veanes08modeltesting" />.
+          Stateless method extraction's intent is to increase the testability of an IUT by separating the interaction between the IUT's hidden mutable state and the inputs and outputs of that IUT's instance methods.  This decoupling allows programmers to first focus their unit tests on the pure computation aspects - in other words, the business logic - then on the object-oriented layer above the stateless methods.  This document covers the former while the latter is out of scope, the domain of the likes of Spec Explorer <see cite="veanes08modeltesting" />.
 
           It is important to note that SME relies on the fact that all its steps will only modify the IUT's source code in ways that will not alter any of the behaviours and functionality present before SME was performed.  That is to say, all the operations performed should be pure refactorings <see cite="fowler00refactoring" /> and no functionality changes are to be performed during the process.  These rules help ensure the use of SME is invisible to end-users and has the least chance of introducing defects or regressions in the affected methods.
 
@@ -561,7 +561,7 @@ references as well.
           <command name="newpage" />
           <command name="subsection" param="Step 1: Identification of a Candidate Block">
             <command name="label" param="subsec:Step1" />
-            The first step of SME consists of identifying, in an instance method, one or more functionality subsets that would be good candidates for extraction and subsequent unit testing.  The idea is to look for units of computation (i.e. business logic) that read from and/or write to hidden mutable state. It is not necessary to extract the entire body of an instance method if there are parts of the method that would be more suitable to extract and unit test separately.  It is also possible a method will contain no candidate blocks to extract; the technique need not be forcibly applied if no unit testing advantages can be realized.
+            The first step of SME consists of identifying, in an instance method, one or more functionality subsets that would be good candidates for extraction and subsequent unit testing.  The idea is to look for units of computation (i.e. business logic) that read from and/or write to hidden mutable state.  It is not necessary to extract the entire body of an instance method if there are parts of the method that would be more suitable to extract and unit test separately.  It is also possible a method will contain no candidate blocks to extract; the technique need not be forcibly applied if no unit testing advantages can be realized.
 
             The criteria for establishing candidacy of a block consist of:
             <block param="enumerate">
@@ -1035,7 +1035,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
         == differences between a constraint solver and evolutionary testing
           -->
           <command name="subsection" param="Overview">
-            The goal of stateless method extraction is to improve the testability of source code, especially that of classes with hidden mutable state.
+            The goal of stateless method extraction is to improve the testability of business logic in classes that contain hidden mutable state.
             <command name="subsubsection" param="Strategies">
               SME will be compared to three other strategies, for a total of four:
               <block param="enumerate">
@@ -1906,7 +1906,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             <command name="item"> Zero changes to the public interface of the class under test were necessary.</command>
             <command name="item"> The percentage of branches covered using concolic testing went up.</command>
           </block>
-          Given the three metrics are better than or equal to the baseline, we have been able to reach the thesis goal to improve the testability of classes that suffer from the "state problem".
+          Given the three metrics are better than or equal to the baseline, we have been able to reach the thesis goal to improve the testability of business logic in classes that suffer from the "state problem".
           <!-- Cross-reference with Scope and discuss observed trade-offs of other potential approaches -->
         </command>
         <command name="section" param="Summary">
@@ -1921,7 +1921,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
         </command>
         <command name="section" param="Synopsis">
           <!-- Can be thought of as the companion to the "Outline" section or maybe the Abstract chapter -->
-          In chapter <see ref="chapter:Introduction" />, the "state problem" was introduced as a specific problem in the general field of software testing.  Section <see ref="sec:Motivation" /> motivated the importance of the "state problem" as a research topic and section <see ref="sec:Goal" /> introduced the goal of this thesis:  to improve the testability of classes that suffer from the state problem - because they contain hidden, mutable state - while minimally affecting functionality, maintainability and the public interface of the code under test.  These three conditions were converted into three metrics from which the effectiveness of any proposed approach could be evaluated:  complexity of the unit tests, number of changes to the public interface of the class under test and percentage of branches covered using concolic testing.  The chapter concluded with the following objectives in section <see ref="sec:Objectives" />: the design of an approach that addresses the goal, the development of an automated evaluation mechanism to validate the proposed approach, the development of the PIC tool, the application of the approach (as well as two others, for relative comparison purposes) on select open-source projects and the application of the evaluation on the modified open-source projects.
+          In chapter <see ref="chapter:Introduction" />, the "state problem" was introduced as a specific problem in the general field of software testing.  Section <see ref="sec:Motivation" /> motivated the importance of the "state problem" as a research topic and section <see ref="sec:Goal" /> introduced the goal of this thesis:  to improve the testability of business logic in classes that suffer from the state problem - because they contain hidden, mutable state - while minimally affecting functionality, maintainability and the public interface of the code under test.  These three conditions were converted into three metrics from which the effectiveness of any proposed approach could be evaluated:  complexity of the unit tests, number of changes to the public interface of the class under test and percentage of branches covered using concolic testing.  The chapter concluded with the following objectives in section <see ref="sec:Objectives" />: the design of an approach that addresses the goal, the development of an automated evaluation mechanism to validate the proposed approach, the development of the PIC tool, the application of the approach (as well as two others, for relative comparison purposes) on select open-source projects and the application of the evaluation on the modified open-source projects.
 
           Related background and work was presented in chapter <see ref="chapter:Background" /> to explain the problem space, establish context and cover previous attempts at solving similar problems in the fields of test generation and program transformation.
 
