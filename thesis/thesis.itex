@@ -128,7 +128,7 @@ http://tex.stackexchange.com/questions/20303/xelatex-forces-readers-to-rotate-th
           In the process of testing the business logic in a method that uses hidden instance state (as input, output or both), it usually becomes necessary to write the test such that it will indirectly write to this state to implement specific scenarios.  This makes the test method difficult to maintain because the test will be more unwieldy and less obvious - especially in the "arrange" phase <see cite="reehal10arrangeact" />, also called the "setup" phase <see cite="meszaros07xunitpatterns" /> - which may discourage the creation of such tests.
 
           <region name="two stateful code listings">
-            <listing label="lst:StatefulSmokeDetector" style="realCode" file="Stateful/SmokeDetector.cs" placement="p">
+            <listing label="lst:StatefulSmokeDetector" style="realCode" file="Stateful/SmokeDetector.cs" placement="t!">
               C# showing the <tt>SmokeDetector</tt> class with HMS
             </listing>
             <listing label="lst:StatefulSmokeDetectorTest" style="realCode" file="Stateful/SmokeDetectorTest.cs" placement="t!">
@@ -157,17 +157,17 @@ http://tex.stackexchange.com/questions/20303/xelatex-forces-readers-to-rotate-th
           If HMS presents an obstacle to unit testing some business logic, it is possible to work around the HMS with a noteworthy "arrange" (or "setup") phase, but this is not always desirable as it can increase the maintenance overhead and costs to write the unit tests, both for human- and computer-generated tests.  There are other obvious options available, such as increasing the visibility of the mutable state or converting the state from mutable to read-only.  While it is possible to perform the former without changing the public interface of the IUT, the latter would very likely change the public interface, not to mention the associated risk in performing non-trivial modifications without the safety net of sufficient tests.  Fortunately, there exists an option with better results.
 
           One perhaps less obvious option is the extraction of a subset of the state<em>ful</em> functionality in the form of a state<em>less</em> method which has all its inputs and outputs available to the test driver, while sourcing those inputs from and outputs to the very instance fields they represent within the implementation itself.  An example of this can be seen in listings <see ref="lst:StatelessSmokeDetector" /> and <see ref="lst:StatelessSmokeDetectorTest" />.  The original implementation of the <tt>Cycle()</tt> method has been trivially extracted into a static overload that accepts all its input and emits all its output through parameters and the method return value<footnote>The <tt>ref</tt> keyword in C# causes the method argument to be passed by reference, such that "any change to the parameter in the method is reflected in the underlying argument variable in the calling method."<see cite="msdn10ref"/></footnote>.  The <tt>AccumulateDetection()</tt> test method can then be written to supply values for all parameters, while keeping the fields that the parameters would be initialized from, safe from modification.  Indeed, the previous test is still there, unchanged, since the <tt>SmokeDetector</tt>'s public interface did not change as a result of performing this transformation.
+          
+          If we could overcome the unit testing obstacles brought on by HMS, we would be able to write more and better tests, thus enhancing our ability for catching regressions as our software projects evolve and saving time and effort.
 
           <region name="two stateless code listings">
-            <listing label="lst:StatelessSmokeDetector" style="realCode" file="Stateless/SmokeDetector.cs">
+            <listing label="lst:StatelessSmokeDetector" style="realCode" file="Stateless/SmokeDetector.cs" placement="t!">
               C# showing the <tt>SmokeDetector</tt> class with the static <tt>Cycle()</tt> method overload extracted
             </listing>
             <listing label="lst:StatelessSmokeDetectorTest" style="realCode" file="Stateless/SmokeDetectorTest.cs">
               C# showing the test class for <tt>SmokeDetector</tt> exploiting the new <tt>Cycle()</tt> method overload
             </listing>
           </region>
-          
-          If we could overcome the unit testing obstacles brought on by HMS, we would be able to write more and better tests, thus enhancing our ability for catching regressions as our software projects evolve and saving time and effort.
         </command>
         <command name="newpage" />
         <command name="section" param="Goal">
