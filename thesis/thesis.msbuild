@@ -48,7 +48,7 @@ transformer.Transform(Source, Destination);
       Destination="obj/thesis.tex"
     />
     <ItemGroup>
-      <ExtraFiles Include="dalthesis.cls" />
+      <ExtraFiles Include="cu-thesis.cls" />
       <ExtraFiles Include="thesis.bib" />
       <ExtraFiles Include="*.pdf" />
       <ExtraFiles Include="PIC-BlockModifier.txt" />

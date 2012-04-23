@@ -1,5 +1,5 @@
-%% This is file `dalthesis.cls',
-%% generated with the docstrip utility.
+%% This is file `cu-thesis.cls',
+%% adapted from dalthesis.cls
 %%
 %% The original source files were:
 %%
@@ -7,8 +7,11 @@
 %% dalthesis.ins  (installation file)
 %%
 %% Dalhousie University Thesis Document Class
-%% Version 2.2 &lt;2003/12/12&gt;
-%% by Ian Nunn (2005)
+%% Version 2.5 &lt;2012/04/22&gt;
+%% by Olivier Dagenais
+%% Adapted from:
+%%    Version 2.2 &lt;2003/12/12&gt;
+%%    by Ian Nunn (2005)
 %% Adapted from:
 %%    Version 2.2 &lt;2003/12/12&gt;
 %%    by Clyde Clements
@@ -24,7 +27,7 @@
 %%
 %% IMPORTANT NOTICE:
 %%
-%% This is a generated file.
+%% This was a generated file.
 %%
 %% This file is free and may be distributed as long
 %% as the original source files, as listed above,
