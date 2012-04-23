@@ -48,15 +48,20 @@ transformer.Transform(Source, Destination);
       Destination="obj/thesis.tex"
     />
     <ItemGroup>
-      <ExtraFiles Include="dalthesis.cls;thesis.bib;*.pdf;PIC-BlockModifier.txt;Samples/**/*.cs;*.pc" Exclude="Samples/**/Properties/*.cs" />
+      <ExtraFiles Include="dalthesis.cls" />
+      <ExtraFiles Include="thesis.bib" />
+      <ExtraFiles Include="*.pdf" />
+      <ExtraFiles Include="PIC-BlockModifier.txt" />
+      <ExtraFiles Include="Samples/**/*.cs" Exclude="Samples/**/Properties/*.cs" />
+      <ExtraFiles Include="*.pc" />
+      <!-- Need fonts.conf for xelatex -->
+      <ExtraFiles Include="fonts.conf" />
+      <!-- Need cu-thesis.bst for our custom bibliography -->
+      <ExtraFiles Include="cu-thesis.bst" />
     </ItemGroup>
     <Copy SourceFiles="@(ExtraFiles)"
       DestinationFiles="@(ExtraFiles->'obj/%(RecursiveDir)%(Filename)%(Extension)')" />
 
-    <!-- Need fonts.conf for xelatex -->
-    <Copy SourceFiles="fonts.conf" DestinationFolder="obj" />
-    <!-- Need cu-thesis.bst for our custom bibliography -->
-    <Copy SourceFiles="cu-thesis.bst" DestinationFolder="obj" />
     <!-- http://www.latex-community.org/forum/viewtopic.php?f=5&t=2011&start=0 -->
     <!-- 1. Run LaTeX to generate the AUX file. It adds a line every time it finds a cite. -->
     <Exec WorkingDirectory="obj/" Command="xelatex thesis.tex" />
