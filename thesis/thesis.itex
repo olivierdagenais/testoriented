@@ -596,14 +596,12 @@ references as well.
                 This can be considered the reverse of parsing and usually involves combining a few inputs to yield a meaningful construction, such as a string representation of an object.  An example of this category can be found in the <tt>GenerateItemNode()</tt> method extracted in listing <see ref="lst:StatelessGenerateXml" />.  Here an <tt>XElement</tt> instance is created (on line 36) and its attributes initialized from two of the supplied parameters (lines 37 and 38) as well as from a value derived from the last two parameters (line 45).
               </command>
             </block>
-
             <listing label="lst:StatefulFlyingSalesPerson" style="realCode" linerange="13-58" file="Stateful/FlyingSalespersonProblem.cs">
               C# showing the <tt>ComputeTourLength()</tt> method in the <tt>FlyingSalespersonProblem</tt> class with some inlined mathematical formulas
             </listing>
             <listing label="lst:StatelessComputeTourLength" style="realCode" linerange="36-71" file="Stateless/FlyingSalespersonProblem.cs">
               C# showing the <tt>ComputeTourLength()</tt> method with the <tt>ToRadians()</tt> and <tt>CalculateGreatCircleDistance()</tt> methods that were extracted from it
             </listing>
-            
             <region name="two code listings for partial loop block extraction">
               <listing label="lst:StatefulGenerateXml" style="realCode" linerange="40-78" file="Stateful/ImageCollection.cs">
                 C# showing the <tt>GenerateXml()</tt> method with a candidate block between lines 19-30
@@ -612,6 +610,7 @@ references as well.
                 C# showing the <tt>GenerateXml()</tt> method with the candidate block extracted as the <tt>GenerateItemNode()</tt> method
               </listing>
             </region>
+            <command name="newpage" />
             It follows that there are uninteresting categories of blocks, such as:
             <block param="itemize">
               <command name="item"> Trivial state changes.
@@ -636,34 +635,32 @@ references as well.
             <command name="label" param="subsec:Step2" />
             The second SME step is about finding and, if necessary, moving statements that are either unrelated to a computation or statements that are not stateless (such as those that cause side-effects) out of the candidate block.  This should only take place if the original instance method's functionality will not be adversely affected by the move.  If the functionality would indeed be adversely affected by the re-ordering of unrelated or non-stateless statements, the candidate block should be split such that its new endpoint is just before the unrelated or non-stateless statement.  A subsequent candidate block could be attempted just after the unrelated or non-stateless statement.
 
-            <region name="two code listings for operation re-ordering">
-              <listing label="lst:StatefulGenerateXmlIntermixed" style="realCode" linerange="80-118" file="Stateful/ImageCollection.cs">
-                C# showing the <tt>GenerateXmlIntermixed()</tt> method with a candidate block between lines 18-33
-              </listing>
-            </region>
-
             An example of unrelated statements can be seen in listing <see ref="lst:StatefulGenerateXmlIntermixed" />, specifically in the candidate block identified between lines 18 and 33.  The majority of the operations in the block concern themselves with the creation and configuration of the <tt>itemNode</tt> instance, while at least 3 of them perform tasks incidental to the <tt>itemNode</tt> configuration:  lines 21, 23 and 25.  Line 20 does augment <tt>itemNode</tt>, but does so with a trivial operation (the <tt>Add()</tt> method call) and so its inclusion in the candidate block could be argued either way.  For the purposes of this example, line 20 will be considered incidental.  The candidate block could be shrunk by re-ordering all the operations identified as incidental without affecting the functionality.  In particular, the <tt>mortonNumber++;</tt> operation on line 23 is only sensitive to ordering insofar as <tt>itemNode.SetAttributeValue("N", mortonNumber);</tt> on line 22 is concerned and thus could be moved down and out of the candidate block.  Lines 20 and 21 depend on one another as well as line 19 (the creation of the <tt>itemNode</tt> instance), but the behaviour would be the same if they appeared at the end of the block (the XML API used in the example guarantees this) and therefore, because they have no advantage being located immediately after the creation of <tt>itemNode</tt>, they can be safely moved out of the candidate block.  The last incidental operation is <tt>maxPostId = Math.Max(maxPostId, postId);</tt> on line 25.  Its only dependency is the <tt>postId</tt> loop variable and thus could be moved up to be the very first operation in the loop.  Listing <see ref="lst:StatefulGenerateXml" /> illustrates the result of re-ordering the lines containing incidental operations and the smaller, simpler candidate block obtained between lines 19 and 30.
+
+            <command name="newpage" />
+            <listing label="lst:StatefulGenerateXmlIntermixed" style="realCode" linerange="80-118" file="Stateful/ImageCollection.cs" placement="t!">
+              C# showing the <tt>GenerateXmlIntermixed()</tt> method with a candidate block between lines 18-33
+            </listing>
             <!-- TODO: can also argue the decision to keep the path manipulation code (fileName and relativeDziSubPath) in the candidate block vs. moving it out.  There's no change in the number of parameters to GenerateItemNode(), but it might make for even smaller/simpler tests that are more focused? -->
 
-            A statement is said to be non-stateless if values or data not explicitly specified by parameters or the return value are modified as a result of execution.  This can be as simple as an instance method modifying hidden mutable state, a method modifying global state or a method interpreting its parameters for interaction with the environment, such as using a string parameter as the name of a file to create or delete, or the name of a database table to read from or write to.  Non-stateless operations will generally be more difficult to re-order because, by definition, they cause or depend on side-effects and standard data dependency analysis will be made difficult because it would have to be aware of private instance field changes.
-
-            An example of a non-stateless method in the middle of a candidate block can be seen at line 15 of listing <see ref="lst:StatefulSubversionClient" />.  The <tt>ExecuteSvn()</tt> method, defined at line 10 of listing <see ref="lst:CommonSubversionClient" />, starts a sub-process and returns the contents of <tt>StandardOutput</tt> and thus is said to interact with the environment, making it definitely non-stateless.  In this particular case, because the call to the <tt>ExecuteSvn()</tt> method depends on the computations immediately above it and provides input needed by the computations immediately below it, it can not be moved before or after the candidate block (lines 7-32).  This causes the original candidate block to be split into parts excluding the immovable, non-stateless method with the first half being lines 7-13 and the second half lines 17-32.  Listing  <see ref="lst:StatelessSubversionClient" /> shows the two stateless methods that were extracted, respectively, from the first and second candidate blocks: <tt>CreateInfoArguments()</tt> and <tt>ParseInfoFromXml()</tt>.
-
-            <listing label="lst:CommonSubversionClient" style="realCode" linerange="6-30" file="Stateful/SubversionClient.cs" placement="hb">
+            <command name="clearpage" />
+            <listing label="lst:CommonSubversionClient" style="realCode" linerange="6-30" file="Stateful/SubversionClient.cs" placement="h">
               C# showing common code used by listings <see ref="lst:StatefulSubversionClient" /> and <see ref="lst:StatelessSubversionClient" />
             </listing>
 
-            <region name="two code listings for candidate block splitting">
-              <listing label="lst:StatefulSubversionClient" style="realCode" linerange="32-66" file="Stateful/SubversionClient.cs" placement="t!">
-                C# showing the <tt>LoadInfo()</tt> method with a candidate block between lines 7-32
-              </listing>
+            A statement is said to be non-stateless if values or data not explicitly specified by parameters or the return value are modified as a result of execution.  This can be as simple as an instance method modifying hidden mutable state, a method modifying global state or a method interpreting its parameters for interaction with the environment, such as using a string parameter as the name of a file to create or delete, or the name of a database table to read from or write to.  Non-stateless operations will generally be more difficult to re-order because, by definition, they cause or depend on side-effects and standard data dependency analysis will be made difficult because it would have to be aware of private instance field changes.
+
+            <command name="clearpage" />
+            <listing label="lst:StatefulSubversionClient" style="realCode" linerange="32-66" file="Stateful/SubversionClient.cs" placement="h">
+              C# showing the <tt>LoadInfo()</tt> method with a candidate block between lines 7-32
+            </listing>
+
+            An example of a non-stateless method in the middle of a candidate block can be seen at line 15 of listing <see ref="lst:StatefulSubversionClient" />.  The <tt>ExecuteSvn()</tt> method, defined at line 10 of listing <see ref="lst:CommonSubversionClient" />, starts a sub-process and returns the contents of <tt>StandardOutput</tt> and thus is said to interact with the environment, making it definitely non-stateless.  In this particular case, because the call to the <tt>ExecuteSvn()</tt> method depends on the computations immediately above it and provides input needed by the computations immediately below it, it can not be moved before or after the candidate block (lines 7-32).  This causes the original candidate block to be split into parts excluding the immovable, non-stateless method with the first half being lines 7-13 and the second half lines 17-32.  Listing  <see ref="lst:StatelessSubversionClient" /> shows the two stateless methods that were extracted, respectively, from the first and second candidate blocks: <tt>CreateInfoArguments()</tt> and <tt>ParseInfoFromXml()</tt>.
 
             <command name="newpage" />
-
-              <listing label="lst:StatelessSubversionClient" style="realCode" linerange="32-76" file="Stateless/SubversionClient.cs" placement="t!">
-                C# showing the <tt>CreateInfoArguments()</tt> and <tt>ParseInfoFromXml()</tt> stateless methods that were extracted from the <tt>LoadInfo()</tt> method
-              </listing>
-            </region>
+            <listing label="lst:StatelessSubversionClient" style="realCode" linerange="32-76" file="Stateless/SubversionClient.cs" placement="t!">
+              C# showing the <tt>CreateInfoArguments()</tt> and <tt>ParseInfoFromXml()</tt> stateless methods that were extracted from the <tt>LoadInfo()</tt> method
+            </listing>
 
             <command name="newpage" />
 
@@ -733,6 +730,7 @@ references as well.
             <command name="label" param="subsec:Step6" />
             The SME technique's sixth and final step cleans up the temporary refactoring performed as part of step 3.  This is done by performing the "inline temp" refactoring <see cite="fowler00inlinetemp" />, an inline expansion of the local variables introduced to represent the new method's input parameters and return values.
           </command>
+          <command name="clearpage" />
           <command name="subsection" param="End-to-end Detailed Walk-through">
             The following example demonstrates the application of SME on a simplified version of the <tt>FootNoteFormatterState</tt> class from the <em>Textile.NET</em> open-source project <see cite="chabant09textilenet" />.  First, the original implementation is presented in listing <see ref="lst:StatefulFootNoteFormatterState" />, along with the source code to its parent class in listing <see ref="lst:StatefulSimpleBlockFormatterState" />.  Second, a unit test will be attempted against the original implementation.  SME will then be applied and finally new unit tests will be written against the transformed implementation.
 
@@ -881,6 +879,9 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
 
             In this particular case, the SME technique was extended to include two other extractions:  the compile-time <tt>Pattern</tt> string constant representing the regular expression pattern and the <tt>CodeBlockRegex</tt> run-time constant representing the compiled regular expression.  This provided the unit tests with access to the same functionality used for performing the work, thereby enhancing the unit tests' realism and relevance.  Finally, SME's candidate block identification enabled the separation of parsing and formatting, which allowed both to be tested separately as units, as well as together since the public-facing functionality did not change as a result of the refactorings.
 
+            Computation de-coupling might not always be addressable through SME as there could be computations that are tightly-coupled for readability or performance reasons and separating them would lead to a readability or performance loss.
+
+            <command name="clearpage" />
             <region name="two code listings for computation coupling">
               <listing label="lst:StatefulMortonLayout" style="realCode" linerange="4-25" file="Stateful/MortonLayout.cs" placement="t">
                 C# showing the original <tt>Decode()</tt> method computing the values of <tt>x</tt> and <tt>y</tt> simultaneously
@@ -889,9 +890,6 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
                 C# showing the <tt>Decode()</tt> method with the <tt>DecodeAxis()</tt> method extracted out of it
               </listing>
             </region>
-
-            Computation de-coupling might not always be addressable through SME as there could be computations that are tightly-coupled for readability or performance reasons and separating them would lead to a readability or performance loss.
-            
             An example of two computations that would be worse if separated can be seen in listing <see ref="lst:StatefulMortonLayout" />, where we can see that <tt>x</tt> and <tt>y</tt> are computed simultaneously.  Compare this to listing <see ref="lst:StatelessMortonLayout" />, where <tt>x</tt> and <tt>y</tt> are computed separately, meaning two runs through the loop on <tt>bits</tt> instead of one.  It is also less obvious, in the second case, that the values of <tt>x</tt> and <tt>y</tt> were obtained by interpreting interleaved bits of the Morton Layout's <tt>index</tt> <see cite="msdn08deepzoom" />.
           </command>
 
@@ -1017,6 +1015,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
 
           The set of transformations performed during SME were designed to be low-impact in order to encourage their use and reduce the risk of introducing regressions in the very code to which unit tests added.  Indeed, "altering internal structure without changing external behaviour" is the very definition of refactoring <see cite="fowler99refactoring" /> and, as such, care should be taken to <em>only</em> perform the SME steps during the process and to resist the temptation to fix defects or add features at the same time.  Once SME has been performed, unit tests are written against the new method to establish a functionality baseline and both sets of changes are committed to source control.  Only then will it be safe to add unit tests to expose any potential defects or missing features encountered during SME and then fix the defects or add the features in the presence of the safety net added in the previous step.  Binder calls this approach <em>Incremental Testing</em> <see cite="binder00classes" />.
         </command>
+        <command name="clearpage" />
         <command name="section" param="Summary">
           <!-- key points of what was presented and linkage to next chapter -->
           This chapter introduced our approach, describing the steps of the SME technique, along with samples of the associated source code transformations.  The suitability of SME for more than HMS was discussed, as well as the conditions under which SME would work best, concluding with a description of the PIC tool and the motivations behind the decisions made in the SME.
