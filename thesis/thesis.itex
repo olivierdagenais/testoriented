@@ -1659,7 +1659,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             
             <!-- TODO: could talk about (or at least cite) the Mole pattern -->
             
-            The <tt>visibility-state</tt> strategy was again ineffective in the <tt>AtomicCms</tt> project because HMS was not the biggest unit testing obstacle.  The <tt>visibility</tt> strategy fared better because it could directly call the method under test, but still needed an arrange phase because an instance of the class needed to be created and the MUT had not benefited from input simplification like it did with the <tt>manual</tt> strategy.
+            The <tt>visibility-state</tt> strategy was again ineffective in the <tt>AtomicCms</tt> project because HMS was not the biggest unit testing obstacle.  The <tt>visibility</tt> strategy fared better because its methods under test could be directly called, although an instance of the CUT still needed to be created and the MUT had not benefited from input simplification like they did with the <tt>manual</tt> strategy.
           </command>
           <command name="subsection" param="Number of Changes to the Public Interface of the Class Under Test">
             Table <see ref="tbl:publicInterfaceResults" /> lists the per-project results of running the Public Interface Comparer tool on the IUTs to obtain their number of public interface changes - or differences - relative to the base source code.
@@ -1904,6 +1904,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
             <command name="label" param="tbl:TransposedResults" />
           </table>
 
+          <command name="clearpage" />
           As can be seen in sections <see ref="sec:Results" /> and <see ref="sec:DetailedResults" /> (summarized in table <see ref="tbl:TransposedResults" />), the application of SME on the three test projects had the following general effects on the metrics, relative to the <tt>base</tt> version:
           <block param="enumerate">
             <command name="item"> The complexity of the manually-written unit tests went down.</command>
