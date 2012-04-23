@@ -2343,7 +2343,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
         <command name="includepdf" param="RawDataSpreadsheet.pdf" opt="scale=0.8,offset=1.5em 0,pages={-},fitpaper=true,pagecommand=\thispagestyle{plain}" />
       </command>
     </command>
-    <command name="bibliographystyle" param="abbrv" />
+    <command name="bibliographystyle" param="cu-thesis" />
     <command name="bibliography" param="thesis" />
   </document>
 </iTeX>

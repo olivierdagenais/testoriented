@@ -55,6 +55,8 @@ transformer.Transform(Source, Destination);
 
     <!-- Need fonts.conf for xelatex -->
     <Copy SourceFiles="fonts.conf" DestinationFolder="obj" />
+    <!-- Need cu-thesis.bst for our custom bibliography -->
+    <Copy SourceFiles="cu-thesis.bst" DestinationFolder="obj" />
     <!-- http://www.latex-community.org/forum/viewtopic.php?f=5&t=2011&start=0 -->
     <!-- 1. Run LaTeX to generate the AUX file. It adds a line every time it finds a cite. -->
     <Exec WorkingDirectory="obj/" Command="xelatex thesis.tex" />
