@@ -410,6 +410,8 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
                 Adding test methods directly to the CUT or to an inner class thereof is the main idea of this approach, which side-steps the hidden member problem (inner classes have access to all of their outer class's members) but also provides the potential for interference from the test code.
               </command>
             </block>
+            
+            Meszaros' "Test Utility Methods" pattern <see cite="meszaros07xunitpatterns" /> is similar in intent to SME as it tries to overcome the difficulties in setting the inputs and reading the outputs of an MUT.  Although Meszaros' technique also adds methods that accept the logic under test's direct inputs and return the direct outputs, the difference is that the complexity is simply hidden in the test utility methods, whereas SME will not have such a complex intermediary method between the test method and the method under test.
           </command>
           <command name="subsection" param="The Case for Functional Programming">
             <block param="quote">
@@ -477,7 +479,7 @@ http://research.microsoft.com/en-us/um/redmond/projects/pex/wiki/pex%20needs%20h
               <tr><td>Making mutable state visible</td><td>IUT</td><td>N</td><td>Y</td></tr>
               <tr><td>Making state and methods visible</td><td>IUT</td><td>N</td><td>Y</td></tr>
               <tr><td>Making hidden state immutable</td><td>IUT</td><td>Y</td><td>N</td></tr>
-              <tr><td>Extracting test helper methods</td><td>tests</td><td>N</td><td>N</td></tr>
+              <tr><td> "Test Utility Methods"</td><td>tests</td><td>N</td><td>N</td></tr>
               <tr><td> "Private Access Driver"</td><td>IUT</td><td>N</td><td>N</td></tr>
               <tr><td> "Test Control Interface"</td><td>both</td><td>N</td><td>N</td></tr>
               <tr><td> "Drone"</td><td>tests</td><td>N</td><td>N</td></tr>
@@ -1968,7 +1970,7 @@ Extracted the regular expression pattern string in revision 220 (and a Regex ins
         </command>
         <command name="section" param="Future Work">
           <!-- best ideas of next steps -->
-          As was seen in sub-section <see ref="subsec:Strategies" />, there is more than one possible strategy for addressing HMS and there are very likely more strategies, both competing and complementing to SME.  It would be interesting to compare SME to a non-trivial HMS-oriented testability refactoring, both head-to-head and working together.  Example strategies include Binder's "Built-in Test Driver" and "Private Access Driver" <see cite="binder00testharness" />, extracting test "helper" methods <footnote>A variant on SME, the "test helper method extraction" idea adds methods to the test class, abstracting out the unwieldy arrange phase.</footnote> and introducing more "testing seams" <see cite="hevery08staticmethods" />.
+          As was seen in sub-section <see ref="subsec:Strategies" />, there is more than one possible strategy for addressing HMS and there are very likely more strategies, both competing and complementing to SME.  It would be interesting to compare SME to a non-trivial HMS-oriented testability refactoring, both head-to-head and working together.  Example strategies include Binder's "Built-in Test Driver" and "Private Access Driver" <see cite="binder00testharness" />, Meszaros' "Test Utility Methods" <see cite="meszaros07xunitpatterns" /> and introducing more "testing seams" <see cite="hevery08staticmethods" />.
           
           As discussed in sub-section <see ref="subsec:threats" />, one way to increase confidence in the results would be to repeat the evaluation with more projects and this would be substantially easier to achieve if the SME technique could be applied automatically, by writing a program able to perform SME on arbitrary source code.
 
